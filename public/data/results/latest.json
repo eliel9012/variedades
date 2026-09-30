@@ -1,0 +1,13 @@
+{
+  "election": "Eleições Gerais 2026",
+  "round": 1,
+  "scope": "BR",
+  "updatedAt": null,
+  "totalVotes": 0,
+  "countedSections": 0,
+  "totalSections": 0,
+  "rows": [],
+  "status": "waiting",
+  "source": "https://resultados.tse.jus.br/",
+  "note": "Sem lote oficial publicado no snapshot local. Não exibir números estimados."
+}

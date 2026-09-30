@@ -1,0 +1,10 @@
+{
+  "name": "Apura Brasil — Eleições 2026",
+  "short_name": "Apura Brasil",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2ede3",
+  "theme_color": "#0e3b43",
+  "lang": "pt-BR",
+  "icons": []
+}

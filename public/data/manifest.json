@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "election": 2026,
+  "generatedAt": "2026-09-30T20:20:12.452Z",
+  "sources": {
+    "candidates": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip",
+    "candidatePhotos": "https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2026/fotos/foto_cand2026_BR_div.zip",
+    "results": "https://resultados.tse.jus.br/"
+  },
+  "records": {
+    "candidates": 19631
+  },
+  "notes": "Snapshot local sem dados pessoais sensíveis. Resultados entram somente após publicação oficial do TSE."
+}
