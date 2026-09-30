@@ -7,7 +7,7 @@ Atualizado em **30/09/2026**. Pesquisa restrita a fontes oficiais do TSE e sua C
 - 1º turno: **04/10/2026**; eventual 2º turno: **25/10/2026**. Cargos: Presidente, Governador, Senador, Deputado Federal, Deputado Estadual/Distrital; há também Conselho Distrital de Fernando de Noronha no 1º turno.
 - O acompanhamento em tempo real é público em `https://resultados.tse.jus.br` e os arquivos de integração são JWS compactos com payload JSON distribuídos pela CDN do TSE.
 - Para candidatos, a fonte mais prática para ingestão offline é o Portal de Dados Abertos: arquivos ZIP com CSVs e fotos ZIP por UF/circunscrição.
-- No momento da consulta, não havia pacote CKAN `resultados-2026`; portanto, resultados 2026 devem ser obtidos pela distribuição de arquivos do site Resultados. Não convém presumir um caminho/código de produção: obter `ele-c.json` primeiro.
+- No momento da consulta, não havia pacote CKAN `resultados-2026`; portanto, resultados 2026 devem ser obtidos pela distribuição de arquivos do site Resultados. Não convém presumir um caminho/código de produção: obter `ele-c.jws`/`ele-c.json` primeiro.
 
 ## Calendário
 
@@ -33,7 +33,7 @@ Ambiente oficial documentado:
 - Host: `https://resultados.tse.jus.br`
 - Ambiente: `oficial`
 - Códigos publicados para 04/10/2026: `6257` (eleição federal), `6259` (eleições estaduais) e `6261` (Conselho Distrital).
-- O ciclo, o código completo da eleição e os códigos de pleito devem ser lidos do arquivo de configuração `ele-c.json`; não hardcodear esses valores.
+- O ciclo, o código completo da eleição e os códigos de pleito devem ser lidos do arquivo de configuração `ele-c.jws`/`ele-c.json`; não hardcodear esses valores.
 
 Hierarquia e formatos:
 

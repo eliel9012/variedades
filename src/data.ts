@@ -41,5 +41,26 @@ export const initialSnapshot: ResultSnapshot = {
   status: 'waiting',
 }
 
-export const offices = ['Presidente', 'Governador', 'Senador', 'Deputado federal']
-export const states = ['Brasil', 'SP', 'RJ', 'MG', 'BA', 'PR', 'RS', 'PE']
+export type Office = 'Presidente' | 'Governador' | 'Senador' | 'Deputado federal' | 'Deputado estadual' | 'Deputado distrital'
+
+export const offices: Office[] = ['Presidente', 'Governador', 'Senador', 'Deputado federal', 'Deputado estadual', 'Deputado distrital']
+export const states = ['Brasil', 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO']
+
+export const officeCodes: Record<Office, number> = {
+  Presidente: 1,
+  Governador: 3,
+  Senador: 5,
+  'Deputado federal': 6,
+  'Deputado estadual': 7,
+  'Deputado distrital': 8,
+}
+
+export function canHaveSecondRound(office: string) {
+  return office === 'Presidente' || office === 'Governador'
+}
+
+export function statesForOffice(office: string) {
+  if (office === 'Presidente') return ['Brasil']
+  if (office === 'Deputado distrital') return ['DF']
+  return states.filter((state) => state !== 'Brasil')
+}

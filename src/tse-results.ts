@@ -1,4 +1,5 @@
 import type { ResultRow, ResultSnapshot } from './types'
+import { canHaveSecondRound, officeCodes } from './data'
 
 const CONFIG_URL = import.meta.env.VITE_TSE_RESULTS_CONFIG_URL || 'https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws'
 const REQUEST_TIMEOUT_MS = 8_000
@@ -63,9 +64,23 @@ function fetchJws<T>(url: string, signal?: AbortSignal): Promise<T> {
   return request(url, signal).then((response) => response.text()).then(decodeJws<T>)
 }
 
+async function fetchOfficial<T>(baseUrl: string, signal?: AbortSignal): Promise<T> {
+  const stem = baseUrl.replace(/\.(?:jws|json)$/, '')
+  let lastError: unknown
+  for (const extension of ['.jws', '.json']) {
+    try {
+      return extension === '.jws' ? await fetchJws<T>(`${stem}${extension}`, signal) : await fetchJson<T>(`${stem}${extension}`, signal)
+    } catch (error) {
+      lastError = error
+      if (!(error instanceof Error) || !error.message.includes('TSE 404')) throw error
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error('TSE unavailable')
+}
+
 function loadConfig(signal?: AbortSignal) {
   if (!configPromise) {
-    configPromise = fetchJws<TSEConfig>(CONFIG_URL, signal).catch((error) => {
+    configPromise = fetchOfficial<TSEConfig>(CONFIG_URL, signal).catch((error) => {
       configPromise = null
       throw error
     })
@@ -78,7 +93,8 @@ function officeType(office: string) {
 }
 
 function chooseElection(config: TSEConfig, round: 1 | 2, office: string) {
-  const plan = config.pl?.[0]
+  const plan = config.pl?.find((item) => item.c === 'ele2026') || config.pl?.[0]
+  if (plan?.c && plan.c !== 'ele2026') throw new Error('TSE 2026 election unavailable')
   const elections = plan?.e || []
   const type = officeType(office)
   const direct = elections.find((election) => election.t === String(round) && election.tp === type)
@@ -143,21 +159,24 @@ async function readLocalSnapshot(round: 1 | 2, scope: string, signal?: AbortSign
 
 export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
   try {
+    const effectiveRound = canHaveSecondRound(office) ? round : 1
+    if (office !== 'Presidente' && scope === 'BR') throw new Error('TSE UF required')
     const config = await loadConfig(signal)
-    const election = chooseElection(config, round, office)
+    const election = chooseElection(config, effectiveRound, office)
     const code = padElection(election.code)
     const root = officialRoot()
-    const officeCode = office === 'Presidente' ? '0001' : ({ Governador: '0003', Senador: '0005', 'Deputado federal': '0006' }[office] || '0003')
+    const officeCode = String(officeCodes[office as keyof typeof officeCodes] || 3).padStart(4, '0')
     const territory = scope === 'BR' ? 'br' : scope.toLowerCase()
-    const resultUrl = `${root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-c${officeCode}-e${code}-u.json`
-    const trackingUrl = `${root}/${election.cycle}/${election.code}/dados/br/br-e${code}-ab.json`
+    const resultUrl = `${root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-c${officeCode}-e${code}-u`
+    const trackingTerritory = territory === 'br' ? 'br' : territory
+    const trackingUrl = `${root}/${election.cycle}/${election.code}/dados/${trackingTerritory}/${trackingTerritory}-e${code}-ab`
     const [result, tracking] = await Promise.all([
-      fetchJws<TSEResult>(`${resultUrl.replace(/\.json$/, '')}.jws`, signal),
-      fetchJws<TSETracking>(`${trackingUrl.replace(/\.json$/, '')}.jws`, signal).catch(() => null),
+      fetchOfficial<TSEResult>(resultUrl, signal),
+      fetchOfficial<TSETracking>(trackingUrl, signal).catch(() => null),
     ])
-    return parseOfficial(result, tracking, scope, round, resultUrl)
+    return parseOfficial(result, tracking, scope, effectiveRound, resultUrl)
   } catch (error) {
-    const fallback = await readLocalSnapshot(round, scope)
+    const fallback = await readLocalSnapshot(canHaveSecondRound(office) ? round : 1, scope)
     if (fallback.status === 'official') return fallback
     throw error instanceof Error ? error : new Error('TSE unavailable')
   }

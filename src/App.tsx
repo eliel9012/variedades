@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { candidateSeed, initialSnapshot, offices, states } from './data'
+import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, offices, statesForOffice } from './data'
 import { fetchTSESnapshot } from './tse-results'
 import type { Candidate, ResultSnapshot, SyncMeta } from './types'
 
@@ -25,6 +25,7 @@ function App() {
   const [search, setSearch] = useState('')
   const [syncNonce, setSyncNonce] = useState(0)
   const [syncMeta, setSyncMeta] = useState<SyncMeta>({ phase: 'idle', lastCheckedAt: null, lastOfficialAt: null, nextPollAt: null, error: null, attempt: 0 })
+  const availableStates = statesForOffice(office)
 
   useEffect(() => {
     const goOnline = () => setOnline(true)
@@ -108,13 +109,19 @@ function App() {
   const visibleCandidates = useMemo(() => {
     const q = search.trim().toLocaleLowerCase('pt-BR')
     return candidates
-      .filter((candidate) => candidate.office === office.toUpperCase() || (office === 'Presidente' && candidate.officeCode === 1))
+      .filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes])
       .filter((candidate) => state === 'Brasil' || candidate.uf === state)
       .filter((candidate) => !q || `${candidate.ballotName} ${candidate.party} ${candidate.number}`.toLocaleLowerCase('pt-BR').includes(q))
       .slice(0, 8)
   }, [candidates, office, search, state])
 
   const sync = () => setSyncNonce((value) => value + 1)
+  const changeOffice = (nextOffice: string) => {
+    setOffice(nextOffice)
+    if (!canHaveSecondRound(nextOffice)) setRound(1)
+    const nextStates = statesForOffice(nextOffice)
+    if (!nextStates.includes(state)) setState(nextStates[0])
+  }
 
   const coverage = snapshot.totalSections ? Math.round((snapshot.countedSections / snapshot.totalSections) * 100) : 0
   const syncLabel = syncMeta.phase === 'live' ? 'TSE ao vivo' : syncMeta.phase === 'syncing' ? 'consultando TSE' : syncMeta.phase === 'retrying' ? 'tentando novamente' : syncMeta.phase === 'offline' ? 'offline · cache local' : 'aguardando TSE'
@@ -152,9 +159,9 @@ function App() {
       </section>
 
       <section className="control-strip" aria-label="Filtros de apuração">
-        <div className="control-block"><label htmlFor="round">turno</label><select id="round" value={round} onChange={(event) => setRound(Number(event.target.value) as 1 | 2)}><option value="1">1º turno</option><option value="2">2º turno</option></select></div>
-        <div className="control-block"><label htmlFor="state">território</label><select id="state" value={state} onChange={(event) => setState(event.target.value)}>{states.map((item) => <option key={item}>{item}</option>)}</select></div>
-        <div className="control-block"><label htmlFor="office">cargo</label><select id="office" value={office} onChange={(event) => setOffice(event.target.value)}>{offices.map((item) => <option key={item}>{item}</option>)}</select></div>
+        <div className="control-block"><label htmlFor="round">turno</label><select id="round" value={round} onChange={(event) => setRound(Number(event.target.value) as 1 | 2)}><option value="1">1º turno</option>{canHaveSecondRound(office) && <option value="2">2º turno</option>}</select></div>
+        <div className="control-block"><label htmlFor="state">território</label><select id="state" value={state} onChange={(event) => setState(event.target.value)}>{availableStates.map((item) => <option key={item}>{item}</option>)}</select></div>
+        <div className="control-block"><label htmlFor="office">cargo</label><select id="office" value={office} onChange={(event) => changeOffice(event.target.value)}>{offices.map((item) => <option key={item}>{item}</option>)}</select></div>
         <button className="filter-button" onClick={sync}>Aplicar <span aria-hidden="true">⌁</span></button>
       </section>
 
@@ -175,7 +182,7 @@ function App() {
           <div className="panel-heading"><div><p className="eyebrow">candidaturas</p><h2>Quem está na disputa</h2></div><span className="result-count">{format.format(candidates.length)} nomes no snapshot</span></div>
           <div className="search-wrap"><span aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar nome, partido ou número" aria-label="Buscar candidato" /></div>
           <div className="candidate-list">{visibleCandidates.map((candidate) => <div className="candidate-row" key={candidate.sqCandidate}><div className="avatar">{candidate.photo ? <img src={candidate.photo} alt="" /> : <span>{candidate.ballotName.slice(0, 1)}</span>}</div><div className="candidate-info"><strong>{candidate.ballotName}</strong><span>{candidate.party} · nº {candidate.number}</span></div><span className="candidate-state">{candidate.uf}</span><span className="candidate-status">{candidate.situation === '#NE' ? 'cadastro TSE' : candidate.situation}</span></div>)}{visibleCandidates.length === 0 && <p className="empty">Nenhuma candidatura encontrada neste recorte.</p>}</div>
-          <p className="source-note">Candidaturas e fotos: TSE · snapshot de 30 set 2026. Dados pessoais sensíveis ficam fora da interface.</p>
+          <p className="source-note">Candidaturas e fotos: TSE · snapshot local. 2º turno só existe para presidente/governador; senador e deputados ficam no 1º.</p>
         </article>
         <aside className="panel explain-panel"><p className="eyebrow">leia antes</p><h2>Apuração sem ruído.</h2><p>Os números só aparecem quando o TSE publica boletim oficial. Enquanto isso, este painel mostra a base de candidatos e mantém o último snapshot íntegro no aparelho.</p><div className="legend"><div><span className="legend-dot official" />oficial</div><div><span className="legend-dot cached" />salvo no aparelho</div><div><span className="legend-dot waiting" />aguardando publicação</div></div><button className="text-button" onClick={() => window.alert('Fonte: Portal de Dados Abertos do TSE e resultados.tse.jus.br')}>Ver origem dos dados <span>↗</span></button></aside>
       </section>

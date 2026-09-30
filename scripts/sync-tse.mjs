@@ -42,10 +42,7 @@ const lines = csv.trim().split(/\r?\n/)
 const header = parseLine(lines.shift())
 const index = Object.fromEntries(header.map((key, position) => [key, position]))
 const read = (row, key) => row[index[key]] ?? ''
-const officeCodes = new Set(['1', '3', '5', '6', '7', '13'])
-
 const candidates = lines.map(parseLine)
-  .filter((row) => officeCodes.has(read(row, 'CD_CARGO')))
   .map((row) => ({
     sqCandidate: read(row, 'SQ_CANDIDATO'),
     number: Number(read(row, 'NR_CANDIDATO')),
@@ -70,8 +67,11 @@ writeFileSync(join(outputDir, 'manifest.json'), `${JSON.stringify({
     candidatePhotos: 'https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2026/fotos/foto_cand2026_BR_div.zip',
     results: 'https://resultados.tse.jus.br/',
   },
-  records: { candidates: candidates.length },
-  notes: 'Snapshot local sem dados pessoais sensíveis. Resultados entram somente após publicação oficial do TSE.',
+  records: {
+    candidates: candidates.length,
+    byOffice: Object.fromEntries(candidates.reduce((counts, candidate) => counts.set(candidate.office, (counts.get(candidate.office) || 0) + 1), new Map())),
+  },
+  notes: 'Snapshot local de todas as candidaturas do arquivo oficial, sem dados pessoais sensíveis. Resultados entram somente após publicação oficial do TSE.',
 }, null, 2)}\n`)
 
 const photoZips = existsSync(photoZipDir)
@@ -87,4 +87,4 @@ for (const photoArchive of photoZips) {
   }
 }
 
-console.log(`TSE snapshot: ${candidates.length} candidaturas filtráveis + ${photoZips.length} arquivo(s) de fotos`) 
+console.log(`TSE snapshot: ${candidates.length} candidaturas + ${photoZips.length} arquivo(s) de fotos`)

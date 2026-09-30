@@ -1,14 +1,26 @@
 {
   "schemaVersion": 1,
   "election": 2026,
-  "generatedAt": "2026-09-30T20:20:12.452Z",
+  "generatedAt": "2026-09-30T20:46:12.513Z",
   "sources": {
     "candidates": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip",
     "candidatePhotos": "https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2026/fotos/foto_cand2026_BR_div.zip",
     "results": "https://resultados.tse.jus.br/"
   },
   "records": {
-    "candidates": 19631
+    "candidates": 20988,
+    "byOffice": {
+      "DEPUTADO ESTADUAL": 11294,
+      "2º SUPLENTE": 350,
+      "DEPUTADO FEDERAL": 7803,
+      "GOVERNADOR": 201,
+      "DEPUTADO DISTRITAL": 433,
+      "SENADOR": 319,
+      "VICE-GOVERNADOR": 211,
+      "1º SUPLENTE": 349,
+      "PRESIDENTE": 14,
+      "VICE-PRESIDENTE": 14
+    }
   },
-  "notes": "Snapshot local sem dados pessoais sensíveis. Resultados entram somente após publicação oficial do TSE."
+  "notes": "Snapshot local de todas as candidaturas do arquivo oficial, sem dados pessoais sensíveis. Resultados entram somente após publicação oficial do TSE."
 }
