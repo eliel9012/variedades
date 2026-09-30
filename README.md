@@ -12,6 +12,12 @@ npm run dev
 
 `npm run sync:tse` lê `work/tse/consulta_cand_2026.zip` e arquivos de foto em `work/tse/photos/` (ou o fallback `work/tse/foto_cand2026_BR_div.zip`). O comando gera todas as candidaturas do CSV oficial — incluindo deputado estadual (código 0007) e distrital (0008) — mais imagens locais em `public/data/photos/`.
 
+## UI / shadcn
+
+Projeto usa React/Vite + TypeScript. Tailwind v4 entra pelo plugin `@tailwindcss/vite`; `components.json` mantém configuração shadcn. Componentes ficam em `src/components/ui/`, alias `@/components/ui` aponta para esse diretório, estilos globais ficam em `src/styles.css`.
+
+Para adicionar componente shadcn: `npx shadcn@latest add <componente>`. Tailwind e TypeScript já estão instalados/configurados; não duplicar `components/ui` em outra raiz.
+
 ## Fontes
 
 - [Portal de Dados Abertos do TSE — Candidatos 2026](https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026)

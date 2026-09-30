@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
 
 :root { font-family: 'DM Sans', sans-serif; color: #133238; background: #f2ede3; font-synthesis: none; --ink: #133238; --deep: #0e3b43; --teal: #12645e; --coral: #ad432d; --paper: #f2ede3; --line: #c8c4b9; --muted: #526360; }
+@theme inline { --color-background: var(--paper); --color-foreground: var(--ink); --color-primary: var(--deep); --color-primary-foreground: var(--paper); --color-muted: #e5e3d8; --color-muted-foreground: var(--muted); --color-card: #f8f5ed; --color-border: var(--line); }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; background: var(--paper); }
 button, select, input { font: inherit; }

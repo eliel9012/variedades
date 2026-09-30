@@ -1,4 +1,4 @@
-const CACHE = 'apura-brasil-v1'
+const CACHE = 'apura-brasil-v2'
 const CORE = ['/', '/index.html', '/manifest.webmanifest', '/data/candidates.json', '/data/manifest.json']
 
 self.addEventListener('install', (event) => {

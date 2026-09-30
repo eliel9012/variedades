@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import StatsBento from '@/components/ui/stats-bento'
 import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, offices, statesForOffice } from './data'
 import { fetchTSESnapshot } from './tse-results'
 import type { Candidate, ResultSnapshot, SyncMeta } from './types'
@@ -126,6 +127,7 @@ function App() {
   const coverage = snapshot.totalSections ? Math.round((snapshot.countedSections / snapshot.totalSections) * 100) : 0
   const syncLabel = syncMeta.phase === 'live' ? 'TSE ao vivo' : syncMeta.phase === 'syncing' ? 'consultando TSE' : syncMeta.phase === 'retrying' ? 'tentando novamente' : syncMeta.phase === 'offline' ? 'offline · cache local' : 'aguardando TSE'
   const lastChecked = syncMeta.lastCheckedAt ? timeFormat.format(new Date(syncMeta.lastCheckedAt)) : '—'
+  const syncDetail = syncMeta.error ? `Falha: ${syncMeta.error}.` : syncMeta.nextPollAt ? `Próxima consulta: ${timeFormat.format(new Date(syncMeta.nextPollAt))}.` : 'A leitura começa no primeiro boletim oficial.'
 
   return (
     <main className="shell">
@@ -165,17 +167,7 @@ function App() {
         <button className="filter-button" onClick={sync}>Aplicar <span aria-hidden="true">⌁</span></button>
       </section>
 
-      <section className="status-grid">
-        <article className="status-card status-card-main">
-          <div className="card-heading"><div><p className="eyebrow">placar nacional</p><h2>{office} <span>· {state}</span></h2></div><span className="round-chip">{round}º turno</span></div>
-          <div className="status-number">{snapshot.totalVotes ? format.format(snapshot.totalVotes) : '—'}</div>
-          <div className="status-caption">votos contabilizados</div>
-          <div className="coverage-row"><span>seções apuradas</span><strong>{snapshot.countedSections ? `${format.format(snapshot.countedSections)} de ${format.format(snapshot.totalSections)}` : 'aguardando TSE'}</strong></div>
-          <div className="progress-track"><span style={{ width: `${coverage}%` }} /></div>
-          <div className="status-foot"><span className={`live-dot ${snapshot.status === 'official' ? 'is-live' : ''}`} />{syncLabel} · última consulta {lastChecked}</div>
-        </article>
-        <article className="status-card radar-card"><div className="card-heading"><div><p className="eyebrow">última leitura</p><h2>ritmo da apuração</h2></div><span className="radar-spark">↗</span></div><div className="mini-chart"><span style={{ height: '22%' }} /><span style={{ height: '34%' }} /><span style={{ height: '31%' }} /><span style={{ height: '48%' }} /><span style={{ height: '44%' }} /><span style={{ height: '70%' }} /><span style={{ height: '61%' }} /><span style={{ height: '86%' }} /></div><p className="muted">Consulta automática a cada 15s.<br />{syncMeta.error ? `Falha: ${syncMeta.error}.` : syncMeta.nextPollAt ? `Próxima consulta: ${timeFormat.format(new Date(syncMeta.nextPollAt))}.` : 'A leitura começa no primeiro boletim oficial.'}</p></article>
-      </section>
+      <StatsBento office={office} scope={state} round={round} coverage={coverage} countedSections={snapshot.countedSections} totalSections={snapshot.totalSections} totalVotes={snapshot.totalVotes} candidateCount={candidates.length} syncLabel={syncLabel} lastChecked={lastChecked} syncDetail={syncDetail} />
 
       <section className="content-grid">
         <article className="panel leaderboard-panel">
