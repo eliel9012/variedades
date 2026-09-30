@@ -18,6 +18,10 @@ Projeto usa React/Vite + TypeScript. Tailwind v4 entra pelo plugin `@tailwindcss
 
 Para adicionar componente shadcn: `npx shadcn@latest add <componente>`. Tailwind e TypeScript já estão instalados/configurados; não duplicar `components/ui` em outra raiz.
 
+## Mapa por UF
+
+O mapa vetorial fica no próprio bundle em `src/data/brazil-states.ts` (27 UFs, incluindo DF), sem dependência ou chamada externa em runtime. A interface não desenha a bandeira: usa apenas a paleta abstrata verde, azul e amarelo. Cada UF tem seleção por clique/teclado, tooltip acessível e ligação direta aos filtros de cargo e candidatos.
+
 ## Fontes
 
 - [Portal de Dados Abertos do TSE — Candidatos 2026](https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026)

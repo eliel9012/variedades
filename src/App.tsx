@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import StatsBento from '@/components/ui/stats-bento'
+import BrazilMap from '@/components/ui/brazil-map'
+import type { BrazilState } from './data/brazil-states'
 import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, offices, statesForOffice } from './data'
 import { fetchTSESnapshot } from './tse-results'
 import type { Candidate, ResultSnapshot, SyncMeta } from './types'
@@ -27,6 +29,8 @@ function App() {
   const [syncNonce, setSyncNonce] = useState(0)
   const [syncMeta, setSyncMeta] = useState<SyncMeta>({ phase: 'idle', lastCheckedAt: null, lastOfficialAt: null, nextPollAt: null, error: null, attempt: 0 })
   const availableStates = statesForOffice(office)
+  const secondRoundAvailable = canHaveSecondRound(office)
+  const activeRound: 1 | 2 = secondRoundAvailable ? round : 1
 
   useEffect(() => {
     const goOnline = () => setOnline(true)
@@ -54,7 +58,7 @@ function App() {
       controller = new AbortController()
       setSyncMeta((current) => ({ ...current, phase: 'syncing', lastCheckedAt: checkedAt, error: null, attempt }))
       try {
-        const next = await fetchTSESnapshot(round, state === 'Brasil' ? 'BR' : state, office, controller.signal)
+        const next = await fetchTSESnapshot(activeRound, state === 'Brasil' ? 'BR' : state, office, controller.signal)
         if (!alive) return
         setSnapshot(next)
         if (next.status === 'official') localStorage.setItem('apura-brasil:last-snapshot', JSON.stringify(next))
@@ -78,7 +82,7 @@ function App() {
       if (timer) window.clearTimeout(timer)
       controller?.abort()
     }
-  }, [office, online, round, state, syncNonce])
+  }, [activeRound, office, online, state, syncNonce])
 
   useEffect(() => {
     fetch('/data/candidates.json')
@@ -116,12 +120,21 @@ function App() {
       .slice(0, 8)
   }, [candidates, office, search, state])
 
+  const selectedCandidateCount = useMemo(() => candidates.filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes]).filter((candidate) => state === 'Brasil' || candidate.uf === state).length, [candidates, office, state])
+
   const sync = () => setSyncNonce((value) => value + 1)
   const changeOffice = (nextOffice: string) => {
     setOffice(nextOffice)
     if (!canHaveSecondRound(nextOffice)) setRound(1)
     const nextStates = statesForOffice(nextOffice)
     if (!nextStates.includes(state)) setState(nextStates[0])
+  }
+  const selectMapState = (nextState: BrazilState) => {
+    setState(nextState.uf)
+    if (office === 'Presidente' || (office === 'Deputado distrital' && nextState.uf !== 'DF')) {
+      setOffice('Governador')
+      setRound(1)
+    }
   }
 
   const coverage = snapshot.totalSections ? Math.round((snapshot.countedSections / snapshot.totalSections) * 100) : 0
@@ -161,17 +174,22 @@ function App() {
       </section>
 
       <section className="control-strip" aria-label="Filtros de apuração">
-        <div className="control-block"><label htmlFor="round">turno</label><select id="round" value={round} onChange={(event) => setRound(Number(event.target.value) as 1 | 2)}><option value="1">1º turno</option>{canHaveSecondRound(office) && <option value="2">2º turno</option>}</select></div>
+        <div className="control-block"><label htmlFor="round">turno</label><select id="round" value={activeRound} onChange={(event) => { const nextRound = Number(event.target.value) as 1 | 2; setRound(nextRound === 2 && !secondRoundAvailable ? 1 : nextRound) }}><option value="1">1º turno</option>{secondRoundAvailable && <option value="2">2º turno</option>}</select></div>
         <div className="control-block"><label htmlFor="state">território</label><select id="state" value={state} onChange={(event) => setState(event.target.value)}>{availableStates.map((item) => <option key={item}>{item}</option>)}</select></div>
         <div className="control-block"><label htmlFor="office">cargo</label><select id="office" value={office} onChange={(event) => changeOffice(event.target.value)}>{offices.map((item) => <option key={item}>{item}</option>)}</select></div>
         <button className="filter-button" onClick={sync}>Aplicar <span aria-hidden="true">⌁</span></button>
       </section>
 
-      <StatsBento office={office} scope={state} round={round} coverage={coverage} countedSections={snapshot.countedSections} totalSections={snapshot.totalSections} totalVotes={snapshot.totalVotes} candidateCount={candidates.length} syncLabel={syncLabel} lastChecked={lastChecked} syncDetail={syncDetail} />
+      <section className="map-section" aria-labelledby="map-title">
+        <div className="map-section__heading"><div><p className="eyebrow">território eleitoral</p><h2 id="map-title">Escolha uma UF. Veja a disputa local.</h2></div><p>Mapa, menu e candidatos trabalham juntos. No DF, o cargo local é deputado distrital.</p></div>
+        <BrazilMap activeUf={state === 'Brasil' ? undefined : state} selectedOffice={office} candidateCount={selectedCandidateCount} onSelect={selectMapState} onSelectOffice={changeOffice} />
+      </section>
+
+      <StatsBento office={office} scope={state} round={activeRound} coverage={coverage} countedSections={snapshot.countedSections} totalSections={snapshot.totalSections} totalVotes={snapshot.totalVotes} candidateCount={candidates.length} syncLabel={syncLabel} lastChecked={lastChecked} syncDetail={syncDetail} />
 
       <section className="content-grid">
         <article className="panel leaderboard-panel">
-          <div className="panel-heading"><div><p className="eyebrow">candidaturas</p><h2>Quem está na disputa</h2></div><span className="result-count">{format.format(candidates.length)} nomes no snapshot</span></div>
+          <div className="panel-heading"><div><p className="eyebrow">candidaturas</p><h2>Quem está na disputa</h2></div><span className="result-count">{format.format(selectedCandidateCount)} no recorte · {format.format(candidates.length)} no snapshot</span></div>
           <div className="search-wrap"><span aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar nome, partido ou número" aria-label="Buscar candidato" /></div>
           <div className="candidate-list">{visibleCandidates.map((candidate) => <div className="candidate-row" key={candidate.sqCandidate}><div className="avatar">{candidate.photo ? <img src={candidate.photo} alt="" /> : <span>{candidate.ballotName.slice(0, 1)}</span>}</div><div className="candidate-info"><strong>{candidate.ballotName}</strong><span>{candidate.party} · nº {candidate.number}</span></div><span className="candidate-state">{candidate.uf}</span><span className="candidate-status">{candidate.situation === '#NE' ? 'cadastro TSE' : candidate.situation}</span></div>)}{visibleCandidates.length === 0 && <p className="empty">Nenhuma candidatura encontrada neste recorte.</p>}</div>
           <p className="source-note">Candidaturas e fotos: TSE · snapshot local. 2º turno só existe para presidente/governador; senador e deputados ficam no 1º.</p>
