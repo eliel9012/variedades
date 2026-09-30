@@ -28,4 +28,16 @@ export type ResultSnapshot = {
   totalSections: number
   rows: ResultRow[]
   status: 'official' | 'waiting' | 'offline'
+  source?: string
+}
+
+export type SyncPhase = 'idle' | 'syncing' | 'live' | 'waiting' | 'offline' | 'retrying'
+
+export type SyncMeta = {
+  phase: SyncPhase
+  lastCheckedAt: string | null
+  lastOfficialAt: string | null
+  nextPollAt: string | null
+  error: string | null
+  attempt: number
 }

@@ -18,6 +18,12 @@ npm run dev
 - [Resultados TSE](https://resultados.tse.jus.br/)
 - [Calendário eleitoral 2026](https://www.tse.jus.br/comunicacao/noticias/2026/Marco/eleicoes-2026-confira-as-principais-datas-do-calendario-eleitoral)
 
-## Limite atual
+## Apuração automática
 
-O adapter de resultados está preparado para receber snapshots oficiais, mas não fabrica placar antes da publicação do TSE. Próximo passo: ligar `public/data/results/latest.json` ao formato de resultados liberado durante a apuração e registrar cada lote localmente.
+O app consulta o `ele-c.json` oficial do TSE, deriva o pleito/ciclo e lê EA20 (resultado unificado) + EA14 (acompanhamento Brasil). Faz uma consulta a cada 15s, usa backoff até 120s em erro, aborta requests antigos ao trocar filtro e grava último lote oficial em `localStorage`. Sem endpoint oficial disponível, mantém `public/data/results/latest.json` como fallback; não fabrica placar.
+
+O caminho padrão é `https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws`. Se o TSE publicar bootstrap em caminho diferente, definir `VITE_TSE_RESULTS_CONFIG_URL` antes do build. O TSE recomenda derivar URLs pelo `ele-c.jws` e respeitar limite de 100 requisições/s por IP.
+
+## Limites
+
+Resultados podem chegar em lotes; “15s” é frequência de consulta, não promessa de mudança a cada segundo. CORS da CDN pode variar; em produção, um proxy/server-side é mais robusto que fetch direto no navegador.

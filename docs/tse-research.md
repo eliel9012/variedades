@@ -5,7 +5,7 @@ Atualizado em **30/09/2026**. Pesquisa restrita a fontes oficiais do TSE e sua C
 ## Resumo executivo
 
 - 1º turno: **04/10/2026**; eventual 2º turno: **25/10/2026**. Cargos: Presidente, Governador, Senador, Deputado Federal, Deputado Estadual/Distrital; há também Conselho Distrital de Fernando de Noronha no 1º turno.
-- O acompanhamento em tempo real é público em `https://resultados.tse.jus.br` e os arquivos de integração são JSON distribuídos pela CDN do TSE.
+- O acompanhamento em tempo real é público em `https://resultados.tse.jus.br` e os arquivos de integração são JWS compactos com payload JSON distribuídos pela CDN do TSE.
 - Para candidatos, a fonte mais prática para ingestão offline é o Portal de Dados Abertos: arquivos ZIP com CSVs e fotos ZIP por UF/circunscrição.
 - No momento da consulta, não havia pacote CKAN `resultados-2026`; portanto, resultados 2026 devem ser obtidos pela distribuição de arquivos do site Resultados. Não convém presumir um caminho/código de produção: obter `ele-c.json` primeiro.
 
@@ -37,7 +37,7 @@ Ambiente oficial documentado:
 
 Hierarquia e formatos:
 
-- `ele-c.json` (EA11): configuração de eleições, ciclos, pleitos, abrangências, cargos e diretórios.
+- `ele-c.jws` (EA11): configuração de eleições, ciclos, pleitos, abrangências, cargos e diretórios. O payload assinado é JSON.
 - `mun-e<ELEICAO>-cm.json` (EA12): municípios; códigos TSE e IBGE.
 - `br-e<ELEICAO>-ab.json` / `<uf>-e<ELEICAO>-ab.json` (EA14/EA15): acompanhamento Brasil/UF.
 - `<escopo>-c<CCCC>-e<ELEICAO>-u.json` (EA20): resultado unificado; escopo pode ser Brasil, UF, município ou zona.

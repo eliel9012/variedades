@@ -1,9 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
 import { candidateSeed, initialSnapshot, offices, states } from './data'
-import type { Candidate, ResultSnapshot } from './types'
+import { fetchTSESnapshot } from './tse-results'
+import type { Candidate, ResultSnapshot, SyncMeta } from './types'
 
 const format = new Intl.NumberFormat('pt-BR')
-const percent = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1, minimumFractionDigits: 1 })
+const timeFormat = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+const POLL_MS = 15_000
+
+function readableSyncError(error: unknown) {
+  const message = error instanceof Error ? error.message : ''
+  if (message.includes('aborted') || message.includes('Timeout')) return 'tempo esgotado'
+  if (message.includes('TSE 404')) return 'endpoint ainda não publicado'
+  if (message.includes('election unavailable')) return 'configuração 2026 ainda não publicada'
+  return 'TSE indisponível'
+}
 
 function App() {
   const [round, setRound] = useState<1 | 2>(1)
@@ -13,6 +23,8 @@ function App() {
   const [candidates, setCandidates] = useState<Candidate[]>(candidateSeed)
   const [online, setOnline] = useState(navigator.onLine)
   const [search, setSearch] = useState('')
+  const [syncNonce, setSyncNonce] = useState(0)
+  const [syncMeta, setSyncMeta] = useState<SyncMeta>({ phase: 'idle', lastCheckedAt: null, lastOfficialAt: null, nextPollAt: null, error: null, attempt: 0 })
 
   useEffect(() => {
     const goOnline = () => setOnline(true)
@@ -24,6 +36,47 @@ function App() {
       window.removeEventListener('offline', goOffline)
     }
   }, [])
+
+  useEffect(() => {
+    let alive = true
+    let timer: number | undefined
+    let controller: AbortController | undefined
+    let attempt = 0
+
+    const poll = async () => {
+      if (!navigator.onLine) {
+        setSyncMeta((current) => ({ ...current, phase: 'offline', nextPollAt: null, error: null }))
+        return
+      }
+      const checkedAt = new Date().toISOString()
+      controller = new AbortController()
+      setSyncMeta((current) => ({ ...current, phase: 'syncing', lastCheckedAt: checkedAt, error: null, attempt }))
+      try {
+        const next = await fetchTSESnapshot(round, state === 'Brasil' ? 'BR' : state, office, controller.signal)
+        if (!alive) return
+        setSnapshot(next)
+        if (next.status === 'official') localStorage.setItem('apura-brasil:last-snapshot', JSON.stringify(next))
+        attempt = 0
+        const nextPollAt = new Date(Date.now() + POLL_MS).toISOString()
+        setSyncMeta((current) => ({ ...current, phase: next.status === 'official' ? 'live' : 'waiting', lastCheckedAt: checkedAt, lastOfficialAt: next.status === 'official' ? next.updatedAt : current.lastOfficialAt, nextPollAt, error: null, attempt: 0 }))
+        timer = window.setTimeout(poll, POLL_MS)
+      } catch (error) {
+        if (!alive) return
+        attempt += 1
+        const delay = Math.min(120_000, POLL_MS * 2 ** Math.min(attempt, 3))
+        const nextPollAt = new Date(Date.now() + delay).toISOString()
+        setSyncMeta((current) => ({ ...current, phase: navigator.onLine ? 'retrying' : 'offline', lastCheckedAt: checkedAt, nextPollAt, error: readableSyncError(error), attempt }))
+        timer = window.setTimeout(poll, delay)
+      }
+    }
+
+    poll()
+    return () => {
+      alive = false
+      if (timer) window.clearTimeout(timer)
+      controller?.abort()
+    }
+  }, [office, online, round, state, syncNonce])
 
   useEffect(() => {
     fetch('/data/candidates.json')
@@ -61,20 +114,11 @@ function App() {
       .slice(0, 8)
   }, [candidates, office, search, state])
 
-  const sync = async () => {
-    const cache = localStorage.getItem('apura-brasil:last-snapshot')
-    if (cache) {
-      try {
-        setSnapshot({ ...(JSON.parse(cache) as ResultSnapshot), status: online ? 'official' : 'offline' })
-        return
-      } catch {
-        // Keep waiting state.
-      }
-    }
-    setSnapshot((current) => ({ ...current, round, scope: state === 'Brasil' ? 'BR' : state, status: online ? 'waiting' : 'offline' }))
-  }
+  const sync = () => setSyncNonce((value) => value + 1)
 
   const coverage = snapshot.totalSections ? Math.round((snapshot.countedSections / snapshot.totalSections) * 100) : 0
+  const syncLabel = syncMeta.phase === 'live' ? 'TSE ao vivo' : syncMeta.phase === 'syncing' ? 'consultando TSE' : syncMeta.phase === 'retrying' ? 'tentando novamente' : syncMeta.phase === 'offline' ? 'offline · cache local' : 'aguardando TSE'
+  const lastChecked = syncMeta.lastCheckedAt ? timeFormat.format(new Date(syncMeta.lastCheckedAt)) : '—'
 
   return (
     <main className="shell">
@@ -121,9 +165,9 @@ function App() {
           <div className="status-caption">votos contabilizados</div>
           <div className="coverage-row"><span>seções apuradas</span><strong>{snapshot.countedSections ? `${format.format(snapshot.countedSections)} de ${format.format(snapshot.totalSections)}` : 'aguardando TSE'}</strong></div>
           <div className="progress-track"><span style={{ width: `${coverage}%` }} /></div>
-          <div className="status-foot"><span className={`live-dot ${snapshot.status === 'official' ? 'is-live' : ''}`} />{snapshot.status === 'official' ? 'dado oficial' : online ? 'aguardando primeira publicação' : 'último estado salvo localmente'}</div>
+          <div className="status-foot"><span className={`live-dot ${snapshot.status === 'official' ? 'is-live' : ''}`} />{syncLabel} · última consulta {lastChecked}</div>
         </article>
-        <article className="status-card radar-card"><div className="card-heading"><div><p className="eyebrow">última leitura</p><h2>ritmo da apuração</h2></div><span className="radar-spark">↗</span></div><div className="mini-chart"><span style={{ height: '22%' }} /><span style={{ height: '34%' }} /><span style={{ height: '31%' }} /><span style={{ height: '48%' }} /><span style={{ height: '44%' }} /><span style={{ height: '70%' }} /><span style={{ height: '61%' }} /><span style={{ height: '86%' }} /></div><p className="muted">Sem lotes publicados ainda.<br />A leitura começa no primeiro boletim oficial.</p></article>
+        <article className="status-card radar-card"><div className="card-heading"><div><p className="eyebrow">última leitura</p><h2>ritmo da apuração</h2></div><span className="radar-spark">↗</span></div><div className="mini-chart"><span style={{ height: '22%' }} /><span style={{ height: '34%' }} /><span style={{ height: '31%' }} /><span style={{ height: '48%' }} /><span style={{ height: '44%' }} /><span style={{ height: '70%' }} /><span style={{ height: '61%' }} /><span style={{ height: '86%' }} /></div><p className="muted">Consulta automática a cada 15s.<br />{syncMeta.error ? `Falha: ${syncMeta.error}.` : syncMeta.nextPollAt ? `Próxima consulta: ${timeFormat.format(new Date(syncMeta.nextPollAt))}.` : 'A leitura começa no primeiro boletim oficial.'}</p></article>
       </section>
 
       <section className="content-grid">
@@ -136,7 +180,7 @@ function App() {
         <aside className="panel explain-panel"><p className="eyebrow">leia antes</p><h2>Apuração sem ruído.</h2><p>Os números só aparecem quando o TSE publica boletim oficial. Enquanto isso, este painel mostra a base de candidatos e mantém o último snapshot íntegro no aparelho.</p><div className="legend"><div><span className="legend-dot official" />oficial</div><div><span className="legend-dot cached" />salvo no aparelho</div><div><span className="legend-dot waiting" />aguardando publicação</div></div><button className="text-button" onClick={() => window.alert('Fonte: Portal de Dados Abertos do TSE e resultados.tse.jus.br')}>Ver origem dos dados <span>↗</span></button></aside>
       </section>
 
-      <footer><span>APURA BRASIL / 2026</span><span>Dados públicos · feito para continuar funcionando</span><span>Atualização manual por enquanto</span></footer>
+      <footer><span>APURA BRASIL / 2026</span><span>Dados públicos · feito para continuar funcionando</span><span>Polling TSE · 15s · cache offline</span></footer>
     </main>
   )
 }
