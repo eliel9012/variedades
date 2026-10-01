@@ -28,7 +28,18 @@
 .brazil-map__state:hover,
 .brazil-map__state:focus-visible { filter: brightness(.92) saturate(1.18); stroke: var(--brazil-map-deep); stroke-width: 3; }
 .brazil-map__state--active { fill: var(--brazil-map-active) !important; stroke: var(--brazil-map-deep); stroke-width: 3; }
-.brazil-map__label { fill: var(--brazil-map-ink); font: 700 12px 'DM Mono', monospace; letter-spacing: .02em; pointer-events: none; text-anchor: middle; }
+.brazil-map__label {
+  --label-scale: 1;
+  fill: var(--brazil-map-ink);
+  font: 800 calc(17px * var(--label-scale)) ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  letter-spacing: .01em;
+  pointer-events: none;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--brazil-map-paper);
+  stroke-width: calc(2.4px * var(--label-scale));
+  stroke-linejoin: round;
+}
 .brazil-map__legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 4px; color: var(--brazil-map-muted); font: 10px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .05em; }
 .brazil-map__legend span { display: inline-flex; align-items: center; gap: 6px; }
 .brazil-map__legend i { width: 8px; height: 8px; display: inline-block; border-radius: 50%; background: #78a98b; }

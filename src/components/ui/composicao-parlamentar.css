@@ -3,6 +3,7 @@
 .composicao-parlamentar {
   padding: 34px 0 51px;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xl);
 }
 
@@ -48,7 +49,7 @@
 
 .composicao-parlamentar__grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: var(--space-lg);
   align-items: stretch;
 }
@@ -400,7 +401,7 @@
   }
 
   .composicao-parlamentar__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .composicao-parlamentar__steps {
@@ -416,8 +417,24 @@
     align-items: stretch;
   }
 
+  /* .composicao-parlamentar__field--search carries `flex: 1 1 220px` for the
+     desktop row layout; once the controls stack into a column above, that
+     basis is read along the (now vertical) main axis and inflates the field
+     to 220px tall. Reset it so the field sizes to its content instead. */
+  .composicao-parlamentar__field--search {
+    flex: none;
+  }
+
   .composicao-parlamentar__sort {
     flex-wrap: wrap;
+  }
+
+  .composicao-parlamentar__sort button {
+    min-height: 44px;
+  }
+
+  .composicao-parlamentar__field--uf select {
+    min-height: 44px;
   }
 
   .composicao-parlamentar__formula div {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { BRAZIL_STATES, type BrazilState } from '../../data/brazil-states'
 import './brazil-map.css'
 
@@ -69,7 +69,14 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
                 }}
               >
                 <path d={state.path} style={{ fill: isActive ? 'var(--brazil-map-active)' : state.color }} />
-                <text className="brazil-map__label" x={state.label[0]} y={state.label[1] + 3}>{state.uf}</text>
+                <text
+                  className="brazil-map__label"
+                  x={state.label[0]}
+                  y={state.label[1] + 3}
+                  style={{ '--label-scale': state.labelScale ?? 1 } as CSSProperties}
+                >
+                  {state.uf}
+                </text>
               </g>
             )
           })}

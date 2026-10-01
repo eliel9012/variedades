@@ -247,11 +247,18 @@
     align-items: stretch;
   }
 
+  .pesquisas-tracker__pill {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .pesquisas-tracker__uf-select {
     width: 100%;
   }
 
   .pesquisas-tracker__uf-select select {
     flex: 1;
+    min-height: 44px;
   }
 }
