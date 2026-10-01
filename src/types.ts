@@ -27,6 +27,13 @@ export type ResultSnapshot = {
   countedSections: number
   totalSections: number
   rows: ResultRow[]
+  /**
+   * `offline` is a read-only presentation condition (see
+   * docs/sync-protocol.md "Comportamento offline"): it is derived from
+   * `SyncMeta.phase` at render time and must never be written onto a
+   * fetched/cached/compared snapshot. The sync layer only ever produces
+   * `official` or `waiting`; UI code derives `offline` for display.
+   */
   status: 'official' | 'waiting' | 'offline'
   source?: string
 }

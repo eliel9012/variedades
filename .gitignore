@@ -9,3 +9,5 @@ work/tse/*.zip
 work/tse/*.csv
 work/tse/**/*.zip
 work/tse/**/*.csv
+.env
+.env.*.local

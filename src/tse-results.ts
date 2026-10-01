@@ -44,7 +44,10 @@ function request(url: string, signal?: AbortSignal) {
       if (!response.ok) throw new Error(`TSE ${response.status}`)
       return response
     })
-    .finally(() => window.clearTimeout(timeout))
+    .finally(() => {
+      window.clearTimeout(timeout)
+      signal?.removeEventListener('abort', abortFromCaller)
+    })
 }
 
 function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
@@ -78,9 +81,17 @@ async function fetchOfficial<T>(baseUrl: string, signal?: AbortSignal): Promise<
   throw lastError instanceof Error ? lastError : new Error('TSE unavailable')
 }
 
-function loadConfig(signal?: AbortSignal) {
+// A configuração (`ele-c.jws`) é compartilhada por todos os chamadores
+// (polling de qualquer turno/escopo/cargo). Ela nunca deve ficar amarrada ao
+// AbortSignal de um chamador específico: abortar uma requisição (ex.: troca
+// de filtro) não pode poluir/rejeitar a configuração para outros pollings
+// concorrentes ou futuros. O `request()` interno já aplica seu próprio
+// timeout, então a config ainda falha rápido em caso de rede fora do ar. Se a
+// promessa for rejeitada, `configPromise` volta a `null` para que a próxima
+// chamada tente novamente.
+function loadConfig(): Promise<TSEConfig> {
   if (!configPromise) {
-    configPromise = fetchOfficial<TSEConfig>(CONFIG_URL, signal).catch((error) => {
+    configPromise = fetchOfficial<TSEConfig>(CONFIG_URL).catch((error) => {
       configPromise = null
       throw error
     })
@@ -88,8 +99,19 @@ function loadConfig(signal?: AbortSignal) {
   return configPromise
 }
 
+// TSE agrupa os cargos por ciclo eleitoral dentro de um mesmo pleito: o ciclo
+// Federal (Presidente, Senador, Deputado Federal) e o ciclo Estadual
+// (Governador, Deputado Estadual, Deputado Distrital) — ver
+// docs/tse-research.md ("eleição federal" cd 6257/6258 vs. "eleições
+// estaduais" cd 6259/6260). Uma divisão binária Presidente-vs-resto deixava
+// Senador e Deputado Federal incorretamente agrupados com o ciclo Estadual.
+const FEDERAL_CYCLE_OFFICES = new Set(['Presidente', 'Senador', 'Deputado federal'])
+const ESTADUAL_CYCLE_OFFICES = new Set(['Governador', 'Deputado estadual', 'Deputado distrital'])
+
 function officeType(office: string) {
-  return office === 'Presidente' ? '8' : '1'
+  if (FEDERAL_CYCLE_OFFICES.has(office)) return '8'
+  if (ESTADUAL_CYCLE_OFFICES.has(office)) return '1'
+  throw new Error(`TSE unknown office cycle: ${office}`)
 }
 
 function chooseElection(config: TSEConfig, round: 1 | 2, office: string) {
@@ -161,7 +183,7 @@ export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: stri
   try {
     const effectiveRound = canHaveSecondRound(office) ? round : 1
     if (office !== 'Presidente' && scope === 'BR') throw new Error('TSE UF required')
-    const config = await loadConfig(signal)
+    const config = await loadConfig()
     const election = chooseElection(config, effectiveRound, office)
     const code = padElection(election.code)
     const root = officialRoot()
@@ -176,8 +198,18 @@ export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: stri
     ])
     return parseOfficial(result, tracking, scope, effectiveRound, resultUrl)
   } catch (error) {
-    const fallback = await readLocalSnapshot(canHaveSecondRound(office) ? round : 1, scope)
-    if (fallback.status === 'official') return fallback
+    // Um abort vindo do chamador (ex.: troca de filtro) é um cancelamento
+    // normal: não dispara a tentativa de fallback local (que seria abortada
+    // de qualquer forma) e não deve virar um erro de sincronização.
+    if (signal?.aborted) throw error
+    try {
+      const fallback = await readLocalSnapshot(canHaveSecondRound(office) ? round : 1, scope, signal)
+      if (fallback.status === 'official') return fallback
+    } catch (fallbackError) {
+      // O fetch de fallback também é abortável; se foi cancelado, propaga
+      // isso como cancelamento em vez de mascarar como falha de rede.
+      if (signal?.aborted) throw fallbackError
+    }
     throw error instanceof Error ? error : new Error('TSE unavailable')
   }
 }

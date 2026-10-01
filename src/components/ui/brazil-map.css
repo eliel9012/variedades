@@ -28,13 +28,12 @@
 .brazil-map__state:hover,
 .brazil-map__state:focus-visible { filter: brightness(.92) saturate(1.18); stroke: var(--brazil-map-deep); stroke-width: 3; }
 .brazil-map__state--active { fill: var(--brazil-map-active) !important; stroke: var(--brazil-map-deep); stroke-width: 3; }
-.brazil-map__label { fill: var(--brazil-map-ink); font: 600 10px 'DM Mono', monospace; letter-spacing: .04em; pointer-events: none; text-anchor: middle; }
-.brazil-map__label--light { fill: var(--brazil-map-paper); }
+.brazil-map__label { fill: var(--brazil-map-ink); font: 700 12px 'DM Mono', monospace; letter-spacing: .02em; pointer-events: none; text-anchor: middle; }
 .brazil-map__legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 4px; color: var(--brazil-map-muted); font: 10px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .05em; }
 .brazil-map__legend span { display: inline-flex; align-items: center; gap: 6px; }
 .brazil-map__legend i { width: 8px; height: 8px; display: inline-block; border-radius: 50%; background: #78a98b; }
 .brazil-map__legend span:nth-child(2) i { background: #d5b85a; }
-.brazil-map__legend span:nth-child(3) i { background: #5e9879; }
+.brazil-map__legend span:nth-child(3) i { background: #67a085; }
 .brazil-map__legend span:nth-child(4) i { background: #d5ad2b; }
 .brazil-map__tooltip { position: absolute; top: 14px; left: 14px; z-index: 2; max-width: 245px; padding: 10px 12px; border: 1px solid var(--brazil-map-deep); background: var(--brazil-map-deep); color: var(--brazil-map-paper); box-shadow: 5px 5px 0 rgba(6, 75, 54, .14); pointer-events: none; }
 .brazil-map__tooltip strong { display: block; font: 600 14px 'Space Grotesk', sans-serif; }
@@ -62,7 +61,7 @@
   .brazil-map__svg { min-height: 0; }
   .brazil-map__details { min-height: 0; padding: 17px; border-top: 1px solid var(--brazil-map-line); border-left: 0; }
   .brazil-map__offices { margin-top: 24px; padding-top: 0; }
-  .brazil-map__legend { gap: 7px 10px; font-size: 9px; }
+  .brazil-map__legend { gap: 7px 10px; font-size: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,181 @@
+/* Estilos de Estatísticas & Abstenção vivem aqui, não em src/styles.css,
+   para evitar conflitos com outros agentes trabalhando em paralelo. */
+
+.estatisticas-abstencao {
+  padding: 34px 0 51px;
+}
+
+.estatisticas-abstencao__heading {
+  margin-bottom: 28px;
+}
+
+.estatisticas-abstencao__eyebrow {
+  margin: 0 0 14px;
+  color: var(--tertiary);
+  font: 600 12px/16px 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.estatisticas-abstencao h2 {
+  margin: 0 0 10px;
+  color: var(--primary);
+  font: 600 clamp(28px, 4vw, 38px)/1.2 'Newsreader', serif;
+  letter-spacing: -.01em;
+}
+
+.estatisticas-abstencao h3 {
+  margin: 0 0 10px;
+  color: var(--primary);
+  font: 500 24px/32px 'Newsreader', serif;
+  letter-spacing: -.01em;
+}
+
+.estatisticas-abstencao__lede {
+  max-width: 620px;
+  margin: 0;
+  color: var(--on-surface-variant);
+  font: 400 14px/22px 'Plus Jakarta Sans', sans-serif;
+}
+
+.estatisticas-abstencao__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.estatisticas-abstencao__stat {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+}
+
+.estatisticas-abstencao__label {
+  margin: 0 0 12px;
+  color: var(--on-surface-variant);
+  font: 600 10px/14px 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.estatisticas-abstencao__value {
+  margin: 0;
+  color: var(--primary);
+  font: 600 clamp(1.75rem, 4vw, 2.25rem)/1.1 'Newsreader', serif;
+  letter-spacing: -.01em;
+}
+
+.estatisticas-abstencao__status-value {
+  margin: 0;
+  color: var(--primary);
+  font: 600 19px/26px 'Newsreader', serif;
+  letter-spacing: -.01em;
+}
+
+.estatisticas-abstencao__caption {
+  margin: 8px 0 0;
+  color: var(--on-surface-variant);
+  font: 400 13px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.estatisticas-abstencao__progress {
+  position: relative;
+  height: 5px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.estatisticas-abstencao__progress::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--surface-container-highest);
+}
+
+.estatisticas-abstencao__progress span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--tertiary);
+}
+
+.estatisticas-abstencao__unavailable-inline {
+  margin: 4px 0 0;
+  color: var(--outline);
+  font: 500 14px/20px 'Plus Jakarta Sans', sans-serif;
+  font-style: italic;
+}
+
+.estatisticas-abstencao__breakdown-heading {
+  margin: 0 0 18px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.estatisticas-abstencao__breakdowns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.estatisticas-abstencao__breakdown-card {
+  border: 1px dashed var(--outline-variant);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container);
+  padding: var(--space-lg);
+}
+
+.estatisticas-abstencao__breakdown-card--wide {
+  margin-top: 0;
+}
+
+.estatisticas-abstencao__breakdown-title {
+  margin: 0 0 10px;
+  color: var(--on-surface);
+  font: 600 15px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.estatisticas-abstencao__unavailable {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 10px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: var(--surface-container-highest);
+  color: var(--outline);
+  font: 600 11px/16px 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.estatisticas-abstencao__breakdown-detail {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font: 400 13px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+@media (max-width: 980px) {
+  .estatisticas-abstencao__stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .estatisticas-abstencao {
+    padding: 25px 0 36px;
+  }
+  .estatisticas-abstencao__stats,
+  .estatisticas-abstencao__breakdowns {
+    grid-template-columns: 1fr;
+  }
+}

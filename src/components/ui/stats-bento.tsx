@@ -20,8 +20,8 @@ export type StatsBentoProps = {
 
 export const StatsBento = ({ office, scope, round, coverage, countedSections, totalSections, totalVotes, candidateCount, syncLabel, lastChecked, syncDetail }: StatsBentoProps) => {
   const bars = [22, 31, 40, 34, 52, 48, 61, 70, 79, 88, 100]
-  const percentage = coverage ? `${coverage}%` : '—'
-  const votes = totalVotes ? numberFormat.format(totalVotes) : '—'
+  const percentage = coverage ? `${coverage}%` : 'N/D'
+  const votes = totalVotes ? numberFormat.format(totalVotes) : 'N/D'
   const sections = countedSections ? `${numberFormat.format(countedSections)} / ${numberFormat.format(totalSections)}` : 'aguardando TSE'
 
   return (

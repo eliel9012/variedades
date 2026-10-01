@@ -6,5 +6,5 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-  server: { port: 4173 },
+  server: { port: 4173, allowedHosts: ['varia.meulab.fun'] },
 })

@@ -10,7 +10,7 @@ npm run sync:tse
 npm run dev
 ```
 
-`npm run sync:tse` lê `work/tse/consulta_cand_2026.zip` e arquivos de foto em `work/tse/photos/` (ou o fallback `work/tse/foto_cand2026_BR_div.zip`). O comando gera todas as candidaturas do CSV oficial — incluindo deputado estadual (código 0007) e distrital (0008) — mais imagens locais em `public/data/photos/`.
+`npm run sync:tse` lê `work/tse/consulta_cand_2026.zip` e arquivos de foto em `work/tse/photos/` (ou o fallback `work/tse/foto_cand2026_BR_div.zip`). O comando não aplica nenhum filtro de cargo — gera todas as linhas do CSV oficial como estão (titulares, suplentes, vice-* e todos os códigos de cargo) — mais imagens locais em `public/data/photos/`.
 
 ## UI / shadcn
 

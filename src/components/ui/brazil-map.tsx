@@ -40,22 +40,20 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
   return (
     <section className={`brazil-map ${className}`.trim()} aria-label={ariaLabel}>
       <figure className="brazil-map__figure">
-        <svg className="brazil-map__svg" data-testid="br-map" viewBox="0 0 520 550" role="group" aria-labelledby="brazil-map-title brazil-map-description">
+        <svg className="brazil-map__svg" data-testid="br-map" viewBox="0 0 520 550" role="radiogroup" aria-labelledby="brazil-map-title brazil-map-description">
           <title id="brazil-map-title">Brasil, estados selecionáveis</title>
           <desc id="brazil-map-description">Selecione um estado para ver candidatos e cargos disponíveis.</desc>
           {BRAZIL_STATES.map((state) => {
             const isActive = selectedUf === state.uf
-            const labelIsLight = ['AM', 'PA', 'RO', 'MT', 'GO', 'MS', 'PR', 'SC', 'RS'].includes(state.uf)
             return (
               <g
                 key={state.uf}
                 data-uf={state.uf}
                 className={`brazil-map__state${isActive ? ' brazil-map__state--active' : ''}`}
-                role="button"
+                role="radio"
                 tabIndex={0}
                 aria-label={`${state.name}, ${state.uf}. Capital: ${state.capital}.`}
-                aria-pressed={isActive}
-                aria-selected={isActive}
+                aria-checked={isActive}
                 aria-describedby={tooltipUf === state.uf ? tooltipId : undefined}
                 onPointerEnter={() => showTooltip(state)}
                 onPointerLeave={hideTooltip}
@@ -71,7 +69,7 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
                 }}
               >
                 <path d={state.path} style={{ fill: isActive ? 'var(--brazil-map-active)' : state.color }} />
-                <text className={`brazil-map__label${labelIsLight ? ' brazil-map__label--light' : ''}`} x={state.label[0]} y={state.label[1] + 3}>{state.uf}</text>
+                <text className="brazil-map__label" x={state.label[0]} y={state.label[1] + 3}>{state.uf}</text>
               </g>
             )
           })}

@@ -1,0 +1,2497 @@
+{
+  "generatedAt": "2026-10-01T01:54:45.627Z",
+  "source": "https://github.com/rafaujo/eleicoes-2026-pesquisas",
+  "polls": [
+    {
+      "id": "governor-sp-25",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Futura Inteligência",
+      "commissioner": "admin.cnnbrasil.com.br",
+      "fieldDates": {
+        "start": "2026-09-26",
+        "end": "2026-09-26"
+      },
+      "publishedAt": "2026-09-27",
+      "sampleSize": 1600,
+      "marginOfError": 2.4,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 54.8
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 32.6
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10.5
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 0.8
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 0.7
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 0.4
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 0.4
+        }
+      ],
+      "sourceUrl": "https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2026/09/Relatorio_SP_2026set_2.pdf"
+    },
+    {
+      "id": "governor-sp-24",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Colectta",
+      "commissioner": "brazileconomy.com.br",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-25",
+      "sampleSize": 1800,
+      "marginOfError": 2.3,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 54.3
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 38.7
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 26.7
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 1.5
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 1.4
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 1.4
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 0.9
+        }
+      ],
+      "sourceUrl": "https://brazileconomy.com.br/politica/2026/09/pesquisa-brazil-economycolectta-aponta-reeleicao-de-tarcisio-no-1o-turno/"
+    },
+    {
+      "id": "president-br-66",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Alfa Inteligência",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-18",
+        "end": "2026-09-23"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 2700,
+      "marginOfError": 1.8,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/lula-lidera-em-1o-turno-e-empata-com-flavio-bolsonaro-no-2o-indica-pesquisa-alfa/"
+    },
+    {
+      "id": "president-br-67",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-20",
+        "end": "2026-09-23"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "round": 2,
+      "results": [
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-46-e-lula-45-no-2o-turno-diz-poderdata-aya/"
+    },
+    {
+      "id": "president-br-68",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-23"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-presidente-setembro-2026-2/"
+    },
+    {
+      "id": "governor-sp-23",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-22",
+        "end": "2026-09-23"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 1610,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 50
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/google/amp/sp/sao-paulo/eleicoes/2026/noticia/2026/09/24/datafolha-sp-governador-24-setembro.ghtml"
+    },
+    {
+      "id": "governor-mg-15",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Datafolha",
+      "commissioner": "cbn.globo.com",
+      "fieldDates": {
+        "start": "2026-09-22",
+        "end": "2026-09-24"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 1204,
+      "marginOfError": 3,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 24
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 15
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://cbn.globo.com/coberturas/eleicoes-2026/noticia/2026/09/24/datafolha-em-mg-cleitinho-lidera-com-40percent-patrus-tem-15percent-kalil-9percent-simoes-5percent.ghtml"
+    },
+    {
+      "id": "president-br-65",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-17",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 5015,
+      "marginOfError": 1,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45.8
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43.4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4.5
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 2.1
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 1.3
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 1.2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 0.9
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-setembro-2026-3/"
+    },
+    {
+      "id": "governor-sp-22",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 1800,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 25
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/sp/sao-paulo/eleicoes/2026/noticia/2026/09/23/quaest-sp-governador-23-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-21",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "AtlasIntel",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-15",
+        "end": "2026-09-20"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 1800,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 55.2
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 3.3
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 0.4
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 0.1
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/atlas-tarcisio-mantem-larga-vantagem-sobre-haddad-e-venceria-no-1o-turno-em-sao-paulo/"
+    },
+    {
+      "id": "governor-mg-12",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "AtlasIntel",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-15",
+        "end": "2026-09-20"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 1799,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 39.3
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 8.3
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 7.3
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 5.6
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 4.3
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 2.7
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 1.4
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/pesquisa-atlasintel-cleitinho-e-o-favorito-para-o-governo-de-mg/"
+    },
+    {
+      "id": "governor-sp-19",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-21"
+      },
+      "publishedAt": "2026-09-22",
+      "sampleSize": 1600,
+      "marginOfError": 2.5,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 50.7
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 33.3
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.8
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 1.8
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 0.9
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 0.6
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/parana-pesquisas-tarcisio-tem-50-e-haddad-33-em-sp/"
+    },
+    {
+      "id": "governor-mg-14",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-22",
+      "sampleSize": 1506,
+      "marginOfError": 3,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 23
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 16
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Túlio Lopes",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Rafael Duda",
+          "party": null,
+          "percentage": 0
+        },
+        {
+          "candidateName": "Indira Xavier",
+          "party": null,
+          "percentage": 0
+        },
+        {
+          "candidateName": "Henrique Áreas",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/mg/minas-gerais/eleicoes/2026/noticia/2026/09/23/quaest-mg-governador-23-setembro.ghtml"
+    },
+    {
+      "id": "governor-mg-13",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "F5",
+      "commissioner": "em.com.br",
+      "fieldDates": {
+        "start": "2026-09-15",
+        "end": "2026-09-18"
+      },
+      "publishedAt": "2026-09-22",
+      "sampleSize": 1560,
+      "marginOfError": 2.5,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 23
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.em.com.br/politica/2026/09/7506058-pesquisa-f5-cleitinho-tem-33-simoes-14-patrus-11-kalil-10.html"
+    },
+    {
+      "id": "president-br-64",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-17",
+        "end": "2026-09-20"
+      },
+      "publishedAt": "2026-09-21",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 15
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/21/quaest-presidente-2o-turno-21-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-20",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Real Time Big Data",
+      "commissioner": "static.poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-19"
+      },
+      "publishedAt": "2026-09-20",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 57
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 4
+        }
+      ],
+      "sourceUrl": "https://static.poder360.com.br/uploads/2026/09/real-time-big-data-SP-21set2026.pdf"
+    },
+    {
+      "id": "governor-mg-11",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Veritá",
+      "commissioner": "cnnbrasil.com.br",
+      "fieldDates": {
+        "start": "2026-09-12",
+        "end": "2026-09-17"
+      },
+      "publishedAt": "2026-09-18",
+      "sampleSize": 2030,
+      "marginOfError": 2.5,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 47.4
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 21.2
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8.8
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 8.4
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 8.2
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 3.1
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 1.7
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 1.3
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/verita-cleitinho-tem-474-no-1o-turno-em-mg-patrus-212/#goog_rewarded"
+    },
+    {
+      "id": "president-br-61",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Gerp",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-14",
+        "end": "2026-09-16"
+      },
+      "publishedAt": "2026-09-17",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-setembro-2026-2/"
+    },
+    {
+      "id": "president-br-62",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-13",
+        "end": "2026-09-16"
+      },
+      "publishedAt": "2026-09-17",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "round": 2,
+      "results": [
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-46-e-lula-44-no-2o-turno-diz-poderdata-aya/"
+    },
+    {
+      "id": "president-br-63",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-15",
+        "end": "2026-09-16"
+      },
+      "publishedAt": "2026-09-17",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/17/datafolha-presidente-17-setembro.ghtml"
+    },
+    {
+      "id": "president-br-59",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Indexa",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-10",
+        "end": "2026-09-13"
+      },
+      "publishedAt": "2026-09-15",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/indexa-broadcast-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-60",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "MDA",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-09",
+        "end": "2026-09-13"
+      },
+      "publishedAt": "2026-09-15",
+      "sampleSize": 2002,
+      "marginOfError": 2.2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40.5
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 30.4
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13.5
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2.7
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 1.8
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/nova-rodada-da-pesquisa-cnt-mda-mostra-lula-na-lideranca-do-1o-turno/"
+    },
+    {
+      "id": "governor-mg-10",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "F5",
+      "commissioner": "jmonline.com.br",
+      "fieldDates": {
+        "start": "2026-09-09",
+        "end": "2026-09-12"
+      },
+      "publishedAt": "2026-09-15",
+      "sampleSize": 1560,
+      "marginOfError": 2.5,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 23
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://jmonline.com.br/politica/f5-cleitinho-lidera-com-34-e-sim-es-kalil-e-patrus-disputam-vice-lideranca-ao-governo-de-minas-1.665410"
+    },
+    {
+      "id": "president-br-58",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-10",
+        "end": "2026-09-13"
+      },
+      "publishedAt": "2026-09-14",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/14/quaest-pesquisa-presidente-primeiro-turno-14-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-18",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-09",
+        "end": "2026-09-12"
+      },
+      "publishedAt": "2026-09-14",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 53
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-sao-paulo-setembro-2026/"
+    },
+    {
+      "id": "president-br-57",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-08",
+        "end": "2026-09-11"
+      },
+      "publishedAt": "2026-09-11",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/11/datafolha-2o-turno-presidente-11-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-16",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-07",
+        "end": "2026-09-10"
+      },
+      "publishedAt": "2026-09-11",
+      "sampleSize": 1680,
+      "marginOfError": 2.4,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 49.7
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 34.5
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.4
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 1.8
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 0.7
+        },
+        {
+          "candidateName": "Policial Edjane",
+          "party": null,
+          "percentage": 0.7
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 0.7
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 0.6
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/parana-pesquisas-governador-sao-paulo-setembro-2026/"
+    },
+    {
+      "id": "governor-sp-17",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-08",
+        "end": "2026-09-10"
+      },
+      "publishedAt": "2026-09-11",
+      "sampleSize": 1610,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 49
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Policial Edjane",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/sp/sao-paulo/eleicoes/2026/noticia/2026/09/11/datafolha-sp-governador-11-setembro.ghtml"
+    },
+    {
+      "id": "governor-mg-9",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Datafolha",
+      "commissioner": "terra.com.br",
+      "fieldDates": {
+        "start": "2026-09-08",
+        "end": "2026-09-10"
+      },
+      "publishedAt": "2026-09-11",
+      "sampleSize": 1204,
+      "marginOfError": 3,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 26
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 13
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.terra.com.br/noticias/brasil/politica/datafolha-em-mg-cleitinho-tem-37-em-votos-no-1-turno-patrus-soma-13-e-kalil-pontua-11,d70804847f444ea94f60d2ea64a53c3a0o9qeon5.html"
+    },
+    {
+      "id": "president-br-55",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-06",
+        "end": "2026-09-09"
+      },
+      "publishedAt": "2026-09-10",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-38-contra-36-de-flavio-no-1o-turno/"
+    },
+    {
+      "id": "president-br-56",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "veja.abril.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-09"
+      },
+      "publishedAt": "2026-09-10",
+      "sampleSize": 5000,
+      "marginOfError": 1,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37.4
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6.6
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 6.5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2.1
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 1.1
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://veja.abril.com.br/politica/a-nova-pesquisa-atlasintel-sobre-a-disputa-lula-x-flavio-bolsonaro/"
+    },
+    {
+      "id": "president-br-54",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Palver",
+      "commissioner": "BOL/UOL",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-08"
+      },
+      "publishedAt": "2026-09-09",
+      "sampleSize": 5000,
+      "marginOfError": 2.5,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/09/09/pesquisa-do-instituto-palver---presidente---99.ghtm"
+    },
+    {
+      "id": "president-br-52",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": "Gazeta do Povo",
+      "fieldDates": {
+        "start": "2026-09-03",
+        "end": "2026-09-08"
+      },
+      "publishedAt": "2026-09-09",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-53",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Meio/Ideia",
+      "commissioner": "BOL/UOL",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-09",
+      "sampleSize": 1500,
+      "marginOfError": 2.5,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38.4
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37.3
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6.9
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 6.6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 1.5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1.5
+        }
+      ],
+      "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/09/09/meio-ideia-lula-flavio-bolsonaro-pesquisa-presidencial.ghtm"
+    },
+    {
+      "id": "president-br-50",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "static.poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://static.poder360.com.br/uploads/2026/09/BTG-Nexus-nacional-8set2026.pdf"
+    },
+    {
+      "id": "governor-sp-13",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Quaest",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1800,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/quaest-tarcisio-tem-42-na-disputa-pelo-governo-de-sao-paulo-haddad-27/"
+    },
+    {
+      "id": "governor-sp-15",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Futura Inteligência",
+      "commissioner": "cnnbrasil.com.br",
+      "fieldDates": {
+        "start": "2026-09-02",
+        "end": "2026-09-04"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1600,
+      "marginOfError": 2.4,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 54
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 31.5
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.2
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 0.8
+        },
+        {
+          "candidateName": "Policial Edjane",
+          "party": null,
+          "percentage": 0.8
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 0.7
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 0.6
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 0.4
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/futura-sp-tarcisio-venceria-em-1o-turno-com-54-haddad-tem-315/"
+    },
+    {
+      "id": "governor-mg-7",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Quaest",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1506,
+      "marginOfError": 3,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-minas-gerais-setembro-2026/"
+    },
+    {
+      "id": "governor-mg-8",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-03",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 17
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senado-minas-gerais-setembro-2026/"
+    },
+    {
+      "id": "governor-mg-6",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "AtlasIntel",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-04"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1804,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Patrus Ananias",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 9.2
+        },
+        {
+          "candidateName": "Gabriel Azevedo",
+          "party": null,
+          "percentage": 4.7
+        },
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Flávio Roscoe",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ben Mendes",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 3.1
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/cleitinho-lidera-todos-os-cenarios-de-1o-e-2o-turno-em-minas/"
+    },
+    {
+      "id": "president-br-49",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "bnews.com.br",
+      "fieldDates": {
+        "start": "2026-09-03",
+        "end": "2026-09-06"
+      },
+      "publishedAt": "2026-09-07",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.bnews.com.br/noticias/politica/quaest-mostra-lula-na-lideranca-mas-flavio-encurta-distancia-e-cury-perde-forca-na-corrida-de-2026.html"
+    },
+    {
+      "id": "president-br-51",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Veritá",
+      "commissioner": "francesnews.com.br",
+      "fieldDates": {
+        "start": "2026-09-01",
+        "end": "2026-09-04"
+      },
+      "publishedAt": "2026-09-06",
+      "sampleSize": 3804,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 38.9
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38.4
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 12.2
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3.7
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 3.3
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 1.9
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 0.3
+        }
+      ],
+      "sourceUrl": "https://francesnews.com.br/post/2026/09/26/38199-flavio-bolsonaro-e-lula-estao-empatados-na-disputa-presidencial-aponta-verita"
+    },
+    {
+      "id": "president-br-44",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/03/datafolha-2o-turno-presidente-3-setembro.ghtml"
+    },
+    {
+      "id": "president-br-48",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Poder360/Aya",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-02"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-augusto-cury-vai-de-4-para-10-no-1o-turno/"
+    },
+    {
+      "id": "president-br-47",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura Inteligência",
+      "commissioner": "Apex Partners",
+      "fieldDates": {
+        "start": "2026-08-27",
+        "end": "2026-09-01"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38.7
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33.6
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 9.9
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6.1
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3.5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2.8
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 2.7
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1.6
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/09/04/pesquisa-presidente-2026-veja-como-estao-os-levantamentos-mais-recentes.ghtm"
+    },
+    {
+      "id": "governor-sp-14",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "AtlasIntel",
+      "commissioner": "Estadão · CNN Brasil",
+      "fieldDates": {
+        "start": "2026-08-26",
+        "end": "2026-08-31"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 1810,
+      "marginOfError": 1,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 51.1
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 39.9
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 5.5
+        },
+        {
+          "candidateName": "Carlos Machado",
+          "party": null,
+          "percentage": 1.3
+        },
+        {
+          "candidateName": "Vera Lúcia",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Vivian Mendes",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Policial Edjane",
+          "party": null,
+          "percentage": 0.2
+        },
+        {
+          "candidateName": "Izadora Dias",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlas-estadao-tarcisio-venceria-no-1o-turno-com-511-haddad-tem-399/"
+    },
+    {
+      "id": "president-br-43",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-01"
+      },
+      "publishedAt": "2026-09-02",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-presidente-setembro-2026/"
+    }
+  ]
+}

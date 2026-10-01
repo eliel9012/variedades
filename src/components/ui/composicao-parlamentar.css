@@ -1,0 +1,433 @@
+/* Estilos de Composição Parlamentar vivem aqui, não em src/styles.css,
+   para evitar conflitos com outros agentes trabalhando em paralelo. */
+.composicao-parlamentar {
+  padding: 34px 0 51px;
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.composicao-parlamentar__header h2 {
+  margin: 0 0 10px;
+  color: var(--primary);
+  font: 600 clamp(28px, 4vw, 40px)/1.2 var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+.composicao-parlamentar__lede {
+  max-width: 760px;
+  margin: 0 0 var(--space-lg);
+  color: var(--on-surface-variant);
+  font: 400 15px/24px var(--font-sans);
+}
+
+.composicao-parlamentar__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.composicao-parlamentar__stat {
+  display: grid;
+  gap: 6px;
+  padding: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+}
+
+.composicao-parlamentar__stat strong {
+  color: var(--primary);
+  font: 600 28px/32px var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+.composicao-parlamentar__stat span {
+  color: var(--on-surface-variant);
+  font: 400 13px/18px var(--font-sans);
+}
+
+.composicao-parlamentar__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+.composicao-parlamentar__grid .panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.composicao-parlamentar__calc h2,
+.composicao-parlamentar__limitation h2,
+.composicao-parlamentar__method h2,
+.composicao-parlamentar__table-panel h2,
+.composicao-parlamentar__roster h2 {
+  margin: 0;
+  color: var(--primary);
+  font: 500 24px/32px var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+.composicao-parlamentar__field {
+  display: grid;
+  gap: 6px;
+  margin: var(--space-md) 0;
+}
+
+.composicao-parlamentar__field span {
+  color: var(--on-surface-variant);
+  font: 600 11px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.composicao-parlamentar__field select,
+.composicao-parlamentar__field input {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-default);
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  padding: 10px 12px;
+  font: 400 14px var(--font-sans);
+}
+
+.composicao-parlamentar__field select:hover,
+.composicao-parlamentar__field input:hover,
+.composicao-parlamentar__field select:focus-visible,
+.composicao-parlamentar__field input:focus-visible {
+  border-color: var(--tertiary);
+}
+
+.composicao-parlamentar__formula {
+  display: grid;
+  gap: var(--space-sm);
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--surface-container);
+}
+
+.composicao-parlamentar__formula div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.composicao-parlamentar__formula dt {
+  color: var(--on-surface-variant);
+  font: 400 13px/18px var(--font-sans);
+}
+
+.composicao-parlamentar__formula dd {
+  margin: 0;
+  color: var(--on-surface);
+  font: 600 15px/20px var(--font-sans);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.composicao-parlamentar__formula-result {
+  padding-top: var(--space-sm);
+  border-top: 1px dashed var(--outline-variant);
+}
+
+.composicao-parlamentar__formula-result dd {
+  color: var(--tertiary);
+  font: 600 20px/24px var(--font-serif);
+}
+
+.composicao-parlamentar__formula dd.is-unavailable {
+  color: var(--outline);
+  font: 600 13px/18px var(--font-sans);
+  white-space: normal;
+  text-align: right;
+}
+
+.composicao-parlamentar__note {
+  margin: var(--space-md) 0 0;
+  color: var(--on-surface-variant);
+  font: 400 13px/19px var(--font-sans);
+}
+
+.composicao-parlamentar__limitation p {
+  margin: var(--space-md) 0;
+  color: var(--on-surface-variant);
+  font: 400 14px/22px var(--font-sans);
+}
+
+.composicao-parlamentar__limitation-list {
+  display: grid;
+  gap: 0;
+  margin: var(--space-sm) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.composicao-parlamentar__limitation-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font: 400 13px/18px var(--font-sans);
+}
+
+.composicao-parlamentar__limitation-list li:last-child {
+  border-bottom: 0;
+}
+
+.composicao-parlamentar__limitation-list span {
+  color: var(--on-surface-variant);
+}
+
+.composicao-parlamentar__limitation-list strong {
+  color: var(--outline);
+  font: 600 11px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+.composicao-parlamentar__limitation-list li:last-child strong {
+  color: var(--tertiary);
+}
+
+.composicao-parlamentar__method {
+  padding: var(--space-lg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+}
+
+.composicao-parlamentar__method h2 {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.25;
+}
+
+.composicao-parlamentar__method-source {
+  max-width: 780px;
+  margin: 0 0 var(--space-lg);
+  color: var(--on-surface-variant);
+  font: 400 13px/20px var(--font-sans);
+}
+
+.composicao-parlamentar__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.composicao-parlamentar__step {
+  display: grid;
+  gap: 8px;
+  padding: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-container-lowest);
+}
+
+.composicao-parlamentar__step-tag {
+  display: inline-flex;
+  width: fit-content;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--tertiary) 16%, transparent);
+  color: var(--tertiary);
+  font: 600 10px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.composicao-parlamentar__step h3 {
+  margin: 0;
+  color: var(--on-surface);
+  font: 600 16px/22px var(--font-sans);
+}
+
+.composicao-parlamentar__step p {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font: 400 13px/19px var(--font-sans);
+}
+
+.composicao-parlamentar__step code {
+  display: block;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-container-highest);
+  color: var(--secondary);
+  font: 600 12px/16px ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  overflow-x: auto;
+}
+
+.composicao-parlamentar__table-scroll {
+  overflow-x: auto;
+  margin-top: var(--space-md);
+}
+
+.composicao-parlamentar__uf-table,
+.composicao-parlamentar__roster-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+}
+
+.composicao-parlamentar__uf-table th,
+.composicao-parlamentar__roster-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: var(--on-surface-variant);
+  font: 600 10px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.composicao-parlamentar__uf-table td,
+.composicao-parlamentar__roster-table td {
+  padding: 9px 10px;
+  color: var(--on-surface);
+  font: 400 14px/18px var(--font-sans);
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.composicao-parlamentar__uf-table tr.is-selected td {
+  background: color-mix(in srgb, var(--tertiary) 10%, transparent);
+}
+
+.composicao-parlamentar__uf-table td strong {
+  margin-right: 6px;
+}
+
+.composicao-parlamentar__uf-table td span {
+  color: var(--on-surface-variant);
+  font-size: 12px;
+}
+
+.composicao-parlamentar__uf-table td.is-unavailable,
+.composicao-parlamentar__roster-table td.is-unavailable {
+  color: var(--outline);
+  font-size: 12px;
+  font-style: italic;
+}
+
+.composicao-parlamentar__full-name,
+.composicao-parlamentar__party-name {
+  display: block;
+  color: var(--on-surface-variant);
+  font: 400 12px/16px var(--font-sans);
+}
+
+.composicao-parlamentar__party {
+  color: var(--secondary);
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.composicao-parlamentar__tabs {
+  margin: var(--space-md) 0 0;
+  padding: 0;
+}
+
+.composicao-parlamentar__roster-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-md);
+  margin: var(--space-md) 0 0;
+}
+
+.composicao-parlamentar__field--uf select {
+  min-width: 150px;
+}
+
+.composicao-parlamentar__field--search {
+  flex: 1 1 220px;
+}
+
+.composicao-parlamentar__field--search input {
+  width: 100%;
+}
+
+.composicao-parlamentar__sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1px;
+}
+
+.composicao-parlamentar__sort span {
+  color: var(--on-surface-variant);
+  font: 600 11px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 2px;
+}
+
+.composicao-parlamentar__sort button {
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-full);
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  padding: 7px 14px;
+  font: 600 12px var(--font-sans);
+}
+
+.composicao-parlamentar__sort button:hover {
+  border-color: var(--on-surface);
+}
+
+.composicao-parlamentar__sort button.is-active {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
+@media (max-width: 760px) {
+  .composicao-parlamentar {
+    padding: 25px 0 36px;
+    gap: var(--space-lg);
+  }
+
+  .composicao-parlamentar__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .composicao-parlamentar__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .composicao-parlamentar__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .composicao-parlamentar__method {
+    padding: var(--space-md);
+  }
+
+  .composicao-parlamentar__roster-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .composicao-parlamentar__sort {
+    flex-wrap: wrap;
+  }
+
+  .composicao-parlamentar__formula div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .composicao-parlamentar__formula dd {
+    text-align: left;
+    white-space: normal;
+  }
+}
