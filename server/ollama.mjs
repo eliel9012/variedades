@@ -1,27 +1,38 @@
-// Cliente fino para uma instancia local do Ollama (https://ollama.com).
-// Nao fabrica resposta nenhuma: se o Ollama estiver fora do ar ou o modelo
-// nao estiver baixado, propaga um erro claro para a camada HTTP (server/index.mjs)
-// tratar como 503 honesto, nunca como resposta encenada.
+// Cliente fino para um servidor de LLM local compativel com a API da OpenAI
+// (funciona tanto com llama-swap/llama-server quanto com Ollama, que tambem
+// expoe /v1/chat/completions). Nao fabrica resposta nenhuma: se o servidor
+// estiver fora do ar ou o modelo nao existir, propaga um erro claro para a
+// camada HTTP (server/index.mjs) tratar como 503 honesto, nunca como
+// resposta encenada.
 
-const DEFAULT_OLLAMA_URL = 'http://127.0.0.1:11434'
+const DEFAULT_LLM_URL = 'http://127.0.0.1:11434'
 
-function getOllamaUrl() {
-  return process.env.OLLAMA_URL?.trim() || DEFAULT_OLLAMA_URL
+function getLlmUrl() {
+  return (process.env.LLM_URL || process.env.OLLAMA_URL)?.trim() || DEFAULT_LLM_URL
 }
 
-function getOllamaModel() {
-  return process.env.OLLAMA_MODEL?.trim() || null
+function getLlmModel() {
+  return (process.env.LLM_MODEL || process.env.OLLAMA_MODEL)?.trim() || null
 }
 
-/** GET /api/tags - usado só para checar se o Ollama está respondendo
- * (server/index.mjs -> GET /api/health). Nunca lança: retorna false em
- * qualquer falha (timeout, conexão recusada, etc). */
+function getLlmApiKey() {
+  return (process.env.LLM_API_KEY || process.env.LLAMA_API_KEY)?.trim() || null
+}
+
+function authHeaders() {
+  const key = getLlmApiKey()
+  return key ? { Authorization: `Bearer ${key}` } : {}
+}
+
+/** GET /v1/models - usado só para checar se o servidor de LLM está
+ * respondendo (server/index.mjs -> GET /api/health). Nunca lança: retorna
+ * false em qualquer falha (timeout, conexão recusada, 401, etc). */
 export async function pingOllama() {
-  const url = getOllamaUrl()
+  const url = getLlmUrl()
   try {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 2000)
-    const response = await fetch(`${url}/api/tags`, { signal: controller.signal })
+    const response = await fetch(`${url}/v1/models`, { headers: authHeaders(), signal: controller.signal })
     clearTimeout(timeout)
     return response.ok
   } catch {
@@ -30,30 +41,30 @@ export async function pingOllama() {
 }
 
 /**
- * Chama POST /api/chat do Ollama local (stream:false). Lança um Error com
- * uma mensagem clara se o modelo não estiver configurado (OLLAMA_MODEL
- * ausente), se o Ollama não responder, ou se a resposta não tiver o formato
- * esperado. server/index.mjs captura esse erro e devolve 503 com um corpo
- * honesto -- nunca uma resposta fabricada.
+ * Chama POST /v1/chat/completions (stream:false). Lança um Error com uma
+ * mensagem clara se o modelo não estiver configurado (LLM_MODEL ausente), se
+ * o servidor não responder, ou se a resposta não tiver o formato esperado.
+ * server/index.mjs captura esse erro e devolve 503 com um corpo honesto,
+ * nunca uma resposta fabricada.
  *
  * @param {{ systemPrompt: string, userMessage: string }} params
  * @returns {Promise<string>} o texto da resposta do modelo
  */
 export async function askOllama({ systemPrompt, userMessage }) {
-  const model = getOllamaModel()
+  const model = getLlmModel()
   if (!model) {
     throw new Error(
-      'OLLAMA_MODEL não está definido. Defina a variável de ambiente OLLAMA_MODEL com o nome de um modelo já baixado (ex.: OLLAMA_MODEL=llama3.1 npm run server).',
+      'LLM_MODEL não está definido. Defina a variável de ambiente LLM_MODEL com o nome de um modelo disponível no servidor configurado em LLM_URL (ex.: LLM_MODEL=gpt-oss-20b).',
     )
   }
-  const url = getOllamaUrl()
+  const url = getLlmUrl()
   let response
   try {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 60_000)
-    response = await fetch(`${url}/api/chat`, {
+    const timeout = setTimeout(() => controller.abort(), 120_000)
+    response = await fetch(`${url}/v1/chat/completions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify({
         model,
         stream: false,
@@ -66,21 +77,21 @@ export async function askOllama({ systemPrompt, userMessage }) {
     }).finally(() => clearTimeout(timeout))
   } catch (error) {
     throw new Error(
-      `Não foi possível conectar ao Ollama local em ${url}. Rode "ollama serve" e confirme a URL (variável OLLAMA_URL). Detalhe: ${error instanceof Error ? error.message : String(error)}`,
+      `Não foi possível conectar ao servidor de LLM em ${url}. Confirme que ele está rodando e que LLM_URL aponta pro lugar certo. Detalhe: ${error instanceof Error ? error.message : String(error)}`,
     )
   }
 
   if (!response.ok) {
     const bodyText = await response.text().catch(() => '')
     throw new Error(
-      `Ollama respondeu ${response.status} para o modelo "${model}". Confirme que o modelo foi baixado (ollama pull ${model}). Detalhe: ${bodyText.slice(0, 300)}`,
+      `O servidor de LLM respondeu ${response.status} para o modelo "${model}". Confirme que esse modelo existe no servidor configurado. Detalhe: ${bodyText.slice(0, 300)}`,
     )
   }
 
   const data = await response.json().catch(() => null)
-  const content = data?.message?.content
+  const content = data?.choices?.[0]?.message?.content
   if (typeof content !== 'string' || !content.trim()) {
-    throw new Error('Ollama respondeu em um formato inesperado (sem message.content).')
+    throw new Error('O servidor de LLM respondeu em um formato inesperado (sem choices[0].message.content).')
   }
   return content
 }

@@ -47,13 +47,13 @@ Essa feature tem um processo Node companheiro, separado do `npm run dev`:
 
 1. `GET /api/scenario` funciona sem nenhuma IA instalada; é só matemática simples sobre os JSONs de
    `public/data/polls-*.json`.
-2. Para a caixa de perguntas (`POST /api/ask`), instale e rode o [Ollama](https://ollama.com) localmente
-   (`ollama serve`) e baixe um modelo de chat qualquer, por exemplo `ollama pull llama3.1` (qualquer modelo local de
-   chat serve, não precisa ser esse).
-3. Rode o servidor companheiro junto com o `npm run dev`:
+2. Para a caixa de perguntas (`POST /api/ask`), `server/ollama.mjs` fala com qualquer servidor compatível com a API
+   da OpenAI (`/v1/chat/completions`): tanto [Ollama](https://ollama.com) quanto llama.cpp/llama-swap/llama-server
+   funcionam, sem mudar código, só variável de ambiente.
+3. Rode o servidor companheiro junto com o `npm run dev`, apontando pro seu servidor de LLM:
 
    ```bash
-   OLLAMA_MODEL=llama3.1 npm run server
+   LLM_URL=http://10.99.0.2:8080 LLM_MODEL=gpt-oss-20b LLM_API_KEY="sua-chave" npm run server
    ```
 
    Em outro terminal, `npm run dev` segue normalmente; o Vite já tem um proxy de `/api` para
@@ -62,9 +62,13 @@ Essa feature tem um processo Node companheiro, separado do `npm run dev`:
 Variáveis de ambiente do `npm run server`:
 
 - `PORT`: porta do servidor (padrão `8790`).
-- `OLLAMA_URL`: URL da instância local do Ollama (padrão `http://127.0.0.1:11434`).
-- `OLLAMA_MODEL`: nome do modelo já baixado no Ollama (obrigatório só para `/api/ask`; `/api/scenario` não depende
-  disso).
+- `LLM_URL` (aceita `OLLAMA_URL` como sinônimo): URL base do servidor de LLM compatível com a API da OpenAI
+  (padrão `http://127.0.0.1:11434`, que é o Ollama local; pra llama-swap/llama-server use a URL dele, ex.
+  `http://10.99.0.2:8080`).
+- `LLM_MODEL` (aceita `OLLAMA_MODEL` como sinônimo): nome do modelo disponível nesse servidor (obrigatório só para
+  `/api/ask`; `/api/scenario` não depende disso).
+- `LLM_API_KEY` (aceita `LLAMA_API_KEY` como sinônimo): chave de API, se o servidor exigir (llama-swap normalmente
+  exige; Ollama local normalmente não).
 - `AI_AUTH_USER` / `AI_AUTH_PASS`: credenciais de HTTP Basic Auth exigidas em toda rota `/api/*` (inclusive
   `/api/health`), porque esse processo pode rodar no servidor público (varia.meulab.fun), não só em localhost.
   `AI_AUTH_USER` tem padrão `admin`. Se `AI_AUTH_PASS` não for definida, o servidor gera uma senha aleatória a cada
@@ -72,8 +76,8 @@ Variáveis de ambiente do `npm run server`:
   explicitamente). O navegador pede usuário/senha nativamente na primeira chamada a `/api/*`, sem precisar de tela de
   login própria no front-end.
 
-Os números de probabilidade em `/api/scenario` continuam válidos mesmo sem o Ollama rodando; só a caixa de perguntas
-fica indisponível (e a interface avisa isso claramente, sem fingir uma resposta).
+Os números de probabilidade em `/api/scenario` continuam válidos mesmo sem o servidor de LLM rodando; só a caixa de
+perguntas fica indisponível (e a interface avisa isso claramente, sem fingir uma resposta).
 
 ## Analytics (Umami)
 
