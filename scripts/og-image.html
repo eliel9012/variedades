@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;0,700&family=Plus+Jakarta+Sans:wght@500;600&display=swap');
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html, body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #0d3b2e;
+      }
+
+      .canvas {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        background:
+          radial-gradient(ellipse 900px 500px at 85% 15%, rgba(163, 208, 190, 0.16), transparent 60%),
+          linear-gradient(160deg, #0d3b2e 0%, #0a2d23 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 88px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      .map-accent {
+        position: absolute;
+        right: -60px;
+        top: -80px;
+        width: 560px;
+        height: 560px;
+        opacity: 0.08;
+        background: radial-gradient(circle, #a3d0be 0%, transparent 70%);
+      }
+
+      .mark {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .mark-badge {
+        width: 56px;
+        height: 56px;
+        border-radius: 999px;
+        border: 3px solid #a3d0be;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Newsreader', serif;
+        font-weight: 700;
+        font-size: 24px;
+        color: #f8f6f0;
+      }
+
+      .mark-label {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #a3d0be;
+      }
+
+      h1 {
+        font-family: 'Newsreader', serif;
+        font-weight: 700;
+        font-size: 128px;
+        line-height: 1;
+        color: #fbf9f3;
+        letter-spacing: -0.01em;
+      }
+
+      .subtitle {
+        margin-top: 28px;
+        font-family: 'Newsreader', serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 38px;
+        color: #d7ebe1;
+      }
+
+      .footer-line {
+        margin-top: 56px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #8fb8a6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <div class="map-accent"></div>
+      <div class="mark">
+        <div class="mark-badge">AB</div>
+        <div class="mark-label">Eleições Gerais 2026</div>
+      </div>
+      <h1>Apura Brasil</h1>
+      <p class="subtitle">Apuração ao vivo, direto do TSE</p>
+      <p class="footer-line">eleicoes.meulab.fun · dados públicos · nunca fabrica placar</p>
+    </div>
+  </body>
+</html>
