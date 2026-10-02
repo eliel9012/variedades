@@ -26,6 +26,7 @@ import openpyxl
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SOURCE = ROOT / "data/sources/senado-2026-10-01.xlsx"
 OUTPUT = ROOT / "public/data/polls-senado.json"
+PRIMARY_GLOB_DIR = ROOT / "data/sources"
 
 
 # Matéria original por pesquisa, quando a planilha só cita o compilado da
@@ -245,6 +246,39 @@ def main():
                 "notes": clean(r[col["Notes"]]),
             }
         )
+
+    # Pesquisas conferidas na matéria original (data/sources/senado-primarias-*.json).
+    # Entram como mais um grupo por UF: como são mais recentes que as linhas da
+    # planilha que citavam só o resumo da GCMais (cujos números não batiam com a
+    # fonte primária), pick_most_recent_group fica com elas.
+    state_names = {g["uf"]: g["state"] for g in by_group.values()}
+    for primary_path in sorted(PRIMARY_GLOB_DIR.glob("senado-primarias-*.json")):
+        primary = json.loads(primary_path.read_text(encoding="utf-8"))
+        for poll in primary["polls"]:
+            uf = poll["uf"]
+            group_key = (uf, poll["pollster"], poll["fieldwork"])
+            commissioner = poll.get("commissioner")
+            by_group[group_key] = {
+                "uf": uf,
+                "state": state_names.get(uf),
+                "pollster": poll["pollster"],
+                "fieldwork": poll["fieldwork"],
+                "sample": poll["sample"],
+                "marginOfError": poll["marginOfError"],
+                "tseRegistration": poll["tseRegistration"],
+                "basis": poll["basis"],
+                "completeness": poll["completeness"],
+                "source": f"{poll['pollster']}" + (f" / {commissioner}" if commissioner else ""),
+                "sourceUrl": poll["sourceUrl"],
+                "results": [
+                    {**row, "notes": poll.get("note") if index == 0 else None}
+                    for index, row in enumerate(poll["results"])
+                ],
+            }
+            if group_key not in uf_group_order.setdefault(uf, []):
+                uf_group_order[uf].append(group_key)
+            if not any(s["url"] == poll["sourceUrl"] for s in sources):
+                sources.append({"publisher": poll["sourceUrl"].split("/")[2].removeprefix("www."), "usedFor": f"Senado {uf} ({poll['pollster']}, {poll['fieldwork']})", "url": poll["sourceUrl"]})
 
     states = [
         pick_most_recent_group(uf, [by_group[key] for key in keys])

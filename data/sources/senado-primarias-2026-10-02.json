@@ -1,0 +1,1381 @@
+{
+ "compiledAt": "2026-10-02",
+ "note": "Pesquisas de Senado conferidas na matéria original (sourceUrl de cada uma), substituindo as UFs em que a planilha citava só o resumo da GCMais, cujos números não batiam com as fontes primárias.",
+ "polls": [
+  {
+   "uf": "GO",
+   "pollster": "Quaest",
+   "fieldwork": "20–23 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "GO-01667/2026",
+   "commissioner": "TV Anhanguera",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-goias-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Gracinha Caiado",
+     "party": "União Brasil",
+     "percentage": 21
+    },
+    {
+     "candidateName": "Gustavo Gayer",
+     "party": "PL",
+     "percentage": 13
+    },
+    {
+     "candidateName": "Zacharias Calil",
+     "party": "MDB",
+     "percentage": 12
+    },
+    {
+     "candidateName": "Vanderlan Cardoso",
+     "party": "PSD",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Gustavo Mendanha",
+     "party": "PRD",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Oséias Varão",
+     "party": "PL",
+     "percentage": 3
+    },
+    {
+     "candidateName": "Isaura Lemos",
+     "party": "PSB",
+     "percentage": 3
+    },
+    {
+     "candidateName": "Cíntia Dias",
+     "party": "PSOL",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Ernesto Roller",
+     "party": "PSDB",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Guilherme Darques",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Iure Castro",
+     "party": "Cidadania",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 22
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 8
+    }
+   ]
+  },
+  {
+   "uf": "SC",
+   "pollster": "Quaest",
+   "fieldwork": "20–23 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "SC-04783/2026",
+   "commissioner": "NSC Comunicações",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-senador-santa-catarina-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Carol De Toni",
+     "party": "PL",
+     "percentage": 17
+    },
+    {
+     "candidateName": "Carlos Bolsonaro",
+     "party": "PL",
+     "percentage": 16
+    },
+    {
+     "candidateName": "Esperidião Amin",
+     "party": "PP",
+     "percentage": 15
+    },
+    {
+     "candidateName": "Décio Lima",
+     "party": "PT",
+     "percentage": 10
+    },
+    {
+     "candidateName": "Afrânio Boppré",
+     "party": "PSOL",
+     "percentage": 4
+    },
+    {
+     "candidateName": "Lunelli",
+     "party": "MDB",
+     "percentage": 3
+    },
+    {
+     "candidateName": "Carol",
+     "party": "PCO",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Túlio de Amorim Pfuetzenreiter",
+     "party": "Missão",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Ana Lúcia da Silveira Machado",
+     "party": "UP",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Marcos Dorval",
+     "party": "PSTU",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Jeferson Rocha",
+     "party": "PRD",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Marlene Soccas",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Joaninha de Oliveira",
+     "party": "PSTU",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 22
+    },
+    {
+     "candidateName": "Branco/Nulo",
+     "party": null,
+     "percentage": 9
+    }
+   ]
+  },
+  {
+   "uf": "MA",
+   "pollster": "Quaest",
+   "fieldwork": "21–24 Sep 2026",
+   "sample": "900",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "MA-07074/2026",
+   "commissioner": "TV Mirante",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-maranhao-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Roseana Sarney",
+     "party": "MDB",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Fufuca",
+     "party": "PP",
+     "percentage": 15
+    },
+    {
+     "candidateName": "Lahesio Bonfim",
+     "party": "Novo",
+     "percentage": 12
+    },
+    {
+     "candidateName": "Weverton Rocha",
+     "party": "PDT",
+     "percentage": 10
+    },
+    {
+     "candidateName": "Eliziane Gama",
+     "party": "PT",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Dr. Hilton Gonçalo",
+     "party": "Mobiliza",
+     "percentage": 4
+    },
+    {
+     "candidateName": "Cidônio Gonçalves",
+     "party": "PL",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Simplício Araújo",
+     "party": "DC",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Raimundo Moreira",
+     "party": "PCB",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Wilson Leite",
+     "party": "PSTU",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Enilton Rodrigues",
+     "party": "PSOL",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 17
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 11
+    }
+   ]
+  },
+  {
+   "uf": "MT",
+   "pollster": "Quaest",
+   "fieldwork": "21–24 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "MT-08098/2026",
+   "commissioner": "TV Centro América",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-mato-grosso-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Mauro Mendes",
+     "party": "União Brasil",
+     "percentage": 27
+    },
+    {
+     "candidateName": "Janaína Riva",
+     "party": "MDB",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Pedro Taques",
+     "party": "PSB",
+     "percentage": 9
+    },
+    {
+     "candidateName": "Zé Medeiros",
+     "party": "PL",
+     "percentage": 9
+    },
+    {
+     "candidateName": "Fávaro",
+     "party": "PSD",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Galvan",
+     "party": "Avante",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Coronel Darwin",
+     "party": "Democrata",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Margareth Buzetti",
+     "party": "PP",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Professor Nelson Ferreira",
+     "party": "Agir",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Beny Godoy",
+     "party": "Agir",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 18
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 5
+    }
+   ]
+  },
+  {
+   "uf": "MS",
+   "pollster": "Quaest",
+   "fieldwork": "21–24 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "MS-09580/2026",
+   "commissioner": "TV Morena",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-mato-grosso-do-sul-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Capitão Contar",
+     "party": "PL",
+     "percentage": 23
+    },
+    {
+     "candidateName": "Reinaldo Azambuja",
+     "party": "PL",
+     "percentage": 22
+    },
+    {
+     "candidateName": "Soraya",
+     "party": "PSB",
+     "percentage": 10
+    },
+    {
+     "candidateName": "Vander Loubet",
+     "party": "PT",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Roberto Oshiro",
+     "party": "Novo",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Beto do Movimento",
+     "party": "PSOL",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Daniel Junior",
+     "party": "Agir",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Luiz Lemes",
+     "party": "DC",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Valderi Garcia",
+     "party": "PCO",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Valter da Comagran",
+     "party": "PRD",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 18
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 12
+    }
+   ]
+  },
+  {
+   "uf": "DF",
+   "pollster": "Quaest",
+   "fieldwork": "25–28 Sep 2026",
+   "sample": "1104",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "DF-02515/2026",
+   "commissioner": "TV Globo",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-distrito-federal-setembro-2026-3/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Michelle Bolsonaro",
+     "party": "PL",
+     "percentage": 26
+    },
+    {
+     "candidateName": "Leila do Vôlei",
+     "party": "PDT",
+     "percentage": 20
+    },
+    {
+     "candidateName": "Bia Kicis",
+     "party": "PL",
+     "percentage": 18
+    },
+    {
+     "candidateName": "Erika Kokay",
+     "party": "PT",
+     "percentage": 16
+    },
+    {
+     "candidateName": "Sebastião Coelho",
+     "party": "Novo",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Ronaldo Fonseca",
+     "party": "PSD",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Professor Guilherme Amorim",
+     "party": "UP",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Zanata",
+     "party": "PSTU",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Guto Felício dos Santos",
+     "party": "PSDB",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Tiago",
+     "party": "Agir",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Marley",
+     "party": "Avante",
+     "percentage": 0
+    },
+    {
+     "candidateName": "David Horn",
+     "party": "PCO",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 6
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 10
+    }
+   ]
+  },
+  {
+   "uf": "AC",
+   "pollster": "Quaest",
+   "fieldwork": "21–24 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "AC-08968/2026",
+   "commissioner": "Rede Amazônica",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-acre-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Gladson Camelí",
+     "party": "PP",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Márcio Bittar",
+     "party": "PL",
+     "percentage": 14
+    },
+    {
+     "candidateName": "Mara Rocha",
+     "party": "Republicanos",
+     "percentage": 13
+    },
+    {
+     "candidateName": "Jorge Viana",
+     "party": "PT",
+     "percentage": 12
+    },
+    {
+     "candidateName": "Petecão",
+     "party": "PSD",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Eduardo Velloso",
+     "party": "Solidariedade",
+     "percentage": 6
+    },
+    {
+     "candidateName": "Dr. Júnior Feitosa",
+     "party": "DC",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Professor Inácio Moreira",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 8
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 17
+    }
+   ]
+  },
+  {
+   "uf": "AP",
+   "pollster": "Quaest",
+   "fieldwork": "20–23 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "AP-02117/2026",
+   "commissioner": "Rede Amazônica",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-amapa-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Rayssa Furlan",
+     "party": "Podemos",
+     "percentage": 28
+    },
+    {
+     "candidateName": "Randolfe Rodrigues",
+     "party": "PT",
+     "percentage": 20
+    },
+    {
+     "candidateName": "Lucas Barreto",
+     "party": "PSD",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Alliny Serrão",
+     "party": "União Brasil",
+     "percentage": 11
+    },
+    {
+     "candidateName": "Acácio Favacho",
+     "party": "MDB",
+     "percentage": 9
+    },
+    {
+     "candidateName": "João Capiberibe",
+     "party": "PSB",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Joenilda Lenzi",
+     "party": "DC",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Uzian Machado",
+     "party": "DC",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Hélio Silva",
+     "party": "PCO",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 4
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 5
+    }
+   ]
+  },
+  {
+   "uf": "AM",
+   "pollster": "Quaest",
+   "fieldwork": "20–23 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "AM-1856/2026",
+   "commissioner": "Rede Amazônica",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-amazonas-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Eduardo Braga",
+     "party": "MDB",
+     "percentage": 27
+    },
+    {
+     "candidateName": "Capitão Alberto Neto",
+     "party": "PL",
+     "percentage": 17
+    },
+    {
+     "candidateName": "Plínio Valério",
+     "party": "PSDB",
+     "percentage": 14
+    },
+    {
+     "candidateName": "Wilson Lima",
+     "party": "União Brasil",
+     "percentage": 13
+    },
+    {
+     "candidateName": "Ismael Munduruku",
+     "party": "Rede",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Professora Evany",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Xuxa do Amazonas",
+     "party": "Mobiliza",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Dailson Corrêa",
+     "party": "DC",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Evandro de Oliveira",
+     "party": "PSTU",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 16
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 9
+    }
+   ]
+  },
+  {
+   "uf": "PB",
+   "pollster": "Quaest",
+   "fieldwork": "18–21 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "PB-01325/2026",
+   "commissioner": "TV Cabo Branco / TV Paraíba",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-paraiba-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "João Azevêdo",
+     "party": "PSB",
+     "percentage": 28
+    },
+    {
+     "candidateName": "Veneziano Vital do Rêgo",
+     "party": "MDB",
+     "percentage": 18
+    },
+    {
+     "candidateName": "Nabor Wanderley",
+     "party": "Republicanos",
+     "percentage": 12
+    },
+    {
+     "candidateName": "Marcelo Queiroga",
+     "party": "PL",
+     "percentage": 7
+    },
+    {
+     "candidateName": "Major Fábio",
+     "party": "Novo",
+     "percentage": 3
+    },
+    {
+     "candidateName": "André Gadelha",
+     "party": "MDB",
+     "percentage": 1
+    },
+    {
+     "candidateName": "João Batista",
+     "party": "UP",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Adriano Trajano",
+     "party": "PCO",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Rinaldo Júnior",
+     "party": "DC",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Rosilene Santana",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 14
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 16
+    }
+   ]
+  },
+  {
+   "uf": "RN",
+   "pollster": "Quaest",
+   "fieldwork": "21–24 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "RN-01492/2026",
+   "commissioner": "InterTV Cabugi",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-rio-grande-do-norte-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Styvenson Valentim",
+     "party": "Podemos",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Zenaide Maia",
+     "party": "PSD",
+     "percentage": 12
+    },
+    {
+     "candidateName": "Samanda de Lula",
+     "party": "PT",
+     "percentage": 9
+    },
+    {
+     "candidateName": "Coronel Hélio",
+     "party": "PL",
+     "percentage": 9
+    },
+    {
+     "candidateName": "Rafael Motta",
+     "party": "PDT",
+     "percentage": 7
+    },
+    {
+     "candidateName": "Rosália Fernandes",
+     "party": "PSTU",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Sandro Pimentel",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Gari Wendell Batista",
+     "party": "Agir",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Tércio Tinoco",
+     "party": "União Brasil",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Professor Guilherme",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Sônia Godeiro",
+     "party": "PSOL",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Clóvis Costa do Coletivo Nós",
+     "party": "Agir",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Luciana Mandu",
+     "party": "PSTU",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 17
+    },
+    {
+     "candidateName": "Nenhum/Branco/Não vai votar",
+     "party": null,
+     "percentage": 23
+    }
+   ]
+  },
+  {
+   "uf": "RO",
+   "pollster": "Quaest",
+   "fieldwork": "20–23 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "RO-08556/2026",
+   "commissioner": "Rede Amazônica",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-rondonia-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Dr. Fernando Máximo",
+     "party": "PL",
+     "percentage": 18
+    },
+    {
+     "candidateName": "Sílvia Cristina",
+     "party": "PP",
+     "percentage": 16
+    },
+    {
+     "candidateName": "Mariana Carvalho",
+     "party": "Republicanos",
+     "percentage": 11
+    },
+    {
+     "candidateName": "Bruno Bolsonaro Scheid",
+     "party": "PL",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Acir Gurgacz",
+     "party": "PDT",
+     "percentage": 4
+    },
+    {
+     "candidateName": "Luciana Oliveira",
+     "party": "PT",
+     "percentage": 3
+    },
+    {
+     "candidateName": "Engenheiro Thulio",
+     "party": "Missão",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Luis Fernando",
+     "party": "PSD",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Neidinha",
+     "party": "PSB",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Aires Mota",
+     "party": "PV",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 27
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 10
+    }
+   ]
+  },
+  {
+   "uf": "RR",
+   "pollster": "Quaest",
+   "fieldwork": "21–29 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "RR-03658/2026",
+   "commissioner": "Rede Amazônica",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-roraima-setembro-2026/",
+   "note": "Período de campo como publicado pela fonte (21 a 29/09), embora a divulgação seja de 26/09.",
+   "results": [
+    {
+     "candidateName": "Teresa Surita",
+     "party": "MDB",
+     "percentage": 22
+    },
+    {
+     "candidateName": "Antonio Carlos Nicoletti",
+     "party": "PL",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Helena da Asatur",
+     "party": "PSD",
+     "percentage": 17
+    },
+    {
+     "candidateName": "Chico Rodrigues",
+     "party": "PSB",
+     "percentage": 14
+    },
+    {
+     "candidateName": "Regina Tio Ivo",
+     "party": "Novo",
+     "percentage": 3
+    },
+    {
+     "candidateName": "Pastor Isamar",
+     "party": "União Brasil",
+     "percentage": 3
+    },
+    {
+     "candidateName": "Hélio Fernando Barbosa Lopes",
+     "party": "PL",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Hilton Xavier",
+     "party": "Avante",
+     "percentage": 2
+    },
+    {
+     "candidateName": "Márcio Junqueira",
+     "party": "PSDB",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Mário Rocha",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Bartô Macuxi",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Hipérion de Oliveira",
+     "party": "PV",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Rogério Miranda",
+     "party": "DC",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 10
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 5
+    }
+   ]
+  },
+  {
+   "uf": "TO",
+   "pollster": "Quaest",
+   "fieldwork": "19–22 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "TO-00371/2026",
+   "commissioner": "TV Anhanguera",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-tocantins-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Eduardo Gomes",
+     "party": "PL",
+     "percentage": 18
+    },
+    {
+     "candidateName": "Carlos Gaguim",
+     "party": "União Brasil",
+     "percentage": 16
+    },
+    {
+     "candidateName": "Alexandre Guimarães",
+     "party": "MDB",
+     "percentage": 11
+    },
+    {
+     "candidateName": "Eli Borges",
+     "party": "Republicanos",
+     "percentage": 8
+    },
+    {
+     "candidateName": "Paulo Mourão",
+     "party": "PT",
+     "percentage": 7
+    },
+    {
+     "candidateName": "Vanderlei Luxemburgo",
+     "party": "Podemos",
+     "percentage": 6
+    },
+    {
+     "candidateName": "Ronaldo Dimas",
+     "party": "Podemos",
+     "percentage": 6
+    },
+    {
+     "candidateName": "Helio Rodrigues Bolsonaro",
+     "party": "Democrata",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Professor Osvaldo",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Coronel Nilton Santos",
+     "party": "Novo",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Fábio Ribeiro",
+     "party": "Rede",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Apóstolo Flavio Braga",
+     "party": "DC",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Osvany Luz",
+     "party": "Democrata",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 16
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 9
+    }
+   ]
+  },
+  {
+   "uf": "AL",
+   "pollster": "Quaest",
+   "fieldwork": "21–24 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "AL-09692/2026",
+   "commissioner": "Elo Comunicação",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-alagoas-setembro-2026/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Marina JHC",
+     "party": "PSDB",
+     "percentage": 20
+    },
+    {
+     "candidateName": "Arthur Lira",
+     "party": "PP",
+     "percentage": 20
+    },
+    {
+     "candidateName": "Renan Calheiros",
+     "party": "MDB",
+     "percentage": 17
+    },
+    {
+     "candidateName": "Davi Davino Filho",
+     "party": "Republicanos",
+     "percentage": 10
+    },
+    {
+     "candidateName": "Dr. Wanderley",
+     "party": "MDB",
+     "percentage": 7
+    },
+    {
+     "candidateName": "Mariedson",
+     "party": "Democrata",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Alexandre Fleming",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 16
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 10
+    }
+   ]
+  },
+  {
+   "uf": "PA",
+   "pollster": "Quaest",
+   "fieldwork": "22–25 Sep 2026",
+   "sample": "804",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "PA-07042/2026",
+   "commissioner": null,
+   "basis": "As reported by CartaCapital (sums to 100%; basis not stated)",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.cartacapital.com.br/politica/quaest-helder-lidera-para-o-senado-no-para-com-3-candidatos-na-briga-pela-2a-vaga/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Helder Barbalho",
+     "party": "MDB",
+     "percentage": 25
+    },
+    {
+     "candidateName": "Delegado Éder Mauro",
+     "party": "PL",
+     "percentage": 15
+    },
+    {
+     "candidateName": "Chicão",
+     "party": "União Brasil",
+     "percentage": 15
+    },
+    {
+     "candidateName": "Zequinha Marinho",
+     "party": "Podemos",
+     "percentage": 10
+    },
+    {
+     "candidateName": "Celso Sabino",
+     "party": "PDT",
+     "percentage": 5
+    },
+    {
+     "candidateName": "Gizelle Freitas",
+     "party": "PSOL",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Lívia Noronha",
+     "party": "Solidariedade",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Coronel Jonildo",
+     "party": "DC",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Fernanda Lopes",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Breno Guimarães",
+     "party": "Mobiliza",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Marcelino Conti",
+     "party": "PSOL",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Edlaine Rodrigues",
+     "party": "Democrata",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Indecisos",
+     "party": null,
+     "percentage": 16
+    },
+    {
+     "candidateName": "Branco/Nulo/Não vai votar",
+     "party": null,
+     "percentage": 11
+    }
+   ]
+  },
+  {
+   "uf": "PR",
+   "pollster": "Real Time Big Data",
+   "fieldwork": "24–28 Sep 2026",
+   "sample": "1600",
+   "marginOfError": "±2 pp",
+   "tseRegistration": "PR-04181/2026",
+   "commissioner": "TV Independência",
+   "basis": "2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-senado-parana-setembro-2026-3/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Deltan Dallagnol",
+     "party": "Novo",
+     "percentage": 19
+    },
+    {
+     "candidateName": "Alexandre Curi",
+     "party": "Republicanos",
+     "percentage": 18
+    },
+    {
+     "candidateName": "Filipe Barros",
+     "party": "PL",
+     "percentage": 18
+    },
+    {
+     "candidateName": "Gleisi Hoffmann",
+     "party": "PT",
+     "percentage": 16
+    },
+    {
+     "candidateName": "Cristina Graeml",
+     "party": "PSD",
+     "percentage": 15
+    },
+    {
+     "candidateName": "Dr. Rosinha",
+     "party": "PT",
+     "percentage": 6
+    },
+    {
+     "candidateName": "Karen Guerreiro",
+     "party": "Missão",
+     "percentage": 1
+    },
+    {
+     "candidateName": "Marcelo Marcelino",
+     "party": "PCO",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Joaquim do MLB",
+     "party": "UP",
+     "percentage": 0
+    },
+    {
+     "candidateName": "Não sabe/Não respondeu",
+     "party": null,
+     "percentage": 4
+    },
+    {
+     "candidateName": "Branco/Nulo",
+     "party": null,
+     "percentage": 3
+    }
+   ]
+  },
+  {
+   "uf": "PI",
+   "pollster": "AtlasIntel",
+   "fieldwork": "23–28 Sep 2026",
+   "sample": "1200",
+   "marginOfError": "±3 pp",
+   "tseRegistration": "PI-07497/2026",
+   "commissioner": "TV Meio Norte",
+   "basis": "Valid votes, 2 votes consolidated, reduced to 100%",
+   "completeness": "Full candidate list",
+   "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-governador-senador-piaui-setembro-2026-2/",
+   "note": null,
+   "results": [
+    {
+     "candidateName": "Marcelo Castro",
+     "party": "MDB",
+     "percentage": 30.7
+    },
+    {
+     "candidateName": "Júlio César",
+     "party": "PSD",
+     "percentage": 30.6
+    },
+    {
+     "candidateName": "Ciro Nogueira",
+     "party": "PP",
+     "percentage": 17.9
+    },
+    {
+     "candidateName": "Tiago Junqueira",
+     "party": "PL",
+     "percentage": 13.1
+    },
+    {
+     "candidateName": "Antônio José Lira",
+     "party": "Avante",
+     "percentage": 2.5
+    },
+    {
+     "candidateName": "Maria Madalena Nunes",
+     "party": "PSOL",
+     "percentage": 1.4
+    },
+    {
+     "candidateName": "Outros",
+     "party": null,
+     "percentage": 3.7
+    }
+   ]
+  }
+ ]
+}
