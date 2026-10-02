@@ -426,6 +426,8 @@ function App() {
         </div>
       </section>
 
+      <div className="page-layout">
+      <div className="page-main">
       <div className="view-tabs" role="tablist" aria-label="Modo de visualização">
         <button
           type="button"
@@ -500,6 +502,11 @@ function App() {
           Cenários (IA)
         </button>
       </div>
+
+      {/* Visível só em telas estreitas (ver ad-slot.css); nas largas o mesmo
+          espaço de anúncio já aparece na coluna lateral (.page-sidebar) logo
+          abaixo, nunca os dois ao mesmo tempo. */}
+      <AdSlot slot="in-content" />
 
       {(activeTab === 'presidente' || activeTab === 'governadorSenador') && (
         <section className="control-strip" aria-label="Filtros de apuração">
@@ -603,6 +610,12 @@ function App() {
           </section>
         </>
       )}
+      </div>
+
+      <aside className="page-sidebar" aria-label="Barra lateral">
+        <AdSlot slot="sidebar" />
+      </aside>
+      </div>
 
       <AdSlot slot="footer" />
       <footer><span>APURA BRASIL / 2026</span><span>Dados públicos · feito para continuar funcionando</span><span>Polling TSE · 15s · cache offline</span></footer>

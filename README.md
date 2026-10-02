@@ -109,11 +109,70 @@ não Google Analytics.
 
 ## Anúncios
 
-Dois slots reservados (header e rodapé, `src/components/ui/ad-slot.tsx`) que ficam com altura zero enquanto vazios,
-então não atrapalham leitura. Pra ativar, defina `VITE_AD_SCRIPT_URL` (e `VITE_AD_CLIENT_ID` se a rede pedir) no build
-(ver `.env.example`); também depende da pessoa aceitar cookie de anúncio no banner (`src/cookie-consent.ts`). Funciona
-com qualquer rede que use uma tag `<script src="...">` simples (Google AdSense, Media.net, etc). Nunca use "Auto ads"
-dessas redes (a rede escolhe a posição sozinha e pode cair em cima de conteúdo); os dois slots fixos aqui bastam.
+Quatro slots reservados e fixos, `src/components/ui/ad-slot.tsx`: `header`, `footer`, `sidebar` (coluna lateral,
+só aparece em telas largas, ≥1100px) e `in-content` (bloco dentro do corpo do conteúdo, só aparece em telas mais
+estreitas, <1100px). Nunca os dois últimos ao mesmo tempo, pra não dobrar carga de anúncio em quem já vê a coluna
+lateral. Todos ficam com altura zero enquanto vazios (`ad-slot.css`, `:empty`), então não existe caixa vazia
+atrapalhando leitura.
+
+Cada slot só mostra uma unidade de anúncio quando **três** coisas são verdade ao mesmo tempo:
+
+1. `VITE_AD_SCRIPT_URL` está preenchido no build (o script global da rede, carregado uma vez no `<head>`, ver
+   `src/ads.ts`) e esse script termina de carregar;
+2. a pessoa aceitou o cookie de anúncio no banner (`src/cookie-consent.ts`);
+3. aquela posição específica tem um ID de unidade preenchido: `VITE_AD_SLOT_HEADER`, `VITE_AD_SLOT_FOOTER`,
+   `VITE_AD_SLOT_SIDEBAR` ou `VITE_AD_SLOT_INCONTENT` (ver `.env.example`).
+
+Sem uma dessas três, aquele slot nunca renderiza nada, nem um placeholder, nem uma caixa "anúncio aqui".
+
+Nunca use "Auto ads" das redes (a rede escolhe a posição sozinha e pode cair em cima de dado eleitoral); os quatro
+slots fixos aqui bastam e mantêm o anúncio longe dos números.
+
+### Contrato técnico (pra quando a rede real entrar)
+
+`src/ads.ts` carrega **um** script global por rede (padrão comum a AdSense, Media.net, Ezoic etc). Cada `AdSlot`
+depois renderiza seu próprio `<ins data-ad-slot-id="...">` (nome genérico de espaço reservado) assim que
+script+consentimento+ID da posição estiverem prontos, e dispara um "escaneia e preenche" genérico
+(`requestAdFill()`) uma vez por posição. Isso imita o padrão real dessas redes (AdSense: array global
+`window.adsbygoogle` + `.push({})` por `<ins>`; Ezoic: `ezstandalone.showAds(id)` por placeholder), só que com nomes
+neutros. Quando a rede for escolhida de verdade, o ajuste é pequeno e fica todo marcado com comentário em
+`src/ads.ts` e `src/components/ui/ad-slot.tsx`: trocar o nome do array/função global dentro de `requestAdFill()`, e
+trocar a tag/atributo do `<ins>` pelo formato exato que a rede pedir (ex. `class="adsbygoogle"` +
+`data-ad-client`/`data-ad-slot` no caso de uma rede da família AdSense).
+
+## Rede de anúncios
+
+Hoje o site não tem conta em nenhuma rede (AdSense foi rejeitado/não seguido adiante). Comparação rápida das
+alternativas mais sérias, pensando num site de política/eleições brasileiro, com tráfego alto esperado, conteúdo em
+português, e a exigência de não deixar anúncio atrapalhar visualmente os dados (sidebar + bloco no texto, nunca
+anúncio flutuante/intersticial por cima de número):
+
+| Rede | Dificuldade de aprovação p/ conteúdo político | Tráfego mínimo | Integração | Serve pra este site? |
+|---|---|---|---|---|
+| **Media.net** | Moderada, mas **exige site majoritariamente em inglês** pra aprovar | ~10 mil visitas/mês | Script global + `<ins>`/`<div>` por posição | **Não.** O site é em português; essa exigência de idioma desqualifica de cara, não é sobre o conteúdo ser político. |
+| **Ezoic** | Moderada; aceita qualquer idioma suportado pelo AdSense (inclui português; tem publisher brasileiro de caso real documentado) | Historicamente ~10 mil visitas/mês; programa "Access Now" cobre sites menores; alguns relatos de 2026 citam patamar bem mais alto pro acesso completo (vale confirmar no cadastro) | Script global + `<div id="ezoic-pub-ad-placeholder-N">` por posição, chamando `ezstandalone.showAds(N)` | **Sim, é a recomendação.** Aceita português, aceita o formato "script global + unidade por posição" que já está implementado aqui, usa IA pra testar layout sem precisar de anúncio intersticial agressivo, e tem um histórico mais "editorial" (parceiro certificado do Google) que combina com um site de dado público. |
+| Adsterra / PropellerAds | Aprovação fácil, aceitam praticamente qualquer site incluindo político | Sem mínimo relevante | Script + `<ins>`/`<div>` | Não recomendado aqui. Formatos comuns dessas redes (pop-under, interstitial, redirect) são exatamente o tipo de anúncio que atrapalha a leitura de dado eleitoral e prejudica a credibilidade de um site de apuração; servem melhor a sites de entretenimento/tráfego descartável. |
+| Google Ad Manager direto (fora do AdSense) | Alta (precisa de relação comercial/mínimo de inventário com a Google ou um revendedor) | Tipicamente dezenas de milhões de impressões/mês | Tag própria do GAM, mesmo padrão de "script + slot por posição" | Vale revisitar **depois** que o tráfego do Ezoic comprovar volume alto de verdade; não é um ponto de partida viável sem relação comercial prévia. |
+
+**Recomendação: Ezoic.** Critério de desempate contra Media.net é o idioma (desqualificador, não ajustável). Contra
+Adsterra/PropellerAds é o tipo de formato de anúncio (os dois priorizam CPM alto com formatos intrusivos, incompatível
+com "não pode atrapalhar visualmente os dados"). Ezoic é o único das opções realistas hoje que: aceita conteúdo em
+português, tem casos de uso reais com publishers brasileiros, roda no mesmo desenho técnico de "script global +
+unidade por posição" que esse repositório já implementa (`src/ads.ts`/`ad-slot.tsx`), e tem reputação de
+"display ads" tradicionais em vez de formato agressivo.
+
+### Próximos passos (precisa de uma pessoa, não dá pra automatizar)
+
+1. Cadastrar o domínio em [ezoic.com](https://www.ezoic.com) (precisa de CPF/CNPJ e dado de pagamento de quem for
+   receber, por isso não dá pra fazer por aqui).
+2. Depois de aprovado, o painel do Ezoic dá: a URL do script global (vai em `VITE_AD_SCRIPT_URL`) e um ID de
+   unidade/placeholder por posição que você criar no painel (header, rodapé, lateral, no texto). Cada um desses IDs
+   vai numa env var: `VITE_AD_SLOT_HEADER`, `VITE_AD_SLOT_FOOTER`, `VITE_AD_SLOT_SIDEBAR`, `VITE_AD_SLOT_INCONTENT`.
+3. Se o formato exato de unidade do Ezoic não for um `<ins>` genérico (ver "Contrato técnico" acima), ajustar
+   `src/components/ui/ad-slot.tsx` e a função `requestAdFill()` em `src/ads.ts` pro nome/formato exato que o painel
+   do Ezoic pedir (o comentário em cada arquivo mostra exatamente o que trocar).
+4. Rodar o build com as env vars preenchidas (`.env.production` ou variável do processo), confirmar visualmente que
+   nenhum anúncio cai em cima de mapa/tabela/número antes de publicar.
 
 ## Cache (Cloudflare)
 

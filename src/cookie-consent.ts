@@ -33,5 +33,7 @@ export function setConsent(value: ConsentValue) {
 
 export function onConsentChange(listener: Listener) {
   listeners.add(listener)
-  return () => listeners.delete(listener)
+  return () => {
+    listeners.delete(listener)
+  }
 }

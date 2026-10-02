@@ -224,6 +224,21 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
   .state-panel__pill { min-height: 36px; display: inline-flex; align-items: center; }
 }
 
+/* ---- Layout de anúncio lateral (desktop) ----
+   .page-layout envolve todo o corpo de conteúdo dependente de aba (abas,
+   mapa, painéis, StatsBento etc) e acrescenta uma coluna lateral só pra
+   anúncio, sem mexer no grid interno de cada seção (.status-grid,
+   .content-grid continuam 2 colunas dentro de .page-main). Abaixo de 1100px
+   não tem espaço real pra um anúncio vertical ao lado do conteúdo sem
+   espremer o resto, então a coluna lateral some (ver ad-slot.css) e quem
+   aparece em troca é o slot "in-content" dentro de .page-main. */
+.page-layout { display: block; }
+.page-main { min-width: 0; }
+.page-sidebar { width: 300px; }
+@media (min-width: 1100px) {
+  .page-layout { display: grid; grid-template-columns: 1fr 300px; align-items: start; gap: var(--gutter); }
+}
+
 /* ---- Favoritar candidato (usado em várias listas: presidente, estados, composição parlamentar) ---- */
 .favorite-button {
   flex: 0 0 auto;
