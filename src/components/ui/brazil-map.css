@@ -15,6 +15,7 @@
   background: color-mix(in srgb, var(--brazil-map-paper) 82%, white);
 }
 
+.brazil-map--no-details { grid-template-columns: minmax(0, 1fr); }
 .brazil-map__figure { min-width: 0; margin: 0; }
 .brazil-map__svg { display: block; width: 100%; height: auto; min-height: 320px; }
 .brazil-map__state {
@@ -59,7 +60,7 @@
 .brazil-map__offices { margin: auto 0 0; padding-top: 28px; }
 .brazil-map__offices p { margin: 0 0 9px; color: var(--brazil-map-muted); font: 600 10px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .brazil-map__offices ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; color: var(--brazil-map-ink); font-size: 13px; }
-.brazil-map__offices li::before { content: '—'; margin-right: 7px; color: var(--brazil-map-active); }
+.brazil-map__offices li::before { content: '\2022'; margin-right: 7px; color: var(--brazil-map-active); }
 .brazil-map__offices button { display: inline-flex; align-items: center; gap: 8px; padding: 3px 0; border: 0; background: transparent; color: var(--brazil-map-ink); font: inherit; text-align: left; }
 .brazil-map__offices button span { color: var(--brazil-map-muted); opacity: 0; transition: opacity 140ms ease; }
 .brazil-map__offices button:hover span, .brazil-map__offices button:focus-visible span, .brazil-map__offices button.is-selected span { opacity: 1; }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Candidate, ResultSnapshot } from '../../types'
 import { BRAZIL_STATE_BY_UF } from '../../data/brazil-states'
+import { BrazilMap } from './brazil-map'
 import './pesquisas-tracker.css'
 
 export type PesquisasTrackerProps = {
@@ -149,8 +150,86 @@ function completenessLabelPt(completeness: string) {
   return completeness
 }
 
+/** Várias fontes incluem linhas pseudo-candidato no array de resultados
+ * ("Indecisos", "Votos nulos, brancos ou em nenhum candidato", "Não sabe/Não
+ * opinou" etc.). Elas não são candidatos e não devem ganhar o selo de
+ * "Líder" mesmo quando somam o maior percentual da pesquisa. Não dá para
+ * usar "tem partido" como critério: algumas fontes (ex.: Vox Brasil) não
+ * informam partido nem para o candidato que de fato lidera. */
+function isPseudoCandidateRow(candidateName: string) {
+  return /indecis|branco|\bnulo|não sabe|nao sabe|não soube|nao soube|não opin|nao opin|não respond|nao respond|nenhum candidato|não vai votar|nao vai votar|outras respostas|^outros\b/i.test(
+    candidateName,
+  )
+}
+
+/** Marca o resultado líder de uma pesquisa (maior percentual) para destaque
+ * visual. Só marca quando há mais de um candidato, o percentual é um número
+ * real (nunca em cards com "dado indisponível" ou candidato único) e a linha
+ * não é um pseudo-candidato (indecisos/brancos/nulos/etc.). */
+function isLeadingResult(
+  candidateName: string,
+  percentage: number | null | undefined,
+  topPercentage: number,
+  resultsCount: number,
+) {
+  return (
+    resultsCount > 1 &&
+    topPercentage > 0 &&
+    percentage != null &&
+    percentage === topPercentage &&
+    !isPseudoCandidateRow(candidateName)
+  )
+}
+
+/** Mapa interativo (reaproveitado de brazil-map.tsx) usado como seletor de
+ * estado nas 3 seções "por estado" de Pesquisas, com um <select> equivalente
+ * reservado para telas estreitas, onde acertar um estado pequeno no SVG é
+ * difícil de tocar com precisão. */
+function UfMapPicker({
+  options,
+  activeUf,
+  onSelect,
+  mapAriaLabel,
+  selectAriaLabel,
+}: {
+  options: { uf: string; name: string }[]
+  activeUf: string | null
+  onSelect: (uf: string) => void
+  mapAriaLabel: string
+  selectAriaLabel: string
+}) {
+  return (
+    <div className="pesquisas-tracker__map-wrap">
+      <select
+        className="pesquisas-tracker__uf-select"
+        aria-label={selectAriaLabel}
+        value={activeUf ?? ''}
+        onChange={(event) => {
+          if (event.target.value) onSelect(event.target.value)
+        }}
+      >
+        <option value="" disabled>
+          Selecione um estado
+        </option>
+        {options.map((option) => (
+          <option key={option.uf} value={option.uf}>
+            {option.name} ({option.uf})
+          </option>
+        ))}
+      </select>
+      <BrazilMap
+        activeUf={activeUf ?? undefined}
+        onSelect={(selected) => onSelect(selected.uf)}
+        hideDetailsPanel
+        className="pesquisas-tracker__map"
+        ariaLabel={mapAriaLabel}
+      />
+    </div>
+  )
+}
+
 function PollCard({ poll }: { poll: Poll }) {
-  const topPercentage = poll.results[0]?.percentage || 1
+  const topPercentage = poll.results.reduce((max, item) => Math.max(max, item.percentage), 0) || 1
   return (
     <article className="pesquisas-tracker__card">
       <div className="pesquisas-tracker__card-head">
@@ -175,8 +254,11 @@ function PollCard({ poll }: { poll: Poll }) {
         {poll.results.map((result) => (
           <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
             <span className="pesquisas-tracker__bar-label">
-              {result.candidateName}
-              {result.party && <span className="pesquisas-tracker__bar-party"> ({result.party})</span>}
+              <span className="pesquisas-tracker__bar-name">{result.candidateName}</span>
+              {isLeadingResult(result.candidateName, result.percentage, topPercentage, poll.results.length) && (
+                <span className="pesquisas-tracker__leader-badge">Líder</span>
+              )}
+              {result.party && <span className="pesquisas-tracker__party-chip">{result.party}</span>}
             </span>
             <div className="pesquisas-tracker__bar-track">
               <span
@@ -224,8 +306,11 @@ function SenadoCard({ state }: { state: SenadoState }) {
         {state.results.map((result) => (
           <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
             <span className="pesquisas-tracker__bar-label">
-              {result.candidateName}
-              {result.party && <span className="pesquisas-tracker__bar-party"> ({result.party})</span>}
+              <span className="pesquisas-tracker__bar-name">{result.candidateName}</span>
+              {isLeadingResult(result.candidateName, result.percentage, topPercentage, state.results.length) && (
+                <span className="pesquisas-tracker__leader-badge">Líder</span>
+              )}
+              {result.party && <span className="pesquisas-tracker__party-chip">{result.party}</span>}
             </span>
             <div className="pesquisas-tracker__bar-track">
               {result.percentage != null ? (
@@ -296,8 +381,11 @@ function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoS
               {wave.results.map((result) => (
                 <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
                   <span className="pesquisas-tracker__bar-label">
-                    {result.candidateName}
-                    {result.party && <span className="pesquisas-tracker__bar-party"> ({result.party})</span>}
+                    <span className="pesquisas-tracker__bar-name">{result.candidateName}</span>
+                    {isLeadingResult(result.candidateName, result.percentage, topPercentage, wave.results.length) && (
+                      <span className="pesquisas-tracker__leader-badge">Líder</span>
+                    )}
+                    {result.party && <span className="pesquisas-tracker__party-chip">{result.party}</span>}
                   </span>
                   <div className="pesquisas-tracker__bar-track">
                     <span
@@ -591,28 +679,28 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
 
               {presidenteEstadosStatus === 'loaded' && presidenteEstados.length > 0 && (
                 <>
-                  <div className="pesquisas-tracker__uf-pills" role="group" aria-label="Escolher estado para Presidente">
-                    {presidenteEstados.map((item) => (
-                      <button
-                        key={item.uf}
-                        type="button"
-                        className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${presidenteEstadoUf === item.uf ? ' is-active' : ''}`}
-                        aria-pressed={presidenteEstadoUf === item.uf}
-                        onClick={() => setPresidenteEstadoUf(item.uf)}
-                      >
-                        {item.uf}
-                      </button>
-                    ))}
-                  </div>
+                  <div className="pesquisas-tracker__state-picker">
+                    <UfMapPicker
+                      options={presidenteEstados.map((item) => ({ uf: item.uf, name: item.state }))}
+                      activeUf={presidenteEstadoUf}
+                      onSelect={(uf) => setPresidenteEstadoUf(uf)}
+                      mapAriaLabel="Mapa para escolher estado - pesquisas de Presidente"
+                      selectAriaLabel="Escolher estado para Presidente"
+                    />
 
-                  {selectedPresidenteEstado && (
-                    <>
-                      <h4 className="pesquisas-tracker__race-title">Presidente · {selectedPresidenteEstado.state}</h4>
-                      <div className="pesquisas-tracker__grid">
-                        <PresidenteEstadoCard state={selectedPresidenteEstado} roundFilter={roundFilter} />
-                      </div>
-                    </>
-                  )}
+                    <div className="pesquisas-tracker__state-result">
+                      {selectedPresidenteEstado ? (
+                        <>
+                          <h4 className="pesquisas-tracker__race-title">Presidente · {selectedPresidenteEstado.state}</h4>
+                          <div className="pesquisas-tracker__grid">
+                            <PresidenteEstadoCard state={selectedPresidenteEstado} roundFilter={roundFilter} />
+                          </div>
+                        </>
+                      ) : (
+                        <p className="pesquisas-tracker__status">Selecione um estado no mapa para ver as pesquisas.</p>
+                      )}
+                    </div>
+                  </div>
 
                   {presidenteEstadosFile && presidenteEstadosFile.sources.length > 0 && (
                     <details className="pesquisas-tracker__sources-details">
@@ -649,49 +737,51 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
             </p>
           </div>
 
-          <div className="pesquisas-tracker__uf-pills" role="group" aria-label="Filtrar governador por estado">
-            <button
-              type="button"
-              className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${ufFilter === 'all' ? ' is-active' : ''}`}
-              aria-pressed={ufFilter === 'all'}
-              onClick={() => setUfFilter('all')}
-            >
-              Todos os estados
-            </button>
-            {governorUFs.map((uf) => (
-              <button
-                key={uf}
-                type="button"
-                className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${ufFilter === uf ? ' is-active' : ''}`}
-                aria-pressed={ufFilter === uf}
-                onClick={() => setUfFilter(uf)}
-              >
-                {BRAZIL_STATE_BY_UF[uf]?.name ?? uf}
-              </button>
-            ))}
-            {quickJumpUf && quickJumpUf !== ufFilter && (
-              <button type="button" className="pesquisas-tracker__jump" onClick={() => setUfFilter(quickJumpUf)}>
-                Ver {BRAZIL_STATE_BY_UF[quickJumpUf]?.name ?? quickJumpUf}
-              </button>
-            )}
-          </div>
-
-          {governadorGroups.length === 0 ? (
-            <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
-              Nenhuma pesquisa de Governador encontrada para esse filtro nos últimos 30 dias.
-            </p>
-          ) : (
-            governadorGroups.map((group) => (
-              <div key={group.key}>
-                <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
-                <div className="pesquisas-tracker__grid">
-                  {group.items.map((poll) => (
-                    <PollCard poll={poll} key={poll.id} />
-                  ))}
-                </div>
+          <div className="pesquisas-tracker__state-picker">
+            <div className="pesquisas-tracker__map-col">
+              <UfMapPicker
+                options={governorUFs.map((uf) => ({ uf, name: BRAZIL_STATE_BY_UF[uf]?.name ?? uf }))}
+                activeUf={ufFilter === 'all' ? null : ufFilter}
+                onSelect={(uf) => setUfFilter(uf)}
+                mapAriaLabel="Mapa para escolher estado - pesquisas de Governador"
+                selectAriaLabel="Escolher estado para Governador"
+              />
+              <div className="pesquisas-tracker__map-actions">
+                <button
+                  type="button"
+                  className={`pesquisas-tracker__link-btn${ufFilter === 'all' ? ' is-active' : ''}`}
+                  aria-pressed={ufFilter === 'all'}
+                  onClick={() => setUfFilter('all')}
+                >
+                  Ver todos os estados
+                </button>
+                {quickJumpUf && quickJumpUf !== ufFilter && (
+                  <button type="button" className="pesquisas-tracker__jump" onClick={() => setUfFilter(quickJumpUf)}>
+                    Ver {BRAZIL_STATE_BY_UF[quickJumpUf]?.name ?? quickJumpUf}
+                  </button>
+                )}
               </div>
-            ))
-          )}
+            </div>
+
+            <div className="pesquisas-tracker__state-result">
+              {governadorGroups.length === 0 ? (
+                <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+                  Nenhuma pesquisa de Governador encontrada para esse filtro nos últimos 30 dias.
+                </p>
+              ) : (
+                governadorGroups.map((group) => (
+                  <div key={group.key}>
+                    <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
+                    <div className="pesquisas-tracker__grid">
+                      {group.items.map((poll) => (
+                        <PollCard poll={poll} key={poll.id} />
+                      ))}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         </section>
       )}
 
@@ -715,28 +805,28 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
 
         {senadoStatus === 'loaded' && senadoStates.length > 0 && (
           <>
-            <div className="pesquisas-tracker__uf-pills" role="group" aria-label="Escolher estado para Senador">
-              {senadoStates.map((item) => (
-                <button
-                  key={item.uf}
-                  type="button"
-                  className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${senadoUf === item.uf ? ' is-active' : ''}`}
-                  aria-pressed={senadoUf === item.uf}
-                  onClick={() => setSenadoUf(item.uf)}
-                >
-                  {item.uf}
-                </button>
-              ))}
-            </div>
+            <div className="pesquisas-tracker__state-picker">
+              <UfMapPicker
+                options={senadoStates.map((item) => ({ uf: item.uf, name: item.state }))}
+                activeUf={senadoUf}
+                onSelect={(uf) => setSenadoUf(uf)}
+                mapAriaLabel="Mapa para escolher estado - pesquisas de Senador"
+                selectAriaLabel="Escolher estado para Senador"
+              />
 
-            {selectedSenadoState && (
-              <>
-                <h4 className="pesquisas-tracker__race-title">Senador · {selectedSenadoState.state}</h4>
-                <div className="pesquisas-tracker__grid">
-                  <SenadoCard state={selectedSenadoState} />
-                </div>
-              </>
-            )}
+              <div className="pesquisas-tracker__state-result">
+                {selectedSenadoState ? (
+                  <>
+                    <h4 className="pesquisas-tracker__race-title">Senador · {selectedSenadoState.state}</h4>
+                    <div className="pesquisas-tracker__grid">
+                      <SenadoCard state={selectedSenadoState} />
+                    </div>
+                  </>
+                ) : (
+                  <p className="pesquisas-tracker__status">Selecione um estado no mapa para ver as pesquisas.</p>
+                )}
+              </div>
+            </div>
 
             {senadoFile && senadoFile.sources.length > 0 && (
               <details className="pesquisas-tracker__sources-details">

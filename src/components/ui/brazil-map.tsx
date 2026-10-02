@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react'
+import { useId, useState, type CSSProperties } from 'react'
 import { BRAZIL_STATES, type BrazilState } from '../../data/brazil-states'
 import './brazil-map.css'
 
@@ -11,11 +11,18 @@ export type BrazilMapProps = {
   candidateCount?: number
   className?: string
   ariaLabel?: string
+  /** Quando true, omite o painel lateral `<aside>` de detalhes (capital/região/
+   * candidaturas/cargos) embutido no mapa. Usado por telas que já têm seu
+   * próprio painel de resultados ao lado do mapa (ex.: Pesquisas por estado).
+   * Não afeta o svg, a legenda, o tooltip ou a navegação por teclado. */
+  hideDetailsPanel?: boolean
 }
 
-const tooltipId = 'brazil-map-tooltip'
-
-export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selectedOffice, candidateCount = 0, className = '', ariaLabel = 'Mapa do Brasil por estado' }: BrazilMapProps) {
+export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selectedOffice, candidateCount = 0, className = '', ariaLabel = 'Mapa do Brasil por estado', hideDetailsPanel = false }: BrazilMapProps) {
+  const reactId = useId()
+  const titleId = `brazil-map-title-${reactId}`
+  const descriptionId = `brazil-map-description-${reactId}`
+  const tooltipId = `brazil-map-tooltip-${reactId}`
   const [internalUf, setInternalUf] = useState<string | undefined>(activeUf)
   const [tooltipUf, setTooltipUf] = useState<string | null>(null)
   const selectedUf = activeUf ?? internalUf
@@ -38,11 +45,11 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
   }
 
   return (
-    <section className={`brazil-map ${className}`.trim()} aria-label={ariaLabel}>
+    <section className={`brazil-map${hideDetailsPanel ? ' brazil-map--no-details' : ''} ${className}`.trim()} aria-label={ariaLabel}>
       <figure className="brazil-map__figure">
-        <svg className="brazil-map__svg" data-testid="br-map" viewBox="0 0 520 550" role="radiogroup" aria-labelledby="brazil-map-title brazil-map-description">
-          <title id="brazil-map-title">Brasil, estados selecionáveis</title>
-          <desc id="brazil-map-description">Selecione um estado para ver candidatos e cargos disponíveis.</desc>
+        <svg className="brazil-map__svg" data-testid="br-map" viewBox="0 0 520 550" role="radiogroup" aria-labelledby={`${titleId} ${descriptionId}`}>
+          <title id={titleId}>Brasil, estados selecionáveis</title>
+          <desc id={descriptionId}>Selecione um estado para ver candidatos e cargos disponíveis.</desc>
           {BRAZIL_STATES.map((state) => {
             const isActive = selectedUf === state.uf
             return (
@@ -89,22 +96,24 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
         </figcaption>
       </figure>
 
-      <aside className="brazil-map__details" data-testid="uf-menu" aria-live="polite">
-        {selectedState ? (
-          <>
-            <p className="brazil-map__eyebrow">UF ativa</p>
-            <h2>{selectedState.name}<span>{selectedState.uf}</span></h2>
-            <p className="brazil-map__capital">Capital: {selectedState.capital} · Região {selectedState.region}</p>
-            <p className="brazil-map__candidate-count" data-testid="candidate-count"><strong>{candidateCount.toLocaleString('pt-BR')}</strong> candidaturas no cargo selecionado</p>
-            <div className="brazil-map__offices">
-              <p>Cargos disponíveis</p>
-              <ul>{selectedState.offices.map((office) => <li key={office}><button type="button" className={selectedOffice === office ? 'is-selected' : ''} aria-pressed={selectedOffice === office} onClick={() => onSelectOffice?.(office)}>{office}<span>↗</span></button></li>)}</ul>
-            </div>
-          </>
-        ) : (
-          <div className="brazil-map__empty">Selecione uma UF no mapa.</div>
-        )}
-      </aside>
+      {!hideDetailsPanel && (
+        <aside className="brazil-map__details" data-testid="uf-menu" aria-live="polite">
+          {selectedState ? (
+            <>
+              <p className="brazil-map__eyebrow">UF ativa</p>
+              <h2>{selectedState.name}<span>{selectedState.uf}</span></h2>
+              <p className="brazil-map__capital">Capital: {selectedState.capital} · Região {selectedState.region}</p>
+              <p className="brazil-map__candidate-count" data-testid="candidate-count"><strong>{candidateCount.toLocaleString('pt-BR')}</strong> candidaturas no cargo selecionado</p>
+              <div className="brazil-map__offices">
+                <p>Cargos disponíveis</p>
+                <ul>{selectedState.offices.map((office) => <li key={office}><button type="button" className={selectedOffice === office ? 'is-selected' : ''} aria-pressed={selectedOffice === office} onClick={() => onSelectOffice?.(office)}>{office}<span>↗</span></button></li>)}</ul>
+              </div>
+            </>
+          ) : (
+            <div className="brazil-map__empty">Selecione uma UF no mapa.</div>
+          )}
+        </aside>
+      )}
 
       {tooltipState && (
         <div id={tooltipId} className="brazil-map__tooltip" data-testid="uf-tooltip" role="tooltip">
