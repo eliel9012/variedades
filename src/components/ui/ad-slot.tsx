@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { hasAdConsent, onConsentChange } from '../../cookie-consent'
-import { adSlotId, onAdScriptLoad, requestAdFill, type AdSlotName } from '../../ads'
+import { adClientId, adSlotId, onAdScriptLoad, requestAdFill, type AdSlotName } from '../../ads'
 import './ad-slot.css'
 
 export type AdSlotProps = { slot: AdSlotName }
@@ -18,10 +18,11 @@ export type AdSlotProps = { slot: AdSlotName }
  * posição tem um ID de unidade configurado (`VITE_AD_SLOT_HEADER` /
  * `_FOOTER` / `_SIDEBAR` / `_INCONTENT`). O `<ins data-ad-slot-id="...">` é
  * um nome genérico de espaço reservado: quando a rede de verdade for
- * escolhida, troque a tag/atributo aqui pelo formato exato dela (ex. AdSense
- * usa `<ins class="adsbygoogle" data-ad-client="..." data-ad-slot="...">`). */
+ * escolhida, troque a tag/atributo aqui pelo formato exato dela (hoje:
+ * AdSense, `<ins class="adsbygoogle" data-ad-client="..." data-ad-slot="...">`). */
 export default function AdSlot({ slot }: AdSlotProps) {
   const slotId = adSlotId(slot)
+  const clientId = adClientId()
   const [consentReady, setConsentReady] = useState(() => hasAdConsent())
   const [scriptReady, setScriptReady] = useState(false)
 
@@ -32,7 +33,7 @@ export default function AdSlot({ slot }: AdSlotProps) {
     return onAdScriptLoad(() => setScriptReady(true))
   }, [])
 
-  const showUnit = consentReady && scriptReady && Boolean(slotId)
+  const showUnit = consentReady && scriptReady && Boolean(slotId) && Boolean(clientId)
 
   // Dispara o "escaneia e preenche" da rede uma vez por posição, assim que
   // consentimento + script + ID de unidade ficam todos prontos ao mesmo tempo.
@@ -42,7 +43,16 @@ export default function AdSlot({ slot }: AdSlotProps) {
 
   return (
     <div className={`ad-slot ad-slot--${slot}`} aria-label={`Espaço de anúncio (${slot})`}>
-      {showUnit && <ins className="ad-slot__unit" data-ad-slot-id={slotId} />}
+      {showUnit && (
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client={clientId}
+          data-ad-slot={slotId}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      )}
     </div>
   )
 }

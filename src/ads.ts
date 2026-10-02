@@ -30,6 +30,10 @@ let injected = false
 let scriptLoaded = false
 const scriptLoadListeners = new Set<() => void>()
 
+export function adClientId(): string | undefined {
+  return import.meta.env.VITE_AD_CLIENT_ID || undefined
+}
+
 function injectAdScript() {
   if (injected) return
   const scriptUrl = import.meta.env.VITE_AD_SCRIPT_URL
@@ -39,8 +43,6 @@ function injectAdScript() {
   const script = document.createElement('script')
   script.async = true
   script.src = scriptUrl
-  const clientId = import.meta.env.VITE_AD_CLIENT_ID
-  if (clientId) script.dataset.adClient = clientId
   script.crossOrigin = 'anonymous'
   script.onload = () => {
     scriptLoaded = true
@@ -56,27 +58,21 @@ export function initAds() {
   })
 }
 
-// CONTRATO GENÉRICO POR POSIÇÃO (documentado aqui porque vai precisar de um
-// ajuste pequeno assim que a rede de verdade for escolhida, ver README >
-// "Rede de anúncios"): redes da família AdSense (AdSense em si, e quase todo
-// concorrente/clone, Media.net incluso) publicam um array global do tipo
-// `window.adsbygoogle = window.adsbygoogle || []` e esperam um `.push({})`
-// extra por elemento `<ins>` na página pra "escanear" e preencher aquela
-// posição depois que o script carregou. Ezoic usa o mesmo desenho com nomes
-// diferentes (`ezstandalone.showAds(id)`). Aqui isso fica genérico atrás de
-// `requestAdFill()`; quando a rede for escolhida, troque só o nome do array
-// global (e o formato do argumento, se precisar) dentro dessa função.
+// AdSense (rede em uso): depois que o script global carrega, cada <ins
+// class="adsbygoogle"> novo na página precisa de um
+// `(adsbygoogle = window.adsbygoogle || []).push({})` extra pra ser
+// escaneado/preenchido. Isso é feito uma vez por posição, no AdSlot.
 declare global {
   interface Window {
-    __adQueue?: unknown[]
+    adsbygoogle?: unknown[]
   }
 }
 
 export function requestAdFill() {
   if (!scriptLoaded) return
   try {
-    window.__adQueue = window.__adQueue || []
-    window.__adQueue.push({})
+    window.adsbygoogle = window.adsbygoogle || []
+    window.adsbygoogle.push({})
   } catch {
     // Rede real pode falhar em preencher (sem inventário pro recorte, bloqueio
     // de adblock etc). Não é um erro nosso: o slot só continua vazio e
