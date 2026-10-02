@@ -226,6 +226,15 @@ const TIMELINE_SERIES_COLORS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e8
 const TIMELINE_OTHERS_COLOR = '#75786f'
 const TIMELINE_MAX_SERIES = 5
 
+// Lula e Flávio Bolsonaro disputam o 1º e o 2º turno em praticamente toda
+// pesquisa presidencial da fonte: cor fixa pros dois (em vez de sortear da
+// paleta por ordem alfabética) pra ficar sempre reconhecível de pesquisa pra
+// pesquisa e de rodada pra rodada, 1º ou 2º turno.
+const TIMELINE_FIXED_COLORS: Record<string, string> = {
+  Lula: '#ba1a1a',
+  'Flávio Bolsonaro': '#6f7d1c',
+}
+
 function formatIsoDate(value: string, formatter: Intl.DateTimeFormat) {
   const parsed = new Date(value.length <= 10 ? `${value}T00:00:00` : value)
   return Number.isNaN(parsed.getTime()) ? value : formatter.format(parsed)
@@ -415,9 +424,10 @@ function buildTimelineSeries(polls: Poll[]): TimelineData {
   const topNames = ranked.slice(0, TIMELINE_MAX_SERIES).sort((a, b) => a.localeCompare(b, 'pt-BR'))
   const otherNames = new Set(allNames.filter((name) => !topNames.includes(name)))
 
-  const series: TimelineSeries[] = topNames.map((name, index) => ({
+  let paletteIndex = 0
+  const series: TimelineSeries[] = topNames.map((name) => ({
     name,
-    color: TIMELINE_SERIES_COLORS[index % TIMELINE_SERIES_COLORS.length],
+    color: TIMELINE_FIXED_COLORS[name] ?? TIMELINE_SERIES_COLORS[paletteIndex++ % TIMELINE_SERIES_COLORS.length],
     points: days.map((day) => avgByDay.get(day)?.get(name) ?? null),
   }))
 
