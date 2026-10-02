@@ -1,4 +1,4 @@
-const CACHE = 'apura-brasil-v4'
+const CACHE = 'apura-brasil-v5'
 const CORE = ['/', '/index.html', '/manifest.webmanifest', '/data/candidates.json', '/data/manifest.json']
 
 self.addEventListener('install', (event) => {
@@ -6,7 +6,19 @@ self.addEventListener('install', (event) => {
 })
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim())
+  // v4 e anteriores eram cache-first (`caches.match` sem nome de cache
+  // específico, que procura em TODAS as caches da origem): depois que algo
+  // era cacheado uma vez, ficava servindo pra sempre, mesmo trocando o nome
+  // de CACHE aqui, porque o cache antigo nunca era apagado e continuava
+  // "achável". Isso fazia quem já tinha visitado o site nunca ver deploy
+  // nenhum sem limpar dados do site na mão. Apaga qualquer cache de versão
+  // anterior aqui pra isso nunca mais acontecer.
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
+      .then(() => self.clients.claim()),
+  )
 })
 
 self.addEventListener('fetch', (event) => {
@@ -16,9 +28,22 @@ self.addEventListener('fetch', (event) => {
   // mediado pelo Service Worker não dispara o pop-up nativo de usuário/senha
   // do navegador quando o servidor responde 401. Deixa passar direto.
   if (new URL(event.request.url).pathname.startsWith('/api/')) return
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
-    const copy = response.clone()
-    caches.open(CACHE).then((cache) => cache.put(event.request, copy))
-    return response
-  }).catch(() => caches.match('/index.html'))))
+  // Network-first, não cache-first: o site muda de código com frequência (sem
+  // build versionado por hash), então tentar a rede primeiro garante que quem
+  // está online sempre vê a versão mais nova. O cache (escopado só a essa
+  // versão, `{ cacheName: CACHE }`) é só a rede de segurança pra quando a
+  // pessoa está offline de verdade.
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        const copy = response.clone()
+        caches.open(CACHE).then((cache) => cache.put(event.request, copy))
+        return response
+      })
+      .catch(() =>
+        caches
+          .match(event.request, { cacheName: CACHE })
+          .then((cached) => cached || caches.match('/index.html', { cacheName: CACHE })),
+      ),
+  )
 })
