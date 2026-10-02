@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Candidate, ResultSnapshot } from '../../types'
 import { BRAZIL_STATE_BY_UF } from '../../data/brazil-states'
 import { BrazilMap } from './brazil-map'
+import { navigate, parseUfSegment, ufSegment, useRoute } from '../../router'
 import './pesquisas-tracker.css'
 
 export type PesquisasTrackerProps = {
@@ -127,6 +128,64 @@ type OfficeFilter = 'Todos' | 'Presidente' | 'Governador'
 type RoundFilter = 'Todos' | 1 | 2
 type PresidenteView = 'Nacional' | 'PorEstado' | 'LinhaDoTempo'
 type GovernadorView = 'Atual' | 'LinhaDoTempo'
+
+// URL da aba Pesquisas (ver src/router.ts): /pesquisas/presidente[/uf|/linha-do-tempo],
+// /pesquisas/governador[/uf[/linha-do-tempo]], /pesquisas/senador/uf. O turno
+// (1º/2º) fica fora da URL, é só filtro de UI. `parsePesquisasPath` é usado
+// tanto pro estado inicial (lazy useState) quanto pra reconciliar o
+// voltar/avançar do navegador enquanto o componente continua montado.
+type PesquisasRoute = {
+  office: OfficeFilter
+  presidenteView: PresidenteView
+  presidenteUf: string | null
+  governadorUf: string
+  governadorView: GovernadorView
+  senadoUf: string | null
+}
+
+function parsePesquisasPath(pathname: string): PesquisasRoute {
+  const [, , section, a, b] = pathname.split('/')
+  if (section === 'presidente') {
+    if (a === 'linha-do-tempo') {
+      return { office: 'Presidente', presidenteView: 'LinhaDoTempo', presidenteUf: null, governadorUf: 'all', governadorView: 'Atual', senadoUf: null }
+    }
+    const uf = parseUfSegment(a)
+    if (uf) {
+      return { office: 'Presidente', presidenteView: 'PorEstado', presidenteUf: uf, governadorUf: 'all', governadorView: 'Atual', senadoUf: null }
+    }
+    return { office: 'Presidente', presidenteView: 'Nacional', presidenteUf: null, governadorUf: 'all', governadorView: 'Atual', senadoUf: null }
+  }
+  if (section === 'governador') {
+    const uf = parseUfSegment(a)
+    return {
+      office: 'Governador',
+      presidenteView: 'Nacional',
+      presidenteUf: null,
+      governadorUf: uf ?? 'all',
+      governadorView: uf && b === 'linha-do-tempo' ? 'LinhaDoTempo' : 'Atual',
+      senadoUf: null,
+    }
+  }
+  if (section === 'senador') {
+    return { office: 'Todos', presidenteView: 'Nacional', presidenteUf: null, governadorUf: 'all', governadorView: 'Atual', senadoUf: parseUfSegment(a) }
+  }
+  return { office: 'Todos', presidenteView: 'Nacional', presidenteUf: null, governadorUf: 'all', governadorView: 'Atual', senadoUf: null }
+}
+
+function presidentePath(view: PresidenteView, uf: string | null): string {
+  if (view === 'LinhaDoTempo') return '/pesquisas/presidente/linha-do-tempo'
+  if (view === 'PorEstado' && uf) return `/pesquisas/presidente/${ufSegment(uf)}`
+  return '/pesquisas/presidente'
+}
+
+function governadorPath(uf: string, view: GovernadorView): string {
+  if (uf === 'all') return '/pesquisas/governador'
+  return view === 'LinhaDoTempo' ? `/pesquisas/governador/${ufSegment(uf)}/linha-do-tempo` : `/pesquisas/governador/${ufSegment(uf)}`
+}
+
+function senadorPath(uf: string): string {
+  return `/pesquisas/senador/${ufSegment(uf)}`
+}
 
 const dateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
 const shortDateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' })
@@ -771,13 +830,28 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const [ideologyFile, setIdeologyFile] = useState<PartyIdeologyFile | null>(null)
   const [ideologyStatus, setIdeologyStatus] = useState<FetchStatus>('loading')
 
-  const [officeFilter, setOfficeFilter] = useState<OfficeFilter>('Todos')
+  const pathname = useRoute()
+  const [officeFilter, setOfficeFilter] = useState<OfficeFilter>(() => parsePesquisasPath(pathname).office)
   const [roundFilter, setRoundFilter] = useState<RoundFilter>('Todos')
-  const [ufFilter, setUfFilter] = useState<string>('all')
-  const [senadoUf, setSenadoUf] = useState<string | null>(null)
-  const [presidenteView, setPresidenteView] = useState<PresidenteView>('Nacional')
-  const [governadorView, setGovernadorView] = useState<GovernadorView>('Atual')
-  const [presidenteEstadoUf, setPresidenteEstadoUf] = useState<string | null>(null)
+  const [ufFilter, setUfFilter] = useState<string>(() => parsePesquisasPath(pathname).governadorUf)
+  const [senadoUf, setSenadoUf] = useState<string | null>(() => parsePesquisasPath(pathname).senadoUf)
+  const [presidenteView, setPresidenteView] = useState<PresidenteView>(() => parsePesquisasPath(pathname).presidenteView)
+  const [governadorView, setGovernadorView] = useState<GovernadorView>(() => parsePesquisasPath(pathname).governadorView)
+  const [presidenteEstadoUf, setPresidenteEstadoUf] = useState<string | null>(() => parsePesquisasPath(pathname).presidenteUf)
+
+  // Voltar/avançar do navegador (ou um link direto) enquanto a aba Pesquisas
+  // já está montada: reconcilia com o que a URL diz agora. Cliques nos
+  // filtros abaixo já fazem o caminho inverso chamando `navigate`.
+  useEffect(() => {
+    if (!pathname.startsWith('/pesquisas')) return
+    const route = parsePesquisasPath(pathname)
+    setOfficeFilter(route.office)
+    setUfFilter(route.governadorUf)
+    setPresidenteView(route.presidenteView)
+    setGovernadorView(route.governadorView)
+    if (route.presidenteUf) setPresidenteEstadoUf(route.presidenteUf)
+    if (route.senadoUf) setSenadoUf(route.senadoUf)
+  }, [pathname])
 
   useEffect(() => {
     fetch('/data/polls-presidente-nacional.json')
@@ -997,7 +1071,12 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
             type="button"
             className={`pesquisas-tracker__pill${officeFilter === option ? ' is-active' : ''}`}
             aria-pressed={officeFilter === option}
-            onClick={() => setOfficeFilter(option)}
+            onClick={() => {
+              setOfficeFilter(option)
+              if (option === 'Todos') navigate('/pesquisas')
+              else if (option === 'Presidente') navigate(presidentePath(presidenteView, presidenteEstadoUf))
+              else navigate(governadorPath(ufFilter, governadorView))
+            }}
           >
             {option === 'Todos' ? 'Todos os cargos' : option}
           </button>
@@ -1038,7 +1117,10 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                   type="button"
                   className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${presidenteView === option ? ' is-active' : ''}`}
                   aria-pressed={presidenteView === option}
-                  onClick={() => setPresidenteView(option)}
+                  onClick={() => {
+                    setPresidenteView(option)
+                    navigate(presidentePath(option, presidenteEstadoUf))
+                  }}
                 >
                   {option === 'Nacional' ? 'Nacional' : option === 'PorEstado' ? 'Por estado' : 'Linha do tempo'}
                 </button>
@@ -1096,7 +1178,10 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                     <UfMapPicker
                       options={presidenteEstados.map((item) => ({ uf: item.uf, name: item.state }))}
                       activeUf={presidenteEstadoUf}
-                      onSelect={(uf) => setPresidenteEstadoUf(uf)}
+                      onSelect={(uf) => {
+                        setPresidenteEstadoUf(uf)
+                        navigate(presidentePath('PorEstado', uf))
+                      }}
                       mapAriaLabel="Mapa para escolher estado - pesquisas de Presidente"
                       selectAriaLabel="Escolher estado para Presidente"
                     />
@@ -1178,7 +1263,10 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
               <UfMapPicker
                 options={governorUFs.map((uf) => ({ uf, name: BRAZIL_STATE_BY_UF[uf]?.name ?? uf }))}
                 activeUf={ufFilter === 'all' ? null : ufFilter}
-                onSelect={(uf) => setUfFilter(uf)}
+                onSelect={(uf) => {
+                  setUfFilter(uf)
+                  navigate(governadorPath(uf, governadorView))
+                }}
                 mapAriaLabel="Mapa para escolher estado - pesquisas de Governador"
                 selectAriaLabel="Escolher estado para Governador"
               />
@@ -1187,12 +1275,22 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                   type="button"
                   className={`pesquisas-tracker__link-btn${ufFilter === 'all' ? ' is-active' : ''}`}
                   aria-pressed={ufFilter === 'all'}
-                  onClick={() => setUfFilter('all')}
+                  onClick={() => {
+                    setUfFilter('all')
+                    navigate('/pesquisas/governador')
+                  }}
                 >
                   Ver todos os estados
                 </button>
                 {quickJumpUf && quickJumpUf !== ufFilter && (
-                  <button type="button" className="pesquisas-tracker__jump" onClick={() => setUfFilter(quickJumpUf)}>
+                  <button
+                    type="button"
+                    className="pesquisas-tracker__jump"
+                    onClick={() => {
+                      setUfFilter(quickJumpUf)
+                      navigate(governadorPath(quickJumpUf, governadorView))
+                    }}
+                  >
                     Ver {BRAZIL_STATE_BY_UF[quickJumpUf]?.name ?? quickJumpUf}
                   </button>
                 )}
@@ -1208,7 +1306,10 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                       type="button"
                       className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${governadorView === option ? ' is-active' : ''}`}
                       aria-pressed={governadorView === option}
-                      onClick={() => setGovernadorView(option)}
+                      onClick={() => {
+                        setGovernadorView(option)
+                        navigate(governadorPath(ufFilter, option))
+                      }}
                     >
                       {option === 'Atual' ? 'Pesquisas atuais' : 'Linha do tempo'}
                     </button>
@@ -1294,7 +1395,10 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
               <UfMapPicker
                 options={senadoStates.map((item) => ({ uf: item.uf, name: item.state }))}
                 activeUf={senadoUf}
-                onSelect={(uf) => setSenadoUf(uf)}
+                onSelect={(uf) => {
+                  setSenadoUf(uf)
+                  navigate(senadorPath(uf))
+                }}
                 mapAriaLabel="Mapa para escolher estado - pesquisas de Senador"
                 selectAriaLabel="Escolher estado para Senador"
               />
