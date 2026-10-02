@@ -33,6 +33,17 @@ import { loadPresidenteNacional, loadPresidenteEstados, loadGovernadorEstados, l
 export const SIMULATIONS = 20000
 const Z95 = 1.96
 
+// Usar só a margem amostral declarada pela pesquisa como fonte de incerteza
+// sub-estima MUITO o erro real: ela não cobre viés de método, recusa
+// diferencial, indecisos que mudam de ideia etc. Shirani-Mehr, Rothschild,
+// Goel & Gelman ("Disentangling Bias and Variance in Election Polls", JASA
+// 2018) mediram, em milhares de pesquisas eleitorais reais nos EUA, que o
+// erro total médio é cerca de 2x a margem de erro amostral declarada. Esse
+// fator é aplicado aqui pra não fingir uma certeza (0%/100%) que a margem
+// amostral sozinha não sustenta -- ainda uma simplificação (não é uma
+// medição brasileira específica), mas documentada e citável, não inventada.
+const TOTAL_ERROR_INFLATION = 2
+
 /** Mesma heuristica de src/components/ui/pesquisas-tracker.tsx
  * (isPseudoCandidateRow): linhas de "indecisos/brancos/nulos/nao sabe" nao
  * sao candidatos reais e nao devem entrar na simulacao de vitoria/maioria.
@@ -85,7 +96,7 @@ function resolvePollMarginAndN({ marginOfError, sampleSize, sampleText }) {
 }
 
 function sigmaFromMargin(marginPp) {
-  return marginPp / 100 / Z95
+  return (marginPp / 100 / Z95) * TOTAL_ERROR_INFLATION
 }
 
 function sigmaFromSampleSize(n) {
@@ -237,12 +248,16 @@ function methodologyNote({ marginPp, marginSource, n }) {
     `Simulação de Monte Carlo com ${SIMULATIONS.toLocaleString('pt-BR')} sorteios, a partir da pesquisa mais recente ` +
     `disponível para este recorte (uma única onda, sem mistura de institutos). Cada candidato tem sua parcela ` +
     `reportada tratada como média de uma distribuição normal; ${marginText}, convertida em desvio padrão assumindo ` +
-    `que a margem publicada é a metade de um intervalo de confiança de 95% (sigma = margem / 1.96). Em cada sorteio, ` +
-    `as parcelas negativas são zeradas e o conjunto de candidatos reais (excluindo indecisos/brancos/nulos, que não ` +
-    `estão na cédula) é renormalizado para somar 100%, assumindo que os erros de cada candidato são independentes ` +
-    `entre si e que os indecisos se distribuiriam proporcionalmente entre os candidatos reais, duas simplificações ` +
-    `reais. Isto é uma estimativa estatística simples a partir de uma única pesquisa, não é um modelo de projeção ` +
-    `eleitoral com fundamentos socioeconômicos, demográficos ou históricos.`
+    `que a margem publicada é a metade de um intervalo de confiança de 95% (sigma = margem / 1.96). Esse desvio é ` +
+    `multiplicado por ${TOTAL_ERROR_INFLATION}x antes de simular: pesquisas de opinião têm, em média, o dobro de erro ` +
+    `total (viés de método, recusa, indecisos que mudam de ideia) em relação à margem puramente amostral declarada ` +
+    `(Shirani-Mehr, Rothschild, Goel & Gelman, "Disentangling Bias and Variance in Election Polls", JASA 2018); sem ` +
+    `esse ajuste, uma única pesquisa com vantagem grande mostraria 0%/100% de forma artificialmente confiante. Em ` +
+    `cada sorteio, as parcelas negativas são zeradas e o conjunto de candidatos reais (excluindo indecisos/brancos/ ` +
+    `nulos, que não estão na cédula) é renormalizado para somar 100%, assumindo que os erros de cada candidato são ` +
+    `independentes entre si e que os indecisos se distribuiriam proporcionalmente entre os candidatos reais, duas ` +
+    `simplificações reais. Isto é uma estimativa estatística simples a partir de uma única pesquisa, não é um ` +
+    `modelo de projeção eleitoral com fundamentos socioeconômicos, demográficos ou históricos.`
   )
 }
 
@@ -254,7 +269,7 @@ function notSimulatableNote() {
   )
 }
 
-function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideologyFile }) {
+function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideologyFile, reportedPercentageSum, unallocatedPercentage }) {
   return {
     office,
     uf,
@@ -272,11 +287,49 @@ function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideolo
     leadProbability: null,
     outrightWinProbability: null,
     runoffProbability: null,
+    reportedPercentageSum,
+    unallocatedPercentage,
     completenessWarning: null,
     methodologyNote: notSimulatableNote(),
     sourcePoll,
     ideologySource: ideologySourceCitation(ideologyFile),
   }
+}
+
+/**
+ * Resumo por estado da corrida presidencial (as 27 UFs de
+ * polls-presidente-estados.json), usado só para abrir o escopo do chat de
+ * Cenários (IA) pra perguntas tipo "em quais estados X lidera" -- sem isso,
+ * cada pergunta só enxerga o recorte (BR ou 1 UF) selecionado na tela. Cada
+ * entrada roda o mesmo computeScenario de sempre (Monte Carlo real, mesmo
+ * dado publico), nunca um numero inventado; estados sem pesquisa citavel
+ * suficiente (simulatable:false) ainda aparecem, com os percentuais crus.
+ */
+export async function buildPresidenteEstadosSummary() {
+  const file = await loadPresidenteEstados()
+  const ufs = file.states.map((s) => s.uf)
+  const summaries = []
+  for (const uf of ufs) {
+    try {
+      const scenario = await computeScenario({ office: 'Presidente', uf, round: 1 })
+      const state = file.states.find((s) => s.uf === uf)
+      const leader = scenario.simulatable
+        ? [...scenario.candidates].sort((a, b) => b.leadProbability - a.leadProbability)[0]
+        : [...scenario.candidates].sort((a, b) => b.percentage - a.percentage)[0]
+      summaries.push({
+        uf,
+        state: state?.state ?? uf,
+        simulatable: scenario.simulatable,
+        leadingCandidate: leader?.candidateName ?? null,
+        leadingCandidatePercentage: leader?.percentage ?? null,
+        leadingCandidateLeadProbability: scenario.simulatable ? leader?.leadProbability ?? null : null,
+      })
+    } catch {
+      // UF sem pesquisa utilizavel: omitida do resumo, nunca preenchida com
+      // dado inventado.
+    }
+  }
+  return summaries
 }
 
 /**
@@ -380,6 +433,9 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
     throw new Error('Nenhum candidato real (não-pseudo) encontrado nos resultados desta pesquisa.')
   }
 
+  const reportedPercentageSum = Math.round(candidates.reduce((sum, c) => sum + c.percentage, 0) * 10) / 10
+  const unallocatedPercentage = Math.max(0, Math.round((100 - reportedPercentageSum) * 10) / 10)
+
   if (candidates.length <= 2 && !completenessWarning) {
     completenessWarning =
       'Esta pesquisa reporta só 2 candidatos reais; se houver mais nomes na disputa que não entraram nesta base, a probabilidade de vitória/2º turno é menos representativa do universo completo de candidatos.'
@@ -396,7 +452,7 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
   }
 
   if (marginSource == null) {
-    return buildNotSimulatable({ office, uf, round, candidates, sourcePoll, ideologyFile })
+    return buildNotSimulatable({ office, uf, round, candidates, sourcePoll, ideologyFile, reportedPercentageSum, unallocatedPercentage })
   }
 
   const sigma = sigmaFromMargin(effectiveMarginPp)
@@ -421,6 +477,8 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
     leadProbability: Object.fromEntries(candidates.map((c, i) => [c.candidateName, leadProbability[i]])),
     outrightWinProbability,
     runoffProbability,
+    reportedPercentageSum,
+    unallocatedPercentage,
     completenessWarning,
     methodologyNote: methodologyNote({ marginPp: effectiveMarginPp, marginSource, n }),
     sourcePoll: { ...sourcePoll, marginOfErrorPp: effectiveMarginPp, marginSource },

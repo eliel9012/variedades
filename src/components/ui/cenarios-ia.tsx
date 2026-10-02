@@ -68,6 +68,8 @@ type ScenarioResponse = {
   leadProbability: Record<string, number> | null
   outrightWinProbability: number | null
   runoffProbability: number | null
+  reportedPercentageSum?: number
+  unallocatedPercentage?: number
   completenessWarning: string | null
   methodologyNote: string
   sourcePoll: SourcePoll
@@ -106,6 +108,17 @@ type ChatEntry = {
 
 const percentFormat = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 const probabilityFormat = new Intl.NumberFormat('pt-BR', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 1 })
+
+/** `probabilityFormat` sozinho arredonda qualquer valor abaixo de 0,05% (ou
+ * acima de 99,95%) para um "0%"/"100%" careca, que parece uma certeza
+ * absoluta (impossível/garantido) quando na verdade é só um número pequeno
+ * ou grande demais pra 1 casa decimal. Isso é só formatação: o valor
+ * simulado continua o mesmo, nunca inventamos nem arredondamos o cálculo. */
+function formatProbability(value: number): string {
+  if (value > 0 && value < 0.0005) return '< 0,1%'
+  if (value < 1 && value > 0.9995) return '> 99,9%'
+  return probabilityFormat.format(value)
+}
 
 function sourcePollLine(poll: SourcePoll): string {
   const parts: string[] = []
@@ -149,6 +162,22 @@ function IdeologyChip({
     >
       {entry.classification}
     </span>
+  )
+}
+
+/** Os percentuais dos candidatos reais quase nunca somam 100% sozinhos (o
+ * resto é indeciso/branco/nulo, que não está na cédula). O cálculo de
+ * probabilidade já renormaliza isso por dentro (ver methodologyNote); esta
+ * nota só deixa visível, pra não parecer que a soma "não bate" por erro. */
+function UnallocatedNote({ data }: { data: ScenarioResponse }) {
+  if (data.unallocatedPercentage == null || data.unallocatedPercentage < 0.5) return null
+  return (
+    <p className="cenarios-ia__unallocated-note" role="note">
+      Os candidatos reais somam {percentFormat.format(data.reportedPercentageSum ?? 0)}% na pesquisa; os outros{' '}
+      {percentFormat.format(data.unallocatedPercentage)}% são indecisos/brancos/nulos reportados pela fonte (sem
+      candidato na cédula). O cálculo de probabilidade acima já redistribui isso proporcionalmente entre os
+      candidatos reais antes de simular.
+    </p>
   )
 }
 
@@ -215,6 +244,7 @@ function ScenarioPanel({
             </div>
           ))}
         </div>
+        <UnallocatedNote data={data} />
         <p className="cenarios-ia__methodology">{data.methodologyNote}</p>
         <p className="cenarios-ia__source-line">{sourcePollLine(data.sourcePoll)}</p>
         {data.sourcePoll.sourceUrl && (
@@ -246,22 +276,23 @@ function ScenarioPanel({
               />
             </div>
             <span className="cenarios-ia__bar-value">
-              {probabilityFormat.format(candidate.leadProbability ?? 0)} de liderar
+              {formatProbability(candidate.leadProbability ?? 0)} de liderar
               <span className="cenarios-ia__bar-subvalue"> · {percentFormat.format(candidate.percentage)}% na pesquisa</span>
             </span>
           </div>
         ))}
       </div>
+      <UnallocatedNote data={data} />
 
       {data.outrightWinProbability != null && data.runoffProbability != null && (
         <div className="cenarios-ia__stat-row" role="group" aria-label="Probabilidade de vitória em 1º turno vs 2º turno">
           <div className="cenarios-ia__stat-card">
             <span className="cenarios-ia__stat-label">Vitória direta no 1º turno (&gt;50%)</span>
-            <span className="cenarios-ia__stat-value">{probabilityFormat.format(data.outrightWinProbability)}</span>
+            <span className="cenarios-ia__stat-value">{formatProbability(data.outrightWinProbability)}</span>
           </div>
           <div className="cenarios-ia__stat-card">
             <span className="cenarios-ia__stat-label">Vai para o 2º turno</span>
-            <span className="cenarios-ia__stat-value">{probabilityFormat.format(data.runoffProbability)}</span>
+            <span className="cenarios-ia__stat-value">{formatProbability(data.runoffProbability)}</span>
           </div>
         </div>
       )}

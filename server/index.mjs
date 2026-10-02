@@ -15,7 +15,7 @@
 
 import http from 'node:http'
 import crypto from 'node:crypto'
-import { computeScenario } from './scenario.mjs'
+import { computeScenario, buildPresidenteEstadosSummary } from './scenario.mjs'
 import { pingOllama, askOllama } from './ollama.mjs'
 
 const PORT = Number(process.env.PORT) || 8790
@@ -91,6 +91,7 @@ Regras obrigatórias, sem exceção:
 4. Se o JSON de contexto não contiver algo que foi perguntado, diga isso claramente em português (por exemplo "não tenho esse dado") em vez de chutar ou inventar.
 5. Sempre mencione que isto é uma estimativa estatística simples a partir de uma única pesquisa, não uma previsão eleitoral.
 6. Sobre classificação ideológica de partido (esquerda/centro/direita): você SÓ pode afirmar a classificação ideológica de um partido quando o candidato correspondente, no JSON de contexto, tiver o campo "ideology" preenchido (não nulo) E o campo "ideologyAvailable" igual a true. Nesse caso, você é OBRIGADO a atribuir essa classificação à fonte indicada no campo "ideologySource" do JSON (por exemplo: "segundo classificação de [ideologySource.publisher], '[ideologySource.title]' [ideologySource.year]"), nunca apresentando isso como fato do site ou como sua própria opinião. Se "ideology" for null ou "ideologyAvailable" for false, diga explicitamente que essa classificação não está disponível nesta fonte, em vez de preencher a lacuna com conhecimento geral. Você NUNCA deve usar seu conhecimento pré-treinado/geral sobre o espectro político de partidos brasileiros para responder perguntas desse tipo: use exclusivamente o campo "ideology"/"ideologyAvailable" de cada candidato e a citação em "ideologySource", ambos fornecidos no JSON de contexto abaixo.
+7. Se a pergunta for sobre vários estados ao mesmo tempo (ex.: "em quais estados X lidera", "onde Y está mais forte") e o campo "statesSummary" estiver presente no JSON de contexto, use SOMENTE as entradas desse array (cada uma já é o cenário calculado daquele estado) para responder, nunca invente ou generalize a partir do recorte nacional/estadual único. Estados cujo "simulatable" seja false só têm percentual bruto, não probabilidade; não trate esse percentual como garantia de liderança estatística. Se "statesSummary" não estiver no contexto e a pergunta pedir outro estado/cargo que não o recorte atual, diga que não tem esse dado nesta tela.
 
 Contexto (única fonte de verdade, em JSON):
 ${contextJson}`
@@ -160,7 +161,21 @@ const server = http.createServer(async (req, res) => {
         return
       }
 
-      const systemPrompt = SYSTEM_PROMPT_TEMPLATE(JSON.stringify(scenario))
+      // Abre o escopo do chat pra perguntas sobre varios estados de uma vez
+      // (so faz sentido pra Presidente: Governador ja e por estado, "em
+      // quais estados X lidera" nao se aplica a um unico governador).
+      let contextPayload = scenario
+      if (office === 'Presidente') {
+        try {
+          const statesSummary = await buildPresidenteEstadosSummary()
+          contextPayload = { ...scenario, statesSummary }
+        } catch {
+          // Resumo por estado indisponivel: segue so com o recorte atual,
+          // nunca bloqueia a pergunta original por causa disso.
+        }
+      }
+
+      const systemPrompt = SYSTEM_PROMPT_TEMPLATE(JSON.stringify(contextPayload))
       try {
         const answer = await askOllama({ systemPrompt, userMessage: question })
         sendJson(res, 200, { answer, scenario, groundedOn: 'local-data' })
