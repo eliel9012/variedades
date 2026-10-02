@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { BRAZIL_STATES, BRAZIL_STATE_BY_UF } from '../../data/brazil-states'
 import { BrazilMap } from './brazil-map'
+import { navigate, parseUfSegment, ufSegment, useRoute } from '../../router'
 import './cenarios-ia.css'
 
 export type CenariosIAProps = {
@@ -12,6 +13,24 @@ export type CenariosIAProps = {
 
 type Office = 'Presidente' | 'Governador'
 type PresidenteView = 'Nacional' | 'PorEstado'
+
+// URL de Cenários (ver src/router.ts): /cenarios/presidente[/uf],
+// /cenarios/governador/uf.
+type CenariosRoute = { office: Office; presidenteView: PresidenteView; uf: string | null }
+
+function parseCenariosPath(pathname: string): CenariosRoute {
+  const [, , section, a] = pathname.split('/')
+  if (section === 'governador') {
+    return { office: 'Governador', presidenteView: 'Nacional', uf: parseUfSegment(a) }
+  }
+  const uf = parseUfSegment(a)
+  return { office: 'Presidente', presidenteView: uf ? 'PorEstado' : 'Nacional', uf }
+}
+
+function cenariosPath(office: Office, presidenteView: PresidenteView, uf: string | null): string {
+  if (office === 'Governador') return uf ? `/cenarios/governador/${ufSegment(uf)}` : '/cenarios/governador'
+  return presidenteView === 'PorEstado' && uf ? `/cenarios/presidente/${ufSegment(uf)}` : '/cenarios/presidente'
+}
 
 type MarginSource = 'reported' | 'estimated_from_sample_size'
 
@@ -265,9 +284,22 @@ function ScenarioPanel({
 }
 
 export function CenariosIA({ state }: CenariosIAProps) {
-  const [office, setOffice] = useState<Office>('Presidente')
-  const [presidenteView, setPresidenteView] = useState<PresidenteView>('Nacional')
-  const [selectedUf, setSelectedUf] = useState<string | null>(state !== 'Brasil' ? state : null)
+  const pathname = useRoute()
+  const [office, setOffice] = useState<Office>(() => parseCenariosPath(pathname).office)
+  const [presidenteView, setPresidenteView] = useState<PresidenteView>(() => parseCenariosPath(pathname).presidenteView)
+  const [selectedUf, setSelectedUf] = useState<string | null>(
+    () => parseCenariosPath(pathname).uf ?? (state !== 'Brasil' ? state : null),
+  )
+
+  // Voltar/avançar do navegador (ou link direto) enquanto a aba Cenários já
+  // está montada. Cliques nos filtros abaixo já fazem o caminho inverso.
+  useEffect(() => {
+    if (!pathname.startsWith('/cenarios')) return
+    const route = parseCenariosPath(pathname)
+    setOffice(route.office)
+    setPresidenteView(route.presidenteView)
+    if (route.uf) setSelectedUf(route.uf)
+  }, [pathname])
 
   const [scenario, setScenario] = useState<ScenarioResponse | null>(null)
   const [scenarioStatus, setScenarioStatus] = useState<FetchStatus>('idle')
@@ -343,9 +375,12 @@ export function CenariosIA({ state }: CenariosIAProps) {
 
   const changeOffice = (nextOffice: Office) => {
     setOffice(nextOffice)
+    let nextUf = selectedUf
     if (nextOffice === 'Governador' && !selectedUf) {
-      setSelectedUf(state !== 'Brasil' ? state : BRAZIL_STATES[0].uf)
+      nextUf = state !== 'Brasil' ? state : BRAZIL_STATES[0].uf
+      setSelectedUf(nextUf)
     }
+    navigate(cenariosPath(nextOffice, presidenteView, nextUf))
   }
 
   const raceLabel =
@@ -457,7 +492,10 @@ export function CenariosIA({ state }: CenariosIAProps) {
               type="button"
               className={`cenarios-ia__pill cenarios-ia__pill--uf${presidenteView === option ? ' is-active' : ''}`}
               aria-pressed={presidenteView === option}
-              onClick={() => setPresidenteView(option)}
+              onClick={() => {
+                setPresidenteView(option)
+                navigate(cenariosPath('Presidente', option, selectedUf))
+              }}
             >
               {option === 'Nacional' ? 'Nacional' : 'Por estado'}
             </button>
@@ -467,7 +505,13 @@ export function CenariosIA({ state }: CenariosIAProps) {
 
       {needsUf && (
         <div className="cenarios-ia__state-picker">
-          <UfPicker activeUf={selectedUf} onSelect={setSelectedUf} />
+          <UfPicker
+            activeUf={selectedUf}
+            onSelect={(uf) => {
+              setSelectedUf(uf)
+              navigate(cenariosPath(office, 'PorEstado', uf))
+            }}
+          />
           <div className="cenarios-ia__state-result">
             <h3 className="cenarios-ia__race-title">{raceLabel}</h3>
             {!selectedUf && <p className="cenarios-ia__status">Selecione um estado no mapa para calcular o cenário.</p>}
