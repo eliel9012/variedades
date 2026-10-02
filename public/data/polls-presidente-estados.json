@@ -1,0 +1,784 @@
+{
+  "generatedAt": "2026-10-02T00:00:00Z",
+  "compiledManually": true,
+  "note": "Compilação manual a partir de uma única matéria jornalística (GCMais, publicada em 25/08/2026 com dados de pesquisas Quaest de 24/08 a 04/09/2026 e Datafolha de 31/08 a 10/09/2026). Não é um feed automático como o restante desta aba, e os números já têm mais de 30 dias: use como retrato de agosto/setembro, não como a foto mais recente da corrida presidencial nacional.",
+  "sources": [
+    {
+      "publisher": "GCMais",
+      "usedFor": "Intenção de voto para Presidente, recorte por estado (26 de 27 UFs; Piauí sem dado consolidado nesta fonte)",
+      "url": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    }
+  ],
+  "states": [
+    {
+      "uf": "AC",
+      "state": "Acre",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 42
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 25
+            },
+            {
+              "candidateName": "Ronaldo Caiado",
+              "party": null,
+              "percentage": 5
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "AL",
+      "state": "Alagoas",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 44
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 29
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "AP",
+      "state": "Amapá",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 36
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 33
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "AM",
+      "state": "Amazonas",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 38
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 33
+            },
+            {
+              "candidateName": "Augusto Cury",
+              "party": null,
+              "percentage": 3
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "BA",
+      "state": "Bahia",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 50
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 17
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "CE",
+      "state": "Ceará",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Datafolha",
+          "fieldwork": "31 de agosto a 2 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 54
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 16
+            },
+            {
+              "candidateName": "Augusto Cury",
+              "party": null,
+              "percentage": 8
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "pollster": "Datafolha",
+          "fieldwork": "31 de agosto a 2 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 61
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 29
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "DF",
+      "state": "Distrito Federal",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 28
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 26
+            },
+            {
+              "candidateName": "Ronaldo Caiado",
+              "party": null,
+              "percentage": 13
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "ES",
+      "state": "Espírito Santo",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 37
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 30
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "GO",
+      "state": "Goiás",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Ronaldo Caiado",
+              "party": null,
+              "percentage": 32
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 27
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 20
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "MA",
+      "state": "Maranhão",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 58
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 20
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "MT",
+      "state": "Mato Grosso",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 43
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 26
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "MS",
+      "state": "Mato Grosso do Sul",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 33
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 27
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "MG",
+      "state": "Minas Gerais",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 31
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 30
+            },
+            {
+              "candidateName": "Romeu Zema",
+              "party": null,
+              "percentage": 7
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "pollster": "Datafolha",
+          "fieldwork": "8 a 10 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 45
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 46
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "PA",
+      "state": "Pará",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 37
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 29
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "PB",
+      "state": "Paraíba",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 50
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 21
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "PR",
+      "state": "Paraná",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 41
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 23
+            },
+            {
+              "candidateName": "Ronaldo Caiado",
+              "party": null,
+              "percentage": 5
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "PE",
+      "state": "Pernambuco",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 54
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 19
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "PI",
+      "state": "Piauí",
+      "rounds": [],
+      "unavailable": true,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "RJ",
+      "state": "Rio de Janeiro",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 31
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 29
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "pollster": "Datafolha",
+          "fieldwork": "8 a 10 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 49
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 41
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "RN",
+      "state": "Rio Grande do Norte",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 54
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 20
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "RS",
+      "state": "Rio Grande do Sul",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 34
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 28
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "RO",
+      "state": "Rondônia",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 45
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 25
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "RR",
+      "state": "Roraima",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 52
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 17
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "SC",
+      "state": "Santa Catarina",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 45
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 20
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "SP",
+      "state": "São Paulo",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 30
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 29
+            },
+            {
+              "candidateName": "Augusto Cury",
+              "party": null,
+              "percentage": 8
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "pollster": "Datafolha",
+          "fieldwork": "8 a 10 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 47
+            },
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 42
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "SE",
+      "state": "Sergipe",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 53
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 19
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    },
+    {
+      "uf": "TO",
+      "state": "Tocantins",
+      "rounds": [
+        {
+          "round": 1,
+          "pollster": "Quaest",
+          "fieldwork": "24 de agosto a 4 de setembro de 2026",
+          "results": [
+            {
+              "candidateName": "Lula",
+              "party": null,
+              "percentage": 37
+            },
+            {
+              "candidateName": "Flávio Bolsonaro",
+              "party": null,
+              "percentage": 32
+            },
+            {
+              "candidateName": "Ronaldo Caiado",
+              "party": null,
+              "percentage": 7
+            }
+          ]
+        }
+      ],
+      "unavailable": false,
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-presidente-2026-por-estado-veja-quem-esta-na-frente"
+    }
+  ]
+}

@@ -184,12 +184,16 @@
 }
 
 .pesquisas-tracker__scenario-chip {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
   padding: 2px 9px;
   border-radius: var(--radius-full);
   background: var(--secondary-container);
   color: var(--on-secondary-container);
   font: 600 10px/16px 'Plus Jakarta Sans', sans-serif;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .pesquisas-tracker__commissioner {

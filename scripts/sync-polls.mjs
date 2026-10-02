@@ -1,21 +1,32 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-// Fonte primária: repositório aberto `rafaujo/eleicoes-2026-pesquisas`, que
-// transcreve pesquisas eleitorais 2026 publicadas por institutos/veículos e
-// reconcilia cada uma com o registro oficial do TSE (protocolo, amostra,
-// contratante) via `data/tse-metadata*.json`. Estrutura real verificada em
-// 2026-10-01 (ver `data/elections.json`, `data/polls.json`,
-// `data/polls-sp-governor.json`, `data/polls-mg-governor.json`).
+// Fonte primária para Presidente: repositório aberto
+// `rafaujo/eleicoes-2026-pesquisas`, que transcreve pesquisas eleitorais 2026
+// publicadas por institutos/veículos e reconcilia cada uma com o registro
+// oficial do TSE (protocolo, amostra, contratante) via
+// `data/tse-metadata*.json`. Estrutura real verificada em 2026-10-01 (ver
+// `data/elections.json`, `data/polls.json`). Hoje essa fonte só cobre a
+// corrida presidencial nacional (sem corte por estado) e, para Governador,
+// só São Paulo e Minas Gerais — por isso Governador usa uma fonte separada
+// abaixo, com cobertura real das 27 UFs.
 //
 // Poder360/Volt Data Lab foi avaliado como fonte secundária, mas não expõe um
 // endpoint público e sem autenticação acessível a partir deste script (a
 // página do PoderData não embute nenhuma API/Flourish/Datawrapper visível sem
-// JS renderizado) — por isso foi descartado por ora, e este sync depende
-// apenas da fonte primária acima.
+// JS renderizado) — por isso foi descartado por ora.
 const REPO_BASE = 'https://raw.githubusercontent.com/rafaujo/eleicoes-2026-pesquisas/main'
 const REPO_HOME = 'https://github.com/rafaujo/eleicoes-2026-pesquisas'
 const ELECTIONS_INDEX_URL = `${REPO_BASE}/data/elections.json`
+
+// Fonte para Governador: `thiago-salvador/puxa-ficha` (puxaficha.com.br),
+// plataforma cívica de transparência eleitoral (Apache-2.0, dados públicos
+// rastreáveis até a divulgação jornalística/TSE original de cada pesquisa).
+// Cobre pesquisas de Governador nas 27 UFs, com cenários por turno já
+// separados — verificado em 2026-10-02 (`scripts/data/pesquisas-governadores-2026.json`).
+const GOV_REPO_BASE = 'https://raw.githubusercontent.com/thiago-salvador/puxa-ficha/main'
+const GOV_REPO_HOME = 'https://github.com/thiago-salvador/puxa-ficha'
+const GOV_DATA_URL = `${GOV_REPO_BASE}/scripts/data/pesquisas-governadores-2026.json`
 
 const root = process.cwd()
 const outputDir = join(root, 'public/data')
@@ -26,10 +37,11 @@ const DAYS_WINDOW = 30
 const now = new Date()
 const cutoff = new Date(now.getTime() - DAYS_WINDOW * 24 * 60 * 60 * 1000)
 
-// Cargos cobertos pelo app (docs/tse-research.md): Presidente e Governador
-// nesta aba. Qualquer outro cargo que a fonte venha a publicar (ex.: prefeito)
-// é descartado automaticamente aqui, mesmo que apareça em `elections.json`.
-const SUPPORTED_OFFICES = new Set(['Presidente', 'Governador'])
+// Cargos cobertos pelo app (docs/tse-research.md) na fonte rafaujo: só
+// Presidente aqui (Governador vem da fonte puxa-ficha, mais completa).
+// Qualquer outro cargo que a fonte venha a publicar (ex.: prefeito) é
+// descartado automaticamente, mesmo que apareça em `elections.json`.
+const SUPPORTED_OFFICES = new Set(['Presidente'])
 
 async function fetchJson(url) {
   const response = await fetch(url)
@@ -150,15 +162,80 @@ async function syncElection(electionEntry) {
   return polls
 }
 
-async function main() {
+// Nomes reais usados pela fonte para "sem contratante externo" (pesquisa
+// paga pelo próprio instituto, não por um veículo/partido). Tratamos como
+// `null` em vez de repetir isso como se fosse o nome de um contratante.
+const SELF_FUNDED_PATTERN = /pr[oó]prio|pr[oó]prios recursos|recursos pr[oó]prios/i
+
+function buildGovernadorPollEntry(pesquisa, cenario) {
+  if (!cenario.resultados || cenario.resultados.length === 0) return null
+
+  const results = cenario.resultados
+    .map((row) => ({
+      candidateName: row.raw_label,
+      // A fonte não publica partido por candidato neste arquivo; nunca
+      // inventamos um partido, então o campo fica null (mesmo padrão da
+      // fonte de Presidente).
+      party: null,
+      percentage: typeof row.value_percent === 'number' ? row.value_percent : null,
+    }))
+    .filter((row) => row.percentage !== null)
+    .sort((a, b) => b.percentage - a.percentage)
+  if (results.length === 0) return null
+
+  const publishedAt = pesquisa.publication_date?.value || pesquisa.fieldwork?.end?.value || null
+  if (!publishedAt) return null
+
+  const commissionerRaw = pesquisa.contratante?.value || null
+  const commissioner = commissionerRaw && !SELF_FUNDED_PATTERN.test(commissionerRaw) ? commissionerRaw : null
+
+  const round = cenario.turn === 1 || cenario.turn === 2 ? cenario.turn : null
+
+  return {
+    id: `govff-${cenario.id}`,
+    office: 'Governador',
+    uf: pesquisa.geography?.code || null,
+    institute: pesquisa.instituto?.value || 'Instituto não identificado',
+    commissioner,
+    fieldDates: pesquisa.fieldwork?.start?.value && pesquisa.fieldwork?.end?.value
+      ? { start: pesquisa.fieldwork.start.value, end: pesquisa.fieldwork.end.value }
+      : null,
+    publishedAt,
+    sampleSize: typeof pesquisa.sample?.size?.value === 'number' ? pesquisa.sample.size.value : null,
+    marginOfError: typeof pesquisa.margin_error_pp?.value === 'number' ? pesquisa.margin_error_pp.value : null,
+    round,
+    scenarioLabel: cenario.label_raw || null,
+    results,
+    sourceUrl: pesquisa.provenance?.result_url || null,
+  }
+}
+
+async function syncGovernadorPolls() {
+  const file = await fetchJson(GOV_DATA_URL)
+  const datasets = file.datasets || []
+  const polls = []
+  for (const dataset of datasets) {
+    for (const pesquisa of dataset.pesquisas || []) {
+      if (!pesquisa.uf && !pesquisa.geography?.code) continue
+      for (const cenario of pesquisa.cenarios || []) {
+        const publishedAt = pesquisa.publication_date?.value || pesquisa.fieldwork?.end?.value
+        const effective = parseIsoDate(publishedAt)
+        if (!effective || effective < cutoff || effective > now) continue
+        const entry = buildGovernadorPollEntry(pesquisa, cenario)
+        if (entry && entry.uf) polls.push(entry)
+      }
+    }
+  }
+  return polls
+}
+
+async function syncPresidentePolls() {
   let electionsIndex
   try {
     electionsIndex = await fetchJson(ELECTIONS_INDEX_URL)
   } catch (error) {
-    console.error(`Falha ao buscar o índice de eleições em ${ELECTIONS_INDEX_URL}: ${error.message}`)
-    console.error('Fonte indisponível a partir deste ambiente — gravando public/data/polls.json vazio (sem dados inventados).')
-    writeFileSync(outputFile, `${JSON.stringify({ generatedAt: now.toISOString(), source: null, polls: [] }, null, 2)}\n`)
-    return
+    console.warn(`Aviso: falha ao buscar o índice de eleições em ${ELECTIONS_INDEX_URL} (${error.message}). Pulando Presidente.`)
+    return []
   }
 
   const elections = (electionsIndex.elections || [])
@@ -170,31 +247,36 @@ async function main() {
       office: entry.tse?.office,
       jurisdiction: entry.tse?.jurisdiction,
     }))
-    // Mantém só Presidente/Governador (escopo desta aba); descarta qualquer
-    // outro cargo que a fonte venha a publicar (ex.: prefeito/vereador).
     .filter((entry) => SUPPORTED_OFFICES.has(entry.office) && entry.dataFile)
 
-  if (elections.length === 0) {
-    console.error('Índice de eleições não contém nenhuma disputa de Presidente/Governador reconhecível. Gravando polls.json vazio.')
-    writeFileSync(outputFile, `${JSON.stringify({ generatedAt: now.toISOString(), source: null, polls: [] }, null, 2)}\n`)
-    return
-  }
-
-  const allPolls = []
-  let successfulElections = 0
+  const polls = []
   for (const electionEntry of elections) {
     try {
-      const polls = await syncElection(electionEntry)
-      allPolls.push(...polls)
-      successfulElections += 1
-      console.log(`${electionEntry.id}: ${polls.length} pesquisa(s) nos últimos ${DAYS_WINDOW} dias.`)
+      const entryPolls = await syncElection(electionEntry)
+      polls.push(...entryPolls)
+      console.log(`${electionEntry.id}: ${entryPolls.length} pesquisa(s) nos últimos ${DAYS_WINDOW} dias.`)
     } catch (error) {
       console.warn(`Aviso: não foi possível sincronizar ${electionEntry.id} (${error.message}). Pulando esta eleição.`)
     }
   }
+  return polls
+}
 
-  if (successfulElections === 0) {
-    console.error('Nenhuma eleição pôde ser sincronizada a partir da fonte. Gravando polls.json vazio (sem dados inventados).')
+async function main() {
+  const [presidentePolls, governadorPolls] = await Promise.all([
+    syncPresidentePolls(),
+    syncGovernadorPolls().catch((error) => {
+      console.warn(`Aviso: falha ao buscar pesquisas de Governador em ${GOV_DATA_URL} (${error.message}). Pulando Governador.`)
+      return []
+    }),
+  ])
+
+  console.log(`governador (puxa-ficha): ${governadorPolls.length} registro(s) nos últimos ${DAYS_WINDOW} dias.`)
+
+  const allPolls = [...presidentePolls, ...governadorPolls]
+
+  if (allPolls.length === 0) {
+    console.error('Nenhuma das fontes de pesquisa pôde ser sincronizada. Gravando polls.json vazio (sem dados inventados).')
     writeFileSync(outputFile, `${JSON.stringify({ generatedAt: now.toISOString(), source: null, polls: [] }, null, 2)}\n`)
     return
   }
@@ -206,7 +288,7 @@ async function main() {
     `${JSON.stringify(
       {
         generatedAt: now.toISOString(),
-        source: REPO_HOME,
+        source: `${REPO_HOME} (Presidente) e ${GOV_REPO_HOME} (Governador)`,
         polls: allPolls,
       },
       null,
@@ -214,7 +296,7 @@ async function main() {
     )}\n`,
   )
 
-  console.log(`Pesquisas: ${allPolls.length} registro(s) de ${successfulElections}/${elections.length} eleição(ões) gravado(s) em public/data/polls.json`)
+  console.log(`Pesquisas: ${allPolls.length} registro(s) (${presidentePolls.length} Presidente, ${governadorPolls.length} Governador) gravado(s) em public/data/polls.json`)
 }
 
 await main()
