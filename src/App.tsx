@@ -420,7 +420,7 @@ function App() {
         <div className="hero-copy">
           <p className="eyebrow">central de apuração · TSE</p>
           <h1>O país<br /><span>conta junto.</span></h1>
-          <p className="hero-lede">Resultado oficial e contexto local, com sinal claro de atualização. Tudo isso continua funcionando mesmo quando a rede cai.</p>
+          <p className="hero-lede">Resultado oficial e contexto local, com sinal claro de atualização.</p>
           <div className="hero-actions">
             <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{syncLabel}</span>
             <span className="hero-note">1º turno · 04 out 2026</span>
