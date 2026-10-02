@@ -75,6 +75,41 @@ Variáveis de ambiente do `npm run server`:
 Os números de probabilidade em `/api/scenario` continuam válidos mesmo sem o Ollama rodando; só a caixa de perguntas
 fica indisponível (e a interface avisa isso claramente, sem fingir uma resposta).
 
+## Analytics (Umami)
+
+Analytics opcional, desligado por padrão. Usa [Umami](https://umami.is) (MIT, open source, sem cookie, self-hosted),
+não Google Analytics.
+
+1. No **servidor real** (não neste repo de dev), suba o Umami com o compose em `deploy/umami/`:
+
+   ```bash
+   cd deploy/umami
+   cp .env.example .env   # preencha UMAMI_DB_PASSWORD e UMAMI_APP_SECRET (openssl rand -hex 32)
+   docker compose up -d
+   ```
+
+   Isso sobe o Umami em `127.0.0.1:3010` (só local). Aponte um subdomínio (ex.: `analytics.meulab.fun`) pra essa porta
+   via Cloudflare Zero Trust/Tunnel, do mesmo jeito que `varia.meulab.fun`/`eleicoes.meulab.fun` já apontam pro app.
+
+2. Abra o Umami nesse subdomínio, crie o usuário admin, e cadastre um site apontando pro domínio do Apura Brasil
+   (ex.: `eleicoes.meulab.fun`). Copie o **Website ID** gerado.
+
+3. No build do app, defina (`.env.production` ou variável de ambiente do processo de build):
+
+   ```bash
+   VITE_UMAMI_SCRIPT_URL=https://analytics.meulab.fun/script.js
+   VITE_UMAMI_WEBSITE_ID=<cole o Website ID aqui>
+   ```
+
+   Sem essas duas variáveis, `src/analytics.ts` não injeta nenhum script, o site funciona normal, só sem métricas.
+
+## Anúncios (Google AdSense)
+
+Dá pra rodar anúncio sem atrapalhar visualização de dado, com disciplina de layout: reserve 1-2 blocos fixos (topo do
+header, rodapé), nunca dentro de tabela/card/mapa, e nunca "Auto ads" (o Google escolhe a posição sozinho e pode cair
+em cima de conteúdo). Isso ainda não está implementado no código, é decisão de onde colocar o(s) bloco(s) quando a
+conta for aprovada.
+
 ## Limites
 
 Resultados podem chegar em lotes; “15s” é frequência de consulta, não promessa de mudança a cada segundo. CORS da CDN pode variar; em produção, um proxy/server-side é mais robusto que fetch direto no navegador.

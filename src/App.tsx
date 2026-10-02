@@ -16,6 +16,15 @@ import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'estatisticas' | 'cenarios'
 const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'estatisticas', 'cenarios']
 
+// Antes do 1º turno (4 out 2026), a home abre em Pesquisas, que é o que tem
+// dado novo pra mostrar. No dia da eleição em diante (1º e 2º turno), abre
+// direto na apuração, que passa a ser o conteúdo relevante. Horário de
+// Brasília (-03:00) pra não trocar ~3h adiantado por causa do UTC.
+const ELECTION_DAY_UTC_MS = Date.parse('2026-10-04T00:00:00-03:00')
+function getDefaultTab(): ViewTab {
+  return Date.now() >= ELECTION_DAY_UTC_MS ? 'governadorSenador' : 'pesquisas'
+}
+
 const format = new Intl.NumberFormat('pt-BR')
 const timeFormat = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
@@ -113,7 +122,7 @@ function App() {
   const [round, setRound] = useState<1 | 2>(1)
   const [state, setState] = useState('Brasil')
   const [office, setOffice] = useState('Presidente')
-  const [activeTab, setActiveTab] = useState<ViewTab>('governadorSenador')
+  const [activeTab, setActiveTab] = useState<ViewTab>(getDefaultTab)
   const [panelState, setPanelState] = useState<BrazilState | null>(null)
   const [snapshot, setSnapshot] = useState<ResultSnapshot>(initialSnapshot)
   const [candidates, setCandidates] = useState<Candidate[]>(candidateSeed)
