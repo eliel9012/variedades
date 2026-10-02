@@ -12,6 +12,7 @@ type TSEConfig = {
       cdt2?: string
       t?: string
       tp?: string
+      abr?: Array<{ cd?: string; cp?: Array<{ cd?: string }> }>
     }>
   }>
 }
@@ -123,14 +124,12 @@ export function tseDateTimeToIso(dg: string | undefined, hg: string | undefined)
   return Number.isNaN(Date.parse(iso)) ? null : iso
 }
 
-// TSE agrupa os cargos por ciclo eleitoral dentro de um mesmo pleito: o ciclo
-// Federal (Presidente, Senador, Deputado Federal) e o ciclo Estadual
-// (Governador, Deputado Estadual, Deputado Distrital), ver
-// docs/tse-research.md ("eleição federal" cd 6257/6258 vs. "eleições
-// estaduais" cd 6259/6260). Uma divisão binária Presidente-vs-resto deixava
-// Senador e Deputado Federal incorretamente agrupados com o ciclo Estadual.
-const FEDERAL_CYCLE_OFFICES = new Set(['Presidente', 'Senador', 'Deputado federal'])
-const ESTADUAL_CYCLE_OFFICES = new Set(['Governador', 'Deputado estadual', 'Deputado distrital'])
+// Plano B quando o config não lista cargos: no ele-c.json real de 2026
+// (conferido em 02/10/2026) a eleição "Federal" (tp 8, cd 6257/6258) tem só
+// Presidente, e a "Estadual" (tp 1, cd 6259/6260) tem Governador, Senador,
+// Deputado federal, estadual e distrital.
+const FEDERAL_CYCLE_OFFICES = new Set(['Presidente'])
+const ESTADUAL_CYCLE_OFFICES = new Set(['Governador', 'Senador', 'Deputado federal', 'Deputado estadual', 'Deputado distrital'])
 
 function officeType(office: string) {
   if (FEDERAL_CYCLE_OFFICES.has(office)) return '8'
@@ -142,6 +141,17 @@ function chooseElection(config: TSEConfig, round: 1 | 2, office: string) {
   const plan = config.pl?.find((item) => item.c === 'ele2026') || config.pl?.[0]
   if (plan?.c && plan.c !== 'ele2026') throw new Error('TSE 2026 election unavailable')
   const elections = plan?.e || []
+  // O próprio config lista os cargos de cada eleição (abr[].cp[].cd). No
+  // config real de 2026 a eleição "Federal" (6257) só tem Presidente, e
+  // Senador/Deputado federal vêm na "Estadual" (6259) junto com Governador:
+  // por isso o cargo manda, e o tipo (tp) fica só como plano B.
+  const officeCode = String(officeCodes[office as keyof typeof officeCodes] ?? '')
+  const hasOffice = (election: (typeof elections)[number]) => !!election.abr?.some((abr) => abr.cp?.some((cp) => cp.cd === officeCode))
+  const byOffice = elections.find((election) => election.t === '1' && hasOffice(election))
+  if (byOffice?.cd) {
+    if (round === 1) return { cycle: plan?.c || 'ele2026', code: byOffice.cd }
+    if (byOffice.cdt2) return { cycle: plan?.c || 'ele2026', code: byOffice.cdt2 }
+  }
   const type = officeType(office)
   const direct = elections.find((election) => election.t === String(round) && election.tp === type)
   if (direct?.cd) return { cycle: plan?.c || 'ele2026', code: direct.cd }

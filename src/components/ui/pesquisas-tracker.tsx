@@ -258,6 +258,21 @@ function isSpontaneousPoll(poll: Poll) {
 
 /** Par de candidatos reais de uma pesquisa de 2º turno (sem pseudo-linhas),
  * em ordem alfabética, pra agrupar pesquisas que simulam o mesmo confronto. */
+/** Rótulo de cenário mais frequente (null conta como cenário próprio). */
+function mostFrequentScenario(polls: Poll[]) {
+  const counts = new Map<string | null, number>()
+  for (const poll of polls) counts.set(poll.scenarioLabel ?? null, (counts.get(poll.scenarioLabel ?? null) ?? 0) + 1)
+  let best: string | null = null
+  let bestCount = -1
+  for (const [label, count] of counts) {
+    if (count > bestCount) {
+      best = label
+      bestCount = count
+    }
+  }
+  return best
+}
+
 function matchupKey(poll: Poll) {
   return poll.results
     .map((result) => result.candidateName)
@@ -1070,7 +1085,10 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
 
   const groups = useMemo(() => {
     const byKey = new Map<string, Poll[]>()
+    // Espontânea (sem lista de nomes) não é comparável com a estimulada:
+    // fica fora dos cards e das linhas do tempo.
     for (const poll of filteredPolls) {
+      if (isSpontaneousPoll(poll)) continue
       const key = raceKey(poll)
       const bucket = byKey.get(key)
       if (bucket) bucket.push(poll)
@@ -1112,9 +1130,22 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
 
   // Linhas do tempo usam o histórico completo (`polls`, ~400 dias), não o
   // recorte de 30 dias dos cards de "quadro atual" acima.
-  const presidenteTimelineR1 = useMemo(
-    () => buildTimelineSeries(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 1 && !isSpontaneousPoll(poll))),
+  // 1º turno: cada pesquisa testa cenários com listas de nomes diferentes
+  // (principal, com Cury, com Marçal...). Misturar muda o % de todo mundo de
+  // um ponto para o outro, então a linha usa só o cenário mais testado.
+  const presidenteR1Scenario = useMemo(
+    () => mostFrequentScenario(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 1 && !isSpontaneousPoll(poll))),
     [polls],
+  )
+  const presidenteTimelineR1 = useMemo(
+    () =>
+      buildTimelineSeries(
+        polls.filter(
+          (poll) =>
+            poll.office === 'Presidente' && poll.round === 1 && !isSpontaneousPoll(poll) && (poll.scenarioLabel ?? null) === presidenteR1Scenario,
+        ),
+      ),
+    [polls, presidenteR1Scenario],
   )
   // 2º turno: cada pesquisa pode simular um confronto diferente (Lula x
   // Flávio, Lula x Caiado...). Misturar tudo numa linha só juntaria números
@@ -1375,7 +1406,13 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
 
           {presidenteSectionOpen && presidenteView === 'LinhaDoTempo' && (
             <>
-              <h4 className="pesquisas-tracker__race-title">Presidente · 1º turno (nacional)</h4>
+              <h4 className="pesquisas-tracker__race-title">
+                Presidente · 1º turno (nacional){presidenteR1Scenario ? ` · ${presidenteR1Scenario}` : ''}
+              </h4>
+              <p className="pesquisas-tracker__office-note">
+                Cada pesquisa testa listas de nomes diferentes no 1º turno. Para a linha não pular de um cenário para
+                outro, aqui aparece só o cenário mais testado pelas fontes; os outros seguem nos cards do quadro atual.
+              </p>
               <TimelineChart data={presidenteTimelineR1} title="Presidente, 1º turno, nacional" />
 
               <h4 className="pesquisas-tracker__race-title">
@@ -1502,9 +1539,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                             </div>
                             {!isCollapsed && (
                               <div className="pesquisas-tracker__grid">
-                                {/* Estimulado primeiro: o espontâneo (sem lista de nomes) não é
-                                    comparável e só aparece depois, com o selo do cenário. */}
-                                {[...group.items.filter((poll) => !isSpontaneousPoll(poll)), ...group.items.filter(isSpontaneousPoll)].map((poll) => (
+                                {group.items.map((poll) => (
                                   <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
                                 ))}
                               </div>
