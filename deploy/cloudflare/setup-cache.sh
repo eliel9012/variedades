@@ -67,13 +67,13 @@ curl -s -X POST "${API}/pagerules" "${AUTH[@]}" --data "$(cat <<JSON
 JSON
 )" | python3 -m json.tool
 
-echo "== Page Rule: /data/* -> cache 10 min (json re-sincroniza periodicamente) =="
+echo "== Page Rule: /data/* -> cache 2h (TTL minimo do plano gratuito pra Page Rules) =="
 curl -s -X POST "${API}/pagerules" "${AUTH[@]}" --data "$(cat <<JSON
 {
   "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "${SITE_DOMAIN}/data/*"}}],
   "actions": [
     {"id": "cache_level", "value": "cache_everything"},
-    {"id": "edge_cache_ttl", "value": 600}
+    {"id": "edge_cache_ttl", "value": 7200}
   ],
   "priority": 3,
   "status": "active"
