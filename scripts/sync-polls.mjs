@@ -51,23 +51,22 @@ function effectivePublishedAt(poll) {
   return poll.published || poll.end || null
 }
 
-// Escolhe o cenário "manchete" de uma pesquisa: o cenário padrão da eleição
-// (`defaultScenario`, ex. "first-main") quando a pesquisa o publicou; senão o
-// primeiro cenário de 1º turno que ela de fato publicou; senão, na ausência
-// de qualquer cenário de 1º turno, o primeiro cenário publicado (ex.: pesquisa
-// que só testou um confronto de 2º turno).
-function pickHeadlineScenarioId(poll, scenarioById, defaultScenarioId) {
-  const publishedIds = Object.keys(poll.scenarios || {})
+// A fonte publica, por pesquisa, vários cenários (1º turno com/sem candidato
+// X, e um ou mais confrontos de 2º turno). O sync antigo escolhia só UM
+// cenário "manchete" por pesquisa — quase sempre um de 1º turno — e descartava
+// o resto, inclusive os de 2º turno. Isso tornava um filtro real de turno
+// impossível (quase não sobrava dado de 2º turno). Agora escolhemos, para cada
+// pesquisa, até um cenário manchete de 1º turno E um de 2º turno (quando a
+// pesquisa de fato publicou um), gerando até 2 registros por pesquisa — nunca
+// inventando um cenário que a pesquisa não publicou.
+function pickHeadlineScenarioId(poll, scenarioById, defaultScenarioId, round) {
+  const publishedIds = Object.keys(poll.scenarios || {}).filter((id) => scenarioById[id]?.round === round)
   if (publishedIds.length === 0) return null
-  if (defaultScenarioId && publishedIds.includes(defaultScenarioId)) return defaultScenarioId
-  const firstRound = publishedIds.find((id) => scenarioById[id]?.round === 1)
-  if (firstRound) return firstRound
+  if (round === 1 && defaultScenarioId && publishedIds.includes(defaultScenarioId)) return defaultScenarioId
   return publishedIds[0]
 }
 
-function normalizePoll(electionEntry, poll, scenarioById, metadataRecords, candidates) {
-  const scenarioId = pickHeadlineScenarioId(poll, scenarioById, electionEntry.defaultScenario)
-  if (!scenarioId) return null
+function buildPollEntry(electionEntry, poll, scenarioId, scenarioById, metadataRecords, candidates) {
   const scenarioMeta = scenarioById[scenarioId]
   const scenarioData = poll.scenarios[scenarioId]
   if (!scenarioData || !scenarioData.results) return null
@@ -100,7 +99,7 @@ function normalizePoll(electionEntry, poll, scenarioById, metadataRecords, candi
   const commissioner = poll.publication && poll.publication !== 'Divulgação própria' ? poll.publication : null
 
   return {
-    id: `${electionEntry.id}-${poll.id}`,
+    id: `${electionEntry.id}-${poll.id}-${scenarioId}`,
     office: electionEntry.office,
     uf: electionEntry.jurisdiction,
     institute: poll.pollster || 'Instituto não identificado',
@@ -110,9 +109,21 @@ function normalizePoll(electionEntry, poll, scenarioById, metadataRecords, candi
     sampleSize: typeof poll.sample === 'number' ? poll.sample : typeof tseRecord?.sample === 'number' ? tseRecord.sample : null,
     marginOfError: typeof poll.margin === 'number' ? poll.margin : null,
     round: scenarioMeta?.round === 1 || scenarioMeta?.round === 2 ? scenarioMeta.round : null,
+    scenarioLabel: scenarioMeta?.label || null,
     results,
     sourceUrl: scenarioData.resultSource || poll.resultSource || null,
   }
+}
+
+function normalizePoll(electionEntry, poll, scenarioById, metadataRecords, candidates) {
+  const entries = []
+  for (const round of [1, 2]) {
+    const scenarioId = pickHeadlineScenarioId(poll, scenarioById, electionEntry.defaultScenario, round)
+    if (!scenarioId) continue
+    const entry = buildPollEntry(electionEntry, poll, scenarioId, scenarioById, metadataRecords, candidates)
+    if (entry) entries.push(entry)
+  }
+  return entries
 }
 
 async function syncElection(electionEntry) {
@@ -134,8 +145,7 @@ async function syncElection(electionEntry) {
   for (const poll of data.polls || []) {
     const effective = parseIsoDate(effectivePublishedAt(poll))
     if (!effective || effective < cutoff || effective > now) continue
-    const normalized = normalizePoll(electionEntry, poll, scenarioById, metadataRecords, candidates)
-    if (normalized) polls.push(normalized)
+    polls.push(...normalizePoll(electionEntry, poll, scenarioById, metadataRecords, candidates))
   }
   return polls
 }

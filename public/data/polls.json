@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-01T01:54:45.627Z",
+  "generatedAt": "2026-10-01T23:58:58.983Z",
   "source": "https://github.com/rafaujo/eleicoes-2026-pesquisas",
   "polls": [
     {
-      "id": "governor-sp-25",
+      "id": "governor-sp-25-first-auto-haddad-izadora-machado-tarcisio-vera-vivian",
       "office": "Governador",
       "uf": "SP",
       "institute": "Futura Inteligência",
@@ -16,6 +16,7 @@
       "sampleSize": 1600,
       "marginOfError": 2.4,
       "round": 1,
+      "scenarioLabel": "Lista com 6 nomes",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -56,7 +57,41 @@
       "sourceUrl": "https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2026/09/Relatorio_SP_2026set_2.pdf"
     },
     {
-      "id": "governor-sp-24",
+      "id": "governor-sp-25-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Futura Inteligência",
+      "commissioner": "admin.cnnbrasil.com.br",
+      "fieldDates": {
+        "start": "2026-09-26",
+        "end": "2026-09-26"
+      },
+      "publishedAt": "2026-09-27",
+      "sampleSize": 1600,
+      "marginOfError": 2.4,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 58.2
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 35.6
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6.2
+        }
+      ],
+      "sourceUrl": "https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2026/09/Relatorio_SP_2026set_2.pdf"
+    },
+    {
+      "id": "governor-sp-24-first-auto-haddad-izadora-machado-tarcisio-vera-vivian",
       "office": "Governador",
       "uf": "SP",
       "institute": "Colectta",
@@ -69,6 +104,7 @@
       "sampleSize": 1800,
       "marginOfError": 2.3,
       "round": 1,
+      "scenarioLabel": "Lista com 6 nomes",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -109,7 +145,7 @@
       "sourceUrl": "https://brazileconomy.com.br/politica/2026/09/pesquisa-brazil-economycolectta-aponta-reeleicao-de-tarcisio-no-1o-turno/"
     },
     {
-      "id": "president-br-66",
+      "id": "president-br-66-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Alfa Inteligência",
@@ -122,6 +158,7 @@
       "sampleSize": 2700,
       "marginOfError": 1.8,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -162,7 +199,41 @@
       "sourceUrl": "https://www.cartacapital.com.br/politica/lula-lidera-em-1o-turno-e-empata-com-flavio-bolsonaro-no-2o-indica-pesquisa-alfa/"
     },
     {
-      "id": "president-br-67",
+      "id": "president-br-66-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Alfa Inteligência",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-18",
+        "end": "2026-09-23"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 2700,
+      "marginOfError": 1.8,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 15
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/lula-lidera-em-1o-turno-e-empata-com-flavio-bolsonaro-no-2o-indica-pesquisa-alfa/"
+    },
+    {
+      "id": "president-br-67-runoff-lula-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "PoderData",
@@ -175,6 +246,7 @@
       "sampleSize": 3000,
       "marginOfError": 1.8,
       "round": 2,
+      "scenarioLabel": "Lula × Augusto Cury",
       "results": [
         {
           "candidateName": "Augusto Cury",
@@ -195,7 +267,7 @@
       "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-46-e-lula-45-no-2o-turno-diz-poderdata-aya/"
     },
     {
-      "id": "president-br-68",
+      "id": "president-br-68-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Real Time Big Data",
@@ -208,6 +280,7 @@
       "sampleSize": 2000,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -248,7 +321,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-presidente-setembro-2026-2/"
     },
     {
-      "id": "governor-sp-23",
+      "id": "president-br-68-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-23"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-presidente-setembro-2026-2/"
+    },
+    {
+      "id": "governor-sp-23-first-auto-haddad-izadora-machado-tarcisio-vera-vivian",
       "office": "Governador",
       "uf": "SP",
       "institute": "Datafolha",
@@ -261,6 +368,7 @@
       "sampleSize": 1610,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista com 6 nomes",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -301,7 +409,7 @@
       "sourceUrl": "https://g1.globo.com/google/amp/sp/sao-paulo/eleicoes/2026/noticia/2026/09/24/datafolha-sp-governador-24-setembro.ghtml"
     },
     {
-      "id": "governor-mg-15",
+      "id": "governor-mg-15-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "Datafolha",
@@ -314,6 +422,7 @@
       "sampleSize": 1204,
       "marginOfError": 3,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -359,7 +468,41 @@
       "sourceUrl": "https://cbn.globo.com/coberturas/eleicoes-2026/noticia/2026/09/24/datafolha-em-mg-cleitinho-lidera-com-40percent-patrus-tem-15percent-kalil-9percent-simoes-5percent.ghtml"
     },
     {
-      "id": "president-br-65",
+      "id": "governor-mg-15-runoff-cleitinho-kalil",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Datafolha",
+      "commissioner": "cbn.globo.com",
+      "fieldDates": {
+        "start": "2026-09-22",
+        "end": "2026-09-24"
+      },
+      "publishedAt": "2026-09-24",
+      "sampleSize": 1204,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "Cleitinho × Kalil",
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 57
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 26
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/google/amp/mg/minas-gerais/eleicoes/2026/noticia/2026/09/24/datafolha-mg-governador-24-setembro.ghtml"
+    },
+    {
+      "id": "president-br-65-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "AtlasIntel",
@@ -372,6 +515,7 @@
       "sampleSize": 5015,
       "marginOfError": 1,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -412,7 +556,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-setembro-2026-3/"
     },
     {
-      "id": "governor-sp-22",
+      "id": "president-br-65-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-17",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 5015,
+      "marginOfError": 1,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46.6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9.4
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-setembro-2026-3/"
+    },
+    {
+      "id": "governor-sp-22-first-auto-haddad-tarcisio",
       "office": "Governador",
       "uf": "SP",
       "institute": "Quaest",
@@ -425,6 +603,7 @@
       "sampleSize": 1800,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista com 2 nomes",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -445,7 +624,41 @@
       "sourceUrl": "https://g1.globo.com/sp/sao-paulo/eleicoes/2026/noticia/2026/09/23/quaest-sp-governador-23-setembro.ghtml"
     },
     {
-      "id": "governor-sp-21",
+      "id": "governor-sp-22-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 1800,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 49
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 21
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/sp/sao-paulo/eleicoes/2026/noticia/2026/09/23/quaest-sp-governador-23-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-21-first-pre-campaign",
       "office": "Governador",
       "uf": "SP",
       "institute": "AtlasIntel",
@@ -458,6 +671,7 @@
       "sampleSize": 1800,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista da pré-campanha",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -493,7 +707,41 @@
       "sourceUrl": "https://www.cartacapital.com.br/politica/atlas-tarcisio-mantem-larga-vantagem-sobre-haddad-e-venceria-no-1o-turno-em-sao-paulo/"
     },
     {
-      "id": "governor-mg-12",
+      "id": "governor-sp-21-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "AtlasIntel",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-15",
+        "end": "2026-09-20"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 1800,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 55.6
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 41.7
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 2.7
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/atlas-tarcisio-mantem-larga-vantagem-sobre-haddad-e-venceria-no-1o-turno-em-sao-paulo/"
+    },
+    {
+      "id": "governor-mg-12-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "AtlasIntel",
@@ -506,6 +754,7 @@
       "sampleSize": 1799,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -551,7 +800,41 @@
       "sourceUrl": "https://www.cartacapital.com.br/politica/pesquisa-atlasintel-cleitinho-e-o-favorito-para-o-governo-de-mg/"
     },
     {
-      "id": "governor-sp-19",
+      "id": "governor-mg-12-runoff-cleitinho-kalil",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "AtlasIntel",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-15",
+        "end": "2026-09-20"
+      },
+      "publishedAt": "2026-09-23",
+      "sampleSize": 1799,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Cleitinho × Kalil",
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 51.2
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 36.8
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12.1
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/pesquisa-atlasintel-cleitinho-e-o-favorito-para-o-governo-de-mg/"
+    },
+    {
+      "id": "governor-sp-19-first-auto-haddad-izadora-machado-tarcisio-vera-vivian",
       "office": "Governador",
       "uf": "SP",
       "institute": "Paraná Pesquisas",
@@ -564,6 +847,7 @@
       "sampleSize": 1600,
       "marginOfError": 2.5,
       "round": 1,
+      "scenarioLabel": "Lista com 6 nomes",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -604,7 +888,41 @@
       "sourceUrl": "https://www.cartacapital.com.br/politica/parana-pesquisas-tarcisio-tem-50-e-haddad-33-em-sp/"
     },
     {
-      "id": "governor-mg-14",
+      "id": "governor-sp-19-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-21"
+      },
+      "publishedAt": "2026-09-22",
+      "sampleSize": 1600,
+      "marginOfError": 2.5,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 54
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 36.4
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9.6
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/parana-pesquisas-tarcisio-tem-50-e-haddad-33-em-sp/"
+    },
+    {
+      "id": "governor-mg-14-first-main",
       "office": "Governador",
       "uf": "MG",
       "institute": "Quaest",
@@ -617,6 +935,7 @@
       "sampleSize": 1506,
       "marginOfError": 3,
       "round": 1,
+      "scenarioLabel": "Lista oficial",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -682,7 +1001,41 @@
       "sourceUrl": "https://g1.globo.com/mg/minas-gerais/eleicoes/2026/noticia/2026/09/23/quaest-mg-governador-23-setembro.ghtml"
     },
     {
-      "id": "governor-mg-13",
+      "id": "governor-mg-14-runoff-cleitinho-kalil",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-19",
+        "end": "2026-09-22"
+      },
+      "publishedAt": "2026-09-22",
+      "sampleSize": 1506,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "Cleitinho × Kalil",
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 49
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 26
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 25
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/mg/minas-gerais/eleicoes/2026/noticia/2026/09/23/quaest-mg-governador-23-setembro.ghtml"
+    },
+    {
+      "id": "governor-mg-13-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "F5",
@@ -695,6 +1048,7 @@
       "sampleSize": 1560,
       "marginOfError": 2.5,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -740,7 +1094,7 @@
       "sourceUrl": "https://www.em.com.br/politica/2026/09/7506058-pesquisa-f5-cleitinho-tem-33-simoes-14-patrus-11-kalil-10.html"
     },
     {
-      "id": "president-br-64",
+      "id": "president-br-64-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Quaest",
@@ -753,6 +1107,7 @@
       "sampleSize": 2004,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -793,7 +1148,41 @@
       "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/21/quaest-presidente-2o-turno-21-setembro.ghtml"
     },
     {
-      "id": "governor-sp-20",
+      "id": "president-br-64-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-17",
+        "end": "2026-09-20"
+      },
+      "publishedAt": "2026-09-21",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 20
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/21/quaest-presidente-2o-turno-21-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-20-runoff-tarcisio-haddad",
       "office": "Governador",
       "uf": "SP",
       "institute": "Real Time Big Data",
@@ -806,6 +1195,7 @@
       "sampleSize": 2000,
       "marginOfError": 2,
       "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -826,7 +1216,7 @@
       "sourceUrl": "https://static.poder360.com.br/uploads/2026/09/real-time-big-data-SP-21set2026.pdf"
     },
     {
-      "id": "governor-mg-11",
+      "id": "governor-mg-11-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "Veritá",
@@ -839,6 +1229,7 @@
       "sampleSize": 2030,
       "marginOfError": 2.5,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -884,7 +1275,7 @@
       "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/verita-cleitinho-tem-474-no-1o-turno-em-mg-patrus-212/#goog_rewarded"
     },
     {
-      "id": "president-br-61",
+      "id": "president-br-61-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Gerp",
@@ -897,6 +1288,7 @@
       "sampleSize": 2400,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Flávio Bolsonaro",
@@ -937,7 +1329,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-setembro-2026-2/"
     },
     {
-      "id": "president-br-62",
+      "id": "president-br-61-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Gerp",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-14",
+        "end": "2026-09-16"
+      },
+      "publishedAt": "2026-09-17",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 50
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-setembro-2026-2/"
+    },
+    {
+      "id": "president-br-62-runoff-lula-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "PoderData",
@@ -950,6 +1376,7 @@
       "sampleSize": 3000,
       "marginOfError": 1.8,
       "round": 2,
+      "scenarioLabel": "Lula × Augusto Cury",
       "results": [
         {
           "candidateName": "Augusto Cury",
@@ -970,7 +1397,7 @@
       "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-46-e-lula-44-no-2o-turno-diz-poderdata-aya/"
     },
     {
-      "id": "president-br-63",
+      "id": "president-br-63-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Datafolha",
@@ -983,6 +1410,7 @@
       "sampleSize": 2002,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -1023,7 +1451,7 @@
       "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/17/datafolha-presidente-17-setembro.ghtml"
     },
     {
-      "id": "president-br-59",
+      "id": "president-br-59-runoff-lula-caiado",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Indexa",
@@ -1036,6 +1464,7 @@
       "sampleSize": 2000,
       "marginOfError": 2.2,
       "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
       "results": [
         {
           "candidateName": "Lula",
@@ -1056,7 +1485,7 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/indexa-broadcast-presidente-setembro-2026/"
     },
     {
-      "id": "president-br-60",
+      "id": "president-br-60-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "MDA",
@@ -1069,6 +1498,7 @@
       "sampleSize": 2002,
       "marginOfError": 2.2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -1114,7 +1544,41 @@
       "sourceUrl": "https://www.cartacapital.com.br/politica/nova-rodada-da-pesquisa-cnt-mda-mostra-lula-na-lideranca-do-1o-turno/"
     },
     {
-      "id": "governor-mg-10",
+      "id": "president-br-60-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "MDA",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-09",
+        "end": "2026-09-13"
+      },
+      "publishedAt": "2026-09-15",
+      "sampleSize": 2002,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46.4
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 37.3
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 16.3
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/cnt-mda-lula-venceria-qualquer-adversario-em-2o-turno-incluindo-flavio-bolsonaro/"
+    },
+    {
+      "id": "governor-mg-10-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "F5",
@@ -1127,6 +1591,7 @@
       "sampleSize": 1560,
       "marginOfError": 2.5,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -1172,7 +1637,7 @@
       "sourceUrl": "https://jmonline.com.br/politica/f5-cleitinho-lidera-com-34-e-sim-es-kalil-e-patrus-disputam-vice-lideranca-ao-governo-de-minas-1.665410"
     },
     {
-      "id": "president-br-58",
+      "id": "president-br-58-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Quaest",
@@ -1185,6 +1650,7 @@
       "sampleSize": 2004,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -1225,7 +1691,41 @@
       "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/14/quaest-pesquisa-presidente-primeiro-turno-14-setembro.ghtml"
     },
     {
-      "id": "governor-sp-18",
+      "id": "president-br-58-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-10",
+        "end": "2026-09-13"
+      },
+      "publishedAt": "2026-09-14",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 20
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/14/quaest-pesquisa-presidente-primeiro-turno-14-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-18-first-auto-haddad-tarcisio",
       "office": "Governador",
       "uf": "SP",
       "institute": "Real Time Big Data",
@@ -1238,6 +1738,7 @@
       "sampleSize": 2000,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista com 2 nomes",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -1258,7 +1759,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-sao-paulo-setembro-2026/"
     },
     {
-      "id": "president-br-57",
+      "id": "governor-sp-18-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-09",
+        "end": "2026-09-12"
+      },
+      "publishedAt": "2026-09-14",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 57
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 5
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-sao-paulo-setembro-2026/"
+    },
+    {
+      "id": "president-br-57-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Datafolha",
@@ -1271,6 +1806,7 @@
       "sampleSize": 2002,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -1311,7 +1847,41 @@
       "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/11/datafolha-2o-turno-presidente-11-setembro.ghtml"
     },
     {
-      "id": "governor-sp-16",
+      "id": "president-br-57-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-08",
+        "end": "2026-09-11"
+      },
+      "publishedAt": "2026-09-11",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/11/datafolha-2o-turno-presidente-11-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-16-first-main",
       "office": "Governador",
       "uf": "SP",
       "institute": "Paraná Pesquisas",
@@ -1324,6 +1894,7 @@
       "sampleSize": 1680,
       "marginOfError": 2.4,
       "round": 1,
+      "scenarioLabel": "Lista oficial",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -1369,7 +1940,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/parana-pesquisas-governador-sao-paulo-setembro-2026/"
     },
     {
-      "id": "governor-sp-17",
+      "id": "governor-sp-16-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-07",
+        "end": "2026-09-10"
+      },
+      "publishedAt": "2026-09-11",
+      "sampleSize": 1680,
+      "marginOfError": 2.4,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 52.9
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 37.5
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9.7
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/parana-pesquisas-governador-sao-paulo-setembro-2026/"
+    },
+    {
+      "id": "governor-sp-17-first-main",
       "office": "Governador",
       "uf": "SP",
       "institute": "Datafolha",
@@ -1382,6 +1987,7 @@
       "sampleSize": 1610,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista oficial",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -1427,7 +2033,7 @@
       "sourceUrl": "https://g1.globo.com/sp/sao-paulo/eleicoes/2026/noticia/2026/09/11/datafolha-sp-governador-11-setembro.ghtml"
     },
     {
-      "id": "governor-mg-9",
+      "id": "governor-mg-9-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "Datafolha",
@@ -1440,6 +2046,7 @@
       "sampleSize": 1204,
       "marginOfError": 3,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -1485,7 +2092,7 @@
       "sourceUrl": "https://www.terra.com.br/noticias/brasil/politica/datafolha-em-mg-cleitinho-tem-37-em-votos-no-1-turno-patrus-soma-13-e-kalil-pontua-11,d70804847f444ea94f60d2ea64a53c3a0o9qeon5.html"
     },
     {
-      "id": "president-br-55",
+      "id": "president-br-55-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "PoderData",
@@ -1498,6 +2105,7 @@
       "sampleSize": 3000,
       "marginOfError": 1.8,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -1543,7 +2151,41 @@
       "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-38-contra-36-de-flavio-no-1o-turno/"
     },
     {
-      "id": "president-br-56",
+      "id": "president-br-55-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-06",
+        "end": "2026-09-09"
+      },
+      "publishedAt": "2026-09-10",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-38-contra-36-de-flavio-no-1o-turno/"
+    },
+    {
+      "id": "president-br-56-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "AtlasIntel",
@@ -1556,6 +2198,7 @@
       "sampleSize": 5000,
       "marginOfError": 1,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -1601,7 +2244,41 @@
       "sourceUrl": "https://veja.abril.com.br/politica/a-nova-pesquisa-atlasintel-sobre-a-disputa-lula-x-flavio-bolsonaro/"
     },
     {
-      "id": "president-br-54",
+      "id": "president-br-56-runoff-lula-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "veja.abril.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-09"
+      },
+      "publishedAt": "2026-09-10",
+      "sampleSize": 5000,
+      "marginOfError": 1,
+      "round": 2,
+      "scenarioLabel": "Lula × Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43.8
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 41.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 15.2
+        }
+      ],
+      "sourceUrl": "https://veja.abril.com.br/politica/a-nova-pesquisa-atlasintel-sobre-a-disputa-lula-x-flavio-bolsonaro/"
+    },
+    {
+      "id": "president-br-54-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Palver",
@@ -1614,6 +2291,7 @@
       "sampleSize": 5000,
       "marginOfError": 2.5,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -1659,7 +2337,41 @@
       "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/09/09/pesquisa-do-instituto-palver---presidente---99.ghtm"
     },
     {
-      "id": "president-br-52",
+      "id": "president-br-54-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Palver",
+      "commissioner": "BOL/UOL",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-08"
+      },
+      "publishedAt": "2026-09-09",
+      "sampleSize": 5000,
+      "marginOfError": 2.5,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/09/09/pesquisa-do-instituto-palver---presidente---99.ghtm"
+    },
+    {
+      "id": "president-br-52-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "GERP",
@@ -1672,6 +2384,7 @@
       "sampleSize": 2400,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Flávio Bolsonaro",
@@ -1717,7 +2430,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-setembro-2026/"
     },
     {
-      "id": "president-br-53",
+      "id": "president-br-52-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": "Gazeta do Povo",
+      "fieldDates": {
+        "start": "2026-09-03",
+        "end": "2026-09-08"
+      },
+      "publishedAt": "2026-09-09",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 14
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-53-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Meio/Ideia",
@@ -1730,6 +2477,7 @@
       "sampleSize": 1500,
       "marginOfError": 2.5,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -1775,7 +2523,41 @@
       "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/09/09/meio-ideia-lula-flavio-bolsonaro-pesquisa-presidencial.ghtm"
     },
     {
-      "id": "president-br-50",
+      "id": "president-br-53-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Meio/Ideia",
+      "commissioner": "BOL/UOL",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-09",
+      "sampleSize": 1500,
+      "marginOfError": 2.5,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/lula-e-flavio-empatam-em-2o-turno-diz-pesquisa-meio-ideia/"
+    },
+    {
+      "id": "president-br-50-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Nexus",
@@ -1788,6 +2570,7 @@
       "sampleSize": 2002,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -1828,7 +2611,41 @@
       "sourceUrl": "https://static.poder360.com.br/uploads/2026/09/BTG-Nexus-nacional-8set2026.pdf"
     },
     {
-      "id": "governor-sp-13",
+      "id": "president-br-50-runoff-lula-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "static.poder360.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://static.poder360.com.br/uploads/2026/09/BTG-Nexus-nacional-8set2026.pdf"
+    },
+    {
+      "id": "governor-sp-13-first-pre-campaign",
       "office": "Governador",
       "uf": "SP",
       "institute": "Quaest",
@@ -1841,6 +2658,7 @@
       "sampleSize": 1800,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista da pré-campanha",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -1876,7 +2694,41 @@
       "sourceUrl": "https://www.cartacapital.com.br/politica/quaest-tarcisio-tem-42-na-disputa-pelo-governo-de-sao-paulo-haddad-27/"
     },
     {
-      "id": "governor-sp-15",
+      "id": "governor-sp-13-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Quaest",
+      "commissioner": "cartacapital.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1800,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 48
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 21
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/sp/sao-paulo/eleicoes/2026/noticia/2026/09/08/quaest-sp-governador-8-setembro.ghtml"
+    },
+    {
+      "id": "governor-sp-15-first-main",
       "office": "Governador",
       "uf": "SP",
       "institute": "Futura Inteligência",
@@ -1889,6 +2741,7 @@
       "sampleSize": 1600,
       "marginOfError": 2.4,
       "round": 1,
+      "scenarioLabel": "Lista oficial",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -1934,7 +2787,41 @@
       "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/futura-sp-tarcisio-venceria-em-1o-turno-com-54-haddad-tem-315/"
     },
     {
-      "id": "governor-mg-7",
+      "id": "governor-sp-15-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Futura Inteligência",
+      "commissioner": "cnnbrasil.com.br",
+      "fieldDates": {
+        "start": "2026-09-02",
+        "end": "2026-09-04"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1600,
+      "marginOfError": 2.4,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 57.1
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 34.5
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8.3
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/futura-sp-tarcisio-venceria-em-1o-turno-com-54-haddad-tem-315/"
+    },
+    {
+      "id": "governor-mg-7-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "Quaest",
@@ -1947,6 +2834,7 @@
       "sampleSize": 1506,
       "marginOfError": 3,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -1992,7 +2880,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-minas-gerais-setembro-2026/"
     },
     {
-      "id": "governor-mg-8",
+      "id": "governor-mg-7-runoff-cleitinho-kalil",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Quaest",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-04",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1506,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "Cleitinho × Kalil",
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 49
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 24
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-minas-gerais-setembro-2026/"
+    },
+    {
+      "id": "governor-mg-8-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "Real Time Big Data",
@@ -2005,6 +2927,7 @@
       "sampleSize": 2000,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -2050,7 +2973,41 @@
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senado-minas-gerais-setembro-2026/"
     },
     {
-      "id": "governor-mg-6",
+      "id": "governor-mg-8-runoff-mateus-kalil",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-09-03",
+        "end": "2026-09-07"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Mateus × Kalil",
+      "results": [
+        {
+          "candidateName": "Mateus Simões",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 29
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senado-minas-gerais-setembro-2026/"
+    },
+    {
+      "id": "governor-mg-6-first-auto-ben-cleitinho-gabriel-kalil-mateus-patrus-roscoe",
       "office": "Governador",
       "uf": "MG",
       "institute": "AtlasIntel",
@@ -2063,6 +3020,7 @@
       "sampleSize": 1804,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Lista com 7 nomes",
       "results": [
         {
           "candidateName": "Cleitinho Azevedo",
@@ -2108,7 +3066,41 @@
       "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/cleitinho-lidera-todos-os-cenarios-de-1o-e-2o-turno-em-minas/"
     },
     {
-      "id": "president-br-49",
+      "id": "governor-mg-6-runoff-cleitinho-kalil",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "AtlasIntel",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-04"
+      },
+      "publishedAt": "2026-09-08",
+      "sampleSize": 1804,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Cleitinho × Kalil",
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo",
+          "party": null,
+          "percentage": 53.3
+        },
+        {
+          "candidateName": "Alexandre Kalil",
+          "party": null,
+          "percentage": 35.5
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/cleitinho-lidera-todos-os-cenarios-de-1o-e-2o-turno-em-minas/"
+    },
+    {
+      "id": "president-br-49-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Quaest",
@@ -2121,6 +3113,7 @@
       "sampleSize": 2004,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -2161,7 +3154,41 @@
       "sourceUrl": "https://www.bnews.com.br/noticias/politica/quaest-mostra-lula-na-lideranca-mas-flavio-encurta-distancia-e-cury-perde-forca-na-corrida-de-2026.html"
     },
     {
-      "id": "president-br-51",
+      "id": "president-br-49-runoff-lula-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "bnews.com.br",
+      "fieldDates": {
+        "start": "2026-09-03",
+        "end": "2026-09-06"
+      },
+      "publishedAt": "2026-09-07",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 26
+        }
+      ],
+      "sourceUrl": "https://www.bnews.com.br/noticias/politica/pesquisa-quaest-segundo-turno-tem-lula-e-flavio-empatados-com-41.html"
+    },
+    {
+      "id": "president-br-51-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Veritá",
@@ -2174,6 +3201,7 @@
       "sampleSize": 3804,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Flávio Bolsonaro",
@@ -2214,7 +3242,41 @@
       "sourceUrl": "https://francesnews.com.br/post/2026/09/26/38199-flavio-bolsonaro-e-lula-estao-empatados-na-disputa-presidencial-aponta-verita"
     },
     {
-      "id": "president-br-44",
+      "id": "president-br-51-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Veritá",
+      "commissioner": "francesnews.com.br",
+      "fieldDates": {
+        "start": "2026-09-01",
+        "end": "2026-09-04"
+      },
+      "publishedAt": "2026-09-06",
+      "sampleSize": 3804,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 38.2
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 36.8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 24.9
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/verita-flavio-tem-485-no-2o-turno-lula-431/"
+    },
+    {
+      "id": "president-br-44-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Datafolha",
@@ -2227,6 +3289,7 @@
       "sampleSize": 2002,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -2267,7 +3330,41 @@
       "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/09/03/datafolha-2o-turno-presidente-3-setembro.ghtml"
     },
     {
-      "id": "president-br-48",
+      "id": "president-br-44-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "g1.globo.com",
+      "fieldDates": {
+        "start": "2026-09-01",
+        "end": "2026-09-03"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 2002,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/09/04/pesquisa-presidente-2026-veja-como-estao-os-levantamentos-mais-recentes.ghtm"
+    },
+    {
+      "id": "president-br-48-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "PoderData",
@@ -2280,6 +3377,7 @@
       "sampleSize": 3000,
       "marginOfError": 1.8,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -2325,7 +3423,41 @@
       "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-augusto-cury-vai-de-4-para-10-no-1o-turno/"
     },
     {
-      "id": "president-br-47",
+      "id": "president-br-48-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Poder360/Aya",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-02"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/09/04/pesquisa-presidente-2026-veja-como-estao-os-levantamentos-mais-recentes.ghtm"
+    },
+    {
+      "id": "president-br-47-first-with-cury-marcal",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Futura Inteligência",
@@ -2338,6 +3470,7 @@
       "sampleSize": 2000,
       "marginOfError": 2.2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
       "results": [
         {
           "candidateName": "Lula",
@@ -2383,7 +3516,41 @@
       "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/09/04/pesquisa-presidente-2026-veja-como-estao-os-levantamentos-mais-recentes.ghtm"
     },
     {
-      "id": "governor-sp-14",
+      "id": "president-br-47-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura Inteligência",
+      "commissioner": "Apex Partners",
+      "fieldDates": {
+        "start": "2026-08-27",
+        "end": "2026-09-01"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45.6
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45.2
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9.2
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/09/04/pesquisa-presidente-2026-veja-como-estao-os-levantamentos-mais-recentes.ghtm"
+    },
+    {
+      "id": "governor-sp-14-first-main",
       "office": "Governador",
       "uf": "SP",
       "institute": "AtlasIntel",
@@ -2396,6 +3563,7 @@
       "sampleSize": 1810,
       "marginOfError": 1,
       "round": 1,
+      "scenarioLabel": "Lista oficial",
       "results": [
         {
           "candidateName": "Tarcísio de Freitas",
@@ -2441,7 +3609,41 @@
       "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlas-estadao-tarcisio-venceria-no-1o-turno-com-511-haddad-tem-399/"
     },
     {
-      "id": "president-br-43",
+      "id": "governor-sp-14-runoff-tarcisio-haddad",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "AtlasIntel",
+      "commissioner": "Estadão · CNN Brasil",
+      "fieldDates": {
+        "start": "2026-08-26",
+        "end": "2026-08-31"
+      },
+      "publishedAt": "2026-09-03",
+      "sampleSize": 1810,
+      "marginOfError": 1,
+      "round": 2,
+      "scenarioLabel": "Tarcísio × Haddad",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas",
+          "party": null,
+          "percentage": 53.2
+        },
+        {
+          "candidateName": "Fernando Haddad",
+          "party": null,
+          "percentage": 42.6
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 4.2
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlas-estadao-tarcisio-venceria-no-1o-turno-com-511-haddad-tem-399/"
+    },
+    {
+      "id": "president-br-43-first-with-cury",
       "office": "Presidente",
       "uf": "BR",
       "institute": "Quaest",
@@ -2454,6 +3656,7 @@
       "sampleSize": 2004,
       "marginOfError": 2,
       "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
       "results": [
         {
           "candidateName": "Lula",
@@ -2489,6 +3692,40 @@
           "candidateName": "Romeu Zema",
           "party": null,
           "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-43-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-01"
+      },
+      "publishedAt": "2026-09-02",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
         }
       ],
       "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-presidente-setembro-2026/"

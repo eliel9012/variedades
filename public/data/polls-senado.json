@@ -1,0 +1,1305 @@
+{
+  "generatedAt": "2026-10-01T00:00:00Z",
+  "compiledManually": true,
+  "note": "Compilação manual a partir de matérias jornalísticas reais (ver `sources`), não de um feed automático. Não há 2º turno para Senado no Brasil: cada eleitor vota em até 2 candidatos e os mais votados são eleitos em turno único.",
+  "readme": [
+    "Brazil 2026 – Senate vote intention, latest poll found for each state (1st round, 4 Oct 2026)",
+    "Compiled 1 Oct 2026. Two Senate seats are up in every UF (54 seats); each voter casts two votes; there is no runoff for Senate.",
+    "WHAT YOU GET",
+    "• All 27 UFs have at least one Senate poll (see 'Coverage'). Sheet 'Senador' has one row per candidate per poll.",
+    "• Full candidate lists: RJ, PE, BA, RS, SE (Quaest, 20–28 Sep) and CE (Real Time Big Data, 21–24 Sep).",
+    "• Leaders only: all other states – usually the top 2–3 candidates, taken from a single summary article (GCMais). ES uses a newer Real Time Big Data poll (leaders only).",
+    "READ THIS BEFORE COMPARING NUMBERS",
+    "• Numbers are NOT on one common basis. Rows labelled 'reduced to 100%' consolidate both votes and sum to 100% (Quaest's late-Sep method and Real Time Big Data). Rows from the GCMais summary report each candidate's share without stating the method, and some states sum above 100% (e.g. Alagoas).",
+    "• Evidence of the mismatch: the GCMais summary lists Quaest 8 Sep Bahia as Rui Costa 38%, while the Quaest 20–23 Sep Bahia poll (reduced to 100%) has Rui Costa 23%. Do not compare across the two bases, or across pollsters.",
+    "• The 8 Sep Quaest figures are about three weeks old and pre-date the final-stretch Quaest/Globo round; I could only verify the later round for RJ, PE, BA, RS and SE.",
+    "• GCMais is a secondary source (a regional news portal). I could not open each underlying Quaest/Datafolha release for the leaders-only states.",
+    "• Polls are snapshots, not forecasts. Candidacies can still be changed by the courts."
+  ],
+  "sources": [
+    {
+      "publisher": "GCMais",
+      "usedFor": "Leaders-only Senate polls for 20 UFs (AC, AL, AP, AM, DF, GO, MA, MT, MS, MG, PA, PB, PR, PI, RN, RO, RR, SC, SP, TO)",
+      "url": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado"
+    },
+    {
+      "publisher": "Poder360",
+      "usedFor": "Ceará – Real Time Big Data, 21–24 Sep",
+      "url": "https://www.poder360.com.br/poder-eleicoes-2026/cid-gomes-lidera-corrida-ao-senado-no-ceara-com-26-diz-pesquisa/"
+    },
+    {
+      "publisher": "Poder360",
+      "usedFor": "Espírito Santo – Real Time Big Data, 25–29 Sep",
+      "url": "https://www.poder360.com.br/poder-eleicoes-2026/renato-casagrande-lidera-disputa-pelo-senado-no-es-diz-pesquisa-3/"
+    },
+    {
+      "publisher": "Gazeta do Povo (data from Quaest/TV Bahia)",
+      "usedFor": "Bahia – Quaest Senate, full list",
+      "url": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-bahia-setembro-2026/"
+    },
+    {
+      "publisher": "Gazeta do Povo (data from Quaest/Rede Globo, via g1)",
+      "usedFor": "Pernambuco – Quaest Senate, full list",
+      "url": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-pernambuco-setembro-2026-3/"
+    },
+    {
+      "publisher": "Gazeta do Povo (data from Quaest/TV Globo, via g1)",
+      "usedFor": "Rio de Janeiro – Quaest Senate, full list",
+      "url": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-rio-de-janeiro-setembro-2026-3/"
+    },
+    {
+      "publisher": "Gazeta do Povo (data from Quaest/RBS)",
+      "usedFor": "Rio Grande do Sul – Quaest Senate, full list",
+      "url": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-rio-grande-do-sul-setembro-2026/"
+    },
+    {
+      "publisher": "Gazeta do Povo (data from Quaest/TV Sergipe)",
+      "usedFor": "Sergipe – Quaest Senate, full list",
+      "url": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-sergipe-setembro-2026/"
+    }
+  ],
+  "states": [
+    {
+      "uf": "AC",
+      "state": "Acre",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Gladson Cameli",
+          "party": "PP",
+          "percentage": 28.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Jorge Viana",
+          "party": "PT",
+          "percentage": 24.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Márcio Bittar",
+          "party": "PL",
+          "percentage": 22.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 74.0
+    },
+    {
+      "uf": "AL",
+      "state": "Alagoas",
+      "pollster": "TDL Digital",
+      "fieldwork": "11–13 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Marina JHC",
+          "party": "PSDB",
+          "percentage": 42.0,
+          "notes": "Sums above 100%, so this is clearly a per-candidate (not consolidated) basis."
+        },
+        {
+          "candidateName": "Arthur Lira",
+          "party": "PP",
+          "percentage": 39.0,
+          "notes": "Sums above 100%, so this is clearly a per-candidate (not consolidated) basis."
+        },
+        {
+          "candidateName": "Renan Calheiros",
+          "party": "MDB",
+          "percentage": 33.0,
+          "notes": "Sums above 100%, so this is clearly a per-candidate (not consolidated) basis."
+        }
+      ],
+      "percentageSum": 114.0
+    },
+    {
+      "uf": "AP",
+      "state": "Amapá",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Rayssa Furlan",
+          "party": "Podemos",
+          "percentage": 38.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Randolfe Rodrigues",
+          "party": "PT",
+          "percentage": 32.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 70.0
+    },
+    {
+      "uf": "AM",
+      "state": "Amazonas",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Eduardo Braga",
+          "party": "MDB",
+          "percentage": 35.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Plínio Valério",
+          "party": "PSDB",
+          "percentage": 28.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 63.0
+    },
+    {
+      "uf": "BA",
+      "state": "Bahia",
+      "pollster": "Quaest",
+      "fieldwork": "20–23 Sep 2026",
+      "sample": "900",
+      "marginOfError": "±3 pp",
+      "tseRegistration": "BA-01850/2026",
+      "basis": "2 votes consolidated, reduced to 100%",
+      "completeness": "Full candidate list",
+      "source": "Gazeta do Povo (data from Quaest/TV Bahia)",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-bahia-setembro-2026/",
+      "results": [
+        {
+          "candidateName": "Rui Costa",
+          "party": "PT",
+          "percentage": 23.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 19.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Jaques Wagner",
+          "party": "PT",
+          "percentage": 17.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Branco/Nulo/Não vai votar",
+          "party": null,
+          "percentage": 16.0,
+          "notes": null
+        },
+        {
+          "candidateName": "João Roma",
+          "party": "PL",
+          "percentage": 11.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Angelo Coronel",
+          "party": "Republicanos",
+          "percentage": 9.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Professora Delliana",
+          "party": "PSOL",
+          "percentage": 2.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcelo Santtana",
+          "party": "DC",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcelo Carvalho",
+          "party": "PSOL",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Carlos Sodré",
+          "party": "Mobiliza",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcelo Millet",
+          "party": "PCO",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Gregorio Gould",
+          "party": "UP",
+          "percentage": 0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 100.0
+    },
+    {
+      "uf": "CE",
+      "state": "Ceará",
+      "pollster": "Real Time Big Data",
+      "fieldwork": "21–24 Sep 2026",
+      "sample": "1,600",
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "2 votes consolidated, reduced to 100%",
+      "completeness": "Full candidate list (as published)",
+      "source": "Poder360",
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/cid-gomes-lidera-corrida-ao-senado-no-ceara-com-26-diz-pesquisa/",
+      "results": [
+        {
+          "candidateName": "Cid Gomes",
+          "party": "PSB",
+          "percentage": 26.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Luizianne Lins",
+          "party": "Rede",
+          "percentage": 21.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Alcides Fernandes",
+          "party": "PL",
+          "percentage": 20.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Capitão Wagner",
+          "party": "União Brasil",
+          "percentage": 20.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Guilherme Theophilo",
+          "party": "Novo",
+          "percentage": 4.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Branco/Nulo",
+          "party": null,
+          "percentage": 4.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Não souberam/não responderam",
+          "party": null,
+          "percentage": 4.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Catarina Matos",
+          "party": "UP",
+          "percentage": 1.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 100.0
+    },
+    {
+      "uf": "DF",
+      "state": "Distrito Federal",
+      "pollster": "Quaest",
+      "fieldwork": "4–7 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Michelle Bolsonaro",
+          "party": "PL",
+          "percentage": 26.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Bia Kicis",
+          "party": "PL",
+          "percentage": 17.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Leila do Vôlei",
+          "party": "PDT",
+          "percentage": 17.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 60.0
+    },
+    {
+      "uf": "ES",
+      "state": "Espírito Santo",
+      "pollster": "Real Time Big Data",
+      "fieldwork": "25–29 Sep 2026",
+      "sample": "1,600",
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "2 votes consolidated, reduced to 100% (assumed, same RTBD method)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "Poder360",
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/renato-casagrande-lidera-disputa-pelo-senado-no-es-diz-pesquisa-3/",
+      "results": [
+        {
+          "candidateName": "Renato Casagrande",
+          "party": "PSB",
+          "percentage": 28.0,
+          "notes": "Quaest 21–24 Sep (not collected) also has Casagrande and Meneguelli leading."
+        },
+        {
+          "candidateName": "Sergio Meneguelli",
+          "party": "PSD",
+          "percentage": 13.0,
+          "notes": "Quaest 21–24 Sep (not collected) also has Casagrande and Meneguelli leading."
+        }
+      ],
+      "percentageSum": 41.0
+    },
+    {
+      "uf": "GO",
+      "state": "Goiás",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Gracinha Caiado",
+          "party": "União Brasil",
+          "percentage": 40.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Gustavo Gayer",
+          "party": "PL",
+          "percentage": 36.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 76.0
+    },
+    {
+      "uf": "MA",
+      "state": "Maranhão",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Roseana Sarney",
+          "party": "MDB",
+          "percentage": 45.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Weverton",
+          "party": "PDT",
+          "percentage": 38.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 83.0
+    },
+    {
+      "uf": "MT",
+      "state": "Mato Grosso",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Mauro Mendes",
+          "party": "União Brasil",
+          "percentage": 48.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Janaína Riva",
+          "party": "MDB",
+          "percentage": 32.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 80.0
+    },
+    {
+      "uf": "MS",
+      "state": "Mato Grosso do Sul",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Reinaldo Azambuja",
+          "party": "PL",
+          "percentage": 44.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Capitão Contar",
+          "party": "PL",
+          "percentage": 38.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 82.0
+    },
+    {
+      "uf": "MG",
+      "state": "Minas Gerais",
+      "pollster": "Datafolha",
+      "fieldwork": "8–10 Sep 2026",
+      "sample": "1,204",
+      "marginOfError": "±3 pp",
+      "tseRegistration": "MG-01611/2026",
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders + undecided/blank (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 20.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Brancos e nulos",
+          "party": null,
+          "percentage": 18.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marília Campos",
+          "party": "PT",
+          "percentage": 12.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Carlos Viana",
+          "party": "PSD",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Aécio Neves",
+          "party": "PSDB",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Domingos Sávio",
+          "party": "PL",
+          "percentage": 8.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcelo Aro",
+          "party": "PP",
+          "percentage": 6.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 84.0
+    },
+    {
+      "uf": "PR",
+      "state": "Paraná",
+      "pollster": "Real Time Big Data",
+      "fieldwork": "11 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Deltan Dallagnol",
+          "party": "Novo",
+          "percentage": 28.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Alexandre Curi",
+          "party": "Republicanos",
+          "percentage": 24.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Gleisi Hoffmann",
+          "party": "PT",
+          "percentage": 18.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 70.0
+    },
+    {
+      "uf": "PB",
+      "state": "Paraíba",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "João Azevêdo",
+          "party": "PSB",
+          "percentage": 38.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Veneziano Vital do Rêgo",
+          "party": "MDB",
+          "percentage": 34.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 72.0
+    },
+    {
+      "uf": "PA",
+      "state": "Pará",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Helder Barbalho",
+          "party": "MDB",
+          "percentage": 40.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Éder Mauro",
+          "party": "PL",
+          "percentage": 36.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 76.0
+    },
+    {
+      "uf": "PE",
+      "state": "Pernambuco",
+      "pollster": "Quaest",
+      "fieldwork": "25–28 Sep 2026",
+      "sample": "1,302 (as reported)",
+      "marginOfError": "±3 pp",
+      "tseRegistration": "PE-00324/2026",
+      "basis": "2 votes consolidated, reduced to 100%",
+      "completeness": "Full candidate list",
+      "source": "Gazeta do Povo (data from Quaest/Rede Globo, via g1)",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-pernambuco-setembro-2026-3/",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 23.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marília Arraes",
+          "party": "PDT",
+          "percentage": 19.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Branco/Nulo/Não vai votar",
+          "party": null,
+          "percentage": 19.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Humberto Costa",
+          "party": "PT",
+          "percentage": 17.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Mendonça Filho",
+          "party": "PL",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Eduardo da Fonte",
+          "party": "PP",
+          "percentage": 7.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Túlio Gadêlha",
+          "party": "PSD",
+          "percentage": 3.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Pastor Gilvan Costa",
+          "party": "Democrata",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Carlos Sant'anna",
+          "party": "Novo",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Paulo Rubem Santiago",
+          "party": "Rede",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Samuel Timoteo",
+          "party": "UP",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Gorett Bitu",
+          "party": "UP",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Mailson Neto",
+          "party": "PCO",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Mariano Macedo",
+          "party": "PSTU",
+          "percentage": 0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 100.0
+    },
+    {
+      "uf": "PI",
+      "state": "Piauí",
+      "pollster": "AtlasIntel",
+      "fieldwork": "10 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Marcelo Castro",
+          "party": "MDB",
+          "percentage": 42.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Júlio César",
+          "party": "PSD",
+          "percentage": 38.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 80.0
+    },
+    {
+      "uf": "RN",
+      "state": "Rio Grande do Norte",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Styvenson Valentim",
+          "party": "Podemos",
+          "percentage": 34.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Zenaide Maia",
+          "party": "PSD",
+          "percentage": 30.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 64.0
+    },
+    {
+      "uf": "RS",
+      "state": "Rio Grande do Sul",
+      "pollster": "Quaest",
+      "fieldwork": "20–23 Sep 2026",
+      "sample": "900",
+      "marginOfError": "±3 pp",
+      "tseRegistration": "RS-01390/2026",
+      "basis": "2 votes consolidated, reduced to 100%",
+      "completeness": "Full candidate list",
+      "source": "Gazeta do Povo (data from Quaest/RBS)",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-rio-grande-do-sul-setembro-2026/",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 30.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Manuela d'Ávila",
+          "party": "PSOL",
+          "percentage": 14.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcel van Hattem",
+          "party": "Novo",
+          "percentage": 11.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Branco/Nulo/Não vai votar",
+          "party": null,
+          "percentage": 11.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Pimenta",
+          "party": "PT",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Sanderson",
+          "party": "PL",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Rigotto",
+          "party": "MDB",
+          "percentage": 9.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Frederico Antunes",
+          "party": "PSD",
+          "percentage": 2.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Daniela Mulheres Socialistas",
+          "party": "PSTU",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Milton Cardoso",
+          "party": "PSDB",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Tania Peres",
+          "party": "UP",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Luciano do MLB",
+          "party": "UP",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Regis Ethur",
+          "party": "PSTU",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Renato Jaguarão",
+          "party": "Cidadania",
+          "percentage": 0,
+          "notes": null
+        },
+        {
+          "candidateName": "Ric Jones",
+          "party": "PCO",
+          "percentage": 0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 100.0
+    },
+    {
+      "uf": "RJ",
+      "state": "Rio de Janeiro",
+      "pollster": "Quaest",
+      "fieldwork": "25–28 Sep 2026",
+      "sample": "1,302",
+      "marginOfError": "±3 pp",
+      "tseRegistration": "RJ-04419/2026",
+      "basis": "2 votes consolidated, reduced to 100%",
+      "completeness": "Full candidate list",
+      "source": "Gazeta do Povo (data from Quaest/TV Globo, via g1)",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-rio-de-janeiro-setembro-2026-3/",
+      "results": [
+        {
+          "candidateName": "Branco/Nulo/Não vai votar",
+          "party": null,
+          "percentage": 22.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Benedita da Silva",
+          "party": "PT",
+          "percentage": 15.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Carlos Jordy",
+          "party": "PL",
+          "percentage": 15.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Carlos Portinho",
+          "party": "PL",
+          "percentage": 15.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 9.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcelo Crivella",
+          "party": "Republicanos",
+          "percentage": 7.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Pedro Paulo",
+          "party": "PSD",
+          "percentage": 7.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Monica Benicio",
+          "party": "PSOL",
+          "percentage": 6.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Waguinho",
+          "party": "Republicanos",
+          "percentage": 2.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Michelly Xavier",
+          "party": "UP",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Marcos Dias",
+          "party": "Podemos",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Helio Secoo",
+          "party": "Missão",
+          "percentage": 0,
+          "notes": "Listed in source as 'did not score' (shown as 0%)."
+        },
+        {
+          "candidateName": "Paula Falcão",
+          "party": "PSTU",
+          "percentage": 0,
+          "notes": "Listed in source as 'did not score' (shown as 0%)."
+        },
+        {
+          "candidateName": "Vinicius Benevides",
+          "party": "UP",
+          "percentage": 0,
+          "notes": "Listed in source as 'did not score' (shown as 0%)."
+        },
+        {
+          "candidateName": "Luciano Mattos",
+          "party": "PRTB",
+          "percentage": 0,
+          "notes": "Listed in source as 'did not score' (shown as 0%)."
+        },
+        {
+          "candidateName": "Luiz Eugenio",
+          "party": "PCO",
+          "percentage": 0,
+          "notes": "Listed in source as 'did not score' (shown as 0%)."
+        },
+        {
+          "candidateName": "Ó Clemente",
+          "party": "Democrata",
+          "percentage": 0,
+          "notes": "Listed in source as 'did not score' (shown as 0%)."
+        }
+      ],
+      "percentageSum": 100.0
+    },
+    {
+      "uf": "RO",
+      "state": "Rondônia",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Marcos Rogério",
+          "party": "PL",
+          "percentage": 32.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Confúcio Moura",
+          "party": "MDB",
+          "percentage": 28.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 60.0
+    },
+    {
+      "uf": "RR",
+      "state": "Roraima",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Teresa Surita",
+          "party": "MDB",
+          "percentage": 40.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Nicoletti",
+          "party": "PL",
+          "percentage": 36.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 76.0
+    },
+    {
+      "uf": "SC",
+      "state": "Santa Catarina",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Carlos Bolsonaro",
+          "party": "PL",
+          "percentage": 42.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Carol De Toni",
+          "party": "PL",
+          "percentage": 38.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 80.0
+    },
+    {
+      "uf": "SE",
+      "state": "Sergipe",
+      "pollster": "Quaest",
+      "fieldwork": "20–23 Sep 2026",
+      "sample": "804",
+      "marginOfError": "±3 pp",
+      "tseRegistration": "SE-09343/2026",
+      "basis": "2 votes consolidated, reduced to 100%",
+      "completeness": "Full candidate list",
+      "source": "Gazeta do Povo (data from Quaest/TV Sergipe)",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-sergipe-setembro-2026/",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 18.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Branco/Nulo/Não vai votar",
+          "party": null,
+          "percentage": 17.0,
+          "notes": null
+        },
+        {
+          "candidateName": "André Moura",
+          "party": "União Brasil",
+          "percentage": 12.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Delegado André David",
+          "party": "Republicanos",
+          "percentage": 11.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Rogério Carvalho",
+          "party": "PT",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Delegado Alessandro",
+          "party": "MDB",
+          "percentage": 10.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Eduardo Amorim",
+          "party": "Republicanos",
+          "percentage": 8.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Rodrigo Valadares",
+          "party": "PL",
+          "percentage": 5.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Edvaldo Nogueira",
+          "party": "PDT",
+          "percentage": 5.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Coronel Rocha",
+          "party": "PL",
+          "percentage": 2.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Iran Barbosa",
+          "party": "PSOL",
+          "percentage": 1.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Renatinha",
+          "party": "DC",
+          "percentage": 1.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 100.0
+    },
+    {
+      "uf": "SP",
+      "state": "São Paulo",
+      "pollster": "Datafolha",
+      "fieldwork": "8–10 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Marina Silva",
+          "party": "Rede",
+          "percentage": 14.0,
+          "notes": "Second SP poll (Quaest)."
+        },
+        {
+          "candidateName": "Guilherme Derrite",
+          "party": "PP",
+          "percentage": 14.0,
+          "notes": "Second SP poll (Quaest)."
+        },
+        {
+          "candidateName": "Marina Silva",
+          "party": "Rede",
+          "percentage": 13.0,
+          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+        },
+        {
+          "candidateName": "Simone Tebet",
+          "party": "PSB",
+          "percentage": 13.0,
+          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+        },
+        {
+          "candidateName": "Simone Tebet",
+          "party": "PSB",
+          "percentage": 12.0,
+          "notes": "Second SP poll (Quaest)."
+        },
+        {
+          "candidateName": "André do Prado",
+          "party": "PL",
+          "percentage": 11.0,
+          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+        },
+        {
+          "candidateName": "Guilherme Derrite",
+          "party": "PP",
+          "percentage": 10.0,
+          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+        },
+        {
+          "candidateName": "André do Prado",
+          "party": "PL",
+          "percentage": 7.0,
+          "notes": "Second SP poll (Quaest)."
+        }
+      ],
+      "percentageSum": 94.0
+    },
+    {
+      "uf": "TO",
+      "state": "Tocantins",
+      "pollster": "Quaest",
+      "fieldwork": "8 Sep 2026",
+      "sample": null,
+      "marginOfError": null,
+      "tseRegistration": null,
+      "basis": "As reported by GCMais; basis not stated (may sum >100%)",
+      "completeness": "Leaders only (as listed by source)",
+      "source": "GCMais (summary of published polls)",
+      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "results": [
+        {
+          "candidateName": "Eduardo Gomes",
+          "party": "PL",
+          "percentage": 38.0,
+          "notes": null
+        },
+        {
+          "candidateName": "Alexandre Guimarães",
+          "party": "MDB",
+          "percentage": 34.0,
+          "notes": null
+        }
+      ],
+      "percentageSum": 72.0
+    }
+  ]
+}

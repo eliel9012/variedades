@@ -27,6 +27,7 @@ type Poll = {
   sampleSize: number | null
   marginOfError: number | null
   round: 1 | 2 | null
+  scenarioLabel: string | null
   results: PollResult[]
   sourceUrl: string | null
 }
@@ -37,8 +38,41 @@ type PollsFile = {
   polls: Poll[]
 }
 
+type SenadoResult = {
+  candidateName: string
+  party: string | null
+  percentage: number | null
+  notes: string | null
+}
+
+type SenadoState = {
+  uf: string
+  state: string
+  pollster: string | null
+  fieldwork: string | null
+  sample: string | number | null
+  marginOfError: string | null
+  tseRegistration: string | null
+  basis: string
+  completeness: string
+  source: string
+  sourceUrl: string | null
+  results: SenadoResult[]
+  percentageSum: number
+}
+
+type SenadoFile = {
+  generatedAt: string
+  compiledManually: true
+  note: string
+  readme: string[]
+  sources: { publisher: string; usedFor: string; url: string }[]
+  states: SenadoState[]
+}
+
 type FetchStatus = 'loading' | 'loaded' | 'error'
 type OfficeFilter = 'Todos' | 'Presidente' | 'Governador'
+type RoundFilter = 'Todos' | 1 | 2
 
 const dateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
 const shortDateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' })
@@ -60,23 +94,164 @@ function raceLabel(office: Poll['office'], uf: string) {
   return `Governador · ${stateName}`
 }
 
+/** Base "reduzida a 100%" soma bem perto de 100; qualquer outra coisa é
+ * ressalva real de qualidade de dado (não é erro de soma nosso). */
+function isReducedBasis(basis: string) {
+  return basis.toLowerCase().startsWith('2 votes consolidated')
+}
+
+function completenessLabelPt(completeness: string) {
+  const lower = completeness.toLowerCase()
+  if (lower.startsWith('full candidate list')) return 'Lista completa de candidatos'
+  if (lower.startsWith('leaders only')) return 'Só os líderes (conforme divulgado pela fonte)'
+  if (lower.includes('undecided') || lower.includes('blank')) return 'Líderes + indecisos/brancos (conforme divulgado pela fonte)'
+  return completeness
+}
+
+function PollCard({ poll }: { poll: Poll }) {
+  const topPercentage = poll.results[0]?.percentage || 1
+  return (
+    <article className="pesquisas-tracker__card">
+      <div className="pesquisas-tracker__card-head">
+        <div className="pesquisas-tracker__card-head-main">
+          <strong className="pesquisas-tracker__institute">{poll.institute}</strong>
+          {poll.scenarioLabel && <span className="pesquisas-tracker__scenario-chip">{poll.scenarioLabel}</span>}
+          {poll.commissioner && <span className="pesquisas-tracker__commissioner"> · contratante: {poll.commissioner}</span>}
+        </div>
+        {poll.round && <span className="pesquisas-tracker__round-chip">{poll.round}º turno</span>}
+      </div>
+
+      <p className="pesquisas-tracker__meta">
+        {formatIsoDate(poll.publishedAt, dateFormat)}
+        {poll.fieldDates && (
+          <> · campo {formatIsoDate(poll.fieldDates.start, shortDateFormat)}–{formatIsoDate(poll.fieldDates.end, shortDateFormat)}</>
+        )}
+        {poll.sampleSize != null && <> · {sampleFormat.format(poll.sampleSize)} entrevistas</>}
+        {poll.marginOfError != null && <> · margem ±{percentFormat.format(poll.marginOfError)} p.p.</>}
+      </p>
+
+      <div className="pesquisas-tracker__bars">
+        {poll.results.map((result) => (
+          <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
+            <span className="pesquisas-tracker__bar-label">
+              {result.candidateName}
+              {result.party && <span className="pesquisas-tracker__bar-party"> ({result.party})</span>}
+            </span>
+            <div className="pesquisas-tracker__bar-track">
+              <span
+                className="pesquisas-tracker__bar-fill"
+                style={{ width: `${Math.min(100, (result.percentage / topPercentage) * 100)}%` }}
+              />
+            </div>
+            <span className="pesquisas-tracker__bar-value">{percentFormat.format(result.percentage)}%</span>
+          </div>
+        ))}
+      </div>
+
+      {poll.sourceUrl && (
+        <a className="pesquisas-tracker__source" href={poll.sourceUrl} target="_blank" rel="noreferrer">
+          Ver fonte original ↗
+        </a>
+      )}
+    </article>
+  )
+}
+
+function SenadoCard({ state }: { state: SenadoState }) {
+  const reduced = isReducedBasis(state.basis)
+  const sumLooksOff = state.percentageSum > 102 || state.percentageSum < 95
+  const showCaveat = !reduced || sumLooksOff
+  const topPercentage = state.results.reduce((max, item) => Math.max(max, item.percentage ?? 0), 0) || 1
+
+  return (
+    <article className="pesquisas-tracker__card pesquisas-tracker__card--senado">
+      <div className="pesquisas-tracker__card-head">
+        <div className="pesquisas-tracker__card-head-main">
+          <strong className="pesquisas-tracker__institute">{state.pollster ?? 'Instituto não informado'}</strong>
+          <span className="pesquisas-tracker__scenario-chip">{completenessLabelPt(state.completeness)}</span>
+        </div>
+      </div>
+
+      <p className="pesquisas-tracker__meta">
+        Fonte: {state.source}
+        {state.fieldwork && <> · campo {state.fieldwork}</>}
+        {state.sample != null && <> · amostra {typeof state.sample === 'number' ? sampleFormat.format(state.sample) : state.sample}</>}
+        {state.marginOfError && <> · margem {state.marginOfError}</>}
+      </p>
+
+      <div className="pesquisas-tracker__bars">
+        {state.results.map((result) => (
+          <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
+            <span className="pesquisas-tracker__bar-label">
+              {result.candidateName}
+              {result.party && <span className="pesquisas-tracker__bar-party"> ({result.party})</span>}
+            </span>
+            <div className="pesquisas-tracker__bar-track">
+              {result.percentage != null ? (
+                <span
+                  className="pesquisas-tracker__bar-fill"
+                  style={{ width: `${Math.min(100, (result.percentage / topPercentage) * 100)}%` }}
+                />
+              ) : null}
+            </div>
+            <span className="pesquisas-tracker__bar-value">
+              {result.percentage != null ? `${percentFormat.format(result.percentage)}%` : 'dado indisponível'}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {showCaveat && (
+        <p className="pesquisas-tracker__caveat" role="note">
+          Os números somam {percentFormat.format(state.percentageSum)}% porque a fonte não consolidou os dois votos de
+          Senador numa base única (base informada: "{state.basis}"). Isso não é erro de soma nosso, é como a pesquisa
+          foi divulgada.
+        </p>
+      )}
+
+      {state.sourceUrl && (
+        <a className="pesquisas-tracker__source" href={state.sourceUrl} target="_blank" rel="noreferrer">
+          Ver fonte original ↗
+        </a>
+      )}
+    </article>
+  )
+}
+
 export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot, round: _round, state }: PesquisasTrackerProps) {
   const [pollsFile, setPollsFile] = useState<PollsFile | null>(null)
-  const [status, setStatus] = useState<FetchStatus>('loading')
+  const [pollsStatus, setPollsStatus] = useState<FetchStatus>('loading')
+  const [senadoFile, setSenadoFile] = useState<SenadoFile | null>(null)
+  const [senadoStatus, setSenadoStatus] = useState<FetchStatus>('loading')
+
   const [officeFilter, setOfficeFilter] = useState<OfficeFilter>('Todos')
+  const [roundFilter, setRoundFilter] = useState<RoundFilter>('Todos')
   const [ufFilter, setUfFilter] = useState<string>('all')
+  const [senadoUf, setSenadoUf] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/data/polls.json')
       .then((response) => (response.ok ? response.json() : Promise.reject(new Error('polls unavailable'))))
       .then((data: PollsFile) => {
         setPollsFile(data)
-        setStatus('loaded')
+        setPollsStatus('loaded')
       })
-      .catch(() => setStatus('error'))
+      .catch(() => setPollsStatus('error'))
+
+    fetch('/data/polls-senado.json')
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('senado polls unavailable'))))
+      .then((data: SenadoFile) => {
+        setSenadoFile(data)
+        setSenadoStatus('loaded')
+      })
+      .catch(() => setSenadoStatus('error'))
   }, [])
 
   const polls = pollsFile?.polls ?? []
+  const senadoStates = useMemo(
+    () => [...(senadoFile?.states ?? [])].sort((a, b) => a.state.localeCompare(b.state, 'pt-BR')),
+    [senadoFile],
+  )
 
   const governorUFs = useMemo(
     () => Array.from(new Set(polls.filter((poll) => poll.office === 'Governador').map((poll) => poll.uf))).sort((a, b) => (BRAZIL_STATE_BY_UF[a]?.name ?? a).localeCompare(BRAZIL_STATE_BY_UF[b]?.name ?? b, 'pt-BR')),
@@ -87,14 +262,22 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   // quando ela de fato tem pesquisa de governador nos últimos 30 dias.
   const quickJumpUf = state !== 'Brasil' && governorUFs.includes(state) ? state : null
 
+  useEffect(() => {
+    if (!senadoUf && senadoStates.length > 0) {
+      const fallback = state !== 'Brasil' && senadoStates.some((item) => item.uf === state) ? state : senadoStates[0].uf
+      setSenadoUf(fallback)
+    }
+  }, [senadoStates, senadoUf, state])
+
   const filteredPolls = useMemo(
     () =>
       polls.filter((poll) => {
         if (officeFilter !== 'Todos' && poll.office !== officeFilter) return false
         if (officeFilter === 'Governador' && ufFilter !== 'all' && poll.uf !== ufFilter) return false
+        if (roundFilter !== 'Todos' && poll.round !== roundFilter) return false
         return true
       }),
-    [polls, officeFilter, ufFilter],
+    [polls, officeFilter, ufFilter, roundFilter],
   )
 
   const groups = useMemo(() => {
@@ -118,7 +301,14 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
     return entries
   }, [filteredPolls])
 
-  const hasAnySourceData = status === 'loaded' && pollsFile != null && pollsFile.source != null && polls.length > 0
+  const presidenteGroups = groups.filter((group) => group.office === 'Presidente')
+  const governadorGroups = groups.filter((group) => group.office === 'Governador')
+
+  const hasAnySourceData = pollsStatus === 'loaded' && pollsFile != null && pollsFile.source != null && polls.length > 0
+  const showPresidenteSection = officeFilter === 'Todos' || officeFilter === 'Presidente'
+  const showGovernadorSection = officeFilter === 'Todos' || officeFilter === 'Governador'
+
+  const selectedSenadoState = senadoStates.find((item) => item.uf === senadoUf) ?? null
 
   return (
     <section className="pesquisas-tracker">
@@ -147,94 +337,173 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
             {option === 'Todos' ? 'Todos os cargos' : option}
           </button>
         ))}
+      </div>
 
-        {officeFilter === 'Governador' && (
-          <div className="pesquisas-tracker__uf-select">
-            <label htmlFor="pesquisas-uf-filter">Estado</label>
-            <select id="pesquisas-uf-filter" value={ufFilter} onChange={(event) => setUfFilter(event.target.value)}>
-              <option value="all">Todos os Estados</option>
-              {governorUFs.map((uf) => (
-                <option key={uf} value={uf}>
-                  {BRAZIL_STATE_BY_UF[uf]?.name ?? uf}
-                </option>
-              ))}
-            </select>
+      <div className="pesquisas-tracker__filters" role="group" aria-label="Filtrar pesquisas por turno">
+        {(['Todos', 1, 2] as RoundFilter[]).map((option) => (
+          <button
+            key={String(option)}
+            type="button"
+            className={`pesquisas-tracker__pill pesquisas-tracker__pill--round${roundFilter === option ? ' is-active' : ''}`}
+            aria-pressed={roundFilter === option}
+            onClick={() => setRoundFilter(option)}
+          >
+            {option === 'Todos' ? 'Todos os turnos' : `${option}º turno`}
+          </button>
+        ))}
+      </div>
+
+      {pollsStatus === 'loading' && <p className="pesquisas-tracker__status">Carregando pesquisas…</p>}
+
+      {pollsStatus !== 'loading' && !hasAnySourceData && (
+        <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+          Nenhuma pesquisa disponível no momento. Fonte de dados ainda não integrada.
+        </p>
+      )}
+
+      {hasAnySourceData && showPresidenteSection && (
+        <section className="pesquisas-tracker__office-section" aria-label="Pesquisas para Presidente">
+          <div className="pesquisas-tracker__office-head">
+            <h3 className="pesquisas-tracker__office-title">Presidente</h3>
+            <p className="pesquisas-tracker__office-note">
+              Pesquisas presidenciais desta fonte são nacionais: não existe corte por estado para Presidente aqui,
+              só por turno e por instituto.
+            </p>
+          </div>
+          {presidenteGroups.length === 0 ? (
+            <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+              Nenhuma pesquisa de Presidente encontrada para esse filtro nos últimos 30 dias.
+            </p>
+          ) : (
+            presidenteGroups.map((group) => (
+              <div className="pesquisas-tracker__grid" key={group.key}>
+                {group.items.map((poll) => (
+                  <PollCard poll={poll} key={poll.id} />
+                ))}
+              </div>
+            ))
+          )}
+        </section>
+      )}
+
+      {hasAnySourceData && showGovernadorSection && (
+        <section className="pesquisas-tracker__office-section" aria-label="Pesquisas para Governador">
+          <div className="pesquisas-tracker__office-head">
+            <h3 className="pesquisas-tracker__office-title">Governador por estado</h3>
+            <p className="pesquisas-tracker__office-note">
+              Hoje só os estados abaixo têm pesquisa de governador nesta fonte. Escolha um estado para filtrar os
+              cards.
+            </p>
+          </div>
+
+          <div className="pesquisas-tracker__uf-pills" role="group" aria-label="Filtrar governador por estado">
+            <button
+              type="button"
+              className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${ufFilter === 'all' ? ' is-active' : ''}`}
+              aria-pressed={ufFilter === 'all'}
+              onClick={() => setUfFilter('all')}
+            >
+              Todos os estados
+            </button>
+            {governorUFs.map((uf) => (
+              <button
+                key={uf}
+                type="button"
+                className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${ufFilter === uf ? ' is-active' : ''}`}
+                aria-pressed={ufFilter === uf}
+                onClick={() => setUfFilter(uf)}
+              >
+                {BRAZIL_STATE_BY_UF[uf]?.name ?? uf}
+              </button>
+            ))}
             {quickJumpUf && quickJumpUf !== ufFilter && (
               <button type="button" className="pesquisas-tracker__jump" onClick={() => setUfFilter(quickJumpUf)}>
                 Ver {BRAZIL_STATE_BY_UF[quickJumpUf]?.name ?? quickJumpUf}
               </button>
             )}
           </div>
+
+          {governadorGroups.length === 0 ? (
+            <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+              Nenhuma pesquisa de Governador encontrada para esse filtro nos últimos 30 dias.
+            </p>
+          ) : (
+            governadorGroups.map((group) => (
+              <div key={group.key}>
+                <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
+                <div className="pesquisas-tracker__grid">
+                  {group.items.map((poll) => (
+                    <PollCard poll={poll} key={poll.id} />
+                  ))}
+                </div>
+              </div>
+            ))
+          )}
+        </section>
+      )}
+
+      <section className="pesquisas-tracker__office-section" aria-label="Pesquisas para Senador">
+        <div className="pesquisas-tracker__office-head">
+          <h3 className="pesquisas-tracker__office-title">Senador por estado</h3>
+          <p className="pesquisas-tracker__office-note">
+            Não existe 2º turno para Senado no Brasil, a eleição é em turno único e cada estado elege 2 senadores.
+            Este dado é uma compilação manual feita a partir de matérias jornalísticas reais (veja a lista de fontes
+            abaixo), não um feed atualizado automaticamente como as pesquisas de Presidente e Governador acima.
+          </p>
+        </div>
+
+        {senadoStatus === 'loading' && <p className="pesquisas-tracker__status">Carregando pesquisas de Senado…</p>}
+
+        {senadoStatus === 'error' && (
+          <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+            Dado indisponível: não foi possível carregar as pesquisas de Senado.
+          </p>
         )}
-      </div>
 
-      {status === 'loading' && <p className="pesquisas-tracker__status">Carregando pesquisas…</p>}
-
-      {status !== 'loading' && !hasAnySourceData && (
-        <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
-          Nenhuma pesquisa disponível no momento. Fonte de dados ainda não integrada.
-        </p>
-      )}
-
-      {hasAnySourceData && groups.length === 0 && (
-        <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">Nenhuma pesquisa encontrada para esse filtro nos últimos 30 dias.</p>
-      )}
-
-      {hasAnySourceData &&
-        groups.map((group) => (
-          <section key={group.key} className="pesquisas-tracker__race" aria-label={raceLabel(group.office, group.uf)}>
-            <h3 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h3>
-            <div className="pesquisas-tracker__grid">
-              {group.items.map((poll) => {
-                const topPercentage = poll.results[0]?.percentage || 1
-                return (
-                  <article className="pesquisas-tracker__card" key={poll.id}>
-                    <div className="pesquisas-tracker__card-head">
-                      <div>
-                        <strong className="pesquisas-tracker__institute">{poll.institute}</strong>
-                        {poll.commissioner && <span className="pesquisas-tracker__commissioner"> · contratante: {poll.commissioner}</span>}
-                      </div>
-                      {poll.round && <span className="pesquisas-tracker__round-chip">{poll.round}º turno</span>}
-                    </div>
-
-                    <p className="pesquisas-tracker__meta">
-                      {formatIsoDate(poll.publishedAt, dateFormat)}
-                      {poll.fieldDates && (
-                        <> · campo {formatIsoDate(poll.fieldDates.start, shortDateFormat)}–{formatIsoDate(poll.fieldDates.end, shortDateFormat)}</>
-                      )}
-                      {poll.sampleSize != null && <> · {sampleFormat.format(poll.sampleSize)} entrevistas</>}
-                      {poll.marginOfError != null && <> · margem ±{percentFormat.format(poll.marginOfError)} p.p.</>}
-                    </p>
-
-                    <div className="pesquisas-tracker__bars">
-                      {poll.results.map((result) => (
-                        <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
-                          <span className="pesquisas-tracker__bar-label">
-                            {result.candidateName}
-                            {result.party && <span className="pesquisas-tracker__bar-party"> ({result.party})</span>}
-                          </span>
-                          <div className="pesquisas-tracker__bar-track">
-                            <span
-                              className="pesquisas-tracker__bar-fill"
-                              style={{ width: `${Math.min(100, (result.percentage / topPercentage) * 100)}%` }}
-                            />
-                          </div>
-                          <span className="pesquisas-tracker__bar-value">{percentFormat.format(result.percentage)}%</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {poll.sourceUrl && (
-                      <a className="pesquisas-tracker__source" href={poll.sourceUrl} target="_blank" rel="noreferrer">
-                        Ver fonte original ↗
-                      </a>
-                    )}
-                  </article>
-                )
-              })}
+        {senadoStatus === 'loaded' && senadoStates.length > 0 && (
+          <>
+            <div className="pesquisas-tracker__uf-pills" role="group" aria-label="Escolher estado para Senador">
+              {senadoStates.map((item) => (
+                <button
+                  key={item.uf}
+                  type="button"
+                  className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${senadoUf === item.uf ? ' is-active' : ''}`}
+                  aria-pressed={senadoUf === item.uf}
+                  onClick={() => setSenadoUf(item.uf)}
+                >
+                  {item.uf}
+                </button>
+              ))}
             </div>
-          </section>
-        ))}
+
+            {selectedSenadoState && (
+              <>
+                <h4 className="pesquisas-tracker__race-title">Senador · {selectedSenadoState.state}</h4>
+                <div className="pesquisas-tracker__grid">
+                  <SenadoCard state={selectedSenadoState} />
+                </div>
+              </>
+            )}
+
+            {senadoFile && senadoFile.sources.length > 0 && (
+              <details className="pesquisas-tracker__sources-details">
+                <summary>Fontes usadas na compilação de Senado ({senadoFile.sources.length})</summary>
+                <ul className="pesquisas-tracker__sources-list">
+                  {senadoFile.sources.map((src) => (
+                    <li key={src.url}>
+                      <a href={src.url} target="_blank" rel="noreferrer">
+                        {src.publisher}
+                      </a>
+                      {' · '}
+                      {src.usedFor}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+          </>
+        )}
+      </section>
     </section>
   )
 }

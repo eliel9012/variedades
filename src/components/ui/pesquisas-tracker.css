@@ -72,28 +72,23 @@
   color: var(--on-primary);
 }
 
-.pesquisas-tracker__uf-select {
+.pesquisas-tracker__pill--round {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.pesquisas-tracker__uf-pills {
   display: flex;
-  align-items: center;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
 }
 
-.pesquisas-tracker__uf-select label {
-  color: var(--muted);
-  font: 600 10px/14px 'Plus Jakarta Sans', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-}
-
-.pesquisas-tracker__uf-select select {
-  border: 1px solid var(--outline-variant);
-  border-radius: var(--radius-full);
-  background: var(--surface-container-lowest);
-  color: var(--ink);
-  padding: 9px 16px;
-  font: 600 13px 'Plus Jakarta Sans', sans-serif;
-  min-width: 150px;
+.pesquisas-tracker__pill--uf {
+  padding: 8px 14px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
 }
 
 .pesquisas-tracker__jump {
@@ -119,10 +114,37 @@
   text-align: center;
 }
 
+.pesquisas-tracker__office-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pesquisas-tracker__office-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pesquisas-tracker__office-title {
+  margin: 0;
+  color: var(--deep);
+  font: 600 22px/28px 'Newsreader', serif;
+}
+
+.pesquisas-tracker__office-note {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--muted);
+  font: 400 13px/19px 'Plus Jakarta Sans', sans-serif;
+}
+
 .pesquisas-tracker__race-title {
   margin: 0 0 var(--space-md);
   color: var(--deep);
-  font: 500 20px/28px 'Newsreader', serif;
+  font: 500 18px/26px 'Newsreader', serif;
 }
 
 .pesquisas-tracker__grid {
@@ -148,9 +170,26 @@
   gap: var(--space-sm);
 }
 
+.pesquisas-tracker__card-head-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
 .pesquisas-tracker__institute {
   color: var(--deep);
   font: 600 15px 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__scenario-chip {
+  flex: 0 0 auto;
+  padding: 2px 9px;
+  border-radius: var(--radius-full);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font: 600 10px/16px 'Plus Jakarta Sans', sans-serif;
 }
 
 .pesquisas-tracker__commissioner {
@@ -234,6 +273,47 @@
   border-bottom: 1px solid currentColor;
 }
 
+.pesquisas-tracker__card--senado {
+  border-color: var(--outline-variant);
+}
+
+.pesquisas-tracker__caveat {
+  margin: 0;
+  padding: var(--space-sm);
+  border: 1px dashed var(--error);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--ink);
+  font: 400 12px/17px 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__sources-details {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+  color: var(--muted);
+  font: 400 13px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__sources-details summary {
+  cursor: pointer;
+  color: var(--deep);
+  font-weight: 600;
+}
+
+.pesquisas-tracker__sources-list {
+  margin: var(--space-sm) 0 0;
+  padding-left: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pesquisas-tracker__sources-list a {
+  color: var(--teal);
+}
+
 @media (max-width: 760px) {
   .pesquisas-tracker {
     padding: var(--space-md) 0 var(--space-xl);
@@ -253,12 +333,15 @@
     align-items: center;
   }
 
-  .pesquisas-tracker__uf-select {
+  .pesquisas-tracker__uf-pills {
     width: 100%;
   }
 
-  .pesquisas-tracker__uf-select select {
-    flex: 1;
+  .pesquisas-tracker__pill--uf {
     min-height: 44px;
+  }
+
+  .pesquisas-tracker__office-note {
+    max-width: none;
   }
 }
