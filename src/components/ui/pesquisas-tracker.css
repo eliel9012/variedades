@@ -409,6 +409,105 @@
   color: var(--teal);
 }
 
+.pesquisas-tracker__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+  margin-bottom: var(--space-md);
+}
+
+.pesquisas-tracker__timeline-svg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 720 / 320;
+}
+
+.pesquisas-tracker__timeline-grid {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+}
+
+.pesquisas-tracker__timeline-axis {
+  fill: var(--muted);
+  font: 400 10px/1 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__timeline-crosshair {
+  stroke: var(--outline);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.pesquisas-tracker__timeline-line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pesquisas-tracker__timeline-dot {
+  stroke: var(--surface-container-lowest);
+  stroke-width: 2;
+}
+
+.pesquisas-tracker__timeline-end-label {
+  font: 600 11px/1 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__timeline-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+}
+
+.pesquisas-tracker__timeline-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 12px/16px 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+}
+
+.pesquisas-tracker__timeline-legend-item i {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.pesquisas-tracker__timeline-legend-item strong {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.pesquisas-tracker__timeline-caption {
+  margin: 0;
+  color: var(--muted);
+  font: 400 12px/16px 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__timeline-table-wrap {
+  overflow-x: auto;
+}
+
+.pesquisas-tracker__timeline-table {
+  border-collapse: collapse;
+  width: 100%;
+  font: 400 12px/16px 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__timeline-table th,
+.pesquisas-tracker__timeline-table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+  white-space: nowrap;
+}
+
 @media (max-width: 760px) {
   .pesquisas-tracker {
     padding: var(--space-md) 0 var(--space-xl);

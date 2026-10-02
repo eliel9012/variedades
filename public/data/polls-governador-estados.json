@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T12:14:17.016Z",
+  "generatedAt": "2026-10-02T12:45:16.673Z",
   "source": "https://github.com/thiago-salvador/puxa-ficha",
   "polls": [
     {
@@ -14549,6 +14549,2912 @@
         }
       ],
       "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/zucco-lidera-corrida-pelo-governo-do-rs-com-443-diz-pesquisa/"
+    },
+    {
+      "id": "govff-verita-ro-03403-2026-1t",
+      "office": "Governador",
+      "uf": "RO",
+      "institute": "Veritá",
+      "commissioner": "Instituto Veritá (iniciativa própria)",
+      "fieldDates": {
+        "start": "2026-08-24",
+        "end": "2026-08-28"
+      },
+      "publishedAt": "2026-08-31",
+      "sampleSize": 1220,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Intenção de voto estimulada no 1º turno; percentuais do total de entrevistados",
+      "results": [
+        {
+          "candidateName": "Marcos Rogério (PL)",
+          "party": null,
+          "percentage": 40.7
+        },
+        {
+          "candidateName": "Adailton Fúria (PSD)",
+          "party": null,
+          "percentage": 22.4
+        },
+        {
+          "candidateName": "não souberam ou não responderam e votos brancos ou nulos",
+          "party": null,
+          "percentage": 15
+        },
+        {
+          "candidateName": "outros",
+          "party": null,
+          "percentage": 11.6
+        },
+        {
+          "candidateName": "Expedito Netto (PT)",
+          "party": null,
+          "percentage": 10.3
+        }
+      ],
+      "sourceUrl": "https://www.rondoniadinamica.com/noticias/2026/08/marcos-rogerio-chega-a-407-e-tem-quase-o-dobro-do-2-colocado-em-pesquisa-verita-para-o-governo-de-rondonia,252975.shtml"
+    },
+    {
+      "id": "govff-quaest-pa-2026-08-29-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "PA",
+      "institute": "Quaest",
+      "commissioner": "TV Liberal",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-28"
+      },
+      "publishedAt": "2026-08-29",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "1º turno estimulado",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Dr. Daniel Santos (Podemos)",
+          "party": null,
+          "percentage": 28
+        },
+        {
+          "candidateName": "Hana Ghassan (MDB)",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Gal Leite (UP)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Well Macedo (PSTU)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Araceli (PSOL)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "José Moita (Democrata)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/29/quaest-pa-governo-e-senado.amp.htm"
+    },
+    {
+      "id": "govff-quaest-pa-2026-08-29-primeiro-turno-espontaneo",
+      "office": "Governador",
+      "uf": "PA",
+      "institute": "Quaest",
+      "commissioner": "TV Liberal",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-28"
+      },
+      "publishedAt": "2026-08-29",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "1º turno espontâneo",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 69
+        },
+        {
+          "candidateName": "Dr. Daniel Santos (Podemos)",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Hana Ghassan (MDB)",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/29/quaest-pa-governo-e-senado.amp.htm"
+    },
+    {
+      "id": "govff-quaest-pa-2026-08-29-segundo-turno-daniel-hana",
+      "office": "Governador",
+      "uf": "PA",
+      "institute": "Quaest",
+      "commissioner": "TV Liberal",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-28"
+      },
+      "publishedAt": "2026-08-29",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "2º turno: Dr. Daniel x Hana",
+      "results": [
+        {
+          "candidateName": "Dr. Daniel Santos (Podemos)",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Hana Ghassan (MDB)",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 20
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/29/quaest-pa-governo-e-senado.amp.htm"
+    },
+    {
+      "id": "govff-parana-pesquisas-to-2026-08-28-1-estimulada-total_amostra-1",
+      "office": "Governador",
+      "uf": "TO",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "Federação das Indústrias do Estado do Tocantins (Fieto)",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-27"
+      },
+      "publishedAt": "2026-08-28",
+      "sampleSize": 1504,
+      "marginOfError": 2.6,
+      "round": 1,
+      "scenarioLabel": "Estimulado, 1º turno",
+      "results": [
+        {
+          "candidateName": "Professora Dorinha",
+          "party": null,
+          "percentage": 37.3
+        },
+        {
+          "candidateName": "Vicentinho Júnior",
+          "party": null,
+          "percentage": 35.5
+        },
+        {
+          "candidateName": "Laurez Moreira",
+          "party": null,
+          "percentage": 7.6
+        },
+        {
+          "candidateName": "Nenhum/branco/nulo",
+          "party": null,
+          "percentage": 6.1
+        },
+        {
+          "candidateName": "Não sabe/não opinou",
+          "party": null,
+          "percentage": 5.4
+        },
+        {
+          "candidateName": "Ataídes de Oliveira",
+          "party": null,
+          "percentage": 5.1
+        },
+        {
+          "candidateName": "Subtenente Luiz Carlos",
+          "party": null,
+          "percentage": 1.6
+        },
+        {
+          "candidateName": "Du Pereira",
+          "party": null,
+          "percentage": 1.2
+        },
+        {
+          "candidateName": "Prof. Witer Naves",
+          "party": null,
+          "percentage": 0.2
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/parana-pesquisas-governador-senador-tocantins-agosto-2026/"
+    },
+    {
+      "id": "govff-quaest-ac-2026-08-27-1-estimulada-total_amostra-1",
+      "office": "Governador",
+      "uf": "AC",
+      "institute": "Quaest",
+      "commissioner": "Rádio TV do Amazonas / Rede Amazônica Rádio e Televisão",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-26"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Estimulado, 1º turno",
+      "results": [
+        {
+          "candidateName": "Alan Rick",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Mailza Assis",
+          "party": null,
+          "percentage": 24
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 17
+        },
+        {
+          "candidateName": "Tião Bocalom",
+          "party": null,
+          "percentage": 15
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Thor Dantas",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Dr. Luisinho",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Eudo Raffael",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governador-senador-acre-agosto-2026/"
+    },
+    {
+      "id": "govff-parana-pesquisas-ba-ba-07628-2026-fechamento-cenario-1",
+      "office": "Governador",
+      "uf": "BA",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "S2R Comunicação Ltda. / Bahia Notícias",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 1400,
+      "marginOfError": 2.7,
+      "round": 1,
+      "scenarioLabel": "Espontânea",
+      "results": [
+        {
+          "candidateName": "ACM Neto",
+          "party": null,
+          "percentage": 34.4
+        },
+        {
+          "candidateName": "Não sabe / não opinou",
+          "party": null,
+          "percentage": 31.5
+        },
+        {
+          "candidateName": "Jerônimo Rodrigues",
+          "party": null,
+          "percentage": 26.3
+        },
+        {
+          "candidateName": "Ninguém / branco / nulo",
+          "party": null,
+          "percentage": 6.6
+        },
+        {
+          "candidateName": "Outros nomes citados",
+          "party": null,
+          "percentage": 0.9
+        },
+        {
+          "candidateName": "Aroldo Felix",
+          "party": null,
+          "percentage": 0.1
+        },
+        {
+          "candidateName": "Estêvão",
+          "party": null,
+          "percentage": 0.1
+        },
+        {
+          "candidateName": "Maria Bona",
+          "party": null,
+          "percentage": 0.1
+        },
+        {
+          "candidateName": "Ronaldo Mansur",
+          "party": null,
+          "percentage": 0.1
+        }
+      ],
+      "sourceUrl": "https://paranapesquisas.com.br/wp-content/uploads/2026/08/BA_Ago26-1.pdf"
+    },
+    {
+      "id": "govff-parana-pesquisas-ba-ba-07628-2026-fechamento-cenario-2",
+      "office": "Governador",
+      "uf": "BA",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "S2R Comunicação Ltda. / Bahia Notícias",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 1400,
+      "marginOfError": 2.7,
+      "round": 1,
+      "scenarioLabel": "Estimulada - Cenário 1",
+      "results": [
+        {
+          "candidateName": "ACM Neto",
+          "party": null,
+          "percentage": 48.6
+        },
+        {
+          "candidateName": "Jerônimo Rodrigues",
+          "party": null,
+          "percentage": 40.1
+        },
+        {
+          "candidateName": "Nenhum / branco / nulo",
+          "party": null,
+          "percentage": 5.6
+        },
+        {
+          "candidateName": "Não sabe / não opinou",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Estêvão",
+          "party": null,
+          "percentage": 0.5
+        },
+        {
+          "candidateName": "Maria Bona",
+          "party": null,
+          "percentage": 0.5
+        },
+        {
+          "candidateName": "Ronaldo Mansur",
+          "party": null,
+          "percentage": 0.4
+        },
+        {
+          "candidateName": "Aroldo Felix",
+          "party": null,
+          "percentage": 0.2
+        }
+      ],
+      "sourceUrl": "https://paranapesquisas.com.br/wp-content/uploads/2026/08/BA_Ago26-1.pdf"
+    },
+    {
+      "id": "govff-parana-pesquisas-ba-ba-07628-2026-fechamento-cenario-3",
+      "office": "Governador",
+      "uf": "BA",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "S2R Comunicação Ltda. / Bahia Notícias",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 1400,
+      "marginOfError": 2.7,
+      "round": 1,
+      "scenarioLabel": "Estimulada - Cenário 2",
+      "results": [
+        {
+          "candidateName": "ACM Neto",
+          "party": null,
+          "percentage": 48.5
+        },
+        {
+          "candidateName": "Jerônimo Rodrigues",
+          "party": null,
+          "percentage": 40.1
+        },
+        {
+          "candidateName": "Nenhum / branco / nulo",
+          "party": null,
+          "percentage": 5.6
+        },
+        {
+          "candidateName": "Não sabe / não opinou",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ariel Capistrano",
+          "party": null,
+          "percentage": 0.6
+        },
+        {
+          "candidateName": "Maria Bona",
+          "party": null,
+          "percentage": 0.5
+        },
+        {
+          "candidateName": "Ronaldo Mansur",
+          "party": null,
+          "percentage": 0.4
+        },
+        {
+          "candidateName": "Aroldo Felix",
+          "party": null,
+          "percentage": 0.3
+        }
+      ],
+      "sourceUrl": "https://paranapesquisas.com.br/wp-content/uploads/2026/08/BA_Ago26-1.pdf"
+    },
+    {
+      "id": "govff-parana-pesquisas-ba-ba-07628-2026-fechamento-cenario-4",
+      "office": "Governador",
+      "uf": "BA",
+      "institute": "Paraná Pesquisas",
+      "commissioner": "S2R Comunicação Ltda. / Bahia Notícias",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 1400,
+      "marginOfError": 2.7,
+      "round": 2,
+      "scenarioLabel": "Estimulada - Cenário 3 - ACM Neto x Jerônimo Rodrigues",
+      "results": [
+        {
+          "candidateName": "ACM Neto",
+          "party": null,
+          "percentage": 49.3
+        },
+        {
+          "candidateName": "Jerônimo Rodrigues",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Nenhum / branco / nulo",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Não sabe / não opinou",
+          "party": null,
+          "percentage": 3.7
+        }
+      ],
+      "sourceUrl": "https://paranapesquisas.com.br/wp-content/uploads/2026/08/BA_Ago26-1.pdf"
+    },
+    {
+      "id": "govff-ipr-nominal-ms-ms-07621-2026-estimulada",
+      "office": "Governador",
+      "uf": "MS",
+      "institute": "Instituto de Pesquisa Resultado (IPR)",
+      "commissioner": "Correio do Estado",
+      "fieldDates": {
+        "start": "2026-08-19",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 784,
+      "marginOfError": 3.5,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado, total de entrevistados",
+      "results": [
+        {
+          "candidateName": "Eduardo Riedel",
+          "party": null,
+          "percentage": 44.77
+        },
+        {
+          "candidateName": "Fábio Trad",
+          "party": null,
+          "percentage": 13.78
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 13.78
+        },
+        {
+          "candidateName": "Branco/nulo",
+          "party": null,
+          "percentage": 9.44
+        },
+        {
+          "candidateName": "Delcídio do Amaral",
+          "party": null,
+          "percentage": 7.02
+        },
+        {
+          "candidateName": "João Henrique Catan",
+          "party": null,
+          "percentage": 4.85
+        },
+        {
+          "candidateName": "Renato Gomes",
+          "party": null,
+          "percentage": 2.68
+        },
+        {
+          "candidateName": "Lucien Rezende",
+          "party": null,
+          "percentage": 1.91
+        },
+        {
+          "candidateName": "Jeferson Bezerra",
+          "party": null,
+          "percentage": 0.89
+        },
+        {
+          "candidateName": "Daniel Lemes",
+          "party": null,
+          "percentage": 0.89
+        }
+      ],
+      "sourceUrl": "https://investigams.com.br/2026/08/27/pesquisa-ipr-riedel-lidera-seguido-por-fabio-trad-e-delcidio-do-amaral/"
+    },
+    {
+      "id": "govff-quaest-rr-2026-08-27-1-estimulada-total_amostra-1",
+      "office": "Governador",
+      "uf": "RR",
+      "institute": "Quaest",
+      "commissioner": "Rádio TV do Amazonas Ltda. / Rede Amazônica Rádio e Televisão",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-26"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Estimulado, 1º turno",
+      "results": [
+        {
+          "candidateName": "Arthur Henrique",
+          "party": null,
+          "percentage": 60
+        },
+        {
+          "candidateName": "Soldado Sampaio",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Rosi Aires",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Clébio Genuíno",
+          "party": null,
+          "percentage": 0
+        },
+        {
+          "candidateName": "Farah Mesquita",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.opovo.com.br/noticias/politica/eleicoes/2026/08/27/pesquisa-quaest-roraima-mostra-ampla-vantagem-de-arthur-henrique.html"
+    },
+    {
+      "id": "govff-quaest-se-2026-08-27-1-estimulado-total_entrevistados-1",
+      "office": "Governador",
+      "uf": "SE",
+      "institute": "Genial/Quaest",
+      "commissioner": "TV Sergipe",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-26"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "1º turno",
+      "results": [
+        {
+          "candidateName": "Fábio Mitidieri (PSD)",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Valmir de Francisquinho (Republicanos)",
+          "party": null,
+          "percentage": 28
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 17
+        },
+        {
+          "candidateName": "Brancos/nulos/não pretendem votar",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ricardo Marques (PL)",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Emanuel Cacho (PSDB)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Dr. Helton (PSOL)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Taty Cristina de Jesus (DC)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/quaest-fabio-mitidieri-lidera-disputa-em-sergipe-com-40-e-valmir-de-francisquinho-tem-28.shtml"
+    },
+    {
+      "id": "govff-real-time-big-data-am-2026-08-26-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado: Os números são referentes ao cenário estimulado, quando uma lista de candidatos é apresentada aos entrevistados. Veja o resultado:",
+      "results": [
+        {
+          "candidateName": "Omar Aziz (PSD)",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Roberto Cidade (União Brasil)",
+          "party": null,
+          "percentage": 22
+        },
+        {
+          "candidateName": "Professora Maria do Carmo (PL)",
+          "party": null,
+          "percentage": 21
+        },
+        {
+          "candidateName": "David Almeida (Avante)",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Cabo Daciolo (Mobiliza)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-am-am-09965-2026-2t-4e37d3e8606e2294",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Roberto Cidade x Professora Maria do Carmo",
+      "results": [
+        {
+          "candidateName": "Roberto Cidade",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Professora Maria do Carmo",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 15
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-am-am-09965-2026-2t-1fd948c318f63d09",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Omar Aziz x Roberto Cidade",
+      "results": [
+        {
+          "candidateName": "Omar Aziz",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Roberto Cidade",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-am-am-09965-2026-2t-bef985eedbce0b9c",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Professora Maria do Carmo x Omar Aziz",
+      "results": [
+        {
+          "candidateName": "Professora Maria do Carmo",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Omar Aziz",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 7
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-am-am-09965-2026-2t-6545c64c0997d19b",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Professora Maria do Carmo x David Almeida",
+      "results": [
+        {
+          "candidateName": "Professora Maria do Carmo",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "David Almeida",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-am-am-09965-2026-2t-945cbfd0f8ec223a",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Omar Aziz x David Almeida",
+      "results": [
+        {
+          "candidateName": "Omar Aziz",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "David Almeida",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-am-am-09965-2026-2t-0586fe139dc7295f",
+      "office": "Governador",
+      "uf": "AM",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Roberto Cidade x David Almeida",
+      "results": [
+        {
+          "candidateName": "Roberto Cidade",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "David Almeida",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu (NS/NR)",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://noticias.r7.com/eleicoes/2026/amazonas-omar-aziz-lidera-com-34-no-1-turno-roberto-cidade-tem-22-e-maria-do-carmo-21-26082026/"
+    },
+    {
+      "id": "govff-real-time-big-data-rs-2026-08-25-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "RS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-24"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado",
+      "results": [
+        {
+          "candidateName": "Juliana Brizola (PDT)",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Zucco (PL)",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Gabriel Souza (MDB)",
+          "party": null,
+          "percentage": 19
+        },
+        {
+          "candidateName": "Marcelo Maranata (PSDB)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/real-time-big-data-mostra-juliana-brizola-com-38-e-luciano-zucco-com-32-das-intencoes-de-voto-para-o-governo-do-rs-cmt8o9qxe00hk015gm9om5ee6.html"
+    },
+    {
+      "id": "govff-real-time-big-data-rs-rs-09640-2026-1t-780d665f58cae3fa",
+      "office": "Governador",
+      "uf": "RS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-24"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno espontâneo",
+      "results": [
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 53
+        },
+        {
+          "candidateName": "Juliana Brizola",
+          "party": null,
+          "percentage": 16
+        },
+        {
+          "candidateName": "Zucco",
+          "party": null,
+          "percentage": 13
+        },
+        {
+          "candidateName": "Gabriel Souza",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Marcelo Maranata",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Eduardo Leite",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/real-time-big-data-mostra-juliana-brizola-com-38-e-luciano-zucco-com-32-das-intencoes-de-voto-para-o-governo-do-rs-cmt8o9qxe00hk015gm9om5ee6.html"
+    },
+    {
+      "id": "govff-real-time-big-data-rs-rs-09640-2026-2t-0862da0c55c041da",
+      "office": "Governador",
+      "uf": "RS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-24"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Juliana Brizola x Zucco",
+      "results": [
+        {
+          "candidateName": "Juliana Brizola (PDT)",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Zucco (PL)",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 7
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/real-time-big-data-mostra-juliana-brizola-com-38-e-luciano-zucco-com-32-das-intencoes-de-voto-para-o-governo-do-rs-cmt8o9qxe00hk015gm9om5ee6.html"
+    },
+    {
+      "id": "govff-real-time-big-data-rs-rs-09640-2026-2t-642fdac1e13fc7ab",
+      "office": "Governador",
+      "uf": "RS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-24"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Zucco x Gabriel Souza",
+      "results": [
+        {
+          "candidateName": "Zucco (PL)",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Gabriel Souza (MDB)",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/real-time-big-data-mostra-juliana-brizola-com-38-e-luciano-zucco-com-32-das-intencoes-de-voto-para-o-governo-do-rs-cmt8o9qxe00hk015gm9om5ee6.html"
+    },
+    {
+      "id": "govff-real-time-big-data-rs-rs-09640-2026-2t-ac41b4fec54a141d",
+      "office": "Governador",
+      "uf": "RS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-24"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Juliana Brizola x Gabriel Souza",
+      "results": [
+        {
+          "candidateName": "Juliana Brizola (PDT)",
+          "party": null,
+          "percentage": 48
+        },
+        {
+          "candidateName": "Gabriel Souza (MDB)",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/real-time-big-data-mostra-juliana-brizola-com-38-e-luciano-zucco-com-32-das-intencoes-de-voto-para-o-governo-do-rs-cmt8o9qxe00hk015gm9om5ee6.html"
+    },
+    {
+      "id": "govff-quaest-rs-2026-08-25-1-estimulado-total_entrevistados-1",
+      "office": "Governador",
+      "uf": "RS",
+      "institute": "Genial/Quaest",
+      "commissioner": "RBS Participações S.A./Televisão Gaúcha S.A.",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 900,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "1º turno estimulado",
+      "results": [
+        {
+          "candidateName": "Indecisos/não sabe/não respondeu",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Luciano Zucco (PL)",
+          "party": null,
+          "percentage": 26
+        },
+        {
+          "candidateName": "Juliana Brizola (PDT)",
+          "party": null,
+          "percentage": 23
+        },
+        {
+          "candidateName": "Branco/nulo",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Gabriel Souza (MDB)",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Marcelo Maranata (PSDB)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Priscila Voigt (UP)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Cesar Pontes (PCO)",
+          "party": null,
+          "percentage": 0
+        },
+        {
+          "candidateName": "Rejane de Oliveira (PSTU)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/quaest-zucco-tem-26-e-juliana-23-no-1o-turno-ao-governo-do-rs/"
+    },
+    {
+      "id": "govff-quaest-ro-2026-08-25-1-estimulada-total_amostra-1",
+      "office": "Governador",
+      "uf": "RO",
+      "institute": "Quaest",
+      "commissioner": "Rádio TV do Amazonas / Rede Amazônica Rádio e Televisão",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-24"
+      },
+      "publishedAt": "2026-08-25",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Estimulado, 1º turno",
+      "results": [
+        {
+          "candidateName": "Marcos Rogério",
+          "party": null,
+          "percentage": 24
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 22
+        },
+        {
+          "candidateName": "Adailton Fúria",
+          "party": null,
+          "percentage": 21
+        },
+        {
+          "candidateName": "Hildon Chaves",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Expedito Netto",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Nulo/branco/não vai votar",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Samuel Costa",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Pedro Abib",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-governo-senado-rondonia-agosto-2026/"
+    },
+    {
+      "id": "govff-real-time-big-data-pb-2026-08-24-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "PB",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-19",
+        "end": "2026-08-22"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo da Paraíba",
+      "results": [
+        {
+          "candidateName": "Lucas Ribeiro (PP)",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Cícero Lucena (MDB)",
+          "party": null,
+          "percentage": 25
+        },
+        {
+          "candidateName": "Efraim Filho (PL)",
+          "party": null,
+          "percentage": 21
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Camilo Duarte (PCO)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Pedro Coutinho (DC)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Yuri Ezequiel (UP)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://exame.com/brasil/real-time-big-data-ribeiro-abre-10-pontos-sobre-lucena-no-1o-turno-na-paraiba/"
+    },
+    {
+      "id": "govff-quaest-sc-2026-08-24-1-estimulada-total_entrevistados-1",
+      "office": "Governador",
+      "uf": "SC",
+      "institute": "Quaest",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "1º turno estimulado",
+      "results": [
+        {
+          "candidateName": "Jorginho Mello",
+          "party": null,
+          "percentage": 50
+        },
+        {
+          "candidateName": "João Rodrigues",
+          "party": null,
+          "percentage": 17
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 16
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Gelson Merísio",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Professor Marcus Sodré",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Bruno Pedreiro",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Laís Chaud",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Marcelo Brigadeiro",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Ralf Zimmer",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/28/pesquisa-eleitoral-santa-catarina-veja-levantamento-para-governador.ghtm"
+    },
+    {
+      "id": "govff-quaest-sc-2026-08-24-1-espontanea-total_entrevistados-2",
+      "office": "Governador",
+      "uf": "SC",
+      "institute": "Quaest",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "1º turno espontâneo",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 65
+        },
+        {
+          "candidateName": "Jorginho Mello",
+          "party": null,
+          "percentage": 24
+        },
+        {
+          "candidateName": "João Rodrigues",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Gelson Merísio",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Marcelo Brigadeiro",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/28/pesquisa-eleitoral-santa-catarina-veja-levantamento-para-governador.ghtm"
+    },
+    {
+      "id": "govff-quaest-sc-2026-08-24-2-estimulada-total_entrevistados-3",
+      "office": "Governador",
+      "uf": "SC",
+      "institute": "Quaest",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "2º turno: Jorginho Mello x Gelson Merísio",
+      "results": [
+        {
+          "candidateName": "Jorginho Mello",
+          "party": null,
+          "percentage": 63
+        },
+        {
+          "candidateName": "Gelson Merísio",
+          "party": null,
+          "percentage": 16
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/28/pesquisa-eleitoral-santa-catarina-veja-levantamento-para-governador.ghtm"
+    },
+    {
+      "id": "govff-quaest-sc-2026-08-24-2-estimulada-total_entrevistados-4",
+      "office": "Governador",
+      "uf": "SC",
+      "institute": "Quaest",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 804,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "2º turno: Jorginho Mello x João Rodrigues",
+      "results": [
+        {
+          "candidateName": "Jorginho Mello",
+          "party": null,
+          "percentage": 56
+        },
+        {
+          "candidateName": "João Rodrigues",
+          "party": null,
+          "percentage": 24
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/08/28/pesquisa-eleitoral-santa-catarina-veja-levantamento-para-governador.ghtm"
+    },
+    {
+      "id": "govff-datafolha-pi-2026-08-22-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "PI",
+      "institute": "Datafolha",
+      "commissioner": "TV Clube de Teresina",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-21"
+      },
+      "publishedAt": "2026-08-22",
+      "sampleSize": 826,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Intenção de voto estimulada no 1º turno",
+      "results": [
+        {
+          "candidateName": "Rafael Fonteles (PT)",
+          "party": null,
+          "percentage": 56
+        },
+        {
+          "candidateName": "Joel Rodrigues (PP)",
+          "party": null,
+          "percentage": 21
+        },
+        {
+          "candidateName": "Brancos ou nulos",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "dra. Lúcia Santos (PSDB)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Geraldo Carvalho (PSTU)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Lourdes Melo (PCO)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Professor Gisvaldo (PSOL)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Professor Jurity (DC)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Elizeu Aguiar (Novo)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Santiago Belizário (UP)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Ravenna da Inclusão (Democrata)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-rafael-fonteles-tem-56-das-intencoes-de-voto-no-piaui-e-venceria-no-1o-turno.shtml"
+    },
+    {
+      "id": "govff-datafolha-pi-pi-06656-2026-1t-espontaneo",
+      "office": "Governador",
+      "uf": "PI",
+      "institute": "Datafolha",
+      "commissioner": "TV Clube de Teresina",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-21"
+      },
+      "publishedAt": "2026-08-22",
+      "sampleSize": 826,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Intenção de voto espontânea no 1º turno",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Fonteles",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Rodrigues",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Outras respostas",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "no atual governador",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Brancos ou nulos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "no candidato do PT",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-rafael-fonteles-tem-56-das-intencoes-de-voto-no-piaui-e-venceria-no-1o-turno.shtml"
+    },
+    {
+      "id": "govff-datafolha-df-2026-08-21-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "DF",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-21"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 910,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Intenção estimulada de voto para governador de Distrito Federal  \n",
+      "results": [
+        {
+          "candidateName": "Celina Leão (PP)",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Arruda (PSD)",
+          "party": null,
+          "percentage": 28
+        },
+        {
+          "candidateName": "Leandro Grass (PT)",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Em branco/nulo/nenhum",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Paula Belmonte (PSDB)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Cappelli (PSB)",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Kiko Caputo (NOVO)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Professora Samara Mineiro (UP)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Elisson (AGIR)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Professor Robson (PSTU)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Expedito Mendonça (PCO)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-celina-leao-e-jose-roberto-arruda-empatam-na-disputa-pelo-governo-do-df.shtml"
+    },
+    {
+      "id": "govff-datafolha-df-df-07561-2026-1t-espontaneo",
+      "office": "Governador",
+      "uf": "DF",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-21"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 910,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Intenção espontânea de voto para governador de Distrito Federal  ",
+      "results": [
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 49
+        },
+        {
+          "candidateName": "Celina Leão (PP)",
+          "party": null,
+          "percentage": 21
+        },
+        {
+          "candidateName": "Arruda (PSD)",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Leandro Grass (PT)",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Em branco/ nulo/ nenhum",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Outras respostas",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Paula Belmonte (PSDB)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Cappelli (PSB)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Kiko Caputo (NOVO)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Vota no PT/ candidado do PT",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-celina-leao-e-jose-roberto-arruda-empatam-na-disputa-pelo-governo-do-df.shtml"
+    },
+    {
+      "id": "govff-datafolha-mg-2026-08-21-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "MG",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 1204,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo de Minas Gerais",
+      "results": [
+        {
+          "candidateName": "Cleitinho Azevedo (Republicanos)",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Branco/nulo",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 13
+        },
+        {
+          "candidateName": "Patrus Ananias (PT)",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Alexandre Kalil (PDT)",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Mateus Simões (PSD)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Flávio Roscoe (PL)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Gabriel Azevedo (MDB)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Túlio Lopes (PCB)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Rafael Duda (PSTU)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Ben Mendes (Missão)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Indira Xavier (UP)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Henrique Áreas (PCO)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-cleitinho-lidera-disputa-em-mg-com-32-patrus-e-kalil-tem-12-cada.shtml"
+    },
+    {
+      "id": "govff-datafolha-pe-2026-08-21-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "PE",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 1204,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo de Pernambuco",
+      "results": [
+        {
+          "candidateName": "Raquel Lyra (PSD)",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "João Campos (PSB)",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Branco/nulo/nenhum",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ivan Moraes (PSOL)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Renan Hallais (Missão)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Professora Camila (UP)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Guilherme Fonseca (PSTU)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Professor Jeremias do Banco (Democrata)",
+          "party": null,
+          "percentage": 0
+        },
+        {
+          "candidateName": "Victor Assis (PCO)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-raquel-lyra-tem-47-em-pernambuco-contra-40-de-joao-campos.shtml"
+    },
+    {
+      "id": "govff-datafolha-rj-2026-08-21-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "RJ",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 1204,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo de Rio de Janeiro",
+      "results": [
+        {
+          "candidateName": "Eduardo Paes (PSD)",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Douglas Ruas (PL)",
+          "party": null,
+          "percentage": 19
+        },
+        {
+          "candidateName": "Branco/nulo/não vai votar",
+          "party": null,
+          "percentage": 16
+        },
+        {
+          "candidateName": "Anthony Garotinho (Republicanos)",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Coronel Busnello (Missão)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Cyro Garcia (PSTU)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "William Siri (PSOL)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "André Marinho (Novo)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Juliete Pantoja (UP)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Luan Monteiro (PCO)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-eduardo-paes-tem-41-no-rio-contra-19-de-douglas-ruas.shtml"
+    },
+    {
+      "id": "govff-datafolha-sp-2026-08-21-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "SP",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-19"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 1610,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo de São Paulo",
+      "results": [
+        {
+          "candidateName": "Tarcísio de Freitas (Republicanos)",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Fernando Haddad (PT)",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Branco/nulo/nenhum",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Vera Lúcia (PSTU)",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Indecisos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Carlos Machado (PCB)",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Policial Edjane (Agir)",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Vivian Mendes (UP)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Izadora Dias (PCO)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-tarcisio-lidera-disputa-para-governo-de-sp-com-45-contra-27-de-haddad.shtml"
+    },
+    {
+      "id": "govff-real-time-big-data-pr-2026-08-18-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "PR",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-13",
+        "end": "2026-08-17"
+      },
+      "publishedAt": "2026-08-18",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Estimulada governador: cenário 01",
+      "results": [
+        {
+          "candidateName": "Sérgio Moro (PL)",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Sandro Alex (PSD)",
+          "party": null,
+          "percentage": 22
+        },
+        {
+          "candidateName": "Requião Filho (PDT)",
+          "party": null,
+          "percentage": 20
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Luiz França (Missão)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://ric.com.br/politica/eleicoes/pesquisa-real-time-big-data-governo-parana-sergio-moro-37-sandro-alex-22-e-requiao-20/"
+    },
+    {
+      "id": "govff-real-time-big-data-pr-pr-09262-2026-1t-a9fc8d84fdbb7bc9",
+      "office": "Governador",
+      "uf": "PR",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-13",
+        "end": "2026-08-17"
+      },
+      "publishedAt": "2026-08-18",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Espontânea governador",
+      "results": [
+        {
+          "candidateName": "Não Sei",
+          "party": null,
+          "percentage": 53
+        },
+        {
+          "candidateName": "Sérgio Moro",
+          "party": null,
+          "percentage": 15
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Sandro Alex",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Requião Filho",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ratinho Júnior",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://ric.com.br/politica/eleicoes/pesquisa-real-time-big-data-governo-parana-sergio-moro-37-sandro-alex-22-e-requiao-20/"
+    },
+    {
+      "id": "govff-real-time-big-data-pr-pr-09262-2026-2t-f98627ab337315b0",
+      "office": "Governador",
+      "uf": "PR",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-13",
+        "end": "2026-08-17"
+      },
+      "publishedAt": "2026-08-18",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Segundo turno: cenário 01",
+      "results": [
+        {
+          "candidateName": "Sérgio Moro (PL)",
+          "party": null,
+          "percentage": 55
+        },
+        {
+          "candidateName": "Requião Filho (PDT)",
+          "party": null,
+          "percentage": 27
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://ric.com.br/politica/eleicoes/pesquisa-real-time-big-data-governo-parana-sergio-moro-37-sandro-alex-22-e-requiao-20/"
+    },
+    {
+      "id": "govff-real-time-big-data-pr-pr-09262-2026-2t-249840bfd6dd342b",
+      "office": "Governador",
+      "uf": "PR",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-13",
+        "end": "2026-08-17"
+      },
+      "publishedAt": "2026-08-18",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Segundo turno: cenário 02",
+      "results": [
+        {
+          "candidateName": "Sérgio Moro (PL)",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Sandro Alex (PSD)",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://ric.com.br/politica/eleicoes/pesquisa-real-time-big-data-governo-parana-sergio-moro-37-sandro-alex-22-e-requiao-20/"
+    },
+    {
+      "id": "govff-real-time-big-data-pr-pr-09262-2026-2t-19956771d3c92757",
+      "office": "Governador",
+      "uf": "PR",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-13",
+        "end": "2026-08-17"
+      },
+      "publishedAt": "2026-08-18",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Segundo turno: cenário 03",
+      "results": [
+        {
+          "candidateName": "Sandro Alex (PSD)",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Requião Filho (PDT)",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 19
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 18
+        }
+      ],
+      "sourceUrl": "https://ric.com.br/politica/eleicoes/pesquisa-real-time-big-data-governo-parana-sergio-moro-37-sandro-alex-22-e-requiao-20/"
+    },
+    {
+      "id": "govff-datafolha-ce-2026-08-13-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "CE",
+      "institute": "Datafolha",
+      "commissioner": "O POVO",
+      "fieldDates": {
+        "start": "2026-08-10",
+        "end": "2026-08-12"
+      },
+      "publishedAt": "2026-08-13",
+      "sampleSize": 1022,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo de Ceará",
+      "results": [
+        {
+          "candidateName": "Ciro Gomes (PSDB)",
+          "party": null,
+          "percentage": 52
+        },
+        {
+          "candidateName": "Elmano de Freitas (PT)",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Branco, nulo ou nenhum",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Não sabe",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Pedro Brito (Novo)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Delegado Huggo (Missão)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Danilo Soares (Democrata)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Serley Leal (UP)",
+          "party": null,
+          "percentage": 0
+        },
+        {
+          "candidateName": "Zé Batista (PSTU)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/08/datafolha-ciro-gomes-lidera-com-52-no-ceara-contra-33-de-elmano-de-freitas.shtml"
+    },
+    {
+      "id": "govff-real-time-big-data-mt-2026-08-12-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "MT",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-07",
+        "end": "2026-08-11"
+      },
+      "publishedAt": "2026-08-12",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Pesquisa estimulada para o Governo de Mato Grosso",
+      "results": [
+        {
+          "candidateName": "Wellington Fagundes (PL)",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Otaviano Pivetta (Republicanos)",
+          "party": null,
+          "percentage": 26
+        },
+        {
+          "candidateName": "Natasha Slhessarenko (PSD)",
+          "party": null,
+          "percentage": 13
+        },
+        {
+          "candidateName": "Branco/Nulo",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Rafaell Milas (Missão)",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Sargento Laudicério (Agir)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Maurício Coelho (Mobiliza)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senador-mato-grosso-agosto-2026/"
+    },
+    {
+      "id": "govff-real-time-big-data-ba-2026-08-11-primeiro-turno-cenario-1",
+      "office": "Governador",
+      "uf": "BA",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-06",
+        "end": "2026-08-10"
+      },
+      "publishedAt": "2026-08-11",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado",
+      "results": [
+        {
+          "candidateName": "ACM Neto",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Jerônimo Rodrigues",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Votos nulos e em branco",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Não souberam ou não responderam",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ronaldo Mansur",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "José Estevão (DC)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Aroldo Félix (UP)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://exame.com/brasil/real-time-big-data-acm-neto-tem-44-e-jeronimo-42-no-1o-turno/"
+    },
+    {
+      "id": "govff-real-time-big-data-ba-ba-00277-2026-2t-acm-neto-jeronimo",
+      "office": "Governador",
+      "uf": "BA",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-06",
+        "end": "2026-08-10"
+      },
+      "publishedAt": "2026-08-11",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "ACM Neto x Jerônimo Rodrigues",
+      "results": [
+        {
+          "candidateName": "ACM Neto",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Jerônimo Rodrigues",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Votos nulos e em branco",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Não souberam ou não responderam",
+          "party": null,
+          "percentage": 4
+        }
+      ],
+      "sourceUrl": "https://exame.com/brasil/real-time-big-data-acm-neto-tem-44-e-jeronimo-42-no-1o-turno/"
+    },
+    {
+      "id": "govff-real-time-big-data-ms-2026-08-06-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "MS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-01",
+        "end": "2026-08-05"
+      },
+      "publishedAt": "2026-08-06",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado",
+      "results": [
+        {
+          "candidateName": "Eduardo Riedel (PP)",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Fábio Trad (PT)",
+          "party": null,
+          "percentage": 25
+        },
+        {
+          "candidateName": "João Henrique Catan (Novo)",
+          "party": null,
+          "percentage": 12
+        },
+        {
+          "candidateName": "Branco/Nulo",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Lucien Rezende (PSOL)",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renato Gomes (DC)",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Jefferson Bezerra (Agir)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senador-mato-grosso-do-sul-agosto-2026/"
+    },
+    {
+      "id": "govff-real-time-big-data-ms-ms-07706-2026-1t-8d870e1a5f078713",
+      "office": "Governador",
+      "uf": "MS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-01",
+        "end": "2026-08-05"
+      },
+      "publishedAt": "2026-08-06",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno espontâneo",
+      "results": [
+        {
+          "candidateName": "NS / NR",
+          "party": null,
+          "percentage": 51
+        },
+        {
+          "candidateName": "Eduardo Riedel",
+          "party": null,
+          "percentage": 24
+        },
+        {
+          "candidateName": "Fábio Trad",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "João Henrique Cattan",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Reinaldo Azambuja",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senador-mato-grosso-do-sul-agosto-2026/"
+    },
+    {
+      "id": "govff-real-time-big-data-ms-ms-07706-2026-2t-f452658c6fd80039",
+      "office": "Governador",
+      "uf": "MS",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-08-01",
+        "end": "2026-08-05"
+      },
+      "publishedAt": "2026-08-06",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Eduardo Riedel x Fábio Trad",
+      "results": [
+        {
+          "candidateName": "Eduardo Riedel (PP)",
+          "party": null,
+          "percentage": 54
+        },
+        {
+          "candidateName": "Fábio Trad (PT)",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Branco/Nulo",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu",
+          "party": null,
+          "percentage": 7
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senador-mato-grosso-do-sul-agosto-2026/"
+    },
+    {
+      "id": "govff-real-time-big-data-se-2026-08-03-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "SE",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-07-28",
+        "end": "2026-08-01"
+      },
+      "publishedAt": "2026-08-03",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado",
+      "results": [
+        {
+          "candidateName": "Fábio Mitidieri (PSD)",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Valmir de Francisquinho (Republicanos)",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Ricardo Marques (PL)",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Nulo/Branco",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Emanuel Cacho (PSDB)",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Dr. Helton Monteiro (PSOL)",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-governador-senado-sergipe-agosto-2026/"
+    },
+    {
+      "id": "govff-real-time-big-data-ro-2026-07-16-primeiro-turno-estimulado",
+      "office": "Governador",
+      "uf": "RO",
+      "institute": "Real Time Big Data",
+      "commissioner": "Real Time Big Data",
+      "fieldDates": {
+        "start": "2026-07-14",
+        "end": "2026-07-15"
+      },
+      "publishedAt": "2026-07-16",
+      "sampleSize": 1600,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Primeiro turno estimulado",
+      "results": [
+        {
+          "candidateName": "Marcos Rogério (PL)",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Adaílton Fúria (PSD)",
+          "party": null,
+          "percentage": 28
+        },
+        {
+          "candidateName": "Hildon Chaves (União)",
+          "party": null,
+          "percentage": 13
+        },
+        {
+          "candidateName": "Expedito Netto (PT)",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Branco/nulo/nenhum",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Não sabe/Não respondeu",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Pedro Abib (MDB)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Ricardo Frota (PDT)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Samuel Costa (Rede)",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Luiz Carlos Teodoro (PSOL)",
+          "party": null,
+          "percentage": 0
+        }
+      ],
+      "sourceUrl": "https://www.rondoniaaovivo.com/noticia/eleicoes2026/2026/07/16/governo-de-ro-furia-abre-15-pontos-sobre-hildon-e-consolida-polarizacao-com-marcos-rogerio.html"
     }
   ]
 }

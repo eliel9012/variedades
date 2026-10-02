@@ -109,12 +109,27 @@ type PresidenteEstadosFile = {
 type FetchStatus = 'loading' | 'loaded' | 'error'
 type OfficeFilter = 'Todos' | 'Presidente' | 'Governador'
 type RoundFilter = 'Todos' | 1 | 2
-type PresidenteView = 'Nacional' | 'PorEstado'
+type PresidenteView = 'Nacional' | 'PorEstado' | 'LinhaDoTempo'
+type GovernadorView = 'Atual' | 'LinhaDoTempo'
 
 const dateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
 const shortDateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' })
 const percentFormat = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 1 })
 const sampleFormat = new Intl.NumberFormat('pt-BR')
+
+// Janela do "quadro atual" (cards de pesquisa individuais). O histórico
+// completo (`scripts/sync-polls.mjs` guarda ~400 dias) alimenta a linha do
+// tempo logo abaixo, que não tem esse corte.
+const RECENT_WINDOW_DAYS = 30
+
+// Paleta categórica validada (ver skill dataviz, references/palette.md):
+// ordem fixa, passa os critérios de daltonismo em pares adjacentes (uso de
+// linha/legenda, não "all-pairs"). Cor por candidato é atribuída por ordem
+// alfabética do nome, não por posição no ranking, pra não repintar quando a
+// liderança muda ao longo do tempo.
+const TIMELINE_SERIES_COLORS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4']
+const TIMELINE_OTHERS_COLOR = '#75786f'
+const TIMELINE_MAX_SERIES = 5
 
 function formatIsoDate(value: string, formatter: Intl.DateTimeFormat) {
   const parsed = new Date(value.length <= 10 ? `${value}T00:00:00` : value)
@@ -224,6 +239,259 @@ function UfMapPicker({
         className="pesquisas-tracker__map"
         ariaLabel={mapAriaLabel}
       />
+    </div>
+  )
+}
+
+type TimelineSeries = { name: string; color: string; points: (number | null)[] }
+type TimelineData = { days: string[]; series: TimelineSeries[] }
+
+/** Agrupa pesquisas reais de uma mesma corrida (já filtradas por cargo/UF/
+ * turno) por dia de divulgação. Quando mais de um instituto publica no mesmo
+ * dia, usamos a média simples entre eles (dado real, só resumido pra caber
+ * num ponto por dia), nunca um número inventado. Só os até
+ * `TIMELINE_MAX_SERIES` candidatos com maior percentual já observado ganham
+ * linha própria; o resto (candidatos menores + pseudo-linhas de
+ * indecisos/brancos/nulos) é somado numa série "Outros". */
+function buildTimelineSeries(polls: Poll[]): TimelineData {
+  const byDay = new Map<string, Map<string, number[]>>()
+  for (const poll of polls) {
+    const day = poll.publishedAt.slice(0, 10)
+    const dayMap = byDay.get(day) ?? new Map<string, number[]>()
+    byDay.set(day, dayMap)
+    for (const result of poll.results) {
+      if (result.percentage == null) continue
+      const values = dayMap.get(result.candidateName) ?? []
+      values.push(result.percentage)
+      dayMap.set(result.candidateName, values)
+    }
+  }
+
+  const days = [...byDay.keys()].sort()
+  const avgByDay = new Map<string, Map<string, number>>()
+  const maxByCandidate = new Map<string, number>()
+  for (const day of days) {
+    const dayMap = byDay.get(day)!
+    const avgMap = new Map<string, number>()
+    for (const [name, values] of dayMap) {
+      const avg = values.reduce((sum, value) => sum + value, 0) / values.length
+      avgMap.set(name, avg)
+      maxByCandidate.set(name, Math.max(maxByCandidate.get(name) ?? 0, avg))
+    }
+    avgByDay.set(day, avgMap)
+  }
+
+  const allNames = [...maxByCandidate.keys()]
+  const realNames = allNames.filter((name) => !isPseudoCandidateRow(name))
+  const ranked = [...realNames].sort((a, b) => (maxByCandidate.get(b) ?? 0) - (maxByCandidate.get(a) ?? 0))
+  const topNames = ranked.slice(0, TIMELINE_MAX_SERIES).sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  const otherNames = new Set(allNames.filter((name) => !topNames.includes(name)))
+
+  const series: TimelineSeries[] = topNames.map((name, index) => ({
+    name,
+    color: TIMELINE_SERIES_COLORS[index % TIMELINE_SERIES_COLORS.length],
+    points: days.map((day) => avgByDay.get(day)?.get(name) ?? null),
+  }))
+
+  if (otherNames.size > 0) {
+    series.push({
+      name: 'Outros (inclui indecisos/brancos quando a fonte informa)',
+      color: TIMELINE_OTHERS_COLOR,
+      points: days.map((day) => {
+        const avgMap = avgByDay.get(day)
+        if (!avgMap) return null
+        let sum = 0
+        let any = false
+        for (const name of otherNames) {
+          const value = avgMap.get(name)
+          if (value != null) {
+            sum += value
+            any = true
+          }
+        }
+        return any ? sum : null
+      }),
+    })
+  }
+
+  return { days, series }
+}
+
+function TimelineChart({ data, title }: { data: TimelineData; title: string }) {
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null)
+  const { days, series } = data
+
+  if (days.length < 2) {
+    return (
+      <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+        Pouco histórico pra desenhar uma linha do tempo aqui ainda (só {days.length} dia(s) com pesquisa).
+      </p>
+    )
+  }
+
+  const width = 720
+  const height = 320
+  const padding = { top: 16, right: 16, bottom: 28, left: 34 }
+  const plotW = width - padding.left - padding.right
+  const plotH = height - padding.top - padding.bottom
+
+  const maxValue = Math.max(10, ...series.flatMap((item) => item.points.filter((value): value is number => value != null)))
+  const yMax = Math.min(100, Math.ceil((maxValue * 1.15) / 10) * 10)
+  const yTicks = [0, yMax * 0.25, yMax * 0.5, yMax * 0.75, yMax]
+
+  const xAt = (index: number) => padding.left + (days.length === 1 ? plotW / 2 : (index / (days.length - 1)) * plotW)
+  const yAt = (value: number) => padding.top + plotH - (value / yMax) * plotH
+
+  const linePath = (points: (number | null)[]) => {
+    let d = ''
+    let drawing = false
+    points.forEach((value, index) => {
+      if (value == null) {
+        drawing = false
+        return
+      }
+      const x = xAt(index)
+      const y = yAt(value)
+      d += drawing ? ` L ${x} ${y}` : `${d ? ' ' : ''}M ${x} ${y}`
+      drawing = true
+    })
+    return d
+  }
+
+  const showEndLabels = series.length <= 4
+  const hoverDay = hoverIndex != null ? days[hoverIndex] : null
+
+  return (
+    <div className="pesquisas-tracker__timeline">
+      <svg
+        className="pesquisas-tracker__timeline-svg"
+        viewBox={`0 0 ${width} ${height}`}
+        role="img"
+        aria-label={`Linha do tempo: ${title}`}
+        onMouseLeave={() => setHoverIndex(null)}
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect()
+          const relX = ((event.clientX - rect.left) / rect.width) * width
+          const ratio = Math.min(1, Math.max(0, (relX - padding.left) / plotW))
+          setHoverIndex(Math.round(ratio * (days.length - 1)))
+        }}
+      >
+        {yTicks.map((tick) => (
+          <g key={tick}>
+            <line
+              className="pesquisas-tracker__timeline-grid"
+              x1={padding.left}
+              x2={width - padding.right}
+              y1={yAt(tick)}
+              y2={yAt(tick)}
+            />
+            <text className="pesquisas-tracker__timeline-axis" x={padding.left - 8} y={yAt(tick) + 3} textAnchor="end">
+              {Math.round(tick)}%
+            </text>
+          </g>
+        ))}
+
+        <text className="pesquisas-tracker__timeline-axis" x={padding.left} y={height - 6}>
+          {formatIsoDate(days[0], shortDateFormat)}
+        </text>
+        <text className="pesquisas-tracker__timeline-axis" x={width - padding.right} y={height - 6} textAnchor="end">
+          {formatIsoDate(days[days.length - 1], shortDateFormat)}
+        </text>
+
+        {hoverIndex != null && (
+          <line
+            className="pesquisas-tracker__timeline-crosshair"
+            x1={xAt(hoverIndex)}
+            x2={xAt(hoverIndex)}
+            y1={padding.top}
+            y2={height - padding.bottom}
+          />
+        )}
+
+        {series.map((item) => (
+          <g key={item.name}>
+            <path className="pesquisas-tracker__timeline-line" d={linePath(item.points)} style={{ stroke: item.color }} />
+            {item.points.map((value, index) =>
+              value == null ? null : (
+                <circle
+                  key={index}
+                  className="pesquisas-tracker__timeline-dot"
+                  cx={xAt(index)}
+                  cy={yAt(value)}
+                  r={index === hoverIndex ? 5 : 4}
+                  style={{ fill: item.color }}
+                />
+              ),
+            )}
+            {showEndLabels &&
+              (() => {
+                for (let index = item.points.length - 1; index >= 0; index -= 1) {
+                  const value = item.points[index]
+                  if (value == null) continue
+                  return (
+                    <text
+                      className="pesquisas-tracker__timeline-end-label"
+                      x={xAt(index) + 6}
+                      y={yAt(value) + 3}
+                      style={{ fill: item.color }}
+                    >
+                      {percentFormat.format(value)}%
+                    </text>
+                  )
+                }
+                return null
+              })()}
+          </g>
+        ))}
+      </svg>
+
+      <div className="pesquisas-tracker__timeline-legend" role="list">
+        {series.map((item) => {
+          const valueAtHover = hoverIndex != null ? item.points[hoverIndex] : item.points[item.points.length - 1]
+          return (
+            <span className="pesquisas-tracker__timeline-legend-item" role="listitem" key={item.name}>
+              <i style={{ background: item.color }} aria-hidden="true" />
+              {item.name}
+              <strong>{valueAtHover != null ? `${percentFormat.format(valueAtHover)}%` : 'sem dado'}</strong>
+            </span>
+          )
+        })}
+      </div>
+
+      {hoverDay && (
+        <p className="pesquisas-tracker__timeline-caption">Ponto em destaque: {formatIsoDate(hoverDay, dateFormat)}</p>
+      )}
+
+      <details className="pesquisas-tracker__sources-details">
+        <summary>Ver como tabela ({days.length} dia(s) com pesquisa)</summary>
+        <div className="pesquisas-tracker__timeline-table-wrap">
+          <table className="pesquisas-tracker__timeline-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                {series.map((item) => (
+                  <th key={item.name}>{item.name}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {days.map((day, index) => (
+                <tr key={day}>
+                  <td>{formatIsoDate(day, dateFormat)}</td>
+                  {series.map((item) => (
+                    <td key={item.name}>{item.points[index] != null ? `${percentFormat.format(item.points[index]!)}%` : ''}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <p className="pesquisas-tracker__caveat" role="note">
+        Cada ponto é uma pesquisa real divulgada naquele dia (média simples quando mais de um instituto publicou no mesmo
+        dia); os traços entre pontos só conectam visualmente, não são estimativa dos dias sem pesquisa.
+      </p>
     </div>
   )
 }
@@ -446,6 +714,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const [ufFilter, setUfFilter] = useState<string>('all')
   const [senadoUf, setSenadoUf] = useState<string | null>(null)
   const [presidenteView, setPresidenteView] = useState<PresidenteView>('Nacional')
+  const [governadorView, setGovernadorView] = useState<GovernadorView>('Atual')
   const [presidenteEstadoUf, setPresidenteEstadoUf] = useState<string | null>(null)
 
   useEffect(() => {
@@ -525,15 +794,25 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
     }
   }, [presidenteEstados, presidenteEstadoUf, state])
 
+  // `polls` guarda ~400 dias de histórico (pra linha do tempo). Os cards de
+  // "quadro atual" continuam olhando só os últimos RECENT_WINDOW_DAYS, como
+  // antes da linha do tempo existir.
+  const recentCutoff = useMemo(() => {
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - RECENT_WINDOW_DAYS)
+    return cutoff.toISOString()
+  }, [])
+
   const filteredPolls = useMemo(
     () =>
       polls.filter((poll) => {
+        if (poll.publishedAt < recentCutoff) return false
         if (officeFilter !== 'Todos' && poll.office !== officeFilter) return false
         if (officeFilter === 'Governador' && ufFilter !== 'all' && poll.uf !== ufFilter) return false
         if (roundFilter !== 'Todos' && poll.round !== roundFilter) return false
         return true
       }),
-    [polls, officeFilter, ufFilter, roundFilter],
+    [polls, officeFilter, ufFilter, roundFilter, recentCutoff],
   )
 
   const groups = useMemo(() => {
@@ -559,6 +838,31 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
 
   const presidenteGroups = groups.filter((group) => group.office === 'Presidente')
   const governadorGroups = groups.filter((group) => group.office === 'Governador')
+
+  // Linhas do tempo usam o histórico completo (`polls`, ~400 dias), não o
+  // recorte de 30 dias dos cards de "quadro atual" acima.
+  const presidenteTimelineR1 = useMemo(
+    () => buildTimelineSeries(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 1)),
+    [polls],
+  )
+  const presidenteTimelineR2 = useMemo(
+    () => buildTimelineSeries(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 2)),
+    [polls],
+  )
+  const governadorTimelineR1 = useMemo(
+    () =>
+      ufFilter === 'all'
+        ? null
+        : buildTimelineSeries(polls.filter((poll) => poll.office === 'Governador' && poll.uf === ufFilter && poll.round === 1)),
+    [polls, ufFilter],
+  )
+  const governadorTimelineR2 = useMemo(
+    () =>
+      ufFilter === 'all'
+        ? null
+        : buildTimelineSeries(polls.filter((poll) => poll.office === 'Governador' && poll.uf === ufFilter && poll.round === 2)),
+    [polls, ufFilter],
+  )
 
   const hasAnySourceData = polls.length > 0
   const showPresidenteSection = officeFilter === 'Todos' || officeFilter === 'Presidente'
@@ -623,8 +927,8 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
           <div className="pesquisas-tracker__office-head">
             <h3 className="pesquisas-tracker__office-title">Presidente</h3>
 
-            <div className="pesquisas-tracker__filters" role="group" aria-label="Ver Presidente nacional ou por estado">
-              {(['Nacional', 'PorEstado'] as PresidenteView[]).map((option) => (
+            <div className="pesquisas-tracker__filters" role="group" aria-label="Ver Presidente nacional, por estado ou linha do tempo">
+              {(['Nacional', 'PorEstado', 'LinhaDoTempo'] as PresidenteView[]).map((option) => (
                 <button
                   key={option}
                   type="button"
@@ -632,20 +936,25 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                   aria-pressed={presidenteView === option}
                   onClick={() => setPresidenteView(option)}
                 >
-                  {option === 'Nacional' ? 'Nacional' : 'Por estado'}
+                  {option === 'Nacional' ? 'Nacional' : option === 'PorEstado' ? 'Por estado' : 'Linha do tempo'}
                 </button>
               ))}
             </div>
 
             <p className="pesquisas-tracker__office-note">
-              {presidenteView === 'Nacional' ? (
+              {presidenteView === 'Nacional' && (
                 <>
                   Pesquisas presidenciais desta fonte são nacionais: não existe corte por estado para Presidente aqui,
                   só por turno e por instituto.
                 </>
-              ) : (
-                presidenteEstadosFile?.note ??
-                'Carregando a nota sobre como esta compilação por estado foi feita…'
+              )}
+              {presidenteView === 'PorEstado' &&
+                (presidenteEstadosFile?.note ?? 'Carregando a nota sobre como esta compilação por estado foi feita…')}
+              {presidenteView === 'LinhaDoTempo' && (
+                <>
+                  Evolução da pesquisa nacional para Presidente desde que a fonte começou a registrar (não só os
+                  últimos 30 dias dos outros modos aqui).
+                </>
               )}
             </p>
           </div>
@@ -724,6 +1033,29 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
               )}
             </>
           )}
+
+          {presidenteView === 'LinhaDoTempo' && (
+            <>
+              <h4 className="pesquisas-tracker__race-title">Presidente · 1º turno (nacional)</h4>
+              <TimelineChart data={presidenteTimelineR1} title="Presidente, 1º turno, nacional" />
+
+              <h4 className="pesquisas-tracker__race-title">Presidente · 2º turno (nacional)</h4>
+              {presidenteTimelineR2.days.length > 0 ? (
+                <>
+                  <p className="pesquisas-tracker__office-note">
+                    O confronto testado no 2º turno pode mudar de pesquisa pra pesquisa (nem toda pesquisa simula o
+                    mesmo par de candidatos), então o mesmo nome aqui pode estar respondendo por adversários
+                    diferentes em dias diferentes.
+                  </p>
+                  <TimelineChart data={presidenteTimelineR2} title="Presidente, 2º turno, nacional" />
+                </>
+              ) : (
+                <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+                  Nenhuma pesquisa de 2º turno para Presidente nesta fonte ainda.
+                </p>
+              )}
+            </>
+          )}
         </section>
       )}
 
@@ -764,21 +1096,70 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
             </div>
 
             <div className="pesquisas-tracker__state-result">
-              {governadorGroups.length === 0 ? (
-                <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
-                  Nenhuma pesquisa de Governador encontrada para esse filtro nos últimos 30 dias.
-                </p>
-              ) : (
-                governadorGroups.map((group) => (
-                  <div key={group.key}>
-                    <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
-                    <div className="pesquisas-tracker__grid">
-                      {group.items.map((poll) => (
-                        <PollCard poll={poll} key={poll.id} />
-                      ))}
+              {ufFilter !== 'all' && (
+                <div className="pesquisas-tracker__filters" role="group" aria-label="Ver pesquisas atuais ou linha do tempo de Governador">
+                  {(['Atual', 'LinhaDoTempo'] as GovernadorView[]).map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className={`pesquisas-tracker__pill pesquisas-tracker__pill--uf${governadorView === option ? ' is-active' : ''}`}
+                      aria-pressed={governadorView === option}
+                      onClick={() => setGovernadorView(option)}
+                    >
+                      {option === 'Atual' ? 'Pesquisas atuais' : 'Linha do tempo'}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {(ufFilter === 'all' || governadorView === 'Atual') &&
+                (governadorGroups.length === 0 ? (
+                  <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+                    Nenhuma pesquisa de Governador encontrada para esse filtro nos últimos 30 dias.
+                  </p>
+                ) : (
+                  governadorGroups.map((group) => (
+                    <div key={group.key}>
+                      <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
+                      <div className="pesquisas-tracker__grid">
+                        {group.items.map((poll) => (
+                          <PollCard poll={poll} key={poll.id} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))
+                ))}
+
+              {ufFilter !== 'all' && governadorView === 'LinhaDoTempo' && (
+                <>
+                  <h4 className="pesquisas-tracker__race-title">
+                    Governador · {BRAZIL_STATE_BY_UF[ufFilter]?.name ?? ufFilter} · 1º turno
+                  </h4>
+                  {governadorTimelineR1 && governadorTimelineR1.days.length > 0 ? (
+                    <TimelineChart data={governadorTimelineR1} title={`Governador 1º turno, ${ufFilter}`} />
+                  ) : (
+                    <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+                      Sem histórico de 1º turno pra este estado ainda.
+                    </p>
+                  )}
+
+                  <h4 className="pesquisas-tracker__race-title">
+                    Governador · {BRAZIL_STATE_BY_UF[ufFilter]?.name ?? ufFilter} · 2º turno
+                  </h4>
+                  {governadorTimelineR2 && governadorTimelineR2.days.length > 0 ? (
+                    <>
+                      <p className="pesquisas-tracker__office-note">
+                        O confronto testado no 2º turno pode mudar de pesquisa pra pesquisa, então o mesmo nome aqui
+                        pode estar respondendo por adversários diferentes em dias diferentes.
+                      </p>
+                      <TimelineChart data={governadorTimelineR2} title={`Governador 2º turno, ${ufFilter}`} />
+                    </>
+                  ) : (
+                    <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
+                      Nenhuma pesquisa de 2º turno pra este estado nesta fonte ainda.
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </div>

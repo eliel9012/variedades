@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T12:14:17.016Z",
+  "generatedAt": "2026-10-02T12:45:16.673Z",
   "source": "https://github.com/rafaujo/eleicoes-2026-pesquisas",
   "polls": [
     {
@@ -1869,6 +1869,3811 @@
         }
       ],
       "sourceUrl": "https://noticias.uol.com.br/eleicoes/2026/09/04/pesquisa-presidente-2026-veja-como-estao-os-levantamentos-mais-recentes.ghtm"
+    },
+    {
+      "id": "president-br-43-first-with-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-01"
+      },
+      "publishedAt": "2026-09-02",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-43-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-30",
+        "end": "2026-09-01"
+      },
+      "publishedAt": "2026-09-02",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/quaest-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-42-first-with-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-27",
+        "end": "2026-08-31"
+      },
+      "publishedAt": "2026-09-01",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-42-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Real Time Big Data",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-27",
+        "end": "2026-08-31"
+      },
+      "publishedAt": "2026-09-01",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-presidente-setembro-2026/"
+    },
+    {
+      "id": "president-br-46-first-with-cury-marcal",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "Bloomberg",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-30"
+      },
+      "publishedAt": "2026-08-31",
+      "sampleSize": 5014,
+      "marginOfError": 1,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43.4
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33.7
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 7.8
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 7.6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3.3
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 1.9
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 0.3
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/lula-tem-471-contra-426-de-flavio-no-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-46-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "Bloomberg",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-30"
+      },
+      "publishedAt": "2026-08-31",
+      "sampleSize": 5014,
+      "marginOfError": 1,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47.1
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 42.6
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10.3
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/lula-tem-471-contra-426-de-flavio-no-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-41-first-with-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "nexus.fsb.com.br",
+      "fieldDates": {
+        "start": "2026-08-28",
+        "end": "2026-08-30"
+      },
+      "publishedAt": "2026-08-31",
+      "sampleSize": 2005,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.nexus.fsb.com.br/estudos-divulgados/pesquisa-btg-nexus-de-intencao-de-votos-para-presidente-do-brasil-31-de-agosto-de-2026/"
+    },
+    {
+      "id": "president-br-41-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "nexus.fsb.com.br",
+      "fieldDates": {
+        "start": "2026-08-28",
+        "end": "2026-08-30"
+      },
+      "publishedAt": "2026-08-31",
+      "sampleSize": 2005,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.nexus.fsb.com.br/estudos-divulgados/pesquisa-btg-nexus-de-intencao-de-votos-para-presidente-do-brasil-31-de-agosto-de-2026/"
+    },
+    {
+      "id": "president-br-45-first-with-cury-marcal",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Vox Brasil",
+      "commissioner": "Vox Brasil",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-27"
+      },
+      "publishedAt": "2026-08-29",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 37.1
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 34.8
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10.3
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3.3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2.8
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 2.6
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/vox-brasil-lula-tem-371-e-flavio-348-no-1o-turno/"
+    },
+    {
+      "id": "president-br-45-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Vox Brasil",
+      "commissioner": "Vox Brasil",
+      "fieldDates": {
+        "start": "2026-08-25",
+        "end": "2026-08-27"
+      },
+      "publishedAt": "2026-08-29",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45.1
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44.5
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10.4
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/vox-brasil-flavio-tem-451-e-lula-445-no-2o-turno/"
+    },
+    {
+      "id": "president-br-40-first-with-cury-marcal",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-26"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-38-contra-35-de-flavio-no-1o-turno/"
+    },
+    {
+      "id": "president-br-40-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-23",
+        "end": "2026-08-26"
+      },
+      "publishedAt": "2026-08-27",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-38-contra-35-de-flavio-no-1o-turno/"
+    },
+    {
+      "id": "president-br-37-first-with-cury-marcal",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Gerp",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury e Pablo Marçal",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-agosto-2026-2/"
+    },
+    {
+      "id": "president-br-37-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Gerp",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-25"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/gerp-flavio-tem-47-no-2o-turno-lula-42/"
+    },
+    {
+      "id": "president-br-38-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Indexa",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 16
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/indexa-broadcast-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-38-runoff-lula-caiado",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Indexa",
+      "commissioner": "gazetadopovo.com.br",
+      "fieldDates": {
+        "start": "2026-08-20",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-26",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Ronaldo Caiado",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/indexa-broadcast-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-39-first-with-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 2006,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.nexus.fsb.com.br/estudos-divulgados/pesquisa-btg-nexus-de-intencao-de-votos-para-presidente-do-brasil-24-de-agosto-de-2026/"
+    },
+    {
+      "id": "president-br-39-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "poder360.com.br",
+      "fieldDates": {
+        "start": "2026-08-21",
+        "end": "2026-08-23"
+      },
+      "publishedAt": "2026-08-24",
+      "sampleSize": 2006,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/lula-tem-46-contra-45-de-flavio-no-2o-turno-diz-btg-nexus/"
+    },
+    {
+      "id": "president-br-36-first-with-marcal",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Veritá",
+      "commissioner": "Instituto Veritá",
+      "fieldDates": {
+        "start": "2026-08-16",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 3840,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Pablo Marçal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 39.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8.2
+        },
+        {
+          "candidateName": "Pablo Marçal",
+          "party": null,
+          "percentage": 5.2
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3.8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3.3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1.3
+        }
+      ],
+      "sourceUrl": "https://eleicoes26.institutoverita.com.br/pesquisa/8e9d5a6b-e6b5-4870-a02f-131c565ed17f"
+    },
+    {
+      "id": "president-br-36-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Veritá",
+      "commissioner": "Instituto Veritá",
+      "fieldDates": {
+        "start": "2026-08-16",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 3840,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 47.3
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10.7
+        }
+      ],
+      "sourceUrl": "https://eleicoes26.institutoverita.com.br/pesquisa/8e9d5a6b-e6b5-4870-a02f-131c565ed17f"
+    },
+    {
+      "id": "president-br-35-first-with-cury",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 2058,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário com Augusto Cury",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Augusto Cury",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/pesquisa-datafolha-lula-tem-47-das-intencoes-de-voto-no-segundo-turno-e-flavio-bolsonaro-43-cmt3gw5jq00jy01jn4ne2s3bb.html"
+    },
+    {
+      "id": "president-br-35-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo e TV Globo",
+      "fieldDates": {
+        "start": "2026-08-18",
+        "end": "2026-08-20"
+      },
+      "publishedAt": "2026-08-21",
+      "sampleSize": 2058,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://gauchazh.clicrbs.com.br/politica/eleicoes/noticia/2026/08/pesquisa-datafolha-lula-tem-47-das-intencoes-de-voto-no-segundo-turno-e-flavio-bolsonaro-43-cmt3gw5jq00jy01jn4ne2s3bb.html"
+    },
+    {
+      "id": "president-br-34-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-08-14",
+        "end": "2026-08-16"
+      },
+      "publishedAt": "2026-08-17",
+      "sampleSize": 2003,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        }
+      ],
+      "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/08/17/btgnexus-pesquisa-presidencial.amp.htm"
+    },
+    {
+      "id": "president-br-34-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-08-14",
+        "end": "2026-08-16"
+      },
+      "publishedAt": "2026-08-17",
+      "sampleSize": 2003,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.bol.uol.com.br/noticias/2026/08/17/btgnexus-pesquisa-presidencial.amp.htm"
+    },
+    {
+      "id": "president-br-1-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest · G1",
+      "fieldDates": {
+        "start": "2026-08-10",
+        "end": "2026-08-13"
+      },
+      "publishedAt": "2026-08-13",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/08/14/quaest-presidente-1o-turno-14-agosto.ghtml"
+    },
+    {
+      "id": "president-br-1-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest · G1",
+      "fieldDates": {
+        "start": "2026-08-10",
+        "end": "2026-08-13"
+      },
+      "publishedAt": "2026-08-13",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/08/14/quaest-presidente-1o-turno-14-agosto.ghtml"
+    },
+    {
+      "id": "president-br-2-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Parceria de divulgação: Aya",
+      "fieldDates": {
+        "start": "2026-08-09",
+        "end": "2026-08-12"
+      },
+      "publishedAt": "2026-08-12",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/lula-tem-46-contra-45-de-flavio-no-2o-turno-diz-poderdata-aya/"
+    },
+    {
+      "id": "president-br-2-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Parceria de divulgação: Aya",
+      "fieldDates": {
+        "start": "2026-08-09",
+        "end": "2026-08-12"
+      },
+      "publishedAt": "2026-08-12",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poderdata/lula-tem-46-contra-45-de-flavio-no-2o-turno-diz-poderdata-aya/"
+    },
+    {
+      "id": "president-br-3-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-08-06",
+        "end": "2026-08-10"
+      },
+      "publishedAt": "2026-08-10",
+      "sampleSize": 2400,
+      "marginOfError": 2.04,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://static.poder360.com.br/uploads/2026/08/PRESIDENCIA_DO_BRASIL_DIVULGACAO_26a_Relatorio_Eleicoes_2026_Presidente.pdf"
+    },
+    {
+      "id": "president-br-3-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-08-06",
+        "end": "2026-08-10"
+      },
+      "publishedAt": "2026-08-10",
+      "sampleSize": 2400,
+      "marginOfError": 2.04,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        }
+      ],
+      "sourceUrl": "https://static.poder360.com.br/uploads/2026/08/PRESIDENCIA_DO_BRASIL_DIVULGACAO_26a_Relatorio_Eleicoes_2026_Presidente.pdf"
+    },
+    {
+      "id": "president-br-7-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Palver",
+      "commissioner": "Divulgação CartaCapital",
+      "fieldDates": {
+        "start": "2026-08-03",
+        "end": "2026-08-09"
+      },
+      "publishedAt": "2026-08-09",
+      "sampleSize": 5000,
+      "marginOfError": 3,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 1
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/as-intencoes-de-voto-de-lula-e-flavio-bolsonaro-em-pesquisa-de-estreia-da-palver/"
+    },
+    {
+      "id": "president-br-7-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Palver",
+      "commissioner": "Divulgação CartaCapital",
+      "fieldDates": {
+        "start": "2026-08-03",
+        "end": "2026-08-09"
+      },
+      "publishedAt": "2026-08-09",
+      "sampleSize": 5000,
+      "marginOfError": 3,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        }
+      ],
+      "sourceUrl": "https://www.cartacapital.com.br/politica/as-intencoes-de-voto-de-lula-e-flavio-bolsonaro-em-pesquisa-de-estreia-da-palver/"
+    },
+    {
+      "id": "president-br-5-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "CNT/MDA",
+      "commissioner": "Confederação Nacional do Transporte",
+      "fieldDates": {
+        "start": "2026-08-05",
+        "end": "2026-08-09"
+      },
+      "publishedAt": "2026-08-09",
+      "sampleSize": 2002,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42.4
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 28.7
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3.3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2.8
+        }
+      ],
+      "sourceUrl": "https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2026/08/Relatorio-Pesquisa-CNT-de-Opiniao-R169-AGOSTO26_7486.pdf"
+    },
+    {
+      "id": "president-br-5-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "CNT/MDA",
+      "commissioner": "Confederação Nacional do Transporte",
+      "fieldDates": {
+        "start": "2026-08-05",
+        "end": "2026-08-09"
+      },
+      "publishedAt": "2026-08-09",
+      "sampleSize": 2002,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 48
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 39.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12.9
+        }
+      ],
+      "sourceUrl": "https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2026/08/Relatorio-Pesquisa-CNT-de-Opiniao-R169-AGOSTO26_7486.pdf"
+    },
+    {
+      "id": "president-br-4-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-08-07",
+        "end": "2026-08-09"
+      },
+      "publishedAt": "2026-08-09",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-agosto-2026-2/"
+    },
+    {
+      "id": "president-br-4-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-08-07",
+        "end": "2026-08-09"
+      },
+      "publishedAt": "2026-08-09",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-agosto-2026-2/"
+    },
+    {
+      "id": "president-br-6-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura/100 Cidades",
+      "commissioner": "Divulgação Apex/Futura",
+      "fieldDates": {
+        "start": "2026-08-03",
+        "end": "2026-08-06"
+      },
+      "publishedAt": "2026-08-06",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 36.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 32.7
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12.2
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 7.7
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 4.4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3.8
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/futura-inteligencia-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-6-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura/100 Cidades",
+      "commissioner": "Divulgação Apex/Futura",
+      "fieldDates": {
+        "start": "2026-08-03",
+        "end": "2026-08-06"
+      },
+      "publishedAt": "2026-08-06",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46.5
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9.5
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/futura-inteligencia-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-9-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest",
+      "fieldDates": {
+        "start": "2026-07-31",
+        "end": "2026-08-03"
+      },
+      "publishedAt": "2026-08-03",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 30
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/genial-quaest-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-9-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest",
+      "fieldDates": {
+        "start": "2026-07-31",
+        "end": "2026-08-03"
+      },
+      "publishedAt": "2026-08-03",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/genial-quaest-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-8-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Meio/Ideia",
+      "commissioner": "Canal Meio",
+      "fieldDates": {
+        "start": "2026-07-31",
+        "end": "2026-08-03"
+      },
+      "publishedAt": "2026-08-03",
+      "sampleSize": 1500,
+      "marginOfError": 2.5,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5.7
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4.7
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2.6
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/meio-ideia-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-8-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Meio/Ideia",
+      "commissioner": "Canal Meio",
+      "fieldDates": {
+        "start": "2026-07-31",
+        "end": "2026-08-03"
+      },
+      "publishedAt": "2026-08-03",
+      "sampleSize": 1500,
+      "marginOfError": 2.5,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 48.5
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8.5
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/meio-ideia-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-10-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-07-31",
+        "end": "2026-08-02"
+      },
+      "publishedAt": "2026-08-02",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-10-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-07-31",
+        "end": "2026-08-02"
+      },
+      "publishedAt": "2026-08-02",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-agosto-2026/"
+    },
+    {
+      "id": "president-br-12-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Poder360",
+      "fieldDates": {
+        "start": "2026-07-26",
+        "end": "2026-07-29"
+      },
+      "publishedAt": "2026-07-29",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/poderdata-presidente-pesquisa-julho-2026/"
+    },
+    {
+      "id": "president-br-12-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Poder360",
+      "fieldDates": {
+        "start": "2026-07-26",
+        "end": "2026-07-29"
+      },
+      "publishedAt": "2026-07-29",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/poderdata-presidente-pesquisa-julho-2026/"
+    },
+    {
+      "id": "president-br-13-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Alfa Inteligência",
+      "commissioner": "TMC",
+      "fieldDates": {
+        "start": "2026-07-23",
+        "end": "2026-07-28"
+      },
+      "publishedAt": "2026-07-28",
+      "sampleSize": 2700,
+      "marginOfError": 1.8,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/ultimas-noticias/agencia-estado/2026/07/31/lula-lidera-no-1-e-no-2-turno-mostra-pesquisa-que-traz-disputa-mais-apertada-contra-caiado.htm"
+    },
+    {
+      "id": "president-br-13-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Alfa Inteligência",
+      "commissioner": "TMC",
+      "fieldDates": {
+        "start": "2026-07-23",
+        "end": "2026-07-28"
+      },
+      "publishedAt": "2026-07-28",
+      "sampleSize": 2700,
+      "marginOfError": 1.8,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 48
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://noticias.uol.com.br/ultimas-noticias/agencia-estado/2026/07/31/lula-lidera-no-1-e-no-2-turno-mostra-pesquisa-que-traz-disputa-mais-apertada-contra-caiado.htm"
+    },
+    {
+      "id": "president-br-11-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Vox Brasil",
+      "commissioner": "Poder360",
+      "fieldDates": {
+        "start": "2026-07-26",
+        "end": "2026-07-28"
+      },
+      "publishedAt": "2026-07-28",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40.5
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 31.2
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.9
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5.5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3.2
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/lula-tem-475-contra-411-de-flavio-no-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-11-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Vox Brasil",
+      "commissioner": "Poder360",
+      "fieldDates": {
+        "start": "2026-07-26",
+        "end": "2026-07-28"
+      },
+      "publishedAt": "2026-07-28",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47.5
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 41.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.4
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/lula-tem-475-contra-411-de-flavio-no-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-14-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "Bloomberg",
+      "fieldDates": {
+        "start": "2026-07-22",
+        "end": "2026-07-27"
+      },
+      "publishedAt": "2026-07-27",
+      "sampleSize": 5000,
+      "marginOfError": 1,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44.9
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35.8
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 7.8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3.1
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2.8
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 1.6
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-julho-2026-2/"
+    },
+    {
+      "id": "president-br-14-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "Bloomberg",
+      "fieldDates": {
+        "start": "2026-07-22",
+        "end": "2026-07-27"
+      },
+      "publishedAt": "2026-07-27",
+      "sampleSize": 5000,
+      "marginOfError": 1,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 49.2
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 42.9
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7.9
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-julho-2026-2/"
+    },
+    {
+      "id": "president-br-15-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-07-24",
+        "end": "2026-07-26"
+      },
+      "publishedAt": "2026-07-26",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-julho-2026-2/"
+    },
+    {
+      "id": "president-br-15-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-07-24",
+        "end": "2026-07-26"
+      },
+      "publishedAt": "2026-07-26",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-julho-2026-2/"
+    },
+    {
+      "id": "president-br-16-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo",
+      "fieldDates": {
+        "start": "2026-07-22",
+        "end": "2026-07-24"
+      },
+      "publishedAt": "2026-07-24",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 32
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/07/24/datafolha-2o-turno-lula-tem-48percent-e-flavio-bolsonaro-43percent.ghtml"
+    },
+    {
+      "id": "president-br-16-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo",
+      "fieldDates": {
+        "start": "2026-07-22",
+        "end": "2026-07-24"
+      },
+      "publishedAt": "2026-07-24",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 48
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/07/24/datafolha-2o-turno-lula-tem-48percent-e-flavio-bolsonaro-43percent.ghtml"
+    },
+    {
+      "id": "president-br-17-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Parceria de divulgação: Aya",
+      "fieldDates": {
+        "start": "2026-07-12",
+        "end": "2026-07-15"
+      },
+      "publishedAt": "2026-07-15",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 6
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 4
+        }
+      ],
+      "sourceUrl": "https://jovempan.com.br/politica/poderdata-aya-lula-marca-40-e-flavio-34-no-1o-turno-2o-tem-empate-tecnico/"
+    },
+    {
+      "id": "president-br-17-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Parceria de divulgação: Aya",
+      "fieldDates": {
+        "start": "2026-07-12",
+        "end": "2026-07-15"
+      },
+      "publishedAt": "2026-07-15",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 12
+        }
+      ],
+      "sourceUrl": "https://jovempan.com.br/politica/poderdata-aya-lula-marca-40-e-flavio-34-no-1o-turno-2o-tem-empate-tecnico/"
+    },
+    {
+      "id": "president-br-18-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest",
+      "fieldDates": {
+        "start": "2026-07-10",
+        "end": "2026-07-13"
+      },
+      "publishedAt": "2026-07-13",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 28
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 19
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-tem-45-contra-37-de-flavio-no-2o-turno-diz-quaest/"
+    },
+    {
+      "id": "president-br-18-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest",
+      "fieldDates": {
+        "start": "2026-07-10",
+        "end": "2026-07-13"
+      },
+      "publishedAt": "2026-07-13",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 37
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-tem-45-contra-37-de-flavio-no-2o-turno-diz-quaest/"
+    },
+    {
+      "id": "president-br-19-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-07-10",
+        "end": "2026-07-12"
+      },
+      "publishedAt": "2026-07-12",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-julho-2026/"
+    },
+    {
+      "id": "president-br-19-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-07-10",
+        "end": "2026-07-12"
+      },
+      "publishedAt": "2026-07-12",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/nexus-btg-pactual-presidente-julho-2026/"
+    },
+    {
+      "id": "president-br-20-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura/100 Cidades",
+      "commissioner": "Apex/Futura",
+      "fieldDates": {
+        "start": "2026-07-07",
+        "end": "2026-07-11"
+      },
+      "publishedAt": "2026-07-11",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40.1
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36.8
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8.7
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3.7
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2.6
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-e-flavio-empatam-no-2o-turno-diz-futura-apex/"
+    },
+    {
+      "id": "president-br-20-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura/100 Cidades",
+      "commissioner": "Apex/Futura",
+      "fieldDates": {
+        "start": "2026-07-07",
+        "end": "2026-07-11"
+      },
+      "publishedAt": "2026-07-11",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 46.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 7.6
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-e-flavio-empatam-no-2o-turno-diz-futura-apex/"
+    },
+    {
+      "id": "president-br-21-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-07-03",
+        "end": "2026-07-07"
+      },
+      "publishedAt": "2026-07-07",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 17
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/flavio-tem-45-e-lula-42-em-eventual-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-21-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-07-03",
+        "end": "2026-07-07"
+      },
+      "publishedAt": "2026-07-07",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 45
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/flavio-tem-45-e-lula-42-em-eventual-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-22-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "Bloomberg",
+      "fieldDates": {
+        "start": "2026-06-25",
+        "end": "2026-06-30"
+      },
+      "publishedAt": "2026-06-30",
+      "sampleSize": 5000,
+      "marginOfError": 1,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36.6
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 7.8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2.9
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 1.2
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-julho-2026/"
+    },
+    {
+      "id": "president-br-22-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "AtlasIntel",
+      "commissioner": "Bloomberg",
+      "fieldDates": {
+        "start": "2026-06-25",
+        "end": "2026-06-30"
+      },
+      "publishedAt": "2026-06-30",
+      "sampleSize": 5000,
+      "marginOfError": 1,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 48.8
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 42.3
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8.9
+        }
+      ],
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-julho-2026/"
+    },
+    {
+      "id": "president-br-23-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-06-26",
+        "end": "2026-06-28"
+      },
+      "publishedAt": "2026-06-28",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://pt.wikipedia.org/wiki/Pesquisas_de_opini%C3%A3o_para_a_elei%C3%A7%C3%A3o_presidencial_no_Brasil_em_2026"
+    },
+    {
+      "id": "president-br-23-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-06-26",
+        "end": "2026-06-28"
+      },
+      "publishedAt": "2026-06-28",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://pt.wikipedia.org/wiki/Pesquisas_de_opini%C3%A3o_para_a_elei%C3%A7%C3%A3o_presidencial_no_Brasil_em_2026"
+    },
+    {
+      "id": "president-br-24-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Vox Brasil",
+      "commissioner": "Poder360",
+      "fieldDates": {
+        "start": "2026-06-23",
+        "end": "2026-06-25"
+      },
+      "publishedAt": "2026-06-25",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 38.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 32.2
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 14.3
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5.1
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3.8
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2.5
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/flavio-e-lula-empatam-no-2o-turno-diz-pesquisa-2/"
+    },
+    {
+      "id": "president-br-24-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Vox Brasil",
+      "commissioner": "Poder360",
+      "fieldDates": {
+        "start": "2026-06-23",
+        "end": "2026-06-25"
+      },
+      "publishedAt": "2026-06-25",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 45.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 42.8
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11.9
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/flavio-e-lula-empatam-no-2o-turno-diz-pesquisa-2/"
+    },
+    {
+      "id": "president-br-25-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Parceria de divulgação: Aya",
+      "fieldDates": {
+        "start": "2026-06-21",
+        "end": "2026-06-24"
+      },
+      "publishedAt": "2026-06-24",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://pt.wikipedia.org/wiki/Pesquisas_de_opini%C3%A3o_para_a_elei%C3%A7%C3%A3o_presidencial_no_Brasil_em_2026"
+    },
+    {
+      "id": "president-br-25-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "PoderData",
+      "commissioner": "Parceria de divulgação: Aya",
+      "fieldDates": {
+        "start": "2026-06-21",
+        "end": "2026-06-24"
+      },
+      "publishedAt": "2026-06-24",
+      "sampleSize": 2400,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 46
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        }
+      ],
+      "sourceUrl": "https://pt.wikipedia.org/wiki/Pesquisas_de_opini%C3%A3o_para_a_elei%C3%A7%C3%A3o_presidencial_no_Brasil_em_2026"
+    },
+    {
+      "id": "president-br-26-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Indexa",
+      "commissioner": "Divulgação Congresso em Foco",
+      "fieldDates": {
+        "start": "2026-06-18",
+        "end": "2026-06-20"
+      },
+      "publishedAt": "2026-06-20",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 14
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        }
+      ],
+      "sourceUrl": "https://www.congressoemfoco.com.br/amp/noticia/119896/lula-vence-flavio-por-47-a-40-no-2-turno-aponta-pesquisa-indexa"
+    },
+    {
+      "id": "president-br-26-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Indexa",
+      "commissioner": "Divulgação Congresso em Foco",
+      "fieldDates": {
+        "start": "2026-06-18",
+        "end": "2026-06-20"
+      },
+      "publishedAt": "2026-06-20",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13
+        }
+      ],
+      "sourceUrl": "https://www.congressoemfoco.com.br/amp/noticia/119896/lula-vence-flavio-por-47-a-40-no-2-turno-aponta-pesquisa-indexa"
+    },
+    {
+      "id": "president-br-27-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo",
+      "fieldDates": {
+        "start": "2026-06-17",
+        "end": "2026-06-19"
+      },
+      "publishedAt": "2026-06-19",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 11
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/06/20/datafolha-lula-tem-41percent-e-flavio-bolsonaro-31percent-das-intencoes-de-voto-no-1o-turno.ghtml"
+    },
+    {
+      "id": "president-br-27-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Datafolha",
+      "commissioner": "Folha de S.Paulo",
+      "fieldDates": {
+        "start": "2026-06-17",
+        "end": "2026-06-19"
+      },
+      "publishedAt": "2026-06-19",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 47
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://g1.globo.com/politica/eleicoes/2026/pesquisa-eleitoral/noticia/2026/06/20/datafolha-lula-tem-41percent-e-flavio-bolsonaro-31percent-das-intencoes-de-voto-no-1o-turno.ghtml"
+    },
+    {
+      "id": "president-br-29-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-06-12",
+        "end": "2026-06-14"
+      },
+      "publishedAt": "2026-06-14",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 42
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 33
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-tem-49-contra-43-de-flavio-no-2o-turno-diz-nexus/"
+    },
+    {
+      "id": "president-br-29-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Nexus",
+      "commissioner": "BTG Pactual",
+      "fieldDates": {
+        "start": "2026-06-12",
+        "end": "2026-06-14"
+      },
+      "publishedAt": "2026-06-14",
+      "sampleSize": 2000,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 49
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 43
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 9
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-tem-49-contra-43-de-flavio-no-2o-turno-diz-nexus/"
+    },
+    {
+      "id": "president-br-28-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "CNT/MDA",
+      "commissioner": "Confederação Nacional do Transporte",
+      "fieldDates": {
+        "start": "2026-06-10",
+        "end": "2026-06-14"
+      },
+      "publishedAt": "2026-06-14",
+      "sampleSize": 2002,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41.8
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 28.2
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 14.9
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2.8
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/cnt-42-dizem-votar-em-lula-mas-so-21-se-veem-como-de-esquerda/"
+    },
+    {
+      "id": "president-br-28-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "CNT/MDA",
+      "commissioner": "Confederação Nacional do Transporte",
+      "fieldDates": {
+        "start": "2026-06-10",
+        "end": "2026-06-14"
+      },
+      "publishedAt": "2026-06-14",
+      "sampleSize": 2002,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 49.3
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 36.8
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 13.9
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/cnt-42-dizem-votar-em-lula-mas-so-21-se-veem-como-de-esquerda/"
+    },
+    {
+      "id": "president-br-30-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura/100 Cidades",
+      "commissioner": "Apex/Futura",
+      "fieldDates": {
+        "start": "2026-06-08",
+        "end": "2026-06-12"
+      },
+      "publishedAt": "2026-06-12",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 41.6
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 34.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 4.5
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 3.5
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2.3
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/lula-tem-481-e-flavio-429-em-eventual-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-30-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Futura/100 Cidades",
+      "commissioner": "Apex/Futura",
+      "fieldDates": {
+        "start": "2026-06-08",
+        "end": "2026-06-12"
+      },
+      "publishedAt": "2026-06-12",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 48.1
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 42.9
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 10
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/lula-tem-481-e-flavio-429-em-eventual-2o-turno-diz-pesquisa/"
+    },
+    {
+      "id": "president-br-31-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Alfa Inteligência",
+      "commissioner": "Divulgação CNN Brasil",
+      "fieldDates": {
+        "start": "2026-06-05",
+        "end": "2026-06-10"
+      },
+      "publishedAt": "2026-06-10",
+      "sampleSize": 1400,
+      "marginOfError": 2.6,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 40
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 31
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 8
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 7
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://pt.wikipedia.org/wiki/Pesquisas_de_opini%C3%A3o_para_a_elei%C3%A7%C3%A3o_presidencial_no_Brasil_em_2026"
+    },
+    {
+      "id": "president-br-31-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Alfa Inteligência",
+      "commissioner": "Divulgação CNN Brasil",
+      "fieldDates": {
+        "start": "2026-06-05",
+        "end": "2026-06-10"
+      },
+      "publishedAt": "2026-06-10",
+      "sampleSize": 1400,
+      "marginOfError": 2.6,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 41
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 15
+        }
+      ],
+      "sourceUrl": "https://pt.wikipedia.org/wiki/Pesquisas_de_opini%C3%A3o_para_a_elei%C3%A7%C3%A3o_presidencial_no_Brasil_em_2026"
+    },
+    {
+      "id": "president-br-32-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest",
+      "fieldDates": {
+        "start": "2026-06-05",
+        "end": "2026-06-08"
+      },
+      "publishedAt": "2026-06-08",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 29
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 19
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 3
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-tem-44-contra-38-de-flavio-diz-quaest/"
+    },
+    {
+      "id": "president-br-32-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "Quaest",
+      "commissioner": "Genial/Quaest",
+      "fieldDates": {
+        "start": "2026-06-05",
+        "end": "2026-06-08"
+      },
+      "publishedAt": "2026-06-08",
+      "sampleSize": 2004,
+      "marginOfError": 2,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 44
+        },
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 38
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 18
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/lula-tem-44-contra-38-de-flavio-diz-quaest/"
+    },
+    {
+      "id": "president-br-33-first-main",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-06-01",
+        "end": "2026-06-05"
+      },
+      "publishedAt": "2026-06-05",
+      "sampleSize": 2000,
+      "marginOfError": 2.24,
+      "round": 1,
+      "scenarioLabel": "Cenário principal",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 35
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 34
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 19
+        },
+        {
+          "candidateName": "Renan Santos",
+          "party": null,
+          "percentage": 4
+        },
+        {
+          "candidateName": "Ronaldo Caiado",
+          "party": null,
+          "percentage": 2
+        },
+        {
+          "candidateName": "Romeu Zema",
+          "party": null,
+          "percentage": 2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/flavio-bolsonaro-vence-lula-no-2o-turno-diz-pesquisa-gerp/"
+    },
+    {
+      "id": "president-br-33-runoff-lula-flavio",
+      "office": "Presidente",
+      "uf": "BR",
+      "institute": "GERP",
+      "commissioner": null,
+      "fieldDates": {
+        "start": "2026-06-01",
+        "end": "2026-06-05"
+      },
+      "publishedAt": "2026-06-05",
+      "sampleSize": 2000,
+      "marginOfError": 2.24,
+      "round": 2,
+      "scenarioLabel": "Lula × Flávio Bolsonaro",
+      "results": [
+        {
+          "candidateName": "Flávio Bolsonaro",
+          "party": null,
+          "percentage": 44.7
+        },
+        {
+          "candidateName": "Lula",
+          "party": null,
+          "percentage": 39.1
+        },
+        {
+          "candidateName": "Indecisos/Brancos/Nulos",
+          "party": null,
+          "percentage": 16.2
+        }
+      ],
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes/flavio-bolsonaro-vence-lula-no-2o-turno-diz-pesquisa-gerp/"
     }
   ]
 }

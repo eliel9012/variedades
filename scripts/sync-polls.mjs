@@ -36,7 +36,12 @@ const presidenteOutputFile = join(outputDir, 'polls-presidente-nacional.json')
 const governadorOutputFile = join(outputDir, 'polls-governador-estados.json')
 mkdirSync(outputDir, { recursive: true })
 
-const DAYS_WINDOW = 30
+// 400 dias cobre toda a corrida 2026 (fontes reais começam em jun/2026 pra
+// Presidente e jul/2026 pra Governador, verificado em 2026-10-02) sem
+// truncar a linha do tempo de pesquisas. A UI mostra o "quadro atual" como
+// um recorte recente desse histórico completo, não um reflexo direto deste
+// número (ver `RECENT_WINDOW_DAYS` em pesquisas-tracker.tsx).
+const DAYS_WINDOW = 400
 const now = new Date()
 const cutoff = new Date(now.getTime() - DAYS_WINDOW * 24 * 60 * 60 * 1000)
 
