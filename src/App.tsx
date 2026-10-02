@@ -396,10 +396,15 @@ function App() {
   return (
     <main className="shell">
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Apura Brasil, início">
-          <span className="brand-mark">AB</span>
-          <span><strong>apura</strong><em>brasil</em></span>
-        </a>
+        <div className="brand-group">
+          <a className="brand" href="#top" aria-label="Apura Brasil, início">
+            <span className="brand-mark">AB</span>
+            <span><strong>apura</strong><em>brasil</em></span>
+          </a>
+          <a className="brand-credit" href="https://phvox.com.br" target="_blank" rel="noreferrer" aria-label="Um projeto PHVox, abre em nova aba">
+            <img src="/phvox-logo.png" alt="PHVox" width={263} height={60} />
+          </a>
+        </div>
         <div className="topbar-meta">
           <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{online ? 'conectado' : 'offline'}</span>
           <span className="edition">Eleições 2026</span>
