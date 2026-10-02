@@ -16,6 +16,7 @@ const FILES = {
   governadorEstados: 'polls-governador-estados.json',
   senado: 'polls-senado.json',
   partyIdeology: 'party-ideology.json',
+  presidenteHistorico: 'polls-presidente-historico.json',
 }
 
 const cache = new Map()
@@ -51,6 +52,14 @@ export function loadSenado() {
  * classificação própria. */
 export function loadPartyIdeology() {
   return loadFile('partyIdeology')
+}
+
+/** Histórico presidencial 2018/2022 (resultado oficial TSE) + 2026 (pesquisa)
+ * por estado, compilado manualmente a partir de data/sources/*.xlsx (ver
+ * scripts/convert-presidente-historico-xlsx.py). Cobre SÓ a corrida de
+ * Presidente (PT x PL), nunca Governador/Senado. */
+export function loadPresidenteHistorico() {
+  return loadFile('presidenteHistorico')
 }
 
 /** So para testes: limpa o cache em memoria. */

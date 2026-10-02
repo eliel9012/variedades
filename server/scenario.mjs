@@ -323,6 +323,44 @@ export async function buildPresidenteEstadosSummary() {
         leadingCandidate: leader?.candidateName ?? null,
         leadingCandidatePercentage: leader?.percentage ?? null,
         leadingCandidateLeadProbability: scenario.simulatable ? leader?.leadProbability ?? null : null,
+        outrightWinProbability: scenario.simulatable ? scenario.outrightWinProbability : null,
+        runoffProbability: scenario.simulatable ? scenario.runoffProbability : null,
+      })
+    } catch {
+      // UF sem pesquisa utilizavel: omitida do resumo, nunca preenchida com
+      // dado inventado.
+    }
+  }
+  return summaries
+}
+
+/**
+ * Mesma ideia de buildPresidenteEstadosSummary(), mas para a corrida de
+ * Governador: um resumo com as 27 UFs, usado para abrir o escopo do chat de
+ * Cenários (IA) pra perguntas sobre Governador de um estado diferente do
+ * recorte atualmente selecionado na tela (ex.: perguntar sobre Governador de
+ * SP com a tela aberta em Presidente/Nacional). polls-governador-estados.json
+ * não tem uma lista `states` de topo (só o array `polls`), por isso as UFs
+ * são deduzidas a partir dos próprios polls.
+ */
+export async function buildGovernadorEstadosSummary() {
+  const file = await loadGovernadorEstados()
+  const ufs = [...new Set(file.polls.map((p) => p.uf))].sort()
+  const summaries = []
+  for (const uf of ufs) {
+    try {
+      const scenario = await computeScenario({ office: 'Governador', uf, round: 1 })
+      const leader = scenario.simulatable
+        ? [...scenario.candidates].sort((a, b) => b.leadProbability - a.leadProbability)[0]
+        : [...scenario.candidates].sort((a, b) => b.percentage - a.percentage)[0]
+      summaries.push({
+        uf,
+        simulatable: scenario.simulatable,
+        leadingCandidate: leader?.candidateName ?? null,
+        leadingCandidatePercentage: leader?.percentage ?? null,
+        leadingCandidateLeadProbability: scenario.simulatable ? leader?.leadProbability ?? null : null,
+        outrightWinProbability: scenario.simulatable ? scenario.outrightWinProbability : null,
+        runoffProbability: scenario.simulatable ? scenario.runoffProbability : null,
       })
     } catch {
       // UF sem pesquisa utilizavel: omitida do resumo, nunca preenchida com

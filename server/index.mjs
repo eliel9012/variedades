@@ -15,8 +15,9 @@
 
 import http from 'node:http'
 import crypto from 'node:crypto'
-import { computeScenario, buildPresidenteEstadosSummary } from './scenario.mjs'
+import { computeScenario, buildPresidenteEstadosSummary, buildGovernadorEstadosSummary } from './scenario.mjs'
 import { pingOllama, askOllama } from './ollama.mjs'
+import { loadPresidenteHistorico } from './data.mjs'
 
 const PORT = Number(process.env.PORT) || 8790
 const AI_AUTH_USER = process.env.AI_AUTH_USER?.trim() || 'admin'
@@ -91,7 +92,8 @@ Regras obrigatórias, sem exceção:
 4. Se o JSON de contexto não contiver algo que foi perguntado, diga isso claramente em português (por exemplo "não tenho esse dado") em vez de chutar ou inventar.
 5. Sempre mencione que isto é uma estimativa estatística simples a partir de uma única pesquisa, não uma previsão eleitoral.
 6. Sobre classificação ideológica de partido (esquerda/centro/direita): você SÓ pode afirmar a classificação ideológica de um partido quando o candidato correspondente, no JSON de contexto, tiver o campo "ideology" preenchido (não nulo) E o campo "ideologyAvailable" igual a true. Nesse caso, você é OBRIGADO a atribuir essa classificação à fonte indicada no campo "ideologySource" do JSON (por exemplo: "segundo classificação de [ideologySource.publisher], '[ideologySource.title]' [ideologySource.year]"), nunca apresentando isso como fato do site ou como sua própria opinião. Se "ideology" for null ou "ideologyAvailable" for false, diga explicitamente que essa classificação não está disponível nesta fonte, em vez de preencher a lacuna com conhecimento geral. Você NUNCA deve usar seu conhecimento pré-treinado/geral sobre o espectro político de partidos brasileiros para responder perguntas desse tipo: use exclusivamente o campo "ideology"/"ideologyAvailable" de cada candidato e a citação em "ideologySource", ambos fornecidos no JSON de contexto abaixo.
-7. Se a pergunta for sobre vários estados ao mesmo tempo (ex.: "em quais estados X lidera", "onde Y está mais forte") e o campo "statesSummary" estiver presente no JSON de contexto, use SOMENTE as entradas desse array (cada uma já é o cenário calculado daquele estado) para responder, nunca invente ou generalize a partir do recorte nacional/estadual único. Estados cujo "simulatable" seja false só têm percentual bruto, não probabilidade; não trate esse percentual como garantia de liderança estatística. Se "statesSummary" não estiver no contexto e a pergunta pedir outro estado/cargo que não o recorte atual, diga que não tem esse dado nesta tela.
+7. Se a pergunta for sobre outro estado ou outro cargo diferente do recorte atualmente selecionado na tela (ex.: "em quais estados X lidera", "Tarcísio vence no 1º turno em SP?" com a tela aberta em Presidente, ou uma pergunta sobre Presidente com a tela aberta em Governador): use SOMENTE as entradas dos arrays "presidenteEstadosSummary" (corrida de Presidente, uma entrada por estado) e "governadorEstadosSummary" (corrida de Governador, uma entrada por estado) do JSON de contexto, quando presentes. Cada entrada já traz "leadingCandidate", "leadingCandidatePercentage", "leadingCandidateLeadProbability", "outrightWinProbability" e "runoffProbability" já calculados: repita esses valores literalmente, nunca calcule ou estime um novo. Entradas com "simulatable": false só têm o percentual bruto ("leadingCandidatePercentage"), sem probabilidade: não trate esse percentual como garantia de liderança estatística nem invente uma probabilidade para ele. Se o estado ou cargo perguntado não aparecer em nenhum dos dois arrays, diga que não tem esse dado.
+8. O campo "historicoPresidencial" (quando presente) traz SOMENTE a corrida de Presidente por estado em três momentos: 2018 e 2022 são resultado OFICIAL de 1º turno (TSE, % de votos válidos, campo "isPoll": false em cada ponto), e 2026 é PESQUISA de intenção de voto (campo "isPoll": true, não é resultado, não misture os dois como se fossem igualmente certos). Os únicos nomes cobertos nesse campo são Haddad/Lula (PT, array "pt" de cada estado), Bolsonaro/Flávio Bolsonaro (PL, array "bolsonaro") e "Outros" (array "outros", que agrega nomes diferentes em cada estado). Esse campo NUNCA cobre a corrida de Governador, Senado ou qualquer outro candidato fora desses dois: se a pergunta for sobre outro candidato (por exemplo Tarcísio, que disputa Governador de SP, não Presidente) ou outro cargo, "historicoPresidencial" não se aplica a essa pergunta, use "governadorEstadosSummary" ou o recorte atual em vez dele, e nunca misture os dois datasets numa mesma resposta.
 
 Contexto (única fonte de verdade, em JSON):
 ${contextJson}`
@@ -161,18 +163,28 @@ const server = http.createServer(async (req, res) => {
         return
       }
 
-      // Abre o escopo do chat pra perguntas sobre varios estados de uma vez
-      // (so faz sentido pra Presidente: Governador ja e por estado, "em
-      // quais estados X lidera" nao se aplica a um unico governador).
-      let contextPayload = scenario
-      if (office === 'Presidente') {
-        try {
-          const statesSummary = await buildPresidenteEstadosSummary()
-          contextPayload = { ...scenario, statesSummary }
-        } catch {
-          // Resumo por estado indisponivel: segue so com o recorte atual,
-          // nunca bloqueia a pergunta original por causa disso.
-        }
+      // Contexto cruzado: sempre inclui o resumo de Presidente por estado, o
+      // resumo de Governador por estado e o historico presidencial
+      // 2018/2022/2026, independente do recorte (office/uf) selecionado na
+      // tela -- assim perguntas como "Tarcisio vence no 1o turno em SP?"
+      // funcionam mesmo com a tela aberta em Presidente/Nacional, e
+      // vice-versa. Cada bloco falha isoladamente (nunca derruba a pergunta
+      // principal por causa de um resumo auxiliar indisponivel).
+      const contextPayload = { ...scenario }
+      try {
+        contextPayload.presidenteEstadosSummary = await buildPresidenteEstadosSummary()
+      } catch {
+        // Resumo indisponivel: segue sem ele.
+      }
+      try {
+        contextPayload.governadorEstadosSummary = await buildGovernadorEstadosSummary()
+      } catch {
+        // Resumo indisponivel: segue sem ele.
+      }
+      try {
+        contextPayload.historicoPresidencial = await loadPresidenteHistorico()
+      } catch {
+        // Historico indisponivel: segue sem ele.
       }
 
       const systemPrompt = SYSTEM_PROMPT_TEMPLATE(JSON.stringify(contextPayload))
