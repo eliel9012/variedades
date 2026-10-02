@@ -640,7 +640,7 @@ function App() {
       </div>
 
       <AdSlot slot="footer" />
-      <footer><span>APURA BRASIL / 2026</span><span>Dados públicos · feito para continuar funcionando</span><span>Polling TSE · 15s · cache offline</span></footer>
+      <footer><span>APURA BRASIL / 2026</span><span>Dados públicos</span></footer>
       <CookieBanner />
     </main>
   )
