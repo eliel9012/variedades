@@ -210,6 +210,9 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .state-panel__close { border: 1px solid var(--outline); background: transparent; color: var(--ink); width: 32px; height: 32px; border-radius: var(--radius-full); font-size: 16px; line-height: 1; cursor: pointer; flex: 0 0 auto; }
 .state-panel__search { display: flex; align-items: center; gap: 10px; margin: 20px 0 6px; padding: var(--space-sm) 0; border-bottom: 1px solid var(--line); color: var(--teal); }
 .state-panel__search input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); font: 400 15px 'Plus Jakarta Sans', sans-serif; }
+.state-panel__office-toggle { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 6px; }
+.state-panel__pill { border: 1px solid var(--outline-variant); border-radius: var(--radius-full); background: var(--surface-container-lowest); color: var(--ink); padding: 7px 14px; font: 600 11px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .04em; cursor: pointer; }
+.state-panel__pill.is-active { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
 .state-panel__count { margin: 0 0 14px; color: var(--muted); font: 600 10px/14px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .08em; }
 .state-panel__body { display: grid; gap: 22px; }
 .state-panel__office-group h3 { margin: 0 0 10px; color: var(--deep); font: 500 20px/28px 'Newsreader', serif; }
@@ -218,6 +221,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
   .state-panel-overlay { position: static; width: 100%; height: auto; transform: none; transition: opacity .22s ease, max-height .22s ease; max-height: 0; overflow: hidden; }
   .state-panel-overlay.is-open { max-height: 4000px; }
   .state-panel { border-left: 0; border-top: 1px solid var(--border-subtle); box-shadow: none; height: auto; max-height: none; padding: var(--space-md) 0; }
+  .state-panel__pill { min-height: 36px; display: inline-flex; align-items: center; }
 }
 
 /* ---- Favoritar candidato (usado em várias listas: presidente, estados, composição parlamentar) ---- */

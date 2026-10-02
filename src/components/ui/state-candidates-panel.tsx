@@ -18,6 +18,7 @@ export function StateCandidatesPanel({ state, candidates, onClose }: StateCandid
   const { isFavorite, toggleFavorite } = useFavoriteCandidates()
   const [search, setSearch] = useState('')
   const [renderedState, setRenderedState] = useState<BrazilState | null>(state)
+  const [selectedOffice, setSelectedOffice] = useState<string>('Todos')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const isOpen = state !== null
 
@@ -25,6 +26,8 @@ export function StateCandidatesPanel({ state, candidates, onClose }: StateCandid
     if (state) {
       setRenderedState(state)
       setSearch('')
+      const officesForState = offices.filter((office) => office !== 'Presidente' && statesForOffice(office).includes(state.uf))
+      setSelectedOffice(officesForState[0] ?? 'Todos')
     }
   }, [state])
 
@@ -56,7 +59,9 @@ export function StateCandidatesPanel({ state, candidates, onClose }: StateCandid
       }))
   }, [candidates, renderedState, search])
 
-  const totalResults = groups.reduce((sum, group) => sum + group.candidates.length, 0)
+  const visibleGroups = selectedOffice === 'Todos' ? groups : groups.filter((group) => group.office === selectedOffice)
+
+  const totalResults = visibleGroups.reduce((sum, group) => sum + group.candidates.length, 0)
 
   return (
     <div className={`state-panel-overlay${isOpen ? ' is-open' : ''}`} aria-hidden={!isOpen}>
@@ -83,9 +88,30 @@ export function StateCandidatesPanel({ state, candidates, onClose }: StateCandid
             aria-label={`Buscar candidato em ${renderedState?.name ?? 'estado selecionado'}`}
           />
         </div>
+        <div className="state-panel__office-toggle" role="group" aria-label="Filtrar por cargo">
+          <button
+            type="button"
+            className={`state-panel__pill${selectedOffice === 'Todos' ? ' is-active' : ''}`}
+            aria-pressed={selectedOffice === 'Todos'}
+            onClick={() => setSelectedOffice('Todos')}
+          >
+            Todos
+          </button>
+          {groups.map((group) => (
+            <button
+              key={group.office}
+              type="button"
+              className={`state-panel__pill${selectedOffice === group.office ? ' is-active' : ''}`}
+              aria-pressed={selectedOffice === group.office}
+              onClick={() => setSelectedOffice(group.office)}
+            >
+              {group.office}
+            </button>
+          ))}
+        </div>
         <p className="state-panel__count">{totalResults} candidatura(s) encontrada(s)</p>
         <div className="state-panel__body">
-          {groups.map((group) => (
+          {visibleGroups.map((group) => (
             <section className="state-panel__office-group" key={group.office}>
               <h3>{group.office}</h3>
               {group.candidates.length === 0 ? (
