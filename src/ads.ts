@@ -6,6 +6,7 @@
 //   1) a rede está configurada no build (VITE_AD_SCRIPT_URL), e
 //   2) a pessoa aceitou cookie não essencial no banner (ver cookie-consent.ts).
 // Nunca carrega sozinho sem as duas condições.
+import { useEffect, useState } from 'react'
 import { hasAdConsent, onConsentChange } from './cookie-consent'
 
 export type AdSlotName = 'header' | 'footer' | 'sidebar' | 'in-content'
@@ -92,4 +93,23 @@ export function onAdScriptLoad(listener: () => void) {
   return () => {
     scriptLoadListeners.delete(listener)
   }
+}
+
+/** Estado comum a toda unidade de anúncio (AdSlot, InFeedAdCard,
+ * MultiplexAdCard): só fica "pronta" depois de consentimento aceito + script
+ * global carregado. Cada chamador ainda decide sozinho se o(s) ID(s) de
+ * slot/layout específicos da posição dele estão configurados. */
+export function useAdReadiness(): { clientId: string | undefined; ready: boolean } {
+  const clientId = adClientId()
+  const [consentReady, setConsentReady] = useState(() => hasAdConsent())
+  const [scriptReady, setScriptReady] = useState(false)
+
+  useEffect(() => {
+    return onConsentChange((consent) => setConsentReady(consent === 'accepted'))
+  }, [])
+  useEffect(() => {
+    return onAdScriptLoad(() => setScriptReady(true))
+  }, [])
+
+  return { clientId, ready: consentReady && scriptReady && Boolean(clientId) }
 }

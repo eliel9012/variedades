@@ -1,9 +1,29 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { Candidate, ResultSnapshot } from '../../types'
 import { BRAZIL_STATE_BY_UF } from '../../data/brazil-states'
 import { BrazilMap } from './brazil-map'
 import { navigate, parseUfSegment, ufSegment, useRoute } from '../../router'
+import { useIncrementalReveal } from '../../hooks/use-incremental-reveal'
+import InFeedAdCard from './infeed-ad-card'
+import MultiplexAdCard from './multiplex-ad-card'
 import './pesquisas-tracker.css'
+
+// Intercala um anúncio nativo "in-feed" a cada N cards de pesquisa (Presidente
+// nacional) ou a cada N estados (Governador "ver todos os estados"), pra ter
+// uma frequência razoável sem virar mais anúncio que conteúdo real.
+const IN_FEED_POLL_INTERVAL = 6
+const IN_FEED_STATE_INTERVAL = 3
+
+function renderPollCardsWithAds(polls: Poll[], ideologyByParty: Map<string, PartyIdeologyEntry>) {
+  return polls.flatMap((poll, index) => {
+    const card = <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
+    const isLast = index === polls.length - 1
+    if (!isLast && (index + 1) % IN_FEED_POLL_INTERVAL === 0) {
+      return [card, <InFeedAdCard key={`ad-after-${poll.id}`} />]
+    }
+    return [card]
+  })
+}
 
 export type PesquisasTrackerProps = {
   candidates: Candidate[]
@@ -604,6 +624,19 @@ function TimelineChart({ data, title }: { data: TimelineData; title: string }) {
   )
 }
 
+function SectionCollapseToggle({ open, onToggle, label }: { open: boolean; onToggle: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      className="pesquisas-tracker__collapse-toggle"
+      aria-expanded={open}
+      onClick={onToggle}
+    >
+      {open ? `Recolher ${label}` : `Mostrar ${label}`}
+    </button>
+  )
+}
+
 function PollCard({ poll, ideologyByParty }: { poll: Poll; ideologyByParty: Map<string, PartyIdeologyEntry> }) {
   const topPercentage = poll.results.reduce((max, item) => Math.max(max, item.percentage), 0) || 1
   return (
@@ -839,6 +872,23 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const [governadorView, setGovernadorView] = useState<GovernadorView>(() => parsePesquisasPath(pathname).governadorView)
   const [presidenteEstadoUf, setPresidenteEstadoUf] = useState<string | null>(() => parsePesquisasPath(pathname).presidenteUf)
 
+  // Toggle manual pra recolher uma seção inteira (Presidente/Governador/
+  // Senador) ou um estado específico na lista "ver todos os estados" de
+  // Governador, caso a pessoa queira reduzir o que está na tela além do que o
+  // carregamento aos poucos (useIncrementalReveal) já faz sozinho.
+  const [presidenteSectionOpen, setPresidenteSectionOpen] = useState(true)
+  const [governadorSectionOpen, setGovernadorSectionOpen] = useState(true)
+  const [senadoSectionOpen, setSenadoSectionOpen] = useState(true)
+  const [collapsedGovernadorUfs, setCollapsedGovernadorUfs] = useState<Set<string>>(() => new Set())
+  const toggleGovernadorUfCollapsed = (uf: string) => {
+    setCollapsedGovernadorUfs((current) => {
+      const next = new Set(current)
+      if (next.has(uf)) next.delete(uf)
+      else next.add(uf)
+      return next
+    })
+  }
+
   // Voltar/avançar do navegador (ou um link direto) enquanto a aba Pesquisas
   // já está montada: reconcilia com o que a URL diz agora. Cliques nos
   // filtros abaixo já fazem o caminho inverso chamando `navigate`.
@@ -990,6 +1040,24 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const presidenteGroups = groups.filter((group) => group.office === 'Presidente')
   const governadorGroups = groups.filter((group) => group.office === 'Governador')
 
+  // Presidente nacional não tem cabeçalho por grupo (ver render abaixo), então
+  // achata num grid só pra revelar aos poucos sem quebrar a ordenação.
+  const presidenteNacionalPolls = useMemo(() => presidenteGroups.flatMap((group) => group.items), [presidenteGroups])
+  const { visibleCount: presidenteVisibleCount, sentinelRef: presidenteSentinelRef } = useIncrementalReveal(
+    presidenteNacionalPolls.length,
+    `${roundFilter}-${presidenteView}`,
+  )
+
+  // Governador "ver todos os estados" é o maior risco de RAM (27 estados, ~250
+  // cards de pesquisa simultâneos): revela estado por estado ao descer a
+  // página em vez de montar tudo de uma vez.
+  const { visibleCount: governadorVisibleCount, sentinelRef: governadorSentinelRef } = useIncrementalReveal(
+    governadorGroups.length,
+    `${ufFilter}-${roundFilter}`,
+    4,
+    4,
+  )
+
   // Linhas do tempo usam o histórico completo (`polls`, ~400 dias), não o
   // recorte de 30 dias dos cards de "quadro atual" acima.
   const presidenteTimelineR1 = useMemo(
@@ -1108,7 +1176,14 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
       {hasAnySourceData && showPresidenteSection && (
         <section className="pesquisas-tracker__office-section" aria-label="Pesquisas para Presidente">
           <div className="pesquisas-tracker__office-head">
-            <h3 className="pesquisas-tracker__office-title">Presidente</h3>
+            <div className="pesquisas-tracker__office-title-row">
+              <h3 className="pesquisas-tracker__office-title">Presidente</h3>
+              <SectionCollapseToggle
+                open={presidenteSectionOpen}
+                onToggle={() => setPresidenteSectionOpen((value) => !value)}
+                label="Presidente"
+              />
+            </div>
 
             <div className="pesquisas-tracker__filters" role="group" aria-label="Ver Presidente nacional, por estado ou linha do tempo">
               {(['Nacional', 'PorEstado', 'LinhaDoTempo'] as PresidenteView[]).map((option) => (
@@ -1145,22 +1220,23 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
             </p>
           </div>
 
-          {presidenteView === 'Nacional' &&
-            (presidenteGroups.length === 0 ? (
+          {presidenteSectionOpen && presidenteView === 'Nacional' &&
+            (presidenteNacionalPolls.length === 0 ? (
               <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
                 Nenhuma pesquisa de Presidente encontrada para esse filtro nos últimos 30 dias.
               </p>
             ) : (
-              presidenteGroups.map((group) => (
-                <div className="pesquisas-tracker__grid" key={group.key}>
-                  {group.items.map((poll) => (
-                    <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
-                  ))}
+              <>
+                <div className="pesquisas-tracker__grid">
+                  {renderPollCardsWithAds(presidenteNacionalPolls.slice(0, presidenteVisibleCount), ideologyByParty)}
                 </div>
-              ))
+                {presidenteVisibleCount < presidenteNacionalPolls.length && (
+                  <div ref={presidenteSentinelRef} aria-hidden="true" className="pesquisas-tracker__reveal-sentinel" />
+                )}
+              </>
             ))}
 
-          {presidenteView === 'PorEstado' && (
+          {presidenteSectionOpen && presidenteView === 'PorEstado' && (
             <>
               {presidenteEstadosStatus === 'loading' && (
                 <p className="pesquisas-tracker__status">Carregando pesquisas de Presidente por estado…</p>
@@ -1223,7 +1299,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
             </>
           )}
 
-          {presidenteView === 'LinhaDoTempo' && (
+          {presidenteSectionOpen && presidenteView === 'LinhaDoTempo' && (
             <>
               <h4 className="pesquisas-tracker__race-title">Presidente · 1º turno (nacional)</h4>
               <TimelineChart data={presidenteTimelineR1} title="Presidente, 1º turno, nacional" />
@@ -1251,13 +1327,21 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
       {hasAnySourceData && showGovernadorSection && (
         <section className="pesquisas-tracker__office-section" aria-label="Pesquisas para Governador">
           <div className="pesquisas-tracker__office-head">
-            <h3 className="pesquisas-tracker__office-title">Governador por estado</h3>
+            <div className="pesquisas-tracker__office-title-row">
+              <h3 className="pesquisas-tracker__office-title">Governador por estado</h3>
+              <SectionCollapseToggle
+                open={governadorSectionOpen}
+                onToggle={() => setGovernadorSectionOpen((value) => !value)}
+                label="Governador"
+              />
+            </div>
             <p className="pesquisas-tracker__office-note">
               Hoje só os estados abaixo têm pesquisa de governador nesta fonte. Escolha um estado para filtrar os
               cards.
             </p>
           </div>
 
+          {governadorSectionOpen && (
           <div className="pesquisas-tracker__state-picker">
             <div className="pesquisas-tracker__map-col">
               <UfMapPicker
@@ -1323,16 +1407,42 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                     Nenhuma pesquisa de Governador encontrada para esse filtro nos últimos 30 dias.
                   </p>
                 ) : (
-                  governadorGroups.map((group) => (
-                    <div key={group.key}>
-                      <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
-                      <div className="pesquisas-tracker__grid">
-                        {group.items.map((poll) => (
-                          <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
-                        ))}
-                      </div>
-                    </div>
-                  ))
+                  <>
+                    {governadorGroups.slice(0, governadorVisibleCount).map((group, index) => {
+                      const isCollapsed = collapsedGovernadorUfs.has(group.uf)
+                      const label = raceLabel(group.office, group.uf)
+                      const isLast = index === governadorGroups.length - 1
+                      return (
+                        <Fragment key={group.key}>
+                          <div>
+                            <div className="pesquisas-tracker__race-title-row">
+                              <h4 className="pesquisas-tracker__race-title">{label}</h4>
+                              <SectionCollapseToggle
+                                open={!isCollapsed}
+                                onToggle={() => toggleGovernadorUfCollapsed(group.uf)}
+                                label={label}
+                              />
+                            </div>
+                            {!isCollapsed && (
+                              <div className="pesquisas-tracker__grid">
+                                {group.items.map((poll) => (
+                                  <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          {!isLast && (index + 1) % IN_FEED_STATE_INTERVAL === 0 && <InFeedAdCard />}
+                        </Fragment>
+                      )
+                    })}
+                    {governadorVisibleCount < governadorGroups.length && (
+                      <div
+                        ref={governadorSentinelRef}
+                        aria-hidden="true"
+                        className="pesquisas-tracker__reveal-sentinel"
+                      />
+                    )}
+                  </>
                 ))}
 
               {ufFilter !== 'all' && governadorView === 'LinhaDoTempo' && (
@@ -1368,12 +1478,20 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
               )}
             </div>
           </div>
+          )}
         </section>
       )}
 
       <section className="pesquisas-tracker__office-section" aria-label="Pesquisas para Senador">
         <div className="pesquisas-tracker__office-head">
-          <h3 className="pesquisas-tracker__office-title">Senador por estado</h3>
+          <div className="pesquisas-tracker__office-title-row">
+            <h3 className="pesquisas-tracker__office-title">Senador por estado</h3>
+            <SectionCollapseToggle
+              open={senadoSectionOpen}
+              onToggle={() => setSenadoSectionOpen((value) => !value)}
+              label="Senador"
+            />
+          </div>
           <p className="pesquisas-tracker__office-note">
             Não existe 2º turno para Senado no Brasil, a eleição é em turno único e cada estado elege 2 senadores.
             Este dado é uma compilação manual feita a partir de matérias jornalísticas reais (veja a lista de fontes
@@ -1381,15 +1499,15 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
           </p>
         </div>
 
-        {senadoStatus === 'loading' && <p className="pesquisas-tracker__status">Carregando pesquisas de Senado…</p>}
+        {senadoSectionOpen && senadoStatus === 'loading' && <p className="pesquisas-tracker__status">Carregando pesquisas de Senado…</p>}
 
-        {senadoStatus === 'error' && (
+        {senadoSectionOpen && senadoStatus === 'error' && (
           <p className="pesquisas-tracker__status pesquisas-tracker__status--empty">
             Dado indisponível: não foi possível carregar as pesquisas de Senado.
           </p>
         )}
 
-        {senadoStatus === 'loaded' && senadoStates.length > 0 && (
+        {senadoSectionOpen && senadoStatus === 'loaded' && senadoStates.length > 0 && (
           <>
             <div className="pesquisas-tracker__state-picker">
               <UfMapPicker
@@ -1436,6 +1554,8 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
           </>
         )}
       </section>
+
+      <MultiplexAdCard />
     </section>
   )
 }

@@ -208,6 +208,37 @@
   font: 500 18px/26px 'Newsreader', serif;
 }
 
+/* Linha com o título + botão de recolher (ver SectionCollapseToggle). O
+ * título em si some a margem própria aqui porque a linha que o envolve já
+ * carrega o espaçamento antes do conteúdo abaixo. */
+.pesquisas-tracker__office-title-row,
+.pesquisas-tracker__race-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.pesquisas-tracker__race-title-row {
+  margin: 0 0 var(--space-md);
+}
+
+.pesquisas-tracker__race-title-row .pesquisas-tracker__race-title {
+  margin: 0;
+}
+
+.pesquisas-tracker__collapse-toggle {
+  flex: 0 0 auto;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--muted);
+  padding: 5px 12px;
+  font: 600 11px 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 .pesquisas-tracker__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -565,6 +596,11 @@
     align-items: stretch;
   }
 
+  .pesquisas-tracker__office-title-row,
+  .pesquisas-tracker__race-title-row {
+    flex-wrap: wrap;
+  }
+
   .pesquisas-tracker__pill {
     min-height: 44px;
     display: inline-flex;
@@ -619,4 +655,8 @@
     justify-content: center;
     text-align: center;
   }
+}
+
+.pesquisas-tracker__reveal-sentinel {
+  height: 1px;
 }

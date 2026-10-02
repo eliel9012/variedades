@@ -9,6 +9,9 @@ interface ImportMetaEnv {
   readonly VITE_AD_SLOT_FOOTER?: string
   readonly VITE_AD_SLOT_SIDEBAR?: string
   readonly VITE_AD_SLOT_INCONTENT?: string
+  readonly VITE_AD_SLOT_INFEED?: string
+  readonly VITE_AD_LAYOUT_KEY_INFEED?: string
+  readonly VITE_AD_SLOT_MULTIPLEX?: string
 }
 
 interface ImportMeta {
