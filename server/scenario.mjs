@@ -28,7 +28,7 @@
 // demograficos ou historicos -- e uma leitura estatistica simples de uma
 // unica pesquisa, com as limitacoes que isso implica.
 
-import { loadPresidenteNacional, loadPresidenteEstados, loadGovernadorEstados } from './data.mjs'
+import { loadPresidenteNacional, loadPresidenteEstados, loadGovernadorEstados, loadPartyIdeology } from './data.mjs'
 
 export const SIMULATIONS = 20000
 const Z95 = 1.96
@@ -150,10 +150,48 @@ function pickMostRecentPresidenteEstado(file, uf) {
   return { state, wave: state.waves[state.waves.length - 1] }
 }
 
-function buildCandidateList(results) {
+/** Monta um lookup partido -> entrada de public/data/party-ideology.json.
+ * Arquivo e fonte academica unica (ver `source` do proprio JSON), nunca
+ * opiniao deste site; so repassamos o que ja esta la, sem inferir nada para
+ * partidos ausentes. */
+function buildIdeologyLookup(ideologyFile) {
+  const map = new Map()
+  for (const entry of ideologyFile.parties) {
+    map.set(entry.party, entry)
+  }
+  return map
+}
+
+/** Resolve a classificacao ideologica de um partido a partir do lookup.
+ * Retorna sempre os dois campos, nunca omite: `ideologyAvailable: false`
+ * sinaliza explicitamente "sem dado citavel", para o LLM nao confundir com
+ * "este partido nao tem ideologia". Partido ausente do arquivo-fonte, sem
+ * partido informado, ou `available: false` na fonte: mesmo resultado. */
+function resolveIdeology(party, ideologyLookup) {
+  if (!party) return { ideology: null, ideologyAvailable: false }
+  const entry = ideologyLookup.get(party)
+  if (!entry || entry.available !== true) {
+    return { ideology: null, ideologyAvailable: false }
+  }
+  return { ideology: entry.classification, ideologyAvailable: true }
+}
+
+/** Citacao da fonte academica unica de classificacao ideologica, para ser
+ * incluida uma unica vez no topo da resposta (nao repetida por candidato). */
+function ideologySourceCitation(ideologyFile) {
+  const { publisher, title, year, url } = ideologyFile.source
+  return { publisher, title, year, url }
+}
+
+function buildCandidateList(results, ideologyLookup) {
   return results
     .filter((r) => !isPseudoCandidateRow(r.candidateName))
-    .map((r) => ({ candidateName: r.candidateName, party: r.party ?? null, percentage: r.percentage }))
+    .map((r) => ({
+      candidateName: r.candidateName,
+      party: r.party ?? null,
+      percentage: r.percentage,
+      ...resolveIdeology(r.party ?? null, ideologyLookup),
+    }))
     .filter((r) => typeof r.percentage === 'number' && Number.isFinite(r.percentage))
 }
 
@@ -216,7 +254,7 @@ function notSimulatableNote() {
   )
 }
 
-function buildNotSimulatable({ office, uf, candidates, sourcePoll, round }) {
+function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideologyFile }) {
   return {
     office,
     uf,
@@ -224,13 +262,20 @@ function buildNotSimulatable({ office, uf, candidates, sourcePoll, round }) {
     simulatable: false,
     reason:
       'A fonte não informou margem de erro nem tamanho de amostra para esta pesquisa, não é possível estimar uma distribuição.',
-    candidates: candidates.map((c) => ({ candidateName: c.candidateName, party: c.party, percentage: c.percentage })),
+    candidates: candidates.map((c) => ({
+      candidateName: c.candidateName,
+      party: c.party,
+      percentage: c.percentage,
+      ideology: c.ideology,
+      ideologyAvailable: c.ideologyAvailable,
+    })),
     leadProbability: null,
     outrightWinProbability: null,
     runoffProbability: null,
     completenessWarning: null,
     methodologyNote: notSimulatableNote(),
     sourcePoll,
+    ideologySource: ideologySourceCitation(ideologyFile),
   }
 }
 
@@ -262,6 +307,8 @@ export async function computeScenario({ office, uf = null, round = 1 }) {
   let results
   let sourcePoll
   let completenessWarning = null
+  const ideologyFile = await loadPartyIdeology()
+  const ideologyLookup = buildIdeologyLookup(ideologyFile)
 
   if (office === 'Presidente' && normalizedUf === 'BR') {
     const file = await loadPresidenteNacional()
@@ -279,7 +326,7 @@ export async function computeScenario({ office, uf = null, round = 1 }) {
       marginOfErrorPp: marginPp,
       sourceUrl: firstUrl(wave.sourceUrl),
     }
-    return finishScenario({ office, uf: 'BR', round, results, n, marginPp, sourcePoll, completenessWarning })
+    return finishScenario({ office, uf: 'BR', round, results, n, marginPp, sourcePoll, completenessWarning, ideologyFile, ideologyLookup })
   }
 
   if (office === 'Presidente' && normalizedUf !== 'BR') {
@@ -304,7 +351,7 @@ export async function computeScenario({ office, uf = null, round = 1 }) {
       marginOfErrorPp: marginPp,
       sourceUrl: firstUrl(stateWave.sourceUrl),
     }
-    return finishScenario({ office, uf: normalizedUf, round, results, n, marginPp, sourcePoll, completenessWarning })
+    return finishScenario({ office, uf: normalizedUf, round, results, n, marginPp, sourcePoll, completenessWarning, ideologyFile, ideologyLookup })
   }
 
   // office === 'Governador'
@@ -323,11 +370,11 @@ export async function computeScenario({ office, uf = null, round = 1 }) {
     marginOfErrorPp: marginPp,
     sourceUrl: firstUrl(wave.sourceUrl),
   }
-  return finishScenario({ office, uf: normalizedUf, round, results, n, marginPp, sourcePoll, completenessWarning })
+  return finishScenario({ office, uf: normalizedUf, round, results, n, marginPp, sourcePoll, completenessWarning, ideologyFile, ideologyLookup })
 }
 
-function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, completenessWarning }) {
-  const candidates = buildCandidateList(results)
+function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, completenessWarning, ideologyFile, ideologyLookup }) {
+  const candidates = buildCandidateList(results, ideologyLookup)
 
   if (!candidates.length) {
     throw new Error('Nenhum candidato real (não-pseudo) encontrado nos resultados desta pesquisa.')
@@ -349,7 +396,7 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
   }
 
   if (marginSource == null) {
-    return buildNotSimulatable({ office, uf, round, candidates, sourcePoll })
+    return buildNotSimulatable({ office, uf, round, candidates, sourcePoll, ideologyFile })
   }
 
   const sigma = sigmaFromMargin(effectiveMarginPp)
@@ -368,6 +415,8 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
       percentage: c.percentage,
       marginSource,
       leadProbability: leadProbability[i],
+      ideology: c.ideology,
+      ideologyAvailable: c.ideologyAvailable,
     })),
     leadProbability: Object.fromEntries(candidates.map((c, i) => [c.candidateName, leadProbability[i]])),
     outrightWinProbability,
@@ -375,5 +424,6 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
     completenessWarning,
     methodologyNote: methodologyNote({ marginPp: effectiveMarginPp, marginSource, n }),
     sourcePoll: { ...sourcePoll, marginOfErrorPp: effectiveMarginPp, marginSource },
+    ideologySource: ideologySourceCitation(ideologyFile),
   }
 }

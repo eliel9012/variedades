@@ -106,6 +106,22 @@ type PresidenteEstadosFile = {
   states: PresidenteEstadoState[]
 }
 
+type PartyIdeologyEntry = {
+  party: string
+  classification: 'Esquerda' | 'Centro' | 'Direita' | null
+  available: boolean
+  renamedFrom?: string
+  reason?: string
+}
+
+type PartyIdeologyFile = {
+  generatedAt: string
+  compiledManually: boolean
+  note: string
+  source: { publisher: string; title: string; year: number; methodology: string; url: string }
+  parties: PartyIdeologyEntry[]
+}
+
 type FetchStatus = 'loading' | 'loaded' | 'error'
 type OfficeFilter = 'Todos' | 'Presidente' | 'Governador'
 type RoundFilter = 'Todos' | 1 | 2
@@ -193,6 +209,39 @@ function isLeadingResult(
     percentage != null &&
     percentage === topPercentage &&
     !isPseudoCandidateRow(candidateName)
+  )
+}
+
+function ideologyChipModifier(classification: 'Esquerda' | 'Centro' | 'Direita') {
+  if (classification === 'Esquerda') return 'pesquisas-tracker__ideology-chip--esquerda'
+  if (classification === 'Direita') return 'pesquisas-tracker__ideology-chip--direita'
+  return 'pesquisas-tracker__ideology-chip--centro'
+}
+
+/** Selo secundário de espectro político ao lado do chip de partido já
+ * existente. Só aparece quando a fonte acadêmica terceira (ver
+ * `party-ideology.json` e o <details> de citação logo abaixo do cabeçalho)
+ * tem uma classificação disponível e citável para aquele partido; nunca
+ * inventa classificação pra partido não coberto (`available: false`) nem
+ * aparece quando a linha de resultado não tem partido (indecisos, brancos,
+ * fontes que não informam partido). */
+function IdeologyChip({
+  party,
+  ideologyByParty,
+}: {
+  party: string | null
+  ideologyByParty: Map<string, PartyIdeologyEntry>
+}) {
+  if (!party) return null
+  const entry = ideologyByParty.get(party)
+  if (!entry || !entry.available || !entry.classification) return null
+  return (
+    <span
+      className={`pesquisas-tracker__ideology-chip ${ideologyChipModifier(entry.classification)}`}
+      title="Classificação de espectro político (Esquerda/Centro/Direita) de fonte acadêmica terceira, não é opinião deste site. Ver citação completa no topo da aba Pesquisas."
+    >
+      {entry.classification}
+    </span>
   )
 }
 
@@ -496,7 +545,7 @@ function TimelineChart({ data, title }: { data: TimelineData; title: string }) {
   )
 }
 
-function PollCard({ poll }: { poll: Poll }) {
+function PollCard({ poll, ideologyByParty }: { poll: Poll; ideologyByParty: Map<string, PartyIdeologyEntry> }) {
   const topPercentage = poll.results.reduce((max, item) => Math.max(max, item.percentage), 0) || 1
   return (
     <article className="pesquisas-tracker__card">
@@ -527,6 +576,7 @@ function PollCard({ poll }: { poll: Poll }) {
                 <span className="pesquisas-tracker__leader-badge">Líder</span>
               )}
               {result.party && <span className="pesquisas-tracker__party-chip">{result.party}</span>}
+              <IdeologyChip party={result.party} ideologyByParty={ideologyByParty} />
             </span>
             <div className="pesquisas-tracker__bar-track">
               <span
@@ -548,7 +598,7 @@ function PollCard({ poll }: { poll: Poll }) {
   )
 }
 
-function SenadoCard({ state }: { state: SenadoState }) {
+function SenadoCard({ state, ideologyByParty }: { state: SenadoState; ideologyByParty: Map<string, PartyIdeologyEntry> }) {
   const reduced = isReducedBasis(state.basis)
   const sumLooksOff = state.percentageSum > 102 || state.percentageSum < 95
   const showCaveat = !reduced || sumLooksOff
@@ -579,6 +629,7 @@ function SenadoCard({ state }: { state: SenadoState }) {
                 <span className="pesquisas-tracker__leader-badge">Líder</span>
               )}
               {result.party && <span className="pesquisas-tracker__party-chip">{result.party}</span>}
+              <IdeologyChip party={result.party} ideologyByParty={ideologyByParty} />
             </span>
             <div className="pesquisas-tracker__bar-track">
               {result.percentage != null ? (
@@ -612,7 +663,15 @@ function SenadoCard({ state }: { state: SenadoState }) {
   )
 }
 
-function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoState; roundFilter: RoundFilter }) {
+function PresidenteEstadoCard({
+  state,
+  roundFilter,
+  ideologyByParty,
+}: {
+  state: PresidenteEstadoState
+  roundFilter: RoundFilter
+  ideologyByParty: Map<string, PartyIdeologyEntry>
+}) {
   if (roundFilter === 2) {
     return (
       <article className="pesquisas-tracker__card pesquisas-tracker__card--presidente-uf">
@@ -654,6 +713,7 @@ function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoS
                       <span className="pesquisas-tracker__leader-badge">Líder</span>
                     )}
                     {result.party && <span className="pesquisas-tracker__party-chip">{result.party}</span>}
+                    <IdeologyChip party={result.party} ideologyByParty={ideologyByParty} />
                   </span>
                   <div className="pesquisas-tracker__bar-track">
                     <span
@@ -708,6 +768,8 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const [senadoStatus, setSenadoStatus] = useState<FetchStatus>('loading')
   const [presidenteEstadosFile, setPresidenteEstadosFile] = useState<PresidenteEstadosFile | null>(null)
   const [presidenteEstadosStatus, setPresidenteEstadosStatus] = useState<FetchStatus>('loading')
+  const [ideologyFile, setIdeologyFile] = useState<PartyIdeologyFile | null>(null)
+  const [ideologyStatus, setIdeologyStatus] = useState<FetchStatus>('loading')
 
   const [officeFilter, setOfficeFilter] = useState<OfficeFilter>('Todos')
   const [roundFilter, setRoundFilter] = useState<RoundFilter>('Todos')
@@ -749,6 +811,14 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
         setPresidenteEstadosStatus('loaded')
       })
       .catch(() => setPresidenteEstadosStatus('error'))
+
+    fetch('/data/party-ideology.json')
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('party ideology unavailable'))))
+      .then((data: PartyIdeologyFile) => {
+        setIdeologyFile(data)
+        setIdeologyStatus('loaded')
+      })
+      .catch(() => setIdeologyStatus('error'))
   }, [])
 
   const polls = useMemo(
@@ -769,6 +839,13 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
     () => [...(presidenteEstadosFile?.states ?? [])].sort((a, b) => a.state.localeCompare(b.state, 'pt-BR')),
     [presidenteEstadosFile],
   )
+  const ideologyByParty = useMemo(() => {
+    const map = new Map<string, PartyIdeologyEntry>()
+    for (const entry of ideologyFile?.parties ?? []) {
+      map.set(entry.party, entry)
+    }
+    return map
+  }, [ideologyFile])
 
   const governorUFs = useMemo(
     () => Array.from(new Set(polls.filter((poll) => poll.office === 'Governador').map((poll) => poll.uf))).sort((a, b) => (BRAZIL_STATE_BY_UF[a]?.name ?? a).localeCompare(BRAZIL_STATE_BY_UF[b]?.name ?? b, 'pt-BR')),
@@ -886,6 +963,33 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
         <h2>Pesquisas de intenção de voto</h2>
       </header>
 
+      {ideologyStatus === 'loaded' && ideologyFile && (
+        <div className="pesquisas-tracker__ideology-info">
+          <p className="pesquisas-tracker__ideology-legend" role="note">
+            Quando a fonte permite, o chip do partido vem acompanhado de um selo de espectro político:
+            <span className="pesquisas-tracker__ideology-chip pesquisas-tracker__ideology-chip--esquerda">Esquerda</span>
+            <span className="pesquisas-tracker__ideology-chip pesquisas-tracker__ideology-chip--centro">Centro</span>
+            <span className="pesquisas-tracker__ideology-chip pesquisas-tracker__ideology-chip--direita">Direita</span>
+            Isso é classificação de uma fonte acadêmica terceira, não uma opinião deste site.
+          </p>
+
+          <details className="pesquisas-tracker__sources-details">
+            <summary>Sobre a classificação de espectro político (Esquerda/Centro/Direita) nos chips de partido</summary>
+            <p>
+              Essa classificação por partido (não por candidato) é de uma fonte acadêmica terceira, nunca uma opinião ou
+              julgamento editorial deste site. Fonte: {ideologyFile.source.publisher}, "{ideologyFile.source.title}" (
+              {ideologyFile.source.year}).{' '}
+              <a href={ideologyFile.source.url} target="_blank" rel="noreferrer">
+                Ver classificação completa e metodologia ↗
+              </a>
+              . Partidos não cobertos pela fonte (pequenos demais no recorte do estudo) aparecem sem esse selo: a
+              ausência do selo significa "classificação indisponível para citar", nunca "sem viés" ou qualquer outra
+              conclusão.
+            </p>
+          </details>
+        </div>
+      )}
+
       <div className="pesquisas-tracker__filters" role="group" aria-label="Filtrar pesquisas por cargo">
         {(['Todos', 'Presidente', 'Governador'] as OfficeFilter[]).map((option) => (
           <button
@@ -968,7 +1072,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
               presidenteGroups.map((group) => (
                 <div className="pesquisas-tracker__grid" key={group.key}>
                   {group.items.map((poll) => (
-                    <PollCard poll={poll} key={poll.id} />
+                    <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
                   ))}
                 </div>
               ))
@@ -1002,7 +1106,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                         <>
                           <h4 className="pesquisas-tracker__race-title">Presidente · {selectedPresidenteEstado.state}</h4>
                           <div className="pesquisas-tracker__grid">
-                            <PresidenteEstadoCard state={selectedPresidenteEstado} roundFilter={roundFilter} />
+                            <PresidenteEstadoCard state={selectedPresidenteEstado} roundFilter={roundFilter} ideologyByParty={ideologyByParty} />
                           </div>
                         </>
                       ) : (
@@ -1123,7 +1227,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                       <h4 className="pesquisas-tracker__race-title">{raceLabel(group.office, group.uf)}</h4>
                       <div className="pesquisas-tracker__grid">
                         {group.items.map((poll) => (
-                          <PollCard poll={poll} key={poll.id} />
+                          <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
                         ))}
                       </div>
                     </div>
@@ -1200,7 +1304,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                   <>
                     <h4 className="pesquisas-tracker__race-title">Senador · {selectedSenadoState.state}</h4>
                     <div className="pesquisas-tracker__grid">
-                      <SenadoCard state={selectedSenadoState} />
+                      <SenadoCard state={selectedSenadoState} ideologyByParty={ideologyByParty} />
                     </div>
                   </>
                 ) : (

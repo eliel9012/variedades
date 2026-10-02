@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-10-02T00:00:00Z",
+  "compiledManually": true,
+  "note": "Classificação espectro político (esquerda/centro/direita) por partido, não por candidato. Fonte acadêmica única e citável (ver `source`), nunca opinião do site. Convertida por nome de partido como aparece nas pesquisas deste app; quando o partido mudou de nome (ex.: PMDB -> MDB, PPS -> Cidadania, DEM -> Democrata, PRB -> Republicanos), aplicamos a classificação do partido de origem e documentamos isso em `renamedFrom`. Partidos não cobertos pela fonte (pequenos demais no recorte do estudo) aparecem com `classification: null` e `available: false`, nunca com uma classificação inventada.",
+  "source": {
+    "publisher": "André Borges (Universidade de Brasília)",
+    "title": "Ideological classification of Brazilian parties",
+    "year": 2023,
+    "methodology": "Média de 3 levantamentos acadêmicos: Power & Zucco (Brazilian Legislative Surveys, 1990-2017), PREPPS (pesquisa com especialistas, 2006-2019) e V-Party (2020), mais a classificação de partidos pequenos de Codato, Berlatto & Bolognesi (2018). Publicado em Borges & Vidigal (eds.), 'Para Entender a Nova Direita Brasileira', Editora Zouk, 2023.",
+    "url": "https://andreborges.org/wp-content/uploads/2023/11/Ideological-classification-of-Brazilian-parties_appendix.pdf"
+  },
+  "parties": [
+    { "party": "PT", "classification": "Esquerda", "available": true },
+    { "party": "PSB", "classification": "Esquerda", "available": true },
+    { "party": "PDT", "classification": "Esquerda", "available": true },
+    { "party": "PSOL", "classification": "Esquerda", "available": true },
+    { "party": "PSTU", "classification": "Esquerda", "available": true },
+    { "party": "Rede", "classification": "Esquerda", "available": true },
+    { "party": "PSDB", "classification": "Centro", "available": true },
+    { "party": "MDB", "classification": "Centro", "available": true, "renamedFrom": "PMDB (renomeado em 2017)" },
+    { "party": "Avante", "classification": "Centro", "available": true },
+    { "party": "Cidadania", "classification": "Centro", "available": true, "renamedFrom": "PPS (renomeado em 2019)" },
+    { "party": "PSD", "classification": "Direita", "available": true },
+    { "party": "PL", "classification": "Direita", "available": true },
+    { "party": "PP", "classification": "Direita", "available": true, "renamedFrom": "PDS/PPB/PPB (mesma sigla PP desde 2003)" },
+    { "party": "Novo", "classification": "Direita", "available": true },
+    { "party": "PRTB", "classification": "Direita", "available": true },
+    { "party": "Podemos", "classification": "Direita", "available": true, "renamedFrom": "PTN (renomeado em 2017)" },
+    { "party": "Republicanos", "classification": "Direita", "available": true, "renamedFrom": "PRB (renomeado em 2019)" },
+    { "party": "Democrata", "classification": "Direita", "available": true, "renamedFrom": "PFL/DEM (renomeado em 2024)" },
+    { "party": "União Brasil", "classification": "Direita", "available": true, "renamedFrom": "fusão de DEM + PSL em 2022" },
+    { "party": "DC", "classification": "Direita", "available": true, "renamedFrom": "PDC (mesma sigla DC desde 2016)" },
+    { "party": "Missão", "classification": null, "available": false, "reason": "Partido pequeno demais pra aparecer no estudo-fonte; sem classificação citável disponível." },
+    { "party": "Mobiliza", "classification": null, "available": false, "reason": "Partido pequeno demais pra aparecer no estudo-fonte; sem classificação citável disponível." },
+    { "party": "PCB", "classification": null, "available": false, "reason": "Não coberto pelo estudo-fonte nesta compilação; sem classificação citável disponível aqui." },
+    { "party": "PCO", "classification": null, "available": false, "reason": "Não coberto pelo estudo-fonte nesta compilação; sem classificação citável disponível aqui." },
+    { "party": "UP", "classification": null, "available": false, "reason": "Partido pequeno demais pra aparecer no estudo-fonte; sem classificação citável disponível." }
+  ]
+}

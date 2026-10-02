@@ -59,6 +59,22 @@ type ScenarioErrorResponse = { error: string; detail?: string }
 type AskResponse = { answer: string; scenario: ScenarioResponse; groundedOn: string }
 type AskErrorResponse = { error: string; detail?: string }
 
+type PartyIdeologyEntry = {
+  party: string
+  classification: 'Esquerda' | 'Centro' | 'Direita' | null
+  available: boolean
+  renamedFrom?: string
+  reason?: string
+}
+
+type PartyIdeologyFile = {
+  generatedAt: string
+  compiledManually: boolean
+  note: string
+  source: { publisher: string; title: string; year: number; methodology: string; url: string }
+  parties: PartyIdeologyEntry[]
+}
+
 type FetchStatus = 'idle' | 'loading' | 'loaded' | 'error'
 
 type ChatEntry = {
@@ -84,6 +100,37 @@ function sourcePollLine(poll: SourcePoll): string {
     parts.push(`margem ${estimated ? 'estimada' : 'declarada'} ±${percentFormat.format(poll.marginOfErrorPp)} p.p.`)
   }
   return parts.join(' · ')
+}
+
+function ideologyChipModifier(classification: 'Esquerda' | 'Centro' | 'Direita') {
+  if (classification === 'Esquerda') return 'cenarios-ia__ideology-chip--esquerda'
+  if (classification === 'Direita') return 'cenarios-ia__ideology-chip--direita'
+  return 'cenarios-ia__ideology-chip--centro'
+}
+
+/** Selo secundário de espectro político ao lado do chip de partido, igual ao
+ * de pesquisas-tracker.tsx (duplicado de propósito, ver nota do UfPicker
+ * acima sobre não importar daquele arquivo). Só aparece quando a fonte
+ * acadêmica terceira citada no rodapé do painel de cenário tem classificação
+ * disponível pra aquele partido; nunca aparece pra candidato sem partido. */
+function IdeologyChip({
+  party,
+  ideologyByParty,
+}: {
+  party: string | null
+  ideologyByParty: Map<string, PartyIdeologyEntry>
+}) {
+  if (!party) return null
+  const entry = ideologyByParty.get(party)
+  if (!entry || !entry.available || !entry.classification) return null
+  return (
+    <span
+      className={`cenarios-ia__ideology-chip ${ideologyChipModifier(entry.classification)}`}
+      title="Classificação de espectro político (Esquerda/Centro/Direita) de fonte acadêmica terceira, não é opinião deste site. Ver citação completa abaixo do painel de cenário."
+    >
+      {entry.classification}
+    </span>
+  )
 }
 
 /** Mini seletor de UF (mapa + <select> para telas estreitas), inspirado no
@@ -121,7 +168,13 @@ function UfPicker({ activeUf, onSelect }: { activeUf: string | null; onSelect: (
   )
 }
 
-function ScenarioPanel({ data }: { data: ScenarioResponse }) {
+function ScenarioPanel({
+  data,
+  ideologyByParty,
+}: {
+  data: ScenarioResponse
+  ideologyByParty: Map<string, PartyIdeologyEntry>
+}) {
   if (!data.simulatable) {
     return (
       <div className="cenarios-ia__panel">
@@ -134,6 +187,7 @@ function ScenarioPanel({ data }: { data: ScenarioResponse }) {
               <span className="cenarios-ia__bar-label">
                 <span className="cenarios-ia__bar-name">{candidate.candidateName}</span>
                 {candidate.party && <span className="cenarios-ia__party-chip">{candidate.party}</span>}
+                <IdeologyChip party={candidate.party} ideologyByParty={ideologyByParty} />
               </span>
               <div className="cenarios-ia__bar-track">
                 <span className="cenarios-ia__bar-fill cenarios-ia__bar-fill--raw" style={{ width: `${Math.min(100, candidate.percentage)}%` }} />
@@ -164,6 +218,7 @@ function ScenarioPanel({ data }: { data: ScenarioResponse }) {
               <span className="cenarios-ia__bar-name">{candidate.candidateName}</span>
               {index === 0 && (candidate.leadProbability ?? 0) > 0 && <span className="cenarios-ia__leader-badge">Mais provável</span>}
               {candidate.party && <span className="cenarios-ia__party-chip">{candidate.party}</span>}
+              <IdeologyChip party={candidate.party} ideologyByParty={ideologyByParty} />
             </span>
             <div className="cenarios-ia__bar-track">
               <span
@@ -218,6 +273,9 @@ export function CenariosIA({ state }: CenariosIAProps) {
   const [scenarioStatus, setScenarioStatus] = useState<FetchStatus>('idle')
   const [scenarioError, setScenarioError] = useState<string | null>(null)
 
+  const [ideologyFile, setIdeologyFile] = useState<PartyIdeologyFile | null>(null)
+  const [ideologyStatus, setIdeologyStatus] = useState<FetchStatus>('loading')
+
   const [question, setQuestion] = useState('')
   const [chatLog, setChatLog] = useState<ChatEntry[]>([])
   const [isAsking, setIsAsking] = useState(false)
@@ -225,6 +283,24 @@ export function CenariosIA({ state }: CenariosIAProps) {
 
   const needsUf = office === 'Governador' || (office === 'Presidente' && presidenteView === 'PorEstado')
   const effectiveUf = office === 'Presidente' && presidenteView === 'Nacional' ? null : selectedUf
+
+  useEffect(() => {
+    fetch('/data/party-ideology.json')
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('party ideology unavailable'))))
+      .then((data: PartyIdeologyFile) => {
+        setIdeologyFile(data)
+        setIdeologyStatus('loaded')
+      })
+      .catch(() => setIdeologyStatus('error'))
+  }, [])
+
+  const ideologyByParty = useMemo(() => {
+    const map = new Map<string, PartyIdeologyEntry>()
+    for (const entry of ideologyFile?.parties ?? []) {
+      map.set(entry.party, entry)
+    }
+    return map
+  }, [ideologyFile])
 
   const queryParams = useMemo(() => {
     if (office === 'Presidente' && presidenteView === 'Nacional') return { office, uf: 'BR' as const }
@@ -332,6 +408,33 @@ export function CenariosIA({ state }: CenariosIAProps) {
         <h2>Cenários (IA)</h2>
       </header>
 
+      {ideologyStatus === 'loaded' && ideologyFile && (
+        <div className="cenarios-ia__ideology-info">
+          <p className="cenarios-ia__ideology-legend" role="note">
+            Quando a fonte permite, o chip do partido vem acompanhado de um selo de espectro político:
+            <span className="cenarios-ia__ideology-chip cenarios-ia__ideology-chip--esquerda">Esquerda</span>
+            <span className="cenarios-ia__ideology-chip cenarios-ia__ideology-chip--centro">Centro</span>
+            <span className="cenarios-ia__ideology-chip cenarios-ia__ideology-chip--direita">Direita</span>
+            Isso é classificação de uma fonte acadêmica terceira, não uma opinião deste site.
+          </p>
+
+          <details className="cenarios-ia__sources-details">
+            <summary>Sobre a classificação de espectro político (Esquerda/Centro/Direita) nos chips de partido</summary>
+            <p>
+              Essa classificação por partido (não por candidato) é de uma fonte acadêmica terceira, nunca uma opinião ou
+              julgamento editorial deste site. Fonte: {ideologyFile.source.publisher}, "{ideologyFile.source.title}" (
+              {ideologyFile.source.year}).{' '}
+              <a href={ideologyFile.source.url} target="_blank" rel="noreferrer">
+                Ver classificação completa e metodologia ↗
+              </a>
+              . Partidos não cobertos pela fonte (pequenos demais no recorte do estudo) aparecem sem esse selo: a
+              ausência do selo significa "classificação indisponível para citar", nunca "sem viés" ou qualquer outra
+              conclusão.
+            </p>
+          </details>
+        </div>
+      )}
+
       <div className="cenarios-ia__filters" role="group" aria-label="Escolher cargo">
         {(['Presidente', 'Governador'] as Office[]).map((option) => (
           <button
@@ -372,7 +475,7 @@ export function CenariosIA({ state }: CenariosIAProps) {
             {selectedUf && scenarioStatus === 'error' && (
               <p className="cenarios-ia__status cenarios-ia__status--empty">Não foi possível calcular o cenário: {scenarioError}</p>
             )}
-            {selectedUf && scenarioStatus === 'loaded' && scenario && <ScenarioPanel data={scenario} />}
+            {selectedUf && scenarioStatus === 'loaded' && scenario && <ScenarioPanel data={scenario} ideologyByParty={ideologyByParty} />}
           </div>
         </div>
       )}
@@ -382,7 +485,7 @@ export function CenariosIA({ state }: CenariosIAProps) {
           <h3 className="cenarios-ia__race-title">{raceLabel}</h3>
           {scenarioStatus === 'loading' && <p className="cenarios-ia__status">Calculando cenário…</p>}
           {scenarioStatus === 'error' && <p className="cenarios-ia__status cenarios-ia__status--empty">Não foi possível calcular o cenário: {scenarioError}</p>}
-          {scenarioStatus === 'loaded' && scenario && <ScenarioPanel data={scenario} />}
+          {scenarioStatus === 'loaded' && scenario && <ScenarioPanel data={scenario} ideologyByParty={ideologyByParty} />}
         </div>
       )}
 

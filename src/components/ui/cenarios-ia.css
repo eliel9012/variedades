@@ -200,6 +200,72 @@
   font: 600 10px/15px 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Selo secundário de espectro político (Esquerda/Centro/Direita), de fonte
+   acadêmica terceira (ver details logo abaixo do cabeçalho). Mesma lógica de
+   cor de pesquisas-tracker.css: dessaturado via color-mix sobre tokens já
+   existentes, nunca verde (já usado no preenchimento da barra e no selo
+   "Mais provável"), classificação sempre em texto, nunca só cor. */
+.cenarios-ia__ideology-chip {
+  flex: 0 0 auto;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  font: 600 10px/15px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__ideology-chip--esquerda {
+  background: color-mix(in srgb, var(--error) 14%, var(--surface-container-highest));
+  color: var(--on-error-container);
+}
+
+.cenarios-ia__ideology-chip--centro {
+  background: var(--surface-container-highest);
+  color: var(--muted);
+}
+
+.cenarios-ia__ideology-chip--direita {
+  background: color-mix(in srgb, var(--secondary) 16%, var(--surface-container-highest));
+  color: var(--on-secondary-container);
+}
+
+.cenarios-ia__ideology-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cenarios-ia__ideology-legend {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font: 400 12px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__sources-details {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+  color: var(--muted);
+  font: 400 13px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__sources-details summary {
+  cursor: pointer;
+  color: var(--deep);
+  font-weight: 600;
+}
+
+.cenarios-ia__sources-details p {
+  margin: var(--space-sm) 0 0;
+}
+
+.cenarios-ia__sources-details a {
+  color: var(--teal);
+}
+
 .cenarios-ia__bar-value {
   grid-area: value;
   color: var(--deep);

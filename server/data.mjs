@@ -15,6 +15,7 @@ const FILES = {
   presidenteEstados: 'polls-presidente-estados.json',
   governadorEstados: 'polls-governador-estados.json',
   senado: 'polls-senado.json',
+  partyIdeology: 'party-ideology.json',
 }
 
 const cache = new Map()
@@ -42,6 +43,14 @@ export function loadGovernadorEstados() {
 
 export function loadSenado() {
   return loadFile('senado')
+}
+
+/** Classificação ideológica (esquerda/centro/direita) por partido, fonte
+ * acadêmica única (ver campo `source` do próprio arquivo). Usado só para
+ * anexar contexto grounded ao JSON de /api/scenario, nunca para gerar
+ * classificação própria. */
+export function loadPartyIdeology() {
+  return loadFile('partyIdeology')
 }
 
 /** So para testes: limpa o cache em memoria. */

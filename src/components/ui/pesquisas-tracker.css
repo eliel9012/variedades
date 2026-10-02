@@ -331,6 +331,50 @@
   font: 600 10px/15px 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Selo secundário de espectro político (Esquerda/Centro/Direita), de fonte
+   acadêmica terceira (ver details logo abaixo do cabeçalho da aba). Fica ao
+   lado do chip de partido, mas deliberadamente mais discreto: cores
+   dessaturadas via color-mix sobre tokens já existentes (nunca verde, que já
+   é a cor do preenchimento da barra de intenção de voto e do selo "Líder"),
+   e a classificação em si vem sempre como texto, nunca só como cor. */
+.pesquisas-tracker__ideology-chip {
+  flex: 0 0 auto;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  font: 600 10px/15px 'Plus Jakarta Sans', sans-serif;
+}
+
+.pesquisas-tracker__ideology-chip--esquerda {
+  background: color-mix(in srgb, var(--error) 14%, var(--surface-container-highest));
+  color: var(--on-error-container);
+}
+
+.pesquisas-tracker__ideology-chip--centro {
+  background: var(--surface-container-highest);
+  color: var(--muted);
+}
+
+.pesquisas-tracker__ideology-chip--direita {
+  background: color-mix(in srgb, var(--secondary) 16%, var(--surface-container-highest));
+  color: var(--on-secondary-container);
+}
+
+.pesquisas-tracker__ideology-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.pesquisas-tracker__ideology-legend {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font: 400 12px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
 .pesquisas-tracker__bar-row--muted .pesquisas-tracker__bar-label,
 .pesquisas-tracker__bar-row--muted .pesquisas-tracker__bar-value {
   color: var(--muted);
