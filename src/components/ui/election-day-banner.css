@@ -1,0 +1,33 @@
+.election-day-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  margin: 16px 0 0;
+  padding: 14px 18px;
+  border-left: 4px solid var(--teal);
+  background: var(--surface-container);
+  color: var(--ink);
+  font: 400 14px/21px 'Plus Jakarta Sans', sans-serif;
+}
+
+.election-day-banner p {
+  margin: 0;
+  flex: 1 1 280px;
+}
+
+.election-day-banner--counting {
+  border-left-color: var(--coral);
+}
+
+.election-day-banner__cta {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--deep);
+  color: #fff;
+  font: 600 13px 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+}

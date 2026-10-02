@@ -16,9 +16,11 @@ export type BrazilMapProps = {
    * próprio painel de resultados ao lado do mapa (ex.: Pesquisas por estado).
    * Não afeta o svg, a legenda, o tooltip ou a navegação por teclado. */
   hideDetailsPanel?: boolean
+  /** Cor por UF (ex.: candidato que lidera a apuração no estado). Sem entrada, usa a cor padrão. */
+  fillByUf?: Record<string, string>
 }
 
-export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selectedOffice, candidateCount = 0, className = '', ariaLabel = 'Mapa do Brasil por estado', hideDetailsPanel = false }: BrazilMapProps) {
+export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selectedOffice, candidateCount = 0, className = '', ariaLabel = 'Mapa do Brasil por estado', hideDetailsPanel = false, fillByUf }: BrazilMapProps) {
   const reactId = useId()
   const titleId = `brazil-map-title-${reactId}`
   const descriptionId = `brazil-map-description-${reactId}`
@@ -75,7 +77,7 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
                   if (event.key === 'Escape') hideTooltip()
                 }}
               >
-                <path d={state.path} style={{ fill: isActive ? 'var(--brazil-map-active)' : state.color }} />
+                <path d={state.path} style={{ fill: isActive ? 'var(--brazil-map-active)' : fillByUf?.[state.uf] ?? state.color }} />
                 <text
                   className="brazil-map__label"
                   x={state.label[0]}
@@ -88,12 +90,15 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
             )
           })}
         </svg>
-        <figcaption className="brazil-map__legend" aria-label="Legenda das regiões">
-          <span><i /> Sudeste/Sul</span>
-          <span><i /> Nordeste</span>
-          <span><i /> Norte/Centro-Oeste</span>
-          <span><i /> UF ativa</span>
-        </figcaption>
+        {/* Com cores próprias (fillByUf) a legenda de regiões não vale: quem usa o prop mostra a sua. */}
+        {!fillByUf && (
+          <figcaption className="brazil-map__legend" aria-label="Legenda das regiões">
+            <span><i /> Sudeste/Sul</span>
+            <span><i /> Nordeste</span>
+            <span><i /> Norte/Centro-Oeste</span>
+            <span><i /> UF ativa</span>
+          </figcaption>
+        )}
       </figure>
 
       {!hideDetailsPanel && (

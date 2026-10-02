@@ -196,30 +196,53 @@ function padElection(code: string) {
   return code.padStart(6, '0')
 }
 
-function collectCandidateRows(value: unknown, rows: ResultRow[] = []) {
-  if (!value || typeof value !== 'object') return rows
-  if (Array.isArray(value)) {
-    value.forEach((item) => collectCandidateRows(item, rows))
-    return rows
+type TSECandidate = { sqcand?: string; vap?: string; pvap?: string; pvapn?: string; nmu?: string; nm?: string; n?: string; st?: string; dvt?: string }
+type TSEParty = { sg?: string; cand?: TSECandidate[] }
+
+const toNumber = (value: unknown) => Number(String(value ?? '').replace(',', '.')) || 0
+
+function candidateRow(candidate: TSECandidate, party?: string): ResultRow {
+  return {
+    candidateId: String(candidate.sqcand),
+    votes: toNumber(candidate.vap),
+    share: toNumber(candidate.pvapn ?? candidate.pvap),
+    name: candidate.nmu || candidate.nm || undefined,
+    number: candidate.n || undefined,
+    party: party || undefined,
+    status: candidate.st || undefined,
+    voteDestination: candidate.dvt || undefined,
   }
-  const record = value as Record<string, unknown>
-  if (typeof record.sqcand === 'string' && record.vap !== undefined) {
-    rows.push({
-      candidateId: record.sqcand,
-      votes: Number(String(record.vap).replace(',', '.')) || 0,
-      share: Number(String(record.pvapn ?? record.pvap ?? 0).replace(',', '.')) || 0,
-    })
+}
+
+// Formato do TSE: carg[].agr[] (coligação/federação) > par[] (partido) > cand[].
+// O vice (cand[].vs[]) também tem sqcand mas não tem votos, então não entra.
+function collectCandidateRows(carg: unknown): ResultRow[] {
+  const rows: ResultRow[] = []
+  for (const cargo of Array.isArray(carg) ? carg : []) {
+    for (const agr of (cargo as { agr?: Array<{ par?: TSEParty[] }> }).agr ?? []) {
+      for (const par of agr.par ?? []) {
+        for (const candidate of par.cand ?? []) {
+          if (typeof candidate.sqcand === 'string' && candidate.vap !== undefined) rows.push(candidateRow(candidate, par.sg))
+        }
+      }
+    }
   }
-  Object.values(record).forEach((item) => collectCandidateRows(item, rows))
   return rows
 }
 
+type TSESections = { st?: string; ts?: string }
+
 function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: string, round: 1 | 2, office: string, source: string): ResultSnapshot {
   const rows = collectCandidateRows(result.carg).sort((left, right) => right.votes - left.votes)
-  const totalVotes = rows.reduce((sum, row) => sum + row.votes, 0)
-  const trackingRows = tracking?.abr || []
-  const countedSections = trackingRows.reduce((sum, row) => sum + (Number(row.s?.st) || 0), 0)
-  const totalSections = trackingRows.reduce((sum, row) => sum + (Number(row.s?.ts) || 0), 0)
+  const territory = scope === 'BR' ? 'br' : scope.toLowerCase()
+  // Totais oficiais do próprio arquivo do território (s = seções, v.vv = votos
+  // válidos). O -ab traz o território E suas partes (UFs no BR, municípios na
+  // UF): somar tudo contava as seções em dobro.
+  const resultSections = (result as { s?: TSESections }).s
+  const trackingRow = tracking?.abr?.find((row) => row.cdabr === territory)
+  const sections = resultSections ?? trackingRow?.s
+  const validVotes = (result as { v?: { vv?: string } }).v?.vv
+  const totalVotes = validVotes !== undefined ? toNumber(validVotes) : rows.filter((row) => row.voteDestination !== 'Anulado').reduce((sum, row) => sum + row.votes, 0)
   const updatedAt = tseDateTimeToIso(result.dg, result.hg) ?? tseDateTimeToIso(tracking?.dg, tracking?.hg)
   return {
     election: 'Eleições Gerais 2026',
@@ -228,8 +251,8 @@ function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: s
     office,
     updatedAt,
     totalVotes,
-    countedSections,
-    totalSections,
+    countedSections: toNumber(sections?.st),
+    totalSections: toNumber(sections?.ts),
     rows,
     status: 'official',
     source,

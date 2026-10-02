@@ -231,6 +231,32 @@ async function runDue() {
   }
 }
 
+/** Resumo "quem lidera em cada UF" na corrida de Presidente, tirado dos
+ * arquivos oficiais já espelhados (só escolhe o mais votado; não calcula
+ * percentual, usa o pvap do próprio TSE). Usado pelo mapa ao vivo do site. */
+async function writePresidenteSummary() {
+  const plan = status.elections.find((election) => election.offices.includes('1') && election.t === '1' && !election.speculative)
+  if (!plan) return
+  const code6 = plan.code.padStart(6, '0')
+  const states = {}
+  for (const uf of ['br', ...UFS]) {
+    try {
+      const data = JSON.parse(await readFile(path.join(MIRROR_DIR, 'oficial', 'ele2026', plan.code, 'dados', uf, `${uf}-c0001-e${code6}-u.json`), 'utf8'))
+      const rows = []
+      for (const agr of data.carg?.[0]?.agr ?? []) for (const par of agr.par ?? []) for (const cand of par.cand ?? []) {
+        if (cand.dvt && cand.dvt !== 'Válido') continue
+        rows.push({ name: cand.nmu, party: par.sg, number: cand.n, votes: Number(cand.vap) || 0, share: cand.pvap, status: cand.st || null })
+      }
+      rows.sort((a, b) => b.votes - a.votes)
+      const leader = rows[0]?.votes > 0 ? rows[0] : null
+      states[uf.toUpperCase()] = { sectionsPct: data.s?.pst ?? null, updatedAt: data.dg && data.hg ? `${data.dg} ${data.hg}` : null, leader, second: leader && rows[1]?.votes > 0 ? rows[1] : null }
+    } catch {
+      // UF ainda sem arquivo no espelho: fica de fora do resumo.
+    }
+  }
+  await writeAtomic(path.join(MIRROR_DIR, 'resumo-presidente.json'), JSON.stringify({ generatedAt: new Date().toISOString(), source: 'resultados.tse.jus.br (arquivos oficiais espelhados)', states }))
+}
+
 async function main() {
   log(`ingest TSE: espelho em ${MIRROR_DIR}, upstreams ${UPSTREAMS.join(', ')}`)
   let configNextAt = 0
@@ -248,6 +274,7 @@ async function main() {
       configNextAt = Date.now() + 15_000
     }
     await writeStatus().catch((error) => log('status:', error.message))
+    await writePresidenteSummary().catch((error) => log('resumo:', error.message))
     await sleep(1_000)
   }
 }
@@ -256,6 +283,7 @@ if (process.argv.includes('--once')) {
   await refreshConfig()
   await runDue()
   await writeStatus()
+  await writePresidenteSummary()
   log(JSON.stringify(status.files))
 } else {
   await main()

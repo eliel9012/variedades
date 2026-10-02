@@ -280,3 +280,16 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 /* Alvos de toque mínimos (WCAG 2.5.8): links de texto soltos ganham altura
    mínima de 24px via padding/inline-flex, sem mudar o tamanho da fonte. */
 footer a, .source-note a, .text-button { display: inline-flex; align-items: center; min-height: 24px; }
+.result-list { list-style: none; margin: 0; padding: 0; min-height: 290px; }
+.result-row { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 12px; min-height: 64px; padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+.result-info { display: grid; gap: 4px; min-width: 0; }
+.result-info strong { font: 600 15px 'Plus Jakarta Sans', sans-serif; overflow-wrap: anywhere; }
+.result-info span { color: var(--muted); font: 400 13px/18px 'Plus Jakarta Sans', sans-serif; }
+.result-bar { height: 6px; border-radius: 3px; background: var(--surface-container-high); overflow: hidden; }
+.result-bar i { display: block; height: 100%; background: var(--teal); border-radius: 3px; }
+.result-numbers { display: grid; justify-items: end; gap: 2px; text-align: right; }
+.result-share { font: 600 18px 'Plus Jakarta Sans', sans-serif; color: var(--ink); font-variant-numeric: tabular-nums; }
+.result-share--muted { font-size: 13px; color: var(--muted); }
+.result-votes { color: var(--muted); font: 400 12px 'Plus Jakarta Sans', sans-serif; font-variant-numeric: tabular-nums; }
+.result-status { font: 600 11px 'Plus Jakarta Sans', sans-serif; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.result-status--highlight { color: var(--teal); }

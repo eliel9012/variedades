@@ -1,0 +1,46 @@
+.mapa-apuracao {
+  margin: 0 0 32px;
+}
+
+.mapa-apuracao__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.mapa-apuracao__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.mapa-apuracao__legend li {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 10px;
+  align-items: start;
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.mapa-apuracao__legend small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mapa-apuracao__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: 3px;
+}
+
+@media (max-width: 760px) {
+  .mapa-apuracao__body {
+    grid-template-columns: 1fr;
+  }
+}

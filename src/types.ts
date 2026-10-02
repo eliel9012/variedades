@@ -15,7 +15,16 @@ export type Candidate = {
 export type ResultRow = {
   candidateId: string
   votes: number
+  /** % sobre votos válidos, já calculado pelo TSE (pvapn). */
   share: number
+  /** Campos abaixo vêm do próprio arquivo do TSE (opcionais: snapshots antigos não têm). */
+  name?: string
+  number?: string
+  party?: string
+  /** Situação publicada pelo TSE ("Eleito", "2º turno", "Não eleito", "Suplente"...). Nunca calculada aqui. */
+  status?: string
+  /** Destinação do voto: "Válido", "Anulado", "Anulado sub judice"... */
+  voteDestination?: string
 }
 
 export type ResultSnapshot = {
