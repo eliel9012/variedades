@@ -246,6 +246,12 @@
   font-weight: 400;
 }
 
+.pesquisas-tracker__bar-row--muted .pesquisas-tracker__bar-label,
+.pesquisas-tracker__bar-row--muted .pesquisas-tracker__bar-value {
+  color: var(--muted);
+  font-weight: 400;
+}
+
 .pesquisas-tracker__bar-value {
   grid-area: value;
   color: var(--deep);

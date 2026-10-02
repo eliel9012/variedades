@@ -30,7 +30,10 @@ const GOV_DATA_URL = `${GOV_REPO_BASE}/scripts/data/pesquisas-governadores-2026.
 
 const root = process.cwd()
 const outputDir = join(root, 'public/data')
-const outputFile = join(outputDir, 'polls.json')
+// Endpoints separados por cargo (antes era um único polls.json combinado):
+// cada view da aba Pesquisas lê o seu próprio arquivo.
+const presidenteOutputFile = join(outputDir, 'polls-presidente-nacional.json')
+const governadorOutputFile = join(outputDir, 'polls-governador-estados.json')
 mkdirSync(outputDir, { recursive: true })
 
 const DAYS_WINDOW = 30
@@ -273,30 +276,43 @@ async function main() {
 
   console.log(`governador (puxa-ficha): ${governadorPolls.length} registro(s) nos últimos ${DAYS_WINDOW} dias.`)
 
-  const allPolls = [...presidentePolls, ...governadorPolls]
-
-  if (allPolls.length === 0) {
-    console.error('Nenhuma das fontes de pesquisa pôde ser sincronizada. Gravando polls.json vazio (sem dados inventados).')
-    writeFileSync(outputFile, `${JSON.stringify({ generatedAt: now.toISOString(), source: null, polls: [] }, null, 2)}\n`)
-    return
-  }
-
-  allPolls.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0))
+  presidentePolls.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0))
+  governadorPolls.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0))
 
   writeFileSync(
-    outputFile,
+    presidenteOutputFile,
     `${JSON.stringify(
       {
         generatedAt: now.toISOString(),
-        source: `${REPO_HOME} (Presidente) e ${GOV_REPO_HOME} (Governador)`,
-        polls: allPolls,
+        source: presidentePolls.length > 0 ? REPO_HOME : null,
+        polls: presidentePolls,
       },
       null,
       2,
     )}\n`,
   )
 
-  console.log(`Pesquisas: ${allPolls.length} registro(s) (${presidentePolls.length} Presidente, ${governadorPolls.length} Governador) gravado(s) em public/data/polls.json`)
+  writeFileSync(
+    governadorOutputFile,
+    `${JSON.stringify(
+      {
+        generatedAt: now.toISOString(),
+        source: governadorPolls.length > 0 ? GOV_REPO_HOME : null,
+        polls: governadorPolls,
+      },
+      null,
+      2,
+    )}\n`,
+  )
+
+  if (presidentePolls.length === 0 && governadorPolls.length === 0) {
+    console.error('Nenhuma das fontes de pesquisa pôde ser sincronizada. Endpoints gravados vazios (sem dados inventados).')
+  }
+
+  console.log(
+    `Pesquisas: ${presidentePolls.length} Presidente em public/data/polls-presidente-nacional.json, ` +
+      `${governadorPolls.length} Governador em public/data/polls-governador-estados.json`,
+  )
 }
 
 await main()

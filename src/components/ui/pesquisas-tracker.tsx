@@ -76,25 +76,31 @@ type PresidenteEstadoResult = {
   percentage: number
 }
 
-type PresidenteEstadoRound = {
-  round: 1 | 2
-  pollster: string
-  fieldwork: string
+type PresidenteEstadoWave = {
+  vintage: string
+  pollster: string | null
+  fieldwork: string | null
+  sample: string | number | null
+  completeness: string
   results: PresidenteEstadoResult[]
+  undecided: number | null
+  blank: number | null
+  percentageSum: number
+  sourceUrl: string | null
 }
 
 type PresidenteEstadoState = {
   uf: string
   state: string
-  unavailable: boolean
-  sourceUrl: string
-  rounds: PresidenteEstadoRound[]
+  region: string | null
+  waves: PresidenteEstadoWave[]
 }
 
 type PresidenteEstadosFile = {
   generatedAt: string
   compiledManually: true
   note: string
+  readme: string[]
   sources: { publisher: string; usedFor: string; url: string }[]
   states: PresidenteEstadoState[]
 }
@@ -112,6 +118,11 @@ const sampleFormat = new Intl.NumberFormat('pt-BR')
 function formatIsoDate(value: string, formatter: Intl.DateTimeFormat) {
   const parsed = new Date(value.length <= 10 ? `${value}T00:00:00` : value)
   return Number.isNaN(parsed.getTime()) ? value : formatter.format(parsed)
+}
+
+function firstUrl(value: string | null) {
+  if (!value) return null
+  return value.split(';')[0].trim()
 }
 
 function raceKey(poll: Poll) {
@@ -249,35 +260,12 @@ function SenadoCard({ state }: { state: SenadoState }) {
 }
 
 function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoState; roundFilter: RoundFilter }) {
-  if (state.unavailable) {
-    return (
-      <article className="pesquisas-tracker__card pesquisas-tracker__card--presidente-uf">
-        <div className="pesquisas-tracker__card-head">
-          <div className="pesquisas-tracker__card-head-main">
-            <strong className="pesquisas-tracker__institute">Dado indisponível</strong>
-          </div>
-        </div>
-        <p className="pesquisas-tracker__meta">
-          A matéria fonte não trouxe número consolidado de intenção de voto para Presidente em {state.state}.
-        </p>
-        {state.sourceUrl && (
-          <a className="pesquisas-tracker__source" href={state.sourceUrl} target="_blank" rel="noreferrer">
-            Ver fonte original ↗
-          </a>
-        )}
-      </article>
-    )
-  }
-
-  const roundsToShow = roundFilter === 'Todos' ? state.rounds : state.rounds.filter((item) => item.round === roundFilter)
-
-  if (roundsToShow.length === 0) {
+  if (roundFilter === 2) {
     return (
       <article className="pesquisas-tracker__card pesquisas-tracker__card--presidente-uf">
         <p className="pesquisas-tracker__meta">
-          {roundFilter === 'Todos'
-            ? 'Nenhum turno disponível para este estado nesta pesquisa.'
-            : `Esse estado não teve ${roundFilter}º turno testado nesta pesquisa.`}
+          Esta compilação por estado só tem dado de 1º turno. Nenhuma das fontes usadas testou um cenário de 2º turno
+          para {state.state}.
         </p>
       </article>
     )
@@ -285,21 +273,27 @@ function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoS
 
   return (
     <>
-      {roundsToShow.map((round) => {
-        const topPercentage = round.results.reduce((max, item) => Math.max(max, item.percentage), 0) || 1
+      {state.waves.map((wave, index) => {
+        const topPercentage = wave.results.reduce((max, item) => Math.max(max, item.percentage), 0) || 1
+        const sumLooksOff = wave.completeness === 'Full candidate list' && (wave.percentageSum > 102 || wave.percentageSum < 95)
         return (
-          <article className="pesquisas-tracker__card pesquisas-tracker__card--presidente-uf" key={round.round}>
+          <article className="pesquisas-tracker__card pesquisas-tracker__card--presidente-uf" key={`${state.uf}-${index}`}>
             <div className="pesquisas-tracker__card-head">
               <div className="pesquisas-tracker__card-head-main">
-                <strong className="pesquisas-tracker__institute">{round.pollster}</strong>
+                <strong className="pesquisas-tracker__institute">{wave.pollster ?? 'Instituto não informado'}</strong>
+                <span className="pesquisas-tracker__scenario-chip">{wave.vintage}</span>
               </div>
-              <span className="pesquisas-tracker__round-chip">{round.round}º turno</span>
+              <span className="pesquisas-tracker__round-chip">1º turno</span>
             </div>
 
-            <p className="pesquisas-tracker__meta">campo {round.fieldwork}</p>
+            <p className="pesquisas-tracker__meta">
+              {completenessLabelPt(wave.completeness)}
+              {wave.fieldwork && <> · campo {wave.fieldwork}</>}
+              {wave.sample != null && <> · amostra {typeof wave.sample === 'number' ? sampleFormat.format(wave.sample) : wave.sample}</>}
+            </p>
 
             <div className="pesquisas-tracker__bars">
-              {round.results.map((result) => (
+              {wave.results.map((result) => (
                 <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
                   <span className="pesquisas-tracker__bar-label">
                     {result.candidateName}
@@ -314,10 +308,31 @@ function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoS
                   <span className="pesquisas-tracker__bar-value">{percentFormat.format(result.percentage)}%</span>
                 </div>
               ))}
+              {wave.undecided != null && (
+                <div className="pesquisas-tracker__bar-row pesquisas-tracker__bar-row--muted">
+                  <span className="pesquisas-tracker__bar-label">Indecisos</span>
+                  <div className="pesquisas-tracker__bar-track" />
+                  <span className="pesquisas-tracker__bar-value">{percentFormat.format(wave.undecided)}%</span>
+                </div>
+              )}
+              {wave.blank != null && (
+                <div className="pesquisas-tracker__bar-row pesquisas-tracker__bar-row--muted">
+                  <span className="pesquisas-tracker__bar-label">Brancos/nulos</span>
+                  <div className="pesquisas-tracker__bar-track" />
+                  <span className="pesquisas-tracker__bar-value">{percentFormat.format(wave.blank)}%</span>
+                </div>
+              )}
             </div>
 
-            {state.sourceUrl && (
-              <a className="pesquisas-tracker__source" href={state.sourceUrl} target="_blank" rel="noreferrer">
+            {sumLooksOff && (
+              <p className="pesquisas-tracker__caveat" role="note">
+                Os números somam {percentFormat.format(wave.percentageSum)}% conforme divulgado pela fonte original,
+                sem ajuste nosso.
+              </p>
+            )}
+
+            {firstUrl(wave.sourceUrl) && (
+              <a className="pesquisas-tracker__source" href={firstUrl(wave.sourceUrl)!} target="_blank" rel="noreferrer">
                 Ver fonte original ↗
               </a>
             )}
@@ -329,8 +344,10 @@ function PresidenteEstadoCard({ state, roundFilter }: { state: PresidenteEstadoS
 }
 
 export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot, round: _round, state }: PesquisasTrackerProps) {
-  const [pollsFile, setPollsFile] = useState<PollsFile | null>(null)
-  const [pollsStatus, setPollsStatus] = useState<FetchStatus>('loading')
+  const [presidenteNacionalFile, setPresidenteNacionalFile] = useState<PollsFile | null>(null)
+  const [presidenteNacionalStatus, setPresidenteNacionalStatus] = useState<FetchStatus>('loading')
+  const [governadorFile, setGovernadorFile] = useState<PollsFile | null>(null)
+  const [governadorStatus, setGovernadorStatus] = useState<FetchStatus>('loading')
   const [senadoFile, setSenadoFile] = useState<SenadoFile | null>(null)
   const [senadoStatus, setSenadoStatus] = useState<FetchStatus>('loading')
   const [presidenteEstadosFile, setPresidenteEstadosFile] = useState<PresidenteEstadosFile | null>(null)
@@ -344,13 +361,21 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const [presidenteEstadoUf, setPresidenteEstadoUf] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('/data/polls.json')
-      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('polls unavailable'))))
+    fetch('/data/polls-presidente-nacional.json')
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('presidente nacional unavailable'))))
       .then((data: PollsFile) => {
-        setPollsFile(data)
-        setPollsStatus('loaded')
+        setPresidenteNacionalFile(data)
+        setPresidenteNacionalStatus('loaded')
       })
-      .catch(() => setPollsStatus('error'))
+      .catch(() => setPresidenteNacionalStatus('error'))
+
+    fetch('/data/polls-governador-estados.json')
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('governador unavailable'))))
+      .then((data: PollsFile) => {
+        setGovernadorFile(data)
+        setGovernadorStatus('loaded')
+      })
+      .catch(() => setGovernadorStatus('error'))
 
     fetch('/data/polls-senado.json')
       .then((response) => (response.ok ? response.json() : Promise.reject(new Error('senado polls unavailable'))))
@@ -369,7 +394,16 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
       .catch(() => setPresidenteEstadosStatus('error'))
   }, [])
 
-  const polls = pollsFile?.polls ?? []
+  const polls = useMemo(
+    () => [...(presidenteNacionalFile?.polls ?? []), ...(governadorFile?.polls ?? [])],
+    [presidenteNacionalFile, governadorFile],
+  )
+  const pollsStatus: FetchStatus =
+    presidenteNacionalStatus === 'loading' || governadorStatus === 'loading'
+      ? 'loading'
+      : presidenteNacionalStatus === 'loaded' || governadorStatus === 'loaded'
+        ? 'loaded'
+        : 'error'
   const senadoStates = useMemo(
     () => [...(senadoFile?.states ?? [])].sort((a, b) => a.state.localeCompare(b.state, 'pt-BR')),
     [senadoFile],
@@ -438,7 +472,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   const presidenteGroups = groups.filter((group) => group.office === 'Presidente')
   const governadorGroups = groups.filter((group) => group.office === 'Governador')
 
-  const hasAnySourceData = pollsStatus === 'loaded' && pollsFile != null && pollsFile.source != null && polls.length > 0
+  const hasAnySourceData = polls.length > 0
   const showPresidenteSection = officeFilter === 'Todos' || officeFilter === 'Presidente'
   const showGovernadorSection = officeFilter === 'Todos' || officeFilter === 'Governador'
 
