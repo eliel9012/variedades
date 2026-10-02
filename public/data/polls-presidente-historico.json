@@ -1,0 +1,2080 @@
+{
+  "generatedAt": "2026-10-02T00:00:00Z",
+  "compiledManually": true,
+  "note": "2018 e 2022 são resultado oficial de 1º turno (TSE), % sobre votos válidos. 2026 é pesquisa de intenção de voto (não é resultado), principalmente Quaest/TV Globo por estado, com Piauí vindo de AtlasIntel (ver `sources`). Outros 2026 agrega os demais nomes testados na pesquisa de cada estado, que mudam de estado pra estado — não é o mesmo conjunto de candidatos em todo lugar.",
+  "primaryReference": "Primary reference: Quaest, commissioned by TV Globo and its affiliates (same pollster and series for 26 of 27 units). Piauí is the only exception.",
+  "sources": [
+    {
+      "publisher": "Brasil de Fato – Quaest in 17 states + DF (26 Aug 2026)",
+      "usedFor": "Full candidate lists, Aug 24–25 release: AL, AP, AM, DF, MA, MT, MS, MG, PB, PR, RJ, RN, RS, RO, SC, TO",
+      "url": "https://www.brasildefato.com.br/2026/08/26/onde-lula-e-flavio-bolsonaro-lideram-disputa-para-presidente-veja-os-numeros-da-quaest-em-17-estados-e-no-df/"
+    },
+    {
+      "publisher": "CartaCapital – Quaest in BA, SE, GO, ES, AC, RR (27 Aug 2026)",
+      "usedFor": "Full candidate lists, fieldwork 23–26 Aug (Scenario 1, without Marçal)",
+      "url": "https://www.cartacapital.com.br/politica/como-esta-a-disputa-pela-presidencia-na-bahia-goias-e-outros-4-estados-segundo-a-quaest/"
+    },
+    {
+      "publisher": "Revista Fórum – Quaest São Paulo (29 Sep 2026)",
+      "usedFor": "Full list, fieldwork 25–28 Sep",
+      "url": "https://revistaforum.com.br/politica/nova-quaest-em-sp-lula-flavio/"
+    },
+    {
+      "publisher": "Diário de Pernambuco – Quaest Pernambuco (29 Sep 2026)",
+      "usedFor": "Full list, fieldwork 25–28 Sep",
+      "url": "https://www.diariodepernambuco.com.br/politica/2026/09/11725294-quaest-em-pernambuco-lula-tem-58-contra-20-de-flavio-bolsonaro-no-1-turno.html"
+    },
+    {
+      "publisher": "CartaCapital / Sem Pauta – Quaest Pará (26 Sep 2026)",
+      "usedFor": "Full list, fieldwork 22–25 Sep",
+      "url": "https://www.cartacapital.com.br/politica/quaest-lula-vai-a-40-no-para-contra-35-de-flavio-bolsonaro/ ; https://sempauta.com.br/noticia/49986/quaest-no-para-lula-40-flavio-bolsonaro-35-augusto-cury-7-renan-santos-2-ronaldo-caiado-2.html"
+    },
+    {
+      "publisher": "Diário do Nordeste / Resenha Politika – Quaest Ceará (23 Sep 2026)",
+      "usedFor": "Full list, fieldwork 19–22 Sep",
+      "url": "https://diariodonordeste.verdesmares.com.br/pontopoder/pesquisa-quaest-para-presidente-no-ceara-lula-tem-55-flavio-bolsonaro-tem-23-1.3793471 ; https://www.resenhapolitika.com.br/2026/09/23/pesquisa-quaest-para-presidente-no-ceara-lula-tem-55-flavio-bolsonaro-tem-23/"
+    },
+    {
+      "publisher": "Poder360 / Brasil 247 – AtlasIntel Piauí (29 Sep 2026)",
+      "usedFor": "Full list, fieldwork 23–28 Sep (different pollster – Quaest did not poll PI)",
+      "url": "https://www.poder360.com.br/poder-eleicoes-2026/lula-tem-70-e-flavio-26-no-2o-turno-no-pi-diz-atlasintel/ ; https://www.brasil247.com/nordeste/atlas-lula-tem-685-e-flavio-bolsonaro-246-no-piaui/"
+    },
+    {
+      "publisher": "Band – compilation of latest Quaest state round (1 Oct 2026)",
+      "usedFor": "Late-Sep Lula and Flávio figures for 24 units (not PI, SE, TO)",
+      "url": "https://www.band.com.br/politica/eleicoes/lula-x-flavio-veja-como-estao-intencoes-de-voto-para-presidente-por-estado"
+    },
+    {
+      "publisher": "Brasil de Fato – Quaest Pernambuco etc. / O Tempo / Metrópoles",
+      "usedFor": "Cross-checks of Quaest figures",
+      "url": "https://www.metropoles.com/brasil/quaest-lula-atinge-40-flavio-marca-35-e-cury-tem-7-no-para"
+    }
+  ],
+  "states": [
+    {
+      "uf": "AC",
+      "state": "Acre",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 18.5,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 29.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 25.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 62.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 62.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 42.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 19.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 12.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 14.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "AL",
+      "state": "Alagoas",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 44.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 56.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 44.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 34.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 36.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 29.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 20.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 7.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 11.0,
+      "blank2026": 10.0
+    },
+    {
+      "uf": "AP",
+      "state": "Amapá",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 32.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 45.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 36.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 40.7,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 43.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 33.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 26.5,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 10.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 9.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 14.0,
+      "blank2026": 8.0
+    },
+    {
+      "uf": "AM",
+      "state": "Amazonas",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 40.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 49.6,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 38.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 43.5,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 42.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 33.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 16.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 7.6,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 10.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 12.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "BA",
+      "state": "Bahia",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 60.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 69.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 50.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 23.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 24.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 17.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 16.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 13.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 12.0,
+      "blank2026": 8.0
+    },
+    {
+      "uf": "CE",
+      "state": "Ceará",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 33.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 65.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 55.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 21.7,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 25.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 23.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 45.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 9.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 6.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "DF",
+      "state": "Distrito Federal",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 11.9,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 36.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 28.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 58.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 51.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 26.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 29.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 11.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 24.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 12.0,
+      "blank2026": 10.0
+    },
+    {
+      "uf": "ES",
+      "state": "Espírito Santo",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 24.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 40.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 30.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 54.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 52.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 37.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 21.0,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 7.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 11.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 15.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "GO",
+      "state": "Goiás",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 21.9,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 39.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 20.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 57.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 52.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 27.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 20.9,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 38.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 11.0,
+      "blank2026": 4.0
+    },
+    {
+      "uf": "MA",
+      "state": "Maranhão",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 61.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 68.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 58.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 24.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 26.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 20.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 14.5,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 5.1,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 11.0,
+      "blank2026": 5.0
+    },
+    {
+      "uf": "MT",
+      "state": "Mato Grosso",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 24.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 34.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 26.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 60.0,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 59.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 43.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 15.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 5.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 11.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 14.0,
+      "blank2026": 6.0
+    },
+    {
+      "uf": "MS",
+      "state": "Mato Grosso do Sul",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 23.9,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 39.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 27.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 55.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 52.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 33.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 21.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 17.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 13.0,
+      "blank2026": 10.0
+    },
+    {
+      "uf": "MG",
+      "state": "Minas Gerais",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 27.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 48.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 30.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 48.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 43.6,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 31.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 24.0,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.1,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 14.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 17.0,
+      "blank2026": 8.0
+    },
+    {
+      "uf": "PR",
+      "state": "Paraná",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 19.7,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 36.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 23.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 56.9,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 55.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 41.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 23.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 12.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 17.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "PB",
+      "state": "Paraíba",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 45.5,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 64.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 50.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 31.3,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 29.6,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 21.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 23.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 8.0,
+      "blank2026": 13.0
+    },
+    {
+      "uf": "PA",
+      "state": "Pará",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 41.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 52.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 40.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 36.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 40.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 35.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 22.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 7.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 11.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 10.0,
+      "blank2026": 4.0
+    },
+    {
+      "uf": "PE",
+      "state": "Pernambuco",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 48.9,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 65.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 58.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 30.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 29.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 20.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 20.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 4.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 11.0,
+      "blank2026": 5.0
+    },
+    {
+      "uf": "PI",
+      "state": "Piauí",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 63.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 74.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 68.5,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 18.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 19.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 24.6,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 17.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 5.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 5.7,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 0.6,
+      "blank2026": 0.6
+    },
+    {
+      "uf": "RN",
+      "state": "Rio Grande do Norte",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 41.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 63.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 54.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 30.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 31.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 20.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 28.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 9.0,
+      "blank2026": 11.0
+    },
+    {
+      "uf": "RS",
+      "state": "Rio Grande do Sul",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 22.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 42.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 28.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 52.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 48.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 34.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 24.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 10.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 18.0,
+      "blank2026": 10.0
+    },
+    {
+      "uf": "RJ",
+      "state": "Rio de Janeiro",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 14.7,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 40.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 29.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 59.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 51.1,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 31.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 25.5,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 16.0,
+      "blank2026": 16.0
+    },
+    {
+      "uf": "RO",
+      "state": "Rondônia",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 20.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 29.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 25.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 62.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 64.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 45.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 17.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 6.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 11.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 12.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "RR",
+      "state": "Roraima",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 17.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 23.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 17.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 63.0,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 69.6,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 52.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 19.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 7.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 13.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 11.0,
+      "blank2026": 7.0
+    },
+    {
+      "uf": "SC",
+      "state": "Santa Catarina",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 15.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 29.5,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 20.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 65.8,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 62.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 45.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 19.0,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.3,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 14.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 13.0,
+      "blank2026": 8.0
+    },
+    {
+      "uf": "SE",
+      "state": "Sergipe",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 50.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 63.8,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 53.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 27.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 29.2,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 19.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 22.7,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 7.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 8.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 11.0,
+      "blank2026": 9.0
+    },
+    {
+      "uf": "SP",
+      "state": "São Paulo",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 16.4,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 40.9,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 30.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 53.0,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 47.7,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 36.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 30.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 11.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 13.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 12.0,
+      "blank2026": 9.0
+    },
+    {
+      "uf": "TO",
+      "state": "Tocantins",
+      "pt": [
+        {
+          "year": 2018,
+          "candidateName": "Haddad",
+          "party": "PT",
+          "percentage": 41.1,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 50.4,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Lula",
+          "party": "PT",
+          "percentage": 37.0,
+          "isPoll": true
+        }
+      ],
+      "bolsonaro": [
+        {
+          "year": 2018,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 44.6,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Bolsonaro",
+          "party": "PL",
+          "percentage": 44.0,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Flávio Bolsonaro",
+          "party": "PL",
+          "percentage": 32.0,
+          "isPoll": true
+        }
+      ],
+      "outros": [
+        {
+          "year": 2018,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 14.2,
+          "isPoll": false
+        },
+        {
+          "year": 2022,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 5.6,
+          "isPoll": false
+        },
+        {
+          "year": 2026,
+          "candidateName": "Outros",
+          "party": null,
+          "percentage": 16.0,
+          "isPoll": true
+        }
+      ],
+      "undecided2026": 10.0,
+      "blank2026": 5.0
+    }
+  ]
+}

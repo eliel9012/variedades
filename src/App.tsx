@@ -5,6 +5,7 @@ import StateCandidatesPanel from '@/components/ui/state-candidates-panel'
 import ComposicaoParlamentar from '@/components/ui/composicao-parlamentar'
 import EstatisticasAbstencao from '@/components/ui/estatisticas-abstencao'
 import PesquisasTracker from '@/components/ui/pesquisas-tracker'
+import HistoricoEleitoral from '@/components/ui/historico-eleitoral'
 import CenariosIA from '@/components/ui/cenarios-ia'
 import CookieBanner from '@/components/ui/cookie-banner'
 import AdSlot from '@/components/ui/ad-slot'
@@ -16,8 +17,8 @@ import { fetchTSESnapshot } from './tse-results'
 import { navigate, parseUfSegment, ufSegment, useRoute } from './router'
 import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 
-type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'estatisticas' | 'cenarios'
-const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'estatisticas', 'cenarios']
+type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'historico' | 'estatisticas' | 'cenarios'
+const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'historico', 'estatisticas', 'cenarios']
 
 // Antes do 1º turno (4 out 2026), a home abre em Pesquisas, que é o que tem
 // dado novo pra mostrar. No dia da eleição em diante (1º e 2º turno), abre
@@ -36,6 +37,7 @@ function tabFromPath(pathname: string): ViewTab {
   if (first === 'apuracao') return second === 'presidente' ? 'presidente' : 'governadorSenador'
   if (first === 'composicao-parlamentar') return 'composicaoParlamentar'
   if (first === 'pesquisas') return 'pesquisas'
+  if (first === 'historico') return 'historico'
   if (first === 'estatisticas') return 'estatisticas'
   if (first === 'cenarios') return 'cenarios'
   return getDefaultTab()
@@ -52,6 +54,7 @@ function pathForTab(tab: ViewTab, uf?: string): string {
   if (tab === 'governadorSenador') return uf && uf !== 'Brasil' ? `/apuracao/${ufSegment(uf)}` : '/apuracao'
   if (tab === 'composicaoParlamentar') return '/composicao-parlamentar'
   if (tab === 'pesquisas') return '/pesquisas'
+  if (tab === 'historico') return '/historico'
   if (tab === 'estatisticas') return '/estatisticas'
   return '/cenarios'
 }
@@ -485,6 +488,18 @@ function App() {
         <button
           type="button"
           role="tab"
+          id="tab-historico"
+          aria-selected={activeTab === 'historico'}
+          tabIndex={activeTab === 'historico' ? 0 : -1}
+          className={`view-tabs__tab${activeTab === 'historico' ? ' is-active' : ''}`}
+          onClick={() => changeTab('historico')}
+          onKeyDown={handleTabKeyDown}
+        >
+          Histórico 2018-2026
+        </button>
+        <button
+          type="button"
+          role="tab"
           id="tab-estatisticas"
           aria-selected={activeTab === 'estatisticas'}
           tabIndex={activeTab === 'estatisticas' ? 0 : -1}
@@ -593,6 +608,8 @@ function App() {
       {activeTab === 'pesquisas' && (
         <PesquisasTracker candidates={candidates} snapshot={snapshot} round={activeRound} state={state} />
       )}
+
+      {activeTab === 'historico' && <HistoricoEleitoral state={state} />}
 
       {activeTab === 'estatisticas' && (
         <EstatisticasAbstencao candidates={candidates} snapshot={snapshot} round={activeRound} state={state} />

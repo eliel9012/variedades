@@ -1,0 +1,216 @@
+.historico-eleitoral {
+  padding: 1.5rem 0 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Mesmo tom de alerta do banner de Pesquisas (--error, não --tertiary):
+   2026 aqui é pesquisa, não resultado, igual lá. */
+.historico-eleitoral__banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: 1px solid var(--error);
+  border-left-width: 4px;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--error) 10%, var(--surface-container-lowest));
+}
+
+.historico-eleitoral__banner-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--error);
+  color: var(--on-error);
+  font: 700 13px/1 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__banner p {
+  margin: 0;
+  color: var(--ink);
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__banner strong {
+  color: var(--error);
+}
+
+.historico-eleitoral__header h2 {
+  margin: 6px 0 0;
+  color: var(--deep);
+  font: 500 28px/36px 'Newsreader', serif;
+}
+
+.historico-eleitoral__intro {
+  max-width: 68ch;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__status {
+  padding: var(--space-lg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+  color: var(--muted);
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__status--empty {
+  text-align: center;
+}
+
+.historico-eleitoral__state-picker {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-lg);
+}
+
+.historico-eleitoral__state-result {
+  min-width: 0;
+}
+
+.historico-eleitoral__state-title {
+  margin: 0 0 var(--space-md);
+  color: var(--deep);
+  font: 500 20px/28px 'Newsreader', serif;
+}
+
+.historico-eleitoral__chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+}
+
+.historico-eleitoral__chart svg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 640 / 300;
+}
+
+.historico-eleitoral__grid {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+}
+
+.historico-eleitoral__axis {
+  fill: var(--muted);
+  font: 400 11px/1 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.historico-eleitoral__line--poll {
+  stroke-dasharray: 6 5;
+  opacity: 0.85;
+}
+
+.historico-eleitoral__dot {
+  stroke: var(--surface-container-lowest);
+  stroke-width: 2;
+}
+
+.historico-eleitoral__dot--poll {
+  stroke-dasharray: 2 1.5;
+}
+
+.historico-eleitoral__value {
+  font: 600 12px/1 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+}
+
+.historico-eleitoral__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 12px/16px 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+}
+
+.historico-eleitoral__legend-item i {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.historico-eleitoral__legend-item--note {
+  color: var(--muted);
+}
+
+.historico-eleitoral__legend-dash {
+  width: 14px !important;
+  height: 0 !important;
+  border-radius: 0 !important;
+  border-top: 2px dashed var(--muted);
+}
+
+.historico-eleitoral__caveat {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm);
+  border: 1px dashed var(--error);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--ink);
+  font: 400 12px/17px 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__primary-reference {
+  margin: 0 0 var(--space-sm);
+  font-style: italic;
+}
+
+.historico-eleitoral__sources-details {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+  color: var(--muted);
+  font: 400 13px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.historico-eleitoral__sources-details summary {
+  cursor: pointer;
+  color: var(--deep);
+  font-weight: 600;
+}
+
+.historico-eleitoral__sources-list {
+  margin: var(--space-sm) 0 0;
+  padding-left: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.historico-eleitoral__sources-list a {
+  color: var(--teal);
+}
+
+@media (max-width: 760px) {
+  .historico-eleitoral__state-picker {
+    grid-template-columns: 1fr;
+  }
+}

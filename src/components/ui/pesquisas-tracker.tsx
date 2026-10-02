@@ -337,7 +337,7 @@ function IdeologyChip({
  * estado nas 3 seções "por estado" de Pesquisas, com um <select> equivalente
  * reservado para telas estreitas, onde acertar um estado pequeno no SVG é
  * difícil de tocar com precisão. */
-function UfMapPicker({
+export function UfMapPicker({
   options,
   activeUf,
   onSelect,
