@@ -52,12 +52,14 @@ const COMPRESSIBLE = /^(text\/|application\/(json|manifest\+json|xml|jose)|image
 
 const CACHE = {
   immutable: 'public, max-age=31536000, immutable',
-  html: 'public, max-age=0, s-maxage=30, must-revalidate',
+  // stale-if-error longo: se esta máquina cair, o Cloudflare segue entregando o
+  // site (e o front, sem espelho atualizado, busca direto no TSE).
+  html: 'public, max-age=0, s-maxage=30, stale-while-revalidate=60, stale-if-error=86400',
   noCache: 'no-cache',
-  data: 'public, max-age=60, s-maxage=60, stale-while-revalidate=300',
+  data: 'public, max-age=60, s-maxage=60, stale-while-revalidate=300, stale-if-error=86400',
   tse: 'public, max-age=5, s-maxage=10, stale-while-revalidate=20, stale-if-error=600',
-  tseStatus: 'public, max-age=5, s-maxage=5',
-  static: 'public, max-age=3600, s-maxage=3600',
+  tseStatus: 'public, max-age=5, s-maxage=5, stale-if-error=86400',
+  static: 'public, max-age=3600, s-maxage=3600, stale-if-error=86400',
 }
 
 function cacheFor(urlPath) {

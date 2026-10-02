@@ -36,6 +36,7 @@ async function telegram(text) {
       body: JSON.stringify({ chat_id: CHAT, text, disable_web_page_preview: true }),
     })
     if (!response.ok) log('telegram HTTP', response.status)
+    else log('alerta enviado:', text)
   } catch (error) {
     log('telegram falhou:', error.message)
   }

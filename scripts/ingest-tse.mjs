@@ -88,11 +88,27 @@ function penalize(upstream, httpStatus) {
   log(`upstream ${upstream.base} em espera por ${Math.round(wait / 1000)}s (HTTP ${httpStatus ?? 'rede'})`)
 }
 
-/** Busca um arquivo /oficial/... e grava no espelho se mudou. */
+/** Busca um arquivo /oficial/... e grava no espelho se mudou. Se um
+ * upstream falhar (bloqueio, 5xx, rede), tenta o próximo disponível na hora. */
 async function fetchFile(relPath) {
+  let lastError
+  for (let attempt = 0; attempt < upstreamState.length; attempt += 1) {
+    const upstream = pickUpstream()
+    if (!upstream) break
+    try {
+      return await fetchFileFrom(upstream, relPath)
+    } catch (error) {
+      lastError = error
+      // Só troca de upstream se este foi colocado em espera; erro do próprio
+      // arquivo (ex.: JSON inválido) não melhora em outro upstream.
+      if (upstream.blockedUntil <= Date.now()) throw error
+    }
+  }
+  throw lastError ?? new Error('todos os upstreams em espera')
+}
+
+async function fetchFileFrom(upstream, relPath) {
   const entry = files.get(relPath)
-  const upstream = pickUpstream()
-  if (!upstream) throw new Error('todos os upstreams em espera')
   const headers = { 'user-agent': USER_AGENT, accept: 'application/json' }
   if (entry.etag) headers['if-none-match'] = entry.etag
   if (entry.lastModified) headers['if-modified-since'] = entry.lastModified
