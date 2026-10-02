@@ -6,6 +6,8 @@ import ComposicaoParlamentar from '@/components/ui/composicao-parlamentar'
 import EstatisticasAbstencao from '@/components/ui/estatisticas-abstencao'
 import PesquisasTracker from '@/components/ui/pesquisas-tracker'
 import CenariosIA from '@/components/ui/cenarios-ia'
+import CookieBanner from '@/components/ui/cookie-banner'
+import AdSlot from '@/components/ui/ad-slot'
 import FavoriteButton from '@/components/ui/favorite-button'
 import { useFavoriteCandidates } from './hooks/use-favorites'
 import { BRAZIL_STATE_BY_UF, type BrazilState } from './data/brazil-states'
@@ -346,6 +348,8 @@ function App() {
         </div>
       </header>
 
+      <AdSlot slot="header" />
+
       <section className="hero" id="top">
         <div className="hero-copy">
           <p className="eyebrow">central de apuração · TSE</p>
@@ -542,7 +546,9 @@ function App() {
         </>
       )}
 
+      <AdSlot slot="footer" />
       <footer><span>APURA BRASIL / 2026</span><span>Dados públicos · feito para continuar funcionando</span><span>Polling TSE · 15s · cache offline</span></footer>
+      <CookieBanner />
     </main>
   )
 }

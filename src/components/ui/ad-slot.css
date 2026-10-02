@@ -1,0 +1,14 @@
+.ad-slot {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ad-slot:empty {
+  display: none;
+}
+
+.ad-slot--header,
+.ad-slot--footer {
+  margin: 0 auto;
+  max-width: 970px;
+}
