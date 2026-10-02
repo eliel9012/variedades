@@ -103,12 +103,20 @@ não Google Analytics.
 
    Sem essas duas variáveis, `src/analytics.ts` não injeta nenhum script, o site funciona normal, só sem métricas.
 
-## Anúncios (Google AdSense)
+## Anúncios
 
-Dá pra rodar anúncio sem atrapalhar visualização de dado, com disciplina de layout: reserve 1-2 blocos fixos (topo do
-header, rodapé), nunca dentro de tabela/card/mapa, e nunca "Auto ads" (o Google escolhe a posição sozinho e pode cair
-em cima de conteúdo). Isso ainda não está implementado no código, é decisão de onde colocar o(s) bloco(s) quando a
-conta for aprovada.
+Dois slots reservados (header e rodapé, `src/components/ui/ad-slot.tsx`) que ficam com altura zero enquanto vazios,
+então não atrapalham leitura. Pra ativar, defina `VITE_AD_SCRIPT_URL` (e `VITE_AD_CLIENT_ID` se a rede pedir) no build
+(ver `.env.example`); também depende da pessoa aceitar cookie de anúncio no banner (`src/cookie-consent.ts`). Funciona
+com qualquer rede que use uma tag `<script src="...">` simples (Google AdSense, Media.net, etc). Nunca use "Auto ads"
+dessas redes (a rede escolhe a posição sozinha e pode cair em cima de conteúdo); os dois slots fixos aqui bastam.
+
+## Cache (Cloudflare)
+
+Plano gratuito já cobre o essencial. `deploy/cloudflare/setup-cache.sh` liga via API: Brotli, Always Online (serve a
+última versão em cache se o servidor cair) e 3 Page Rules (`/api/*` sem cache, `/assets/*` e `/data/*` com cache).
+Leia o cabeçalho do script antes de rodar: ele lê `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ZONE_ID`/`SITE_DOMAIN` do
+ambiente, nunca cole token dentro do arquivo nem commite um `.env` com ele.
 
 ## Limites
 
