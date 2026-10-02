@@ -1,8 +1,8 @@
 // Cliente fino para um servidor de LLM local compativel com a API da OpenAI
 // (funciona tanto com llama-swap/llama-server quanto com Ollama, que tambem
 // expoe /v1/chat/completions). Nao fabrica resposta nenhuma: se o servidor
-// estiver fora do ar ou o modelo nao existir, propaga um erro claro para a
-// camada HTTP (server/index.mjs) tratar como 503 honesto, nunca como
+// estiver fora do ar ou o modelo nao existir, propaga um LlmError tipado para
+// a camada HTTP (server/index.mjs) mapear num status honesto, nunca numa
 // resposta encenada.
 
 const DEFAULT_LLM_URL = 'http://127.0.0.1:11434'
@@ -40,58 +40,115 @@ export async function pingOllama() {
   }
 }
 
+/** Erro tipado do cliente de LLM. `code` permite a camada HTTP
+ * (server/index.mjs) escolher o status certo (413/502/503/499) e devolver ao
+ * navegador uma mensagem generica, sem vazar URL interna; `detail` (com URL,
+ * corpo da resposta etc.) fica so no log do servidor. */
+export class LlmError extends Error {
+  constructor(code, message, detail) {
+    super(message)
+    this.name = 'LlmError'
+    this.code = code
+    this.detail = detail ?? message
+  }
+}
+
+const CONTEXT_EXCEEDED_RE = /context|n_ctx|too long|exceed|maximum.*tokens|prompt is too/i
+
 /**
- * Chama POST /v1/chat/completions (stream:false). Lança um Error com uma
- * mensagem clara se o modelo não estiver configurado (LLM_MODEL ausente), se
- * o servidor não responder, ou se a resposta não tiver o formato esperado.
- * server/index.mjs captura esse erro e devolve 503 com um corpo honesto,
- * nunca uma resposta fabricada.
+ * Chama POST /v1/chat/completions (stream:false). Lança LlmError com `code`:
+ *   - 'not_configured'   LLM_MODEL ausente
+ *   - 'aborted'          cliente desconectou (signal externo abortou)
+ *   - 'timeout'          servidor de LLM não respondeu a tempo
+ *   - 'unreachable'      falha de conexão
+ *   - 'context_exceeded' prompt maior que a janela de contexto do modelo
+ *   - 'http_error'       outro status de erro do servidor de LLM
+ *   - 'bad_response'     resposta sem choices[0].message.content
+ * server/index.mjs mapeia cada código para um status HTTP honesto, nunca uma
+ * resposta fabricada.
  *
- * @param {{ systemPrompt: string, userMessage: string }} params
- * @returns {Promise<string>} o texto da resposta do modelo
+ * @param {{ systemPrompt: string, userMessage: string, signal?: AbortSignal }} params
+ * @returns {Promise<{ content: string, usage: object | null }>}
  */
-export async function askOllama({ systemPrompt, userMessage }) {
+export async function askOllama({ systemPrompt, userMessage, signal }) {
   const model = getLlmModel()
   if (!model) {
-    throw new Error(
+    throw new LlmError(
+      'not_configured',
+      'LLM_MODEL não está definido.',
       'LLM_MODEL não está definido. Defina a variável de ambiente LLM_MODEL com o nome de um modelo disponível no servidor configurado em LLM_URL (ex.: LLM_MODEL=gpt-oss-20b).',
     )
   }
   const url = getLlmUrl()
-  let response
+  const controller = new AbortController()
+  let timedOut = false
+  const timeout = setTimeout(() => {
+    timedOut = true
+    controller.abort()
+  }, 120_000)
+  const onExternalAbort = () => controller.abort()
+  if (signal) {
+    if (signal.aborted) controller.abort()
+    else signal.addEventListener('abort', onExternalAbort, { once: true })
+  }
   try {
-    const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 120_000)
-    response = await fetch(`${url}/v1/chat/completions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...authHeaders() },
-      body: JSON.stringify({
-        model,
-        stream: false,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userMessage },
-        ],
-      }),
-      signal: controller.signal,
-    }).finally(() => clearTimeout(timeout))
-  } catch (error) {
-    throw new Error(
-      `Não foi possível conectar ao servidor de LLM em ${url}. Confirme que ele está rodando e que LLM_URL aponta pro lugar certo. Detalhe: ${error instanceof Error ? error.message : String(error)}`,
-    )
-  }
+    let response
+    try {
+      response = await fetch(`${url}/v1/chat/completions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({
+          model,
+          stream: false,
+          temperature: 0.2,
+          max_tokens: 1500,
+          // gpt-oss aceita reasoning_effort; servidores que não conhecem o
+          // campo simplesmente o ignoram.
+          reasoning_effort: 'low',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userMessage },
+          ],
+        }),
+        signal: controller.signal,
+      })
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error)
+      if (signal?.aborted) throw new LlmError('aborted', 'Requisição cancelada pelo cliente.')
+      if (timedOut) throw new LlmError('timeout', 'O servidor de LLM demorou demais para responder.', `Timeout (120s) em ${url}: ${msg}`)
+      throw new LlmError('unreachable', 'Servidor de LLM indisponível.', `Falha ao conectar em ${url}: ${msg}`)
+    }
 
-  if (!response.ok) {
-    const bodyText = await response.text().catch(() => '')
-    throw new Error(
-      `O servidor de LLM respondeu ${response.status} para o modelo "${model}". Confirme que esse modelo existe no servidor configurado. Detalhe: ${bodyText.slice(0, 300)}`,
-    )
-  }
+    if (!response.ok) {
+      const bodyText = await response.text().catch(() => '')
+      const detail = `LLM respondeu ${response.status} (modelo "${model}", ${url}): ${bodyText.slice(0, 500)}`
+      if ((response.status === 400 || response.status === 413) && CONTEXT_EXCEEDED_RE.test(bodyText)) {
+        throw new LlmError('context_exceeded', 'A pergunta mais o contexto excederam o limite do modelo.', detail)
+      }
+      if (response.status >= 500 || response.status === 404) {
+        throw new LlmError('unreachable', 'Servidor de LLM indisponível.', detail)
+      }
+      throw new LlmError('http_error', 'O servidor de LLM recusou a requisição.', detail)
+    }
 
-  const data = await response.json().catch(() => null)
-  const content = data?.choices?.[0]?.message?.content
-  if (typeof content !== 'string' || !content.trim()) {
-    throw new Error('O servidor de LLM respondeu em um formato inesperado (sem choices[0].message.content).')
+    let data
+    try {
+      data = await response.json()
+    } catch (error) {
+      if (signal?.aborted) throw new LlmError('aborted', 'Requisição cancelada pelo cliente.')
+      throw new LlmError('bad_response', 'Resposta inesperada do servidor de LLM.', `JSON inválido: ${error instanceof Error ? error.message : String(error)}`)
+    }
+    const content = data?.choices?.[0]?.message?.content
+    if (typeof content !== 'string' || !content.trim()) {
+      throw new LlmError(
+        'bad_response',
+        'Resposta inesperada do servidor de LLM.',
+        `Sem choices[0].message.content (finish_reason=${data?.choices?.[0]?.finish_reason ?? '?'}).`,
+      )
+    }
+    return { content, usage: data?.usage ?? null }
+  } finally {
+    clearTimeout(timeout)
+    signal?.removeEventListener('abort', onExternalAbort)
   }
-  return content
 }

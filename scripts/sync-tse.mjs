@@ -27,7 +27,7 @@ try {
 // Make sure the archive actually contains the CSV we expect before trying to stream it out.
 const sourceZipEntries = execFileSync('unzip', ['-l', sourceZip], { maxBuffer: 8 * 1024 * 1024 }).toString('utf8')
 if (!sourceZipEntries.includes(sourceCsvName)) {
-  throw new Error(`consulta_cand_${ELECTION_YEAR}.zip não contém ${sourceCsvName} — verifique se o TSE renomeou o arquivo.`)
+  throw new Error(`consulta_cand_${ELECTION_YEAR}.zip não contém ${sourceCsvName}, verifique se o TSE renomeou o arquivo.`)
 }
 
 const csv = execFileSync('unzip', ['-p', sourceZip, sourceCsvName], { maxBuffer: 64 * 1024 * 1024 }).toString('latin1')
@@ -84,6 +84,21 @@ if (missingColumns.length > 0) {
   throw new Error(`Colunas ausentes no CSV do TSE: ${missingColumns.join(', ')}. O layout do arquivo pode ter mudado.`)
 }
 
+// O TSE usa marcadores próprios para "não se aplica"/"nulo" ("#NE", "#NULO",
+// "#NI"). No snapshot de 2026-10-02, DS_SITUACAO_CANDIDATURA vem "#NE" (CD
+// -3) em todas as linhas e o layout não traz DS_DETALHE_SITUACAO_CAND; esses
+// marcadores viram null em vez de serem exibidos como se fossem uma situação.
+const TSE_NULL_MARKERS = new Set(['#NE', '#NULO', '#NI', '#NULO#'])
+const readNullable = (row, key) => {
+  const value = read(row, key).trim()
+  return value === '' || TSE_NULL_MARKERS.has(value.toUpperCase()) ? null : value
+}
+// Se uma versão futura do arquivo trouxer a coluna de detalhe, ela é preferida
+// por ser mais específica; senão usamos DS_SITUACAO_CANDIDATURA.
+const readSituation = (row) =>
+  ('DS_DETALHE_SITUACAO_CAND' in index ? readNullable(row, 'DS_DETALHE_SITUACAO_CAND') : null) ??
+  readNullable(row, 'DS_SITUACAO_CANDIDATURA')
+
 const candidates = lines.map(parseLine)
   .map((row) => ({
     sqCandidate: read(row, 'SQ_CANDIDATO'),
@@ -95,12 +110,12 @@ const candidates = lines.map(parseLine)
     officeCode: Number(read(row, 'CD_CARGO')),
     party: read(row, 'SG_PARTIDO'),
     partyName: read(row, 'NM_PARTIDO'),
-    situation: read(row, 'DS_SITUACAO_CANDIDATURA'),
+    situation: readSituation(row),
     photo: `/data/photos/F${read(row, 'SG_UF')}${read(row, 'SQ_CANDIDATO')}_div.jpg`,
   }))
 
 if (candidates.length < MIN_PLAUSIBLE_CANDIDATES) {
-  throw new Error(`Apenas ${candidates.length} candidaturas encontradas (esperado pelo menos ${MIN_PLAUSIBLE_CANDIDATES}). Abortando para não sobrescrever os dados com um snapshot incompleto — verifique o arquivo de origem.`)
+  throw new Error(`Apenas ${candidates.length} candidaturas encontradas (esperado pelo menos ${MIN_PLAUSIBLE_CANDIDATES}). Abortando para não sobrescrever os dados com um snapshot incompleto, verifique o arquivo de origem.`)
 }
 
 writeFileSync(join(outputDir, 'candidates.json'), `${JSON.stringify(candidates)}\n`)

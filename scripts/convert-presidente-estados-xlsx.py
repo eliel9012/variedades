@@ -29,6 +29,7 @@ Requer `openpyxl` (pip install openpyxl).
 import json
 import re
 import sys
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import openpyxl
@@ -80,6 +81,42 @@ def pct(value):
     if value is None:
         return None
     return round(value * 100, 1)
+
+
+# Nome de exibição já usado no JSON para cada instituto como ele aparece na
+# coluna "Poll / timing" da aba "Late-Sep Lula vs Flávio" (texto antes da
+# primeira vírgula, ex.: "Quaest/Globo, 2nd half of Sep 2026"). Instituto que
+# não estiver aqui sai com o nome cru da planilha.
+LATE_POLLSTER_DISPLAY = {
+    "quaest/globo": "Quaest (for TV Globo / affiliates)",
+    "atlasintel": "AtlasIntel",
+}
+
+
+def late_pollster(uf, timing):
+    """Extrai o instituto da coluna "Poll / timing". Se não der pra extrair,
+    volta ao valor que era fixo no script (Quaest, ou AtlasIntel no PI) e avisa."""
+    token = (clean(timing) or "").split(",")[0].split("(")[0].strip()
+    if token:
+        return LATE_POLLSTER_DISPLAY.get(token.lower(), token)
+    fallback = "Quaest (for TV Globo / affiliates)" if uf != "PI" else "AtlasIntel"
+    print(f"aviso: {uf} sem instituto legível em 'Poll / timing' ({timing!r}); usando '{fallback}'.")
+    return fallback
+
+
+def generated_at_for(source_path):
+    """Data de geração derivada da própria planilha, pra ser determinística
+    (mesma planilha, mesmo JSON): primeiro a data yyyy-mm-dd do nome do arquivo,
+    senão o mtime do arquivo em UTC."""
+    match = re.search(r"(\d{4})-(\d{2})-(\d{2})", Path(source_path).name)
+    if match:
+        try:
+            day = date(*(int(x) for x in match.groups()))
+            return f"{day.isoformat()}T00:00:00Z"
+        except ValueError:
+            pass
+    mtime = datetime.fromtimestamp(Path(source_path).stat().st_mtime, tz=timezone.utc)
+    return mtime.replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def main():
@@ -182,7 +219,7 @@ def main():
                 waves.append(
                     {
                         "vintage": "Late-Sep (apenas líderes divulgados)",
-                        "pollster": "Quaest (for TV Globo / affiliates)" if uf != "PI" else "AtlasIntel",
+                        "pollster": late_pollster(uf, late_row[late_col["Poll / timing"]]),
                         "fieldwork": clean(late_row[late_col["Poll / timing"]]),
                         "sample": None,
                         "completeness": "Leaders only",
@@ -206,7 +243,7 @@ def main():
     states.sort(key=lambda s: s["state"] or s["uf"])
 
     output = {
-        "generatedAt": "2026-10-02T00:00:00Z",
+        "generatedAt": generated_at_for(source_path),
         "compiledManually": True,
         "note": (
             "Compilação manual a partir de 9 matérias jornalísticas reais e citadas "

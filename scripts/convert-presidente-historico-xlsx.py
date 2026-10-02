@@ -20,7 +20,9 @@ Para atualizar: troque o arquivo em data/sources/ e rode:
 Requer `openpyxl` (pip install openpyxl).
 """
 import json
+import re
 import sys
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import openpyxl
@@ -47,6 +49,21 @@ def pct(value):
     if value is None:
         return None
     return round(value * 100, 1)
+
+
+def generated_at_for(source_path):
+    """Data de geração derivada da própria planilha, pra ser determinística
+    (mesma planilha, mesmo JSON): primeiro a data yyyy-mm-dd do nome do arquivo,
+    senão o mtime do arquivo em UTC."""
+    match = re.search(r"(\d{4})-(\d{2})-(\d{2})", Path(source_path).name)
+    if match:
+        try:
+            day = date(*(int(x) for x in match.groups()))
+            return f"{day.isoformat()}T00:00:00Z"
+        except ValueError:
+            pass
+    mtime = datetime.fromtimestamp(Path(source_path).stat().st_mtime, tz=timezone.utc)
+    return mtime.replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def main():
@@ -108,7 +125,7 @@ def main():
     states.sort(key=lambda s: s["state"])
 
     output = {
-        "generatedAt": "2026-10-02T00:00:00Z",
+        "generatedAt": generated_at_for(source_path),
         "compiledManually": True,
         "note": (
             "2018 e 2022 são resultado oficial de 1º turno (TSE), % sobre votos "
@@ -116,7 +133,7 @@ def main():
             "principalmente Quaest/TV Globo por estado, com Piauí vindo de "
             "AtlasIntel (ver `sources`). Outros 2026 agrega os demais nomes "
             "testados na pesquisa de cada estado, que mudam de estado pra "
-            "estado — não é o mesmo conjunto de candidatos em todo lugar."
+            "estado, não é o mesmo conjunto de candidatos em todo lugar."
         ),
         "primaryReference": primary_reference,
         "sources": sources,

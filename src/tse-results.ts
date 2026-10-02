@@ -33,6 +33,10 @@ type TSETracking = {
 }
 
 let configPromise: Promise<TSEConfig> | null = null
+let configLoadedAt = 0
+// A config do TSE muda ao longo do pleito (ex.: publicação do 2º turno), então
+// não pode ficar em memória para sempre: expira depois de alguns minutos.
+const CONFIG_TTL_MS = 5 * 60_000
 
 function request(url: string, signal?: AbortSignal) {
   const controller = new AbortController()
@@ -88,9 +92,11 @@ async function fetchOfficial<T>(baseUrl: string, signal?: AbortSignal): Promise<
 // concorrentes ou futuros. O `request()` interno já aplica seu próprio
 // timeout, então a config ainda falha rápido em caso de rede fora do ar. Se a
 // promessa for rejeitada, `configPromise` volta a `null` para que a próxima
-// chamada tente novamente.
+// chamada tente novamente. Mesmo resolvida, expira após CONFIG_TTL_MS.
 function loadConfig(): Promise<TSEConfig> {
+  if (configPromise && Date.now() - configLoadedAt > CONFIG_TTL_MS) configPromise = null
   if (!configPromise) {
+    configLoadedAt = Date.now()
     configPromise = fetchOfficial<TSEConfig>(CONFIG_URL).catch((error) => {
       configPromise = null
       throw error
@@ -99,9 +105,27 @@ function loadConfig(): Promise<TSEConfig> {
   return configPromise
 }
 
+function invalidateConfig() {
+  configPromise = null
+}
+
+// TSE publica `dg` como "dd/mm/aaaa" e `hg` como "hh:mm:ss", no horário de
+// Brasília. `Date.parse("dd/mm/aaaa ...")` interpreta como mm/dd (NaN para
+// dia > 12), então monta um ISO explícito com offset -03:00.
+export function tseDateTimeToIso(dg: string | undefined, hg: string | undefined): string | null {
+  if (!dg || !hg) return null
+  const date = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dg.trim())
+  const time = /^(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(hg.trim())
+  if (!date || !time) return null
+  const [, day, month, year] = date
+  const [, hour, minute, second = '00'] = time
+  const iso = `${year}-${month}-${day}T${hour}:${minute}:${second}-03:00`
+  return Number.isNaN(Date.parse(iso)) ? null : iso
+}
+
 // TSE agrupa os cargos por ciclo eleitoral dentro de um mesmo pleito: o ciclo
 // Federal (Presidente, Senador, Deputado Federal) e o ciclo Estadual
-// (Governador, Deputado Estadual, Deputado Distrital) — ver
+// (Governador, Deputado Estadual, Deputado Distrital), ver
 // docs/tse-research.md ("eleição federal" cd 6257/6258 vs. "eleições
 // estaduais" cd 6259/6260). Uma divisão binária Presidente-vs-resto deixava
 // Senador e Deputado Federal incorretamente agrupados com o ciclo Estadual.
@@ -153,17 +177,18 @@ function collectCandidateRows(value: unknown, rows: ResultRow[] = []) {
   return rows
 }
 
-function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: string, round: 1 | 2, source: string): ResultSnapshot {
+function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: string, round: 1 | 2, office: string, source: string): ResultSnapshot {
   const rows = collectCandidateRows(result.carg).sort((left, right) => right.votes - left.votes)
   const totalVotes = rows.reduce((sum, row) => sum + row.votes, 0)
   const trackingRows = tracking?.abr || []
   const countedSections = trackingRows.reduce((sum, row) => sum + (Number(row.s?.st) || 0), 0)
   const totalSections = trackingRows.reduce((sum, row) => sum + (Number(row.s?.ts) || 0), 0)
-  const updatedAt = result.dg && result.hg ? `${result.dg} ${result.hg}` : tracking?.dg && tracking.hg ? `${tracking.dg} ${tracking.hg}` : null
+  const updatedAt = tseDateTimeToIso(result.dg, result.hg) ?? tseDateTimeToIso(tracking?.dg, tracking?.hg)
   return {
     election: 'Eleições Gerais 2026',
     round,
     scope,
+    office,
     updatedAt,
     totalVotes,
     countedSections,
@@ -174,9 +199,12 @@ function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: s
   }
 }
 
-async function readLocalSnapshot(round: 1 | 2, scope: string, signal?: AbortSignal) {
+// O latest.json local descreve um único recorte: só serve de fallback se for
+// exatamente o recorte pedido (nunca reetiquetar números de outra UF/turno).
+async function readLocalSnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
   const local = await fetchJson<ResultSnapshot>('/data/results/latest.json', signal)
-  return { ...local, round, scope, status: local.status === 'official' ? 'official' : 'waiting' } satisfies ResultSnapshot
+  if (local.scope !== scope || local.round !== round || (local.office != null && local.office !== office)) throw new Error('TSE local snapshot mismatch')
+  return { ...local, office, status: local.status === 'official' ? 'official' : 'waiting' } satisfies ResultSnapshot
 }
 
 export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
@@ -184,7 +212,14 @@ export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: stri
     const effectiveRound = canHaveSecondRound(office) ? round : 1
     if (office !== 'Presidente' && scope === 'BR') throw new Error('TSE UF required')
     const config = await loadConfig()
-    const election = chooseElection(config, effectiveRound, office)
+    let election: ReturnType<typeof chooseElection>
+    try {
+      election = chooseElection(config, effectiveRound, office)
+    } catch (error) {
+      // Config sem a eleição pedida pode estar desatualizada: força recarga.
+      invalidateConfig()
+      throw error
+    }
     const code = padElection(election.code)
     const root = officialRoot()
     const officeCode = String(officeCodes[office as keyof typeof officeCodes] || 3).padStart(4, '0')
@@ -196,14 +231,14 @@ export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: stri
       fetchOfficial<TSEResult>(resultUrl, signal),
       fetchOfficial<TSETracking>(trackingUrl, signal).catch(() => null),
     ])
-    return parseOfficial(result, tracking, scope, effectiveRound, resultUrl)
+    return parseOfficial(result, tracking, scope, effectiveRound, office, resultUrl)
   } catch (error) {
     // Um abort vindo do chamador (ex.: troca de filtro) é um cancelamento
     // normal: não dispara a tentativa de fallback local (que seria abortada
     // de qualquer forma) e não deve virar um erro de sincronização.
     if (signal?.aborted) throw error
     try {
-      const fallback = await readLocalSnapshot(canHaveSecondRound(office) ? round : 1, scope, signal)
+      const fallback = await readLocalSnapshot(canHaveSecondRound(office) ? round : 1, scope, office, signal)
       if (fallback.status === 'official') return fallback
     } catch (fallbackError) {
       // O fetch de fallback também é abortável; se foi cancelado, propaga

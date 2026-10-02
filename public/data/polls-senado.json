@@ -520,7 +520,7 @@
       "basis": "As reported by GCMais; basis not stated (may sum >100%)",
       "completeness": "Leaders + undecided/blank (as listed by source)",
       "source": "GCMais (summary of published polls)",
-      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "sourceUrl": "https://www.cartacapital.com.br/politica/datafolha-saiba-as-intencoes-de-voto-para-o-senado-em-sp-rj-mg-pe-e-df/",
       "results": [
         {
           "candidateName": "Indecisos",
@@ -1220,31 +1220,31 @@
       "basis": "As reported by GCMais; basis not stated (may sum >100%)",
       "completeness": "Leaders only (as listed by source)",
       "source": "GCMais (summary of published polls)",
-      "sourceUrl": "https://gcmais.com.br/noticias/2026/08/25/pesquisa-para-senador-2026-veja-quem-esta-na-frente-em-cada-estado",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/datafolha-senado-sao-paulo-setembro-2026/",
       "results": [
         {
           "candidateName": "Marina Silva",
           "party": "Rede",
           "percentage": 13.0,
-          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+          "notes": "Outra pesquisa (Quaest 4–7 Sep 2026) existe na planilha; exibida só a mais recente."
         },
         {
           "candidateName": "Simone Tebet",
           "party": "PSB",
           "percentage": 13.0,
-          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+          "notes": "Outra pesquisa (Quaest 4–7 Sep 2026) existe na planilha; exibida só a mais recente."
         },
         {
           "candidateName": "André do Prado",
           "party": "PL",
           "percentage": 11.0,
-          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+          "notes": "Outra pesquisa (Quaest 4–7 Sep 2026) existe na planilha; exibida só a mais recente."
         },
         {
           "candidateName": "Guilherme Derrite",
           "party": "PP",
           "percentage": 10.0,
-          "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
+          "notes": "Outra pesquisa (Quaest 4–7 Sep 2026) existe na planilha; exibida só a mais recente."
         }
       ],
       "percentageSum": 47.0

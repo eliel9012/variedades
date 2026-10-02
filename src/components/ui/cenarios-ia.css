@@ -363,6 +363,10 @@
   font: 600 12px 'Plus Jakarta Sans', sans-serif;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
+  /* área de toque mínima de 24px no celular */
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
 
 .cenarios-ia__chat {

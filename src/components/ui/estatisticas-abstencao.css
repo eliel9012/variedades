@@ -152,7 +152,9 @@
   padding: 5px 12px;
   border-radius: var(--radius-full);
   background: var(--surface-container-highest);
-  color: var(--outline);
+  /* --outline dava 3.46:1 sobre --surface-container-highest a 11px; este tom
+     passa de 4.5:1 (WCAG AA). */
+  color: var(--on-surface-variant);
   font: 600 11px/16px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   letter-spacing: .04em;

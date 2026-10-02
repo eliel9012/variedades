@@ -22,6 +22,8 @@ export type ResultSnapshot = {
   election: string
   round: 1 | 2
   scope: string
+  /** Cargo do recorte (ex.: 'Presidente', 'Governador'); ausente em snapshots antigos. */
+  office?: string
   updatedAt: string | null
   totalVotes: number
   countedSections: number

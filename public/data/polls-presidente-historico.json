@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-02T00:00:00Z",
+  "generatedAt": "2026-10-02T20:40:02Z",
   "compiledManually": true,
-  "note": "2018 e 2022 são resultado oficial de 1º turno (TSE), % sobre votos válidos. 2026 é pesquisa de intenção de voto (não é resultado), principalmente Quaest/TV Globo por estado, com Piauí vindo de AtlasIntel (ver `sources`). Outros 2026 agrega os demais nomes testados na pesquisa de cada estado, que mudam de estado pra estado — não é o mesmo conjunto de candidatos em todo lugar.",
+  "note": "2018 e 2022 são resultado oficial de 1º turno (TSE), % sobre votos válidos. 2026 é pesquisa de intenção de voto (não é resultado), principalmente Quaest/TV Globo por estado, com Piauí vindo de AtlasIntel (ver `sources`). Outros 2026 agrega os demais nomes testados na pesquisa de cada estado, que mudam de estado pra estado, não é o mesmo conjunto de candidatos em todo lugar.",
   "primaryReference": "Primary reference: Quaest, commissioned by TV Globo and its affiliates (same pollster and series for 26 of 27 units). Piauí is the only exception.",
   "sources": [
     {

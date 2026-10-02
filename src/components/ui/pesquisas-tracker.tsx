@@ -240,9 +240,63 @@ function formatIsoDate(value: string, formatter: Intl.DateTimeFormat) {
   return Number.isNaN(parsed.getTime()) ? value : formatter.format(parsed)
 }
 
-function firstUrl(value: string | null) {
-  if (!value) return null
-  return value.split(';')[0].trim()
+/** Algumas fontes juntam várias URLs no mesmo campo, separadas por ";".
+ * Cada uma vira um link próprio (um href com " ; " no meio quebra). */
+function splitUrls(value: string | null) {
+  if (!value) return []
+  return value
+    .split(';')
+    .map((part) => part.trim())
+    .filter(Boolean)
+}
+
+/** Cenário espontâneo (sem lista de nomes) não é comparável com o estimulado:
+ * fica fora da linha do tempo, igual ao servidor (isSpontaneousScenario). */
+function isSpontaneousPoll(poll: Poll) {
+  return !!poll.scenarioLabel && /espont/i.test(poll.scenarioLabel)
+}
+
+/** Par de candidatos reais de uma pesquisa de 2º turno (sem pseudo-linhas),
+ * em ordem alfabética, pra agrupar pesquisas que simulam o mesmo confronto. */
+function matchupKey(poll: Poll) {
+  return poll.results
+    .map((result) => result.candidateName)
+    .filter((name) => !isPseudoCandidateRow(name))
+    .sort((a, b) => a.localeCompare(b, 'pt-BR'))
+    .join(' x ')
+}
+
+/** Confronto de 2º turno mais testado entre as pesquisas (o que tem mais
+ * pontos de verdade pra desenhar uma linha). */
+function mostFrequentMatchup(polls: Poll[]) {
+  const counts = new Map<string, number>()
+  for (const poll of polls) {
+    const key = matchupKey(poll)
+    if (key) counts.set(key, (counts.get(key) ?? 0) + 1)
+  }
+  let best: string | null = null
+  let bestCount = 0
+  for (const [key, count] of counts) {
+    if (count > bestCount) {
+      best = key
+      bestCount = count
+    }
+  }
+  return best
+}
+
+/** "Ver fonte original" com um link por URL (o campo pode trazer várias). */
+function SourceLinks({ value }: { value: string | null }) {
+  const urls = splitUrls(value)
+  return (
+    <>
+      {urls.map((url, index) => (
+        <a className="pesquisas-tracker__source" href={url} target="_blank" rel="noreferrer" key={url}>
+          {urls.length > 1 ? `Ver fonte original ${index + 1} ↗` : 'Ver fonte original ↗'}
+        </a>
+      ))}
+    </>
+  )
 }
 
 function raceKey(poll: Poll) {
@@ -276,7 +330,7 @@ function completenessLabelPt(completeness: string) {
  * usar "tem partido" como critério: algumas fontes (ex.: Vox Brasil) não
  * informam partido nem para o candidato que de fato lidera. */
 function isPseudoCandidateRow(candidateName: string) {
-  return /indecis|branco|\bnulo|não sabe|nao sabe|não soube|nao soube|não opin|nao opin|não respond|nao respond|nenhum candidato|não vai votar|nao vai votar|outras respostas|^outros\b/i.test(
+  return /indecis|branco|\bnulo|não sabe|nao sabe|não soube|nao soube|não opin|nao opin|não respond|nao respond|nenhum candidato|não vai votar|nao vai votar|outras respostas|^outros\b|ns ?\/ ?nr|n[ãa]o sei|^nenhum|demais (candidatos|op[çc][õo]es)|n[ãa]o decidi|n[ãa]o v[ãa]o escolher|\+/i.test(
     candidateName,
   )
 }
@@ -670,8 +724,8 @@ function PollCard({ poll, ideologyByParty }: { poll: Poll; ideologyByParty: Map<
       </p>
 
       <div className="pesquisas-tracker__bars">
-        {poll.results.map((result) => (
-          <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
+        {poll.results.map((result, index) => (
+          <div className="pesquisas-tracker__bar-row" key={`${result.candidateName}-${index}`}>
             <span className="pesquisas-tracker__bar-label">
               <span className="pesquisas-tracker__bar-name">{result.candidateName}</span>
               {isLeadingResult(result.candidateName, result.percentage, topPercentage, poll.results.length) && (
@@ -691,11 +745,7 @@ function PollCard({ poll, ideologyByParty }: { poll: Poll; ideologyByParty: Map<
         ))}
       </div>
 
-      {poll.sourceUrl && (
-        <a className="pesquisas-tracker__source" href={poll.sourceUrl} target="_blank" rel="noreferrer">
-          Ver fonte original ↗
-        </a>
-      )}
+      <SourceLinks value={poll.sourceUrl} />
     </article>
   )
 }
@@ -756,11 +806,7 @@ function SenadoCard({ state, ideologyByParty }: { state: SenadoState; ideologyBy
         </p>
       )}
 
-      {state.sourceUrl && (
-        <a className="pesquisas-tracker__source" href={state.sourceUrl} target="_blank" rel="noreferrer">
-          Ver fonte original ↗
-        </a>
-      )}
+      <SourceLinks value={state.sourceUrl} />
     </article>
   )
 }
@@ -807,8 +853,8 @@ function PresidenteEstadoCard({
             </p>
 
             <div className="pesquisas-tracker__bars">
-              {wave.results.map((result) => (
-                <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
+              {wave.results.map((result, index) => (
+                <div className="pesquisas-tracker__bar-row" key={`${result.candidateName}-${index}`}>
                   <span className="pesquisas-tracker__bar-label">
                     <span className="pesquisas-tracker__bar-name">{result.candidateName}</span>
                     {isLeadingResult(result.candidateName, result.percentage, topPercentage, wave.results.length) && (
@@ -849,11 +895,7 @@ function PresidenteEstadoCard({
               </p>
             )}
 
-            {firstUrl(wave.sourceUrl) && (
-              <a className="pesquisas-tracker__source" href={firstUrl(wave.sourceUrl)!} target="_blank" rel="noreferrer">
-                Ver fonte original ↗
-              </a>
-            )}
+            <SourceLinks value={wave.sourceUrl} />
           </article>
         )
       })}
@@ -1071,25 +1113,41 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   // Linhas do tempo usam o histórico completo (`polls`, ~400 dias), não o
   // recorte de 30 dias dos cards de "quadro atual" acima.
   const presidenteTimelineR1 = useMemo(
-    () => buildTimelineSeries(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 1)),
+    () => buildTimelineSeries(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 1 && !isSpontaneousPoll(poll))),
+    [polls],
+  )
+  // 2º turno: cada pesquisa pode simular um confronto diferente (Lula x
+  // Flávio, Lula x Caiado...). Misturar tudo numa linha só juntaria números
+  // de adversários diferentes, então desenhamos só o confronto mais testado.
+  const presidenteR2Matchup = useMemo(
+    () => mostFrequentMatchup(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 2 && !isSpontaneousPoll(poll))),
     [polls],
   )
   const presidenteTimelineR2 = useMemo(
-    () => buildTimelineSeries(polls.filter((poll) => poll.office === 'Presidente' && poll.round === 2)),
-    [polls],
+    () =>
+      buildTimelineSeries(
+        polls.filter(
+          (poll) =>
+            poll.office === 'Presidente' &&
+            poll.round === 2 &&
+            !isSpontaneousPoll(poll) &&
+            matchupKey(poll) === presidenteR2Matchup,
+        ),
+      ),
+    [polls, presidenteR2Matchup],
   )
   const governadorTimelineR1 = useMemo(
     () =>
       ufFilter === 'all'
         ? null
-        : buildTimelineSeries(polls.filter((poll) => poll.office === 'Governador' && poll.uf === ufFilter && poll.round === 1)),
+        : buildTimelineSeries(polls.filter((poll) => poll.office === 'Governador' && poll.uf === ufFilter && poll.round === 1 && !isSpontaneousPoll(poll))),
     [polls, ufFilter],
   )
   const governadorTimelineR2 = useMemo(
     () =>
       ufFilter === 'all'
         ? null
-        : buildTimelineSeries(polls.filter((poll) => poll.office === 'Governador' && poll.uf === ufFilter && poll.round === 2)),
+        : buildTimelineSeries(polls.filter((poll) => poll.office === 'Governador' && poll.uf === ufFilter && poll.round === 2 && !isSpontaneousPoll(poll))),
     [polls, ufFilter],
   )
 
@@ -1294,9 +1352,15 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                       <ul className="pesquisas-tracker__sources-list">
                         {presidenteEstadosFile.sources.map((src) => (
                           <li key={src.url}>
-                            <a href={src.url} target="_blank" rel="noreferrer">
-                              {src.publisher}
-                            </a>
+                            {splitUrls(src.url).map((url, urlIndex) => (
+                              <Fragment key={url}>
+                                {urlIndex > 0 && ' · '}
+                                <a href={url} target="_blank" rel="noreferrer">
+                                  {src.publisher}
+                                  {urlIndex > 0 ? ` (${urlIndex + 1})` : ''}
+                                </a>
+                              </Fragment>
+                            ))}
                             {' · '}
                             {src.usedFor}
                           </li>
@@ -1314,13 +1378,16 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
               <h4 className="pesquisas-tracker__race-title">Presidente · 1º turno (nacional)</h4>
               <TimelineChart data={presidenteTimelineR1} title="Presidente, 1º turno, nacional" />
 
-              <h4 className="pesquisas-tracker__race-title">Presidente · 2º turno (nacional)</h4>
+              <h4 className="pesquisas-tracker__race-title">
+                Presidente · 2º turno (nacional){presidenteR2Matchup ? ` · ${presidenteR2Matchup}` : ''}
+              </h4>
               {presidenteTimelineR2.days.length > 0 ? (
                 <>
                   <p className="pesquisas-tracker__office-note">
-                    O confronto testado no 2º turno pode mudar de pesquisa pra pesquisa (nem toda pesquisa simula o
-                    mesmo par de candidatos), então o mesmo nome aqui pode estar respondendo por adversários
-                    diferentes em dias diferentes.
+                    Nem toda pesquisa simula o mesmo par de candidatos no 2º turno. Para não misturar adversários
+                    diferentes na mesma linha, aqui aparece só o confronto mais testado pelas fontes
+                    {presidenteR2Matchup ? ` (${presidenteR2Matchup})` : ''}; os outros confrontos seguem nos cards do
+                    quadro atual.
                   </p>
                   <TimelineChart data={presidenteTimelineR2} title="Presidente, 2º turno, nacional" />
                 </>
@@ -1435,7 +1502,9 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                             </div>
                             {!isCollapsed && (
                               <div className="pesquisas-tracker__grid">
-                                {group.items.map((poll) => (
+                                {/* Estimulado primeiro: o espontâneo (sem lista de nomes) não é
+                                    comparável e só aparece depois, com o selo do cenário. */}
+                                {[...group.items.filter((poll) => !isSpontaneousPoll(poll)), ...group.items.filter(isSpontaneousPoll)].map((poll) => (
                                   <PollCard poll={poll} ideologyByParty={ideologyByParty} key={poll.id} />
                                 ))}
                               </div>
@@ -1551,9 +1620,15 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                 <ul className="pesquisas-tracker__sources-list">
                   {senadoFile.sources.map((src) => (
                     <li key={src.url}>
-                      <a href={src.url} target="_blank" rel="noreferrer">
-                        {src.publisher}
-                      </a>
+                      {splitUrls(src.url).map((url, urlIndex) => (
+                        <Fragment key={url}>
+                          {urlIndex > 0 && ' · '}
+                          <a href={url} target="_blank" rel="noreferrer">
+                            {src.publisher}
+                            {urlIndex > 0 ? ` (${urlIndex + 1})` : ''}
+                          </a>
+                        </Fragment>
+                      ))}
                       {' · '}
                       {src.usedFor}
                     </li>

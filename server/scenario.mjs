@@ -9,11 +9,12 @@
 // 1. So a onda/pesquisa mais recente de uma unica fonte e usada (sem misturar
 //    pesquisas/institutos diferentes numa "pesquisa composta" ficticia).
 // 2. Cada candidato tem sua parcela reportada (p) tratada como a media de uma
-//    distribuicao normal; o desvio padrao (sigma) vem da margem de erro
-//    declarada pela fonte (convencao: margem = meia-largura de um IC de 95%,
-//    logo sigma = margem/1.96) ou, na ausencia de margem declarada mas com
-//    tamanho de amostra conhecido, do pior caso teorico para uma proporcao
-//    (formula de Wilson simplificada p=0.5: margem = 1.96*sqrt(0.25/n)).
+//    distribuicao normal; o desvio padrao e proprio de cada candidato,
+//    sqrt(p(1-p)/n_ef) x inflacao, onde n_ef sai da margem de erro declarada
+//    pela fonte (convencao: margem = meia-largura de um IC de 95% para p=0.5,
+//    logo n_ef = 0.25*(1.96/margem)^2) ou, na ausencia de margem declarada, do
+//    tamanho de amostra informado. Candidatos com p<=0 ficam fora do sorteio.
+//    O RNG e semeado por cargo+UF+turno, entao os numeros sao estaveis.
 // 3. Rodamos 20000 simulacoes: em cada uma, sorteamos uma parcela por
 //    candidato, zeramos sorteios negativos e renormalizamos para que as
 //    parcelas dos candidatos reais (excluindo indecisos/brancos/nulos, que
@@ -51,7 +52,7 @@ const TOTAL_ERROR_INFLATION = 2
  * Node puro, e a instrucao do projeto pede para duplicar em vez de refatorar
  * aquele arquivo). */
 function isPseudoCandidateRow(candidateName) {
-  return /indecis|branco|\bnulo|não sabe|nao sabe|não soube|nao soube|não opin|nao opin|não respond|nao respond|nenhum candidato|não vai votar|nao vai votar|outras respostas|^outros\b/i.test(
+  return /indecis|branco|\bnulo|não sabe|nao sabe|não soube|nao soube|não opin|nao opin|não respond|nao respond|nenhum candidato|não vai votar|nao vai votar|outras respostas|^outros\b|ns ?\/ ?nr|n[ãa]o sei|^nenhum|demais (candidatos|op[çc][õo]es)|n[ãa]o decidi|n[ãa]o v[ãa]o escolher|\+/i.test(
     candidateName,
   )
 }
@@ -95,25 +96,64 @@ function resolvePollMarginAndN({ marginOfError, sampleSize, sampleText }) {
   return { n, marginPp }
 }
 
-function sigmaFromMargin(marginPp) {
-  return (marginPp / 100 / Z95) * TOTAL_ERROR_INFLATION
-}
-
-function sigmaFromSampleSize(n) {
-  return Math.sqrt(0.25 / n)
+/** Tamanho de amostra "efetivo" implicito na margem declarada: inverte a
+ * formula do pior caso (p=0.5) margem = 1.96*sqrt(0.25/n). Quando a fonte
+ * declara margem, ela ja embute efeito de desenho/ponderacao, por isso tem
+ * prioridade sobre o n bruto. */
+function effectiveNFromMargin(marginPp) {
+  const m = marginPp / 100
+  return 0.25 * (Z95 / m) ** 2
 }
 
 function estimatedMarginPpFromSampleSize(n) {
   return Z95 * Math.sqrt(0.25 / n) * 100
 }
 
-/** Box-Muller padrao (media 0, desvio 1). */
-function randStandardNormal() {
-  let u = 0
-  let v = 0
-  while (u === 0) u = Math.random()
-  while (v === 0) v = Math.random()
+/** Desvio padrao por candidato: sqrt(p(1-p)/n_eff), inflado pelo fator de
+ * erro total. Para p=0.5 coincide com margem/1.96 (convencao antiga); para
+ * candidatos pequenos o desvio encolhe, evitando que um nome com 0,1% ganhe
+ * parcela fantasma so porque herdou o sigma de quem tem 45%. */
+function candidateSigma(p, nEff) {
+  return Math.sqrt((p * (1 - p)) / nEff) * TOTAL_ERROR_INFLATION
+}
+
+/** Hash FNV-1a 32 bits de uma string, usado como semente do RNG. */
+function hashSeed(text) {
+  let h = 0x811c9dc5
+  for (let i = 0; i < text.length; i += 1) {
+    h ^= text.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return h >>> 0
+}
+
+/** mulberry32: RNG pequeno e deterministico. A mesma semente
+ * (cargo+UF+turno) gera sempre os mesmos sorteios, entao /api/scenario, os
+ * resumos por estado e o contexto do chat mostram exatamente os mesmos
+ * numeros entre chamadas e reinicializacoes. Retorna valores em (0, 1). */
+function createRng(seed) {
+  let a = seed >>> 0
+  return function next() {
+    a = (a + 0x6d2b79f5) >>> 0
+    let t = a
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    const r = ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    return r === 0 ? 1 / 4294967296 : r
+  }
+}
+
+/** Box-Muller padrao (media 0, desvio 1) sobre o RNG semeado. */
+function randStandardNormal(rng) {
+  const u = rng()
+  const v = rng()
   return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v)
+}
+
+/** Arredonda probabilidades para no maximo 3 casas decimais, sempre do
+ * mesmo jeito em todas as saidas (API e contexto do chat). */
+function roundProb(value) {
+  return Math.round(value * 1000) / 1000
 }
 
 function pickMostRecentPresidenteNacional(file, { round }) {
@@ -158,7 +198,20 @@ function pickMostRecentGovernador(file, uf, { round }) {
 function pickMostRecentPresidenteEstado(file, uf) {
   const state = file.states.find((s) => s.uf === uf)
   if (!state || !state.waves.length) return null
-  return { state, wave: state.waves[state.waves.length - 1] }
+  const latest = state.waves[state.waves.length - 1]
+  if (waveHasSampleOrMargin(latest)) return { state, wave: latest, skippedWave: null }
+  // A onda mais recente nao trouxe amostra nem margem (ex.: "Late-Sep (apenas
+  // lideres divulgados)"): sem isso nao da pra simular. Cai para a onda mais
+  // recente que tenha amostra ou margem, deixando explicito qual foi pulada.
+  for (let i = state.waves.length - 2; i >= 0; i -= 1) {
+    if (waveHasSampleOrMargin(state.waves[i])) return { state, wave: state.waves[i], skippedWave: latest }
+  }
+  return { state, wave: latest, skippedWave: null }
+}
+
+function waveHasSampleOrMargin(wave) {
+  const { n, marginPp } = parseFreeTextSample(wave?.sample ?? null)
+  return n != null || marginPp != null
 }
 
 /** Monta um lookup partido -> entrada de public/data/party-ideology.json.
@@ -206,36 +259,60 @@ function buildCandidateList(results, ideologyLookup) {
     .filter((r) => typeof r.percentage === 'number' && Number.isFinite(r.percentage))
 }
 
-function runMonteCarlo(candidates, sigma) {
+/** Monte Carlo com sigma proprio por candidato. Candidatos com p<=0 nao
+ * entram no sorteio (seguem listados, com probabilidade 0): sorteá-los com
+ * truncamento em zero so criaria parcela fantasma e distorceria a
+ * renormalizacao dos demais. */
+function runMonteCarlo(candidates, nEff, seed) {
   const n = candidates.length
+  const rng = createRng(seed)
+  const active = []
+  for (let i = 0; i < n; i += 1) {
+    const p = candidates[i].percentage / 100
+    if (p > 0) active.push({ idx: i, mean: p, sigma: candidateSigma(Math.min(p, 1), nEff) })
+  }
   const leadCounts = new Array(n).fill(0)
+  const outrightByCandidate = new Array(n).fill(0)
   let outrightCount = 0
+  if (!active.length) {
+    return {
+      leadProbability: leadCounts,
+      candidateOutrightProbability: outrightByCandidate,
+      outrightWinProbability: 0,
+      runoffProbability: 1,
+    }
+  }
+  const shares = new Array(active.length)
   for (let draw = 0; draw < SIMULATIONS; draw += 1) {
     let sum = 0
-    const shares = new Array(n)
-    for (let i = 0; i < n; i += 1) {
-      const mean = candidates[i].percentage / 100
-      let share = mean + sigma * randStandardNormal()
+    for (let k = 0; k < active.length; k += 1) {
+      let share = active[k].mean + active[k].sigma * randStandardNormal(rng)
       if (share < 0) share = 0
-      shares[i] = share
+      shares[k] = share
       sum += share
     }
-    let leaderIdx = 0
+    let leaderK = 0
     let leaderShare = -1
-    for (let i = 0; i < n; i += 1) {
-      const normalized = sum > 0 ? shares[i] / sum : 1 / n
+    for (let k = 0; k < active.length; k += 1) {
+      const normalized = sum > 0 ? shares[k] / sum : 1 / active.length
       if (normalized > leaderShare) {
         leaderShare = normalized
-        leaderIdx = i
+        leaderK = k
       }
     }
+    const leaderIdx = active[leaderK].idx
     leadCounts[leaderIdx] += 1
-    if (leaderShare > 0.5) outrightCount += 1
+    if (leaderShare > 0.5) {
+      outrightCount += 1
+      outrightByCandidate[leaderIdx] += 1
+    }
   }
+  const outright = roundProb(outrightCount / SIMULATIONS)
   return {
-    leadProbability: leadCounts.map((count) => count / SIMULATIONS),
-    outrightWinProbability: outrightCount / SIMULATIONS,
-    runoffProbability: 1 - outrightCount / SIMULATIONS,
+    leadProbability: leadCounts.map((count) => roundProb(count / SIMULATIONS)),
+    candidateOutrightProbability: outrightByCandidate.map((count) => roundProb(count / SIMULATIONS)),
+    outrightWinProbability: outright,
+    runoffProbability: roundProb(1 - outright),
   }
 }
 
@@ -247,13 +324,15 @@ function methodologyNote({ marginPp, marginSource, n }) {
   return (
     `Simulação de Monte Carlo com ${SIMULATIONS.toLocaleString('pt-BR')} sorteios, a partir da pesquisa mais recente ` +
     `disponível para este recorte (uma única onda, sem mistura de institutos). Cada candidato tem sua parcela ` +
-    `reportada tratada como média de uma distribuição normal; ${marginText}, convertida em desvio padrão assumindo ` +
-    `que a margem publicada é a metade de um intervalo de confiança de 95% (sigma = margem / 1.96). Esse desvio é ` +
+    `reportada tratada como média de uma distribuição normal; ${marginText}, convertida em tamanho de amostra ` +
+    `efetivo assumindo que a margem publicada é a metade de um intervalo de confiança de 95% para p=50% ` +
+    `(n_ef = 0,25 x (1,96 / margem)²). O desvio padrão é próprio de cada candidato, sqrt(p(1-p)/n_ef), e é ` +
     `multiplicado por ${TOTAL_ERROR_INFLATION}x antes de simular: pesquisas de opinião têm, em média, o dobro de erro ` +
     `total (viés de método, recusa, indecisos que mudam de ideia) em relação à margem puramente amostral declarada ` +
     `(Shirani-Mehr, Rothschild, Goel & Gelman, "Disentangling Bias and Variance in Election Polls", JASA 2018); sem ` +
     `esse ajuste, uma única pesquisa com vantagem grande mostraria 0%/100% de forma artificialmente confiante. Em ` +
-    `cada sorteio, as parcelas negativas são zeradas e o conjunto de candidatos reais (excluindo indecisos/brancos/ ` +
+    `cada sorteio, as parcelas negativas são zeradas (candidatos com 0% reportado ficam fora do sorteio, com ` +
+    `probabilidade 0) e o conjunto de candidatos reais (excluindo indecisos/brancos/ ` +
     `nulos, que não estão na cédula) é renormalizado para somar 100%, assumindo que os erros de cada candidato são ` +
     `independentes entre si e que os indecisos se distribuiriam proporcionalmente entre os candidatos reais, duas ` +
     `simplificações reais. Isto é uma estimativa estatística simples a partir de uma única pesquisa, não é um ` +
@@ -269,7 +348,7 @@ function notSimulatableNote() {
   )
 }
 
-function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideologyFile, reportedPercentageSum, unallocatedPercentage }) {
+function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideologyFile, reportedPercentageSum, unallocatedPercentage, completenessWarning }) {
   return {
     office,
     uf,
@@ -289,7 +368,7 @@ function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideolo
     runoffProbability: null,
     reportedPercentageSum,
     unallocatedPercentage,
-    completenessWarning: null,
+    completenessWarning: completenessWarning ?? null,
     methodologyNote: notSimulatableNote(),
     sourcePoll,
     ideologySource: ideologySourceCitation(ideologyFile),
@@ -305,33 +384,11 @@ function buildNotSimulatable({ office, uf, candidates, sourcePoll, round, ideolo
  * dado publico), nunca um numero inventado; estados sem pesquisa citavel
  * suficiente (simulatable:false) ainda aparecem, com os percentuais crus.
  */
-export async function buildPresidenteEstadosSummary() {
-  const file = await loadPresidenteEstados()
-  const ufs = file.states.map((s) => s.uf)
-  const summaries = []
-  for (const uf of ufs) {
-    try {
-      const scenario = await computeScenario({ office: 'Presidente', uf, round: 1 })
-      const state = file.states.find((s) => s.uf === uf)
-      const leader = scenario.simulatable
-        ? [...scenario.candidates].sort((a, b) => b.leadProbability - a.leadProbability)[0]
-        : [...scenario.candidates].sort((a, b) => b.percentage - a.percentage)[0]
-      summaries.push({
-        uf,
-        state: state?.state ?? uf,
-        simulatable: scenario.simulatable,
-        leadingCandidate: leader?.candidateName ?? null,
-        leadingCandidatePercentage: leader?.percentage ?? null,
-        leadingCandidateLeadProbability: scenario.simulatable ? leader?.leadProbability ?? null : null,
-        outrightWinProbability: scenario.simulatable ? scenario.outrightWinProbability : null,
-        runoffProbability: scenario.simulatable ? scenario.runoffProbability : null,
-      })
-    } catch {
-      // UF sem pesquisa utilizavel: omitida do resumo, nunca preenchida com
-      // dado inventado.
-    }
-  }
-  return summaries
+export function buildPresidenteEstadosSummary() {
+  return memoSummary('Presidente', async () => {
+    const file = await loadPresidenteEstados()
+    return summarizeUfs('Presidente', file.states.map((s) => s.uf), (uf) => file.states.find((s) => s.uf === uf)?.state ?? uf)
+  })
 }
 
 /**
@@ -343,24 +400,47 @@ export async function buildPresidenteEstadosSummary() {
  * não tem uma lista `states` de topo (só o array `polls`), por isso as UFs
  * são deduzidas a partir dos próprios polls.
  */
-export async function buildGovernadorEstadosSummary() {
-  const file = await loadGovernadorEstados()
-  const ufs = [...new Set(file.polls.map((p) => p.uf))].sort()
+export function buildGovernadorEstadosSummary() {
+  return memoSummary('Governador', async () => {
+    const file = await loadGovernadorEstados()
+    return summarizeUfs('Governador', [...new Set(file.polls.map((p) => p.uf))].sort(), null)
+  })
+}
+
+const summaryMemo = new Map()
+
+/** Memo em processo dos resumos por estado (mesma logica do memo de
+ * computeScenario: dados estaticos + RNG semeado = resultado imutavel). */
+function memoSummary(key, build) {
+  if (summaryMemo.has(key)) return summaryMemo.get(key)
+  const promise = build()
+  summaryMemo.set(key, promise)
+  promise.catch(() => summaryMemo.delete(key))
+  return promise
+}
+
+async function summarizeUfs(office, ufs, stateName) {
   const summaries = []
   for (const uf of ufs) {
     try {
-      const scenario = await computeScenario({ office: 'Governador', uf, round: 1 })
+      const scenario = await computeScenario({ office, uf, round: 1 })
       const leader = scenario.simulatable
-        ? [...scenario.candidates].sort((a, b) => b.leadProbability - a.leadProbability)[0]
+        ? [...scenario.candidates].sort((a, b) => b.leadProbability - a.leadProbability || b.percentage - a.percentage)[0]
         : [...scenario.candidates].sort((a, b) => b.percentage - a.percentage)[0]
       summaries.push({
         uf,
+        ...(stateName ? { state: stateName(uf) } : {}),
         simulatable: scenario.simulatable,
         leadingCandidate: leader?.candidateName ?? null,
+        leadingCandidateParty: leader?.party ?? null,
         leadingCandidatePercentage: leader?.percentage ?? null,
         leadingCandidateLeadProbability: scenario.simulatable ? leader?.leadProbability ?? null : null,
-        outrightWinProbability: scenario.simulatable ? scenario.outrightWinProbability : null,
+        // Chance de o LIDER vencer no 1o turno (por candidato).
+        leadingCandidateWinsOutrightProbability: scenario.simulatable ? leader?.winsOutrightProbability ?? null : null,
+        // Chance de QUALQUER candidato vencer no 1o turno (nivel da disputa).
+        anyCandidateOutrightWinProbability: scenario.simulatable ? scenario.outrightWinProbability : null,
         runoffProbability: scenario.simulatable ? scenario.runoffProbability : null,
+        pollWave: scenario.sourcePoll?.vintage ?? scenario.sourcePoll?.fieldwork ?? null,
       })
     } catch {
       // UF sem pesquisa utilizavel: omitida do resumo, nunca preenchida com
@@ -380,7 +460,22 @@ export async function buildGovernadorEstadosSummary() {
  *   "dado faltando" (isso vira simulatable:false) -- so lanca para parametros
  *   invalidos (cargo nao suportado, UF inexistente, cargo+UF sem pesquisa).
  */
-export async function computeScenario({ office, uf = null, round = 1 }) {
+// Memo em processo: os JSONs ja ficam em cache (server/data.mjs) e o RNG e
+// semeado, entao o resultado de um recorte nunca muda durante a vida do
+// processo. Guarda a Promise (chamadas concorrentes reaproveitam o mesmo
+// calculo); erro sai do memo para nao "grudar".
+const scenarioMemo = new Map()
+
+export function computeScenario({ office, uf = null, round = 1 }) {
+  const key = `${office}|${uf ?? ''}|${round}`
+  if (scenarioMemo.has(key)) return scenarioMemo.get(key)
+  const promise = computeScenarioUncached({ office, uf, round })
+  scenarioMemo.set(key, promise)
+  promise.catch(() => scenarioMemo.delete(key))
+  return promise
+}
+
+async function computeScenarioUncached({ office, uf = null, round = 1 }) {
   if (office !== 'Presidente' && office !== 'Governador') {
     throw new Error(
       `Cargo "${office}" não suportado em Cenários (IA). Apenas Presidente e Governador têm o corte "vitória/2º turno" de maioria absoluta; Senado é pluralidade simples e fica de fora de propósito.`,
@@ -424,7 +519,7 @@ export async function computeScenario({ office, uf = null, round = 1 }) {
     const file = await loadPresidenteEstados()
     const picked = pickMostRecentPresidenteEstado(file, normalizedUf)
     if (!picked) throw new Error(`Nenhuma pesquisa de Presidente por estado encontrada para a UF "${normalizedUf}".`)
-    const { state, wave: stateWave } = picked
+    const { state, wave: stateWave, skippedWave } = picked
     results = stateWave.results
     const { n, marginPp } = resolvePollMarginAndN({ sampleText: stateWave.sample })
     if (stateWave.completeness === 'Leaders only') {
@@ -438,6 +533,9 @@ export async function computeScenario({ office, uf = null, round = 1 }) {
       publishedAt: null,
       vintage: stateWave.vintage,
       completeness: stateWave.completeness,
+      waveNote: skippedWave
+        ? `A onda mais recente ("${skippedWave.vintage}", ${skippedWave.fieldwork ?? 'sem data de campo'}) não informou amostra nem margem de erro; usada a onda completa mais recente com esses dados ("${stateWave.vintage}", campo ${stateWave.fieldwork ?? 'sem data'}).`
+        : null,
       sampleSize: n,
       marginOfErrorPp: marginPp,
       sourceUrl: firstUrl(stateWave.sourceUrl),
@@ -490,11 +588,15 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
   }
 
   if (marginSource == null) {
-    return buildNotSimulatable({ office, uf, round, candidates, sourcePoll, ideologyFile, reportedPercentageSum, unallocatedPercentage })
+    return buildNotSimulatable({ office, uf, round, candidates, sourcePoll, ideologyFile, reportedPercentageSum, unallocatedPercentage, completenessWarning })
   }
 
-  const sigma = sigmaFromMargin(effectiveMarginPp)
-  const { leadProbability, outrightWinProbability, runoffProbability } = runMonteCarlo(candidates, sigma)
+  const nEff = marginSource === 'reported' ? effectiveNFromMargin(effectiveMarginPp) : n
+  const { leadProbability, candidateOutrightProbability, outrightWinProbability, runoffProbability } = runMonteCarlo(
+    candidates,
+    nEff,
+    hashSeed(`${office}|${uf}|${round}`),
+  )
 
   return {
     office,
@@ -509,10 +611,15 @@ function finishScenario({ office, uf, round, results, n, marginPp, sourcePoll, c
       percentage: c.percentage,
       marginSource,
       leadProbability: leadProbability[i],
+      // Chance de ESTE candidato vencer no 1o turno (>50% dos validos).
+      winsOutrightProbability: candidateOutrightProbability[i],
       ideology: c.ideology,
       ideologyAvailable: c.ideologyAvailable,
     })),
     leadProbability: Object.fromEntries(candidates.map((c, i) => [c.candidateName, leadProbability[i]])),
+    // Nivel da DISPUTA: chance de QUALQUER candidato vencer no 1o turno (mantido
+    // com este nome por compatibilidade com src/components/ui/cenarios-ia.tsx).
+    // A chance por candidato fica em candidates[].winsOutrightProbability.
     outrightWinProbability,
     runoffProbability,
     reportedPercentageSum,

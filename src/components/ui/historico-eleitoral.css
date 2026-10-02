@@ -206,6 +206,10 @@
 }
 
 .historico-eleitoral__sources-list a {
+  /* área de toque mínima de 24px no celular */
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   color: var(--teal);
 }
 

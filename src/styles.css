@@ -93,12 +93,12 @@ body { margin: 0; min-width: 320px; background: var(--background); }
 button, select, input { font: inherit; }
 button { cursor: pointer; }
 .shell { max-width: 1280px; margin: 0 auto; padding: 0 max(var(--outer-margin), env(safe-area-inset-right)) 0 max(var(--outer-margin), env(safe-area-inset-left)); }
-.topbar { min-height: 88px; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.topbar { min-height: 88px; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); gap: 12px; }
 .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); letter-spacing: -.01em; font: 500 20px 'Newsreader', serif; }
 .brand strong { font-weight: 600; }.brand em { font-style: normal; font-weight: 500; }
 .brand-mark { width: 33px; height: 33px; border-radius: var(--radius-full); background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font: 600 11px 'Plus Jakarta Sans', sans-serif; letter-spacing: 0; }
 .brand-group { display: flex; align-items: center; gap: 16px; }
-.brand-credit { display: flex; align-items: center; padding-left: 16px; border-left: 1px solid var(--line); opacity: .78; transition: opacity .15s; }
+.brand-credit { display: flex; align-items: center; min-height: 24px; padding-left: 16px; border-left: 1px solid var(--line); opacity: .78; transition: opacity .15s; }
 .brand-credit:hover, .brand-credit:focus-visible { opacity: 1; }
 .brand-credit img { height: 22px; width: auto; display: block; }
 .topbar-meta { display: flex; gap: 27px; align-items: center; color: var(--muted); font: 600 10px/14px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .08em; }
@@ -116,11 +116,11 @@ h1, h2, p { margin-top: 0; }.hero h1 { margin: 0; color: var(--deep); font: 600 
 footer { display: flex; justify-content: space-between; gap: 12px; padding: 18px 0 max(28px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font: 600 10px/14px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .08em; }
 button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--tertiary); outline-offset: 3px; }
 @media (max-width: 760px) { .shell { padding: 0 max(var(--space-md), env(safe-area-inset-right)) 0 max(var(--space-md), env(safe-area-inset-left)); }.topbar { min-height: 71px; }.brand-group { gap: 10px; }.brand-credit { padding-left: 10px; }.brand-credit img { height: 16px; }.edition { display: none; }.hero { display: block; min-height: 0; }.hero-copy { padding: 47px 0 25px; }.hero-orbit { min-height: 210px; }.ring-one { width: 248px; height: 114px; }.ring-two { width: 310px; height: 145px; }.orbit-center { width: 92px; height: 92px; }.orbit-center span { font-size: 29px; }.control-strip { gap: 11px; align-items: stretch; overflow-x: auto; }.control-block select { min-width: 112px; min-height: 44px; font-size: 13px; }.filter-button { white-space: nowrap; margin-left: 0; min-height: 44px; }.map-section { padding-top: 25px; }.map-section__heading { display: block; }.map-section__heading > p { margin-top: 10px; }.status-grid, .content-grid { grid-template-columns: 1fr; }.status-card { padding: var(--space-md); }.status-number { font-size: 2.25rem; }.panel { padding: var(--space-md); }.candidate-row { grid-template-columns: 34px 1fr auto auto; gap: 8px; }.candidate-status { display: none; }footer { display: grid; grid-template-columns: 1fr 1fr; }footer span:last-child { grid-column: 1 / -1; } }
-/* Telas bem estreitas (~320-360px, ex.: iPhone SE 1ª geração): o crédito
+/* Telas estreitas (até ~400px, ex.: iPhone SE / 375px): o crédito
  * PHVox e o badge de conexão não cabem lado a lado sem espremer a logo fora
  * da proporção (virava uma lasca de pixel). Prioriza o essencial (marca
  * principal + status de conexão) e esconde o crédito secundário aqui. */
-@media (max-width: 359px) { .brand-credit { display: none; } }
+@media (max-width: 399px) { .brand-credit { display: none; } }
 
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
 
@@ -164,12 +164,13 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
   .stats-bento__sync { padding: var(--space-md); }
 }
 
-.view-tabs { display: flex; gap: var(--space-sm); padding: 18px 0 0; }
-.view-tabs__tab { border: 1px solid var(--line); border-radius: var(--radius-default); background: transparent; color: var(--muted); padding: 10px 18px; font: 600 12px/16px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
+.view-tabs { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding: 18px 0 0; }
+.view-tabs__tab { white-space: nowrap; border: 1px solid var(--line); border-radius: var(--radius-default); background: transparent; color: var(--muted); padding: 10px 18px; font: 600 12px/16px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
 .view-tabs__tab.is-active { background: var(--deep); color: var(--on-primary); border-color: var(--deep); }
 .map-section--national { padding-bottom: 24px; }
 @media (max-width: 760px) {
   .view-tabs {
+    flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--space-md), #000 calc(100% - var(--space-md)), transparent 100%);
     mask-image: linear-gradient(to right, transparent 0, #000 var(--space-md), #000 calc(100% - var(--space-md)), transparent 100%);
@@ -245,8 +246,12 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .page-layout { display: block; }
 .page-main { min-width: 0; }
 .page-sidebar { width: 300px; }
+/* Só reserva a coluna lateral quando o slot de anúncio tem conteúdo real.
+   AdSlot renderiza a div vazia (sem filhos) enquanto não há anúncio, então
+   :empty é confiável; sem anúncio o conteúdo usa a largura toda. */
 @media (min-width: 1100px) {
-  .page-layout { display: grid; grid-template-columns: 1fr 300px; align-items: start; gap: var(--gutter); }
+  .page-layout:has(.page-sidebar .ad-slot:not(:empty)) { display: grid; grid-template-columns: minmax(0, 1fr) 300px; align-items: start; gap: var(--gutter); }
+  .page-layout:not(:has(.page-sidebar .ad-slot:not(:empty))) .page-sidebar { display: none; }
 }
 
 /* ---- Favoritar candidato (usado em várias listas: presidente, estados, composição parlamentar) ---- */
@@ -271,3 +276,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 @media (max-width: 760px) {
   .favorite-button { width: 38px; height: 38px; font-size: 17px; }
 }
+
+/* Alvos de toque mínimos (WCAG 2.5.8): links de texto soltos ganham altura
+   mínima de 24px via padding/inline-flex, sem mudar o tamanho da fonte. */
+footer a, .source-note a, .text-button { display: inline-flex; align-items: center; min-height: 24px; }

@@ -9,7 +9,9 @@ export type EstatisticasAbstencaoProps = {
 }
 
 const numberFormat = new Intl.NumberFormat('pt-BR')
-const updatedAtFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
+// `updatedAt` chega como ISO com offset de Brasília (-03:00, ver
+// tseDateTimeToIso em src/tse-results.ts); exibe sempre no fuso de Brasília.
+const updatedAtFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })
 
 const STATUS_LABEL: Record<ResultSnapshot['status'], string> = {
   official: 'Resultado oficial (TSE)',
@@ -19,7 +21,7 @@ const STATUS_LABEL: Record<ResultSnapshot['status'], string> = {
 
 // Placeholders de indisponibilidade: nenhuma dessas seções recebe números
 // inventados. O snapshot/candidates recebidos não trazem eleitorado,
-// comparecimento/abstenção, nem votos válidos/nulos/brancos — apenas
+// comparecimento/abstenção, nem votos válidos/nulos/brancos, apenas
 // totalVotes, countedSections/totalSections, rows (por candidato) e status.
 const UNAVAILABLE_BREAKDOWNS: { title: string; detail: string }[] = [
   {
@@ -34,7 +36,11 @@ const UNAVAILABLE_BREAKDOWNS: { title: string; detail: string }[] = [
 
 export function EstatisticasAbstencao({ candidates, snapshot, round, state }: EstatisticasAbstencaoProps) {
   const coverage = snapshot.totalSections > 0 ? Math.round((snapshot.countedSections / snapshot.totalSections) * 100) : null
-  const hasUpdatedAt = typeof snapshot.updatedAt === 'string' && snapshot.updatedAt.length > 0 && !Number.isNaN(Date.parse(snapshot.updatedAt))
+  const updatedAtMs = typeof snapshot.updatedAt === 'string' && snapshot.updatedAt.length > 0 ? Date.parse(snapshot.updatedAt) : Number.NaN
+  const hasUpdatedAt = !Number.isNaN(updatedAtMs)
+  // Sem nenhuma seção apurada não há resultado a chamar de oficial, mesmo que
+  // o boletim venha marcado como `official`: mostra o rótulo de espera.
+  const statusKey: ResultSnapshot['status'] = snapshot.status === 'official' && snapshot.countedSections === 0 ? 'waiting' : snapshot.status
 
   return (
     <section className="estatisticas-abstencao" aria-labelledby="estatisticas-abstencao-title">
@@ -72,8 +78,8 @@ export function EstatisticasAbstencao({ candidates, snapshot, round, state }: Es
 
         <article className="estatisticas-abstencao__stat" role="listitem">
           <p className="estatisticas-abstencao__label">Status da apuração</p>
-          <p className="estatisticas-abstencao__status-value">{STATUS_LABEL[snapshot.status]}</p>
-          <p className="estatisticas-abstencao__caption">{hasUpdatedAt ? `atualizado às ${updatedAtFormat.format(new Date(snapshot.updatedAt as string))}` : 'sem horário de atualização registrado'}</p>
+          <p className="estatisticas-abstencao__status-value">{STATUS_LABEL[statusKey]}</p>
+          <p className="estatisticas-abstencao__caption">{hasUpdatedAt ? `atualizado às ${updatedAtFormat.format(new Date(updatedAtMs))}` : 'sem horário de atualização registrado'}</p>
         </article>
       </div>
 

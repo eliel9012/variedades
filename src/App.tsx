@@ -135,7 +135,7 @@ function isValidSnapshot(value: unknown): value is ResultSnapshot {
 // (no-op estável). Uma resposta mais antiga, que pode chegar fora de ordem por
 // causa de retries/aborts, nunca sobrescreve um snapshot mais novo já exibido.
 function isNewerSnapshot(prev: ResultSnapshot, next: ResultSnapshot) {
-  if (prev.election !== next.election || prev.scope !== next.scope || prev.round !== next.round) return true
+  if (prev.election !== next.election || prev.scope !== next.scope || prev.round !== next.round || prev.office !== next.office) return true
   if (next.updatedAt == null) return prev.updatedAt == null
   if (prev.updatedAt == null) return true
   const prevTime = Date.parse(prev.updatedAt)
@@ -143,6 +143,46 @@ function isNewerSnapshot(prev: ResultSnapshot, next: ResultSnapshot) {
   if (Number.isNaN(nextTime)) return false
   if (Number.isNaN(prevTime)) return true
   return nextTime >= prevTime
+}
+
+// Recorte = turno + escopo (BR/UF) + cargo. Cada recorte tem seu próprio
+// snapshot salvo no aparelho, pra nunca exibir números de uma UF/cargo sob o
+// rótulo de outro.
+type Recorte = { round: 1 | 2; scope: string; office: string }
+const SNAPSHOT_STORAGE_PREFIX = 'apura-brasil:last-snapshot'
+
+function snapshotStorageKey(recorte: Recorte) {
+  return `${SNAPSHOT_STORAGE_PREFIX}:${recorte.round}:${recorte.scope}:${recorte.office}`
+}
+
+function matchesRecorte(snapshot: ResultSnapshot, recorte: Recorte) {
+  return snapshot.scope === recorte.scope && snapshot.round === recorte.round && snapshot.office === recorte.office
+}
+
+function emptySnapshotFor(recorte: Recorte): ResultSnapshot {
+  return { ...initialSnapshot, round: recorte.round, scope: recorte.scope, office: recorte.office }
+}
+
+function readCachedSnapshot(recorte: Recorte): ResultSnapshot | null {
+  try {
+    const raw = localStorage.getItem(snapshotStorageKey(recorte))
+    if (!raw) return null
+    const parsed: unknown = JSON.parse(raw)
+    if (isValidSnapshot(parsed) && matchesRecorte(parsed, recorte)) return parsed
+    localStorage.removeItem(snapshotStorageKey(recorte))
+  } catch {
+    // localStorage indisponível ou JSON corrompido: segue sem cache.
+  }
+  return null
+}
+
+function writeCachedSnapshot(snapshot: ResultSnapshot) {
+  if (!snapshot.office) return
+  try {
+    localStorage.setItem(snapshotStorageKey({ round: snapshot.round, scope: snapshot.scope, office: snapshot.office }), JSON.stringify(snapshot))
+  } catch {
+    // Sem espaço/permissão: o cache é só conveniência.
+  }
 }
 
 // docs/sync-protocol.md ("Comportamento offline"): `offline` é exposto apenas
@@ -174,13 +214,23 @@ function App() {
     const nextTab = tabFromPath(pathname)
     setActiveTab(nextTab)
     if (nextTab === 'governadorSenador') {
-      setState(ufFromApuracaoPath(pathname) ?? 'Brasil')
+      const nextUf = ufFromApuracaoPath(pathname) ?? 'Brasil'
+      setState(nextUf)
+      // Mesma lista de cargos válidos de changeTab/selectMapState: fora dela
+      // (Presidente, Deputado federal/estadual, ou distrital fora do DF) cai
+      // pra Governador, senão a aba mostraria o cargo errado.
+      setOffice((current) => {
+        const valid = current === 'Governador' || current === 'Senador' || (current === 'Deputado distrital' && nextUf === 'DF')
+        return valid ? current : 'Governador'
+      })
     } else if (nextTab === 'presidente') {
       setState('Brasil')
+      setOffice('Presidente')
     }
   }, [pathname])
   const [panelState, setPanelState] = useState<BrazilState | null>(null)
   const [snapshot, setSnapshot] = useState<ResultSnapshot>(initialSnapshot)
+  const scope = state === 'Brasil' ? 'BR' : state
   const [candidates, setCandidates] = useState<Candidate[]>(candidateSeed)
   const [online, setOnline] = useState(navigator.onLine)
   const [search, setSearch] = useState('')
@@ -203,6 +253,8 @@ function App() {
   useEffect(() => {
     snapshotRef.current = snapshot
   }, [snapshot])
+  // Recorte vigente, lido pelo fetch de latest.json (que roda uma vez só).
+  const recorteRef = useRef<Recorte>({ round: activeRound, scope, office })
 
   // Rastreia ciclos oficiais consecutivos sem alteração de `updatedAt`, usado
   // para alternar entre o intervalo de 15s e os intervalos estáveis (60s/5min).
@@ -224,6 +276,18 @@ function App() {
     let timer: number | undefined
     let controller: AbortController | undefined
     let attempt = 0
+    const recorte: Recorte = { round: activeRound, scope, office }
+    recorteRef.current = recorte
+
+    // Troca de recorte: antes de qualquer fetch, troca o snapshot exibido pelo
+    // salvo deste recorte (ou um vazio em espera), pra uma falha de rede nunca
+    // deixar números do recorte anterior sob o novo rótulo.
+    if (!matchesRecorte(snapshotRef.current, recorte)) {
+      const restored = readCachedSnapshot(recorte) ?? emptySnapshotFor(recorte)
+      setSnapshot(restored)
+      snapshotRef.current = restored
+      stableRef.current = { count: 0, since: null, updatedAt: null }
+    }
 
     const poll = async () => {
       if (!navigator.onLine) {
@@ -234,13 +298,14 @@ function App() {
       controller = new AbortController()
       setSyncMeta((current) => ({ ...current, phase: 'syncing', lastCheckedAt: checkedAt, error: null, attempt }))
       try {
-        const next = await fetchTSESnapshot(activeRound, state === 'Brasil' ? 'BR' : state, office, controller.signal)
+        const next = await fetchTSESnapshot(activeRound, scope, office, controller.signal)
         if (!alive) return
         if (!isValidSnapshot(next)) throw new Error('TSE resposta inválida')
+        if (!matchesRecorte(next, recorte)) throw new Error('TSE resposta de outro recorte')
         if (isNewerSnapshot(snapshotRef.current, next)) {
           setSnapshot(next)
           snapshotRef.current = next
-          if (next.status === 'official') localStorage.setItem('apura-brasil:last-snapshot', JSON.stringify(next))
+          if (next.status === 'official') writeCachedSnapshot(next)
         }
         if (next.status === 'official') {
           stableRef.current =
@@ -271,7 +336,7 @@ function App() {
       if (timer) window.clearTimeout(timer)
       controller?.abort()
     }
-  }, [activeRound, office, online, state])
+  }, [activeRound, office, online, scope])
 
   useEffect(() => {
     fetch('/data/candidates.json')
@@ -280,22 +345,28 @@ function App() {
       .catch(() => undefined)
   }, [])
 
+  // O cache por recorte é restaurado pelo efeito de polling acima. Aqui só
+  // apaga a chave única antiga (anterior ao cache por recorte), que podia
+  // guardar números de qualquer UF/cargo.
   useEffect(() => {
-    const cache = localStorage.getItem('apura-brasil:last-snapshot')
-    if (cache) {
-      try {
-        setSnapshot(JSON.parse(cache) as ResultSnapshot)
-      } catch {
-        localStorage.removeItem('apura-brasil:last-snapshot')
-      }
+    try {
+      localStorage.removeItem(SNAPSHOT_STORAGE_PREFIX)
+    } catch {
+      // localStorage indisponível: nada a limpar.
     }
+    // latest.json descreve um único recorte: só é aplicado se for o recorte
+    // em tela e passar pela mesma validação/deduplicação do polling.
     fetch('/data/results/latest.json', { cache: 'no-store' })
       .then((response) => (response.ok ? response.json() : Promise.reject(new Error('results unavailable'))))
-      .then((data: ResultSnapshot) => {
-        if (data.status === 'official' || !cache) {
-          setSnapshot(data)
-          localStorage.setItem('apura-brasil:last-snapshot', JSON.stringify(data))
-        }
+      .then((data: unknown) => {
+        if (!isValidSnapshot(data)) return
+        const recorte = recorteRef.current
+        if (data.scope !== recorte.scope || data.round !== recorte.round || (data.office != null && data.office !== recorte.office)) return
+        const next: ResultSnapshot = { ...data, office: recorte.office, status: data.status === 'official' ? 'official' : 'waiting' }
+        if (!isNewerSnapshot(snapshotRef.current, next)) return
+        setSnapshot(next)
+        snapshotRef.current = next
+        if (next.status === 'official') writeCachedSnapshot(next)
       })
       .catch(() => undefined)
   }, [])
@@ -627,7 +698,7 @@ function App() {
               <div className="candidate-list">{visibleCandidates.map((candidate) => <div className="candidate-row" key={candidate.sqCandidate}><div className="avatar">{candidate.photo ? <img src={candidate.photo} alt="" /> : <span>{candidate.ballotName.slice(0, 1)}</span>}</div><div className="candidate-info"><strong>{candidate.ballotName}</strong><span>{candidate.party} · nº {candidate.number}</span></div><span className="candidate-state">{candidate.uf}</span><span className="candidate-status">{candidate.situation === '#NE' ? 'cadastro TSE' : candidate.situation}</span><FavoriteButton active={isFavorite(candidate.sqCandidate)} onToggle={() => toggleFavorite(candidate.sqCandidate)} label={candidate.ballotName} /></div>)}{visibleCandidates.length === 0 && <p className="empty">Nenhuma candidatura encontrada neste recorte.</p>}</div>
               <p className="source-note">Candidaturas e fotos: TSE · snapshot local. 2º turno só existe para presidente/governador; senador e deputados ficam no 1º.</p>
             </article>
-            <aside className="panel explain-panel"><p className="eyebrow">leia antes</p><h2>Apuração sem ruído.</h2><p>Os números só aparecem quando o TSE publica boletim oficial. Enquanto isso, este painel mostra a base de candidatos e mantém o último snapshot íntegro no aparelho.</p><div className="legend"><div><span className="legend-dot official" />oficial</div><div><span className="legend-dot cached" />salvo no aparelho</div><div><span className="legend-dot waiting" />aguardando publicação</div></div><button className="text-button" onClick={() => window.alert('Fonte: Portal de Dados Abertos do TSE e resultados.tse.jus.br')}>Ver origem dos dados <span>↗</span></button></aside>
+            <aside className="panel explain-panel"><p className="eyebrow">leia antes</p><h2>Apuração sem ruído.</h2><p>Os números só aparecem quando o TSE publica boletim oficial. Enquanto isso, este painel mostra a base de candidatos e mantém o último snapshot íntegro no aparelho.</p><div className="legend"><div><span className="legend-dot official" />oficial</div><div><span className="legend-dot cached" />salvo no aparelho</div><div><span className="legend-dot waiting" />aguardando publicação</div></div><a className="text-button" style={{ textDecoration: 'none' }} href="https://resultados.tse.jus.br" target="_blank" rel="noopener noreferrer" aria-label="Ver origem dos dados: resultados.tse.jus.br, abre em nova aba">Ver origem dos dados <span aria-hidden="true">↗</span></a></aside>
           </section>
         </>
       )}

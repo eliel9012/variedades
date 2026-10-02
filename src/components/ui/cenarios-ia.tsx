@@ -104,6 +104,28 @@ type ChatEntry = {
   status: 'pending' | 'answered' | 'error'
   answer?: string
   errorDetail?: string
+  // código de erro devolvido pelo backend ('ollama_unreachable', 'auth' etc.),
+  // pra só sugerir "ollama serve" quando o problema é mesmo o Ollama
+  errorCode?: string
+}
+
+const AUTH_REQUIRED_MESSAGE = 'Login necessário: recarregue e informe usuário e senha.'
+
+/** O campo sourceUrl pode trazer várias URLs separadas por ";": um link por URL. */
+function SourceLinks({ value }: { value: string | null | undefined }) {
+  const urls = (value ?? '')
+    .split(';')
+    .map((url) => url.trim())
+    .filter(Boolean)
+  return (
+    <>
+      {urls.map((url, index) => (
+        <a className="cenarios-ia__source-link" href={url} target="_blank" rel="noreferrer" key={url}>
+          {urls.length > 1 ? `Ver fonte original ${index + 1} ↗` : 'Ver fonte original ↗'}
+        </a>
+      ))}
+    </>
+  )
 }
 
 const percentFormat = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
@@ -230,8 +252,8 @@ function ScenarioPanel({
           {data.reason}
         </p>
         <div className="cenarios-ia__raw-bars">
-          {data.candidates.map((candidate) => (
-            <div className="cenarios-ia__bar-row" key={candidate.candidateName}>
+          {data.candidates.map((candidate, index) => (
+            <div className="cenarios-ia__bar-row" key={`${candidate.candidateName}-${index}`}>
               <span className="cenarios-ia__bar-label">
                 <span className="cenarios-ia__bar-name">{candidate.candidateName}</span>
                 {candidate.party && <span className="cenarios-ia__party-chip">{candidate.party}</span>}
@@ -247,11 +269,7 @@ function ScenarioPanel({
         <UnallocatedNote data={data} />
         <p className="cenarios-ia__methodology">{data.methodologyNote}</p>
         <p className="cenarios-ia__source-line">{sourcePollLine(data.sourcePoll)}</p>
-        {data.sourcePoll.sourceUrl && (
-          <a className="cenarios-ia__source-link" href={data.sourcePoll.sourceUrl} target="_blank" rel="noreferrer">
-            Ver fonte original ↗
-          </a>
-        )}
+        <SourceLinks value={data.sourcePoll.sourceUrl} />
       </div>
     )
   }
@@ -262,7 +280,7 @@ function ScenarioPanel({
     <div className="cenarios-ia__panel">
       <div className="cenarios-ia__bars">
         {sorted.map((candidate, index) => (
-          <div className="cenarios-ia__bar-row" key={candidate.candidateName}>
+          <div className="cenarios-ia__bar-row" key={`${candidate.candidateName}-${index}`}>
             <span className="cenarios-ia__bar-label">
               <span className="cenarios-ia__bar-name">{candidate.candidateName}</span>
               {index === 0 && (candidate.leadProbability ?? 0) > 0 && <span className="cenarios-ia__leader-badge">Mais provável</span>}
@@ -305,11 +323,7 @@ function ScenarioPanel({
 
       <p className="cenarios-ia__methodology">{data.methodologyNote}</p>
       <p className="cenarios-ia__source-line">{sourcePollLine(data.sourcePoll)}</p>
-      {data.sourcePoll.sourceUrl && (
-        <a className="cenarios-ia__source-link" href={data.sourcePoll.sourceUrl} target="_blank" rel="noreferrer">
-          Ver fonte original ↗
-        </a>
-      )}
+      <SourceLinks value={data.sourcePoll.sourceUrl} />
     </div>
   )
 }
@@ -382,6 +396,7 @@ export function CenariosIA({ state }: CenariosIAProps) {
     setScenarioError(null)
     fetch(`/api/scenario?office=${encodeURIComponent(queryParams.office)}&uf=${encodeURIComponent(queryParams.uf)}`)
       .then(async (response) => {
+        if (response.status === 401) throw new Error(AUTH_REQUIRED_MESSAGE)
         const body = await response.json().catch(() => null)
         if (!response.ok) {
           const errBody = body as ScenarioErrorResponse | null
@@ -437,10 +452,20 @@ export function CenariosIA({ state }: CenariosIAProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: trimmed, office: askOffice, uf: askUf }),
       })
+      if (response.status === 401) {
+        setChatLog((log) => log.map((entry) => (entry.id === id ? { ...entry, status: 'error', errorCode: 'auth' } : entry)))
+        return
+      }
       const body = await response.json().catch(() => null)
       if (!response.ok) {
         const errBody = body as AskErrorResponse | null
-        setChatLog((log) => log.map((entry) => (entry.id === id ? { ...entry, status: 'error', errorDetail: errBody?.detail ?? `Erro HTTP ${response.status}` } : entry)))
+        setChatLog((log) =>
+          log.map((entry) =>
+            entry.id === id
+              ? { ...entry, status: 'error', errorCode: errBody?.error, errorDetail: errBody?.detail ?? `Erro HTTP ${response.status}` }
+              : entry,
+          ),
+        )
         return
       }
       const data = body as AskResponse
@@ -464,8 +489,8 @@ export function CenariosIA({ state }: CenariosIAProps) {
         <span className="cenarios-ia__banner-icon" aria-hidden="true">i</span>
         <p>
           <strong>Isto é uma simulação estatística simples a partir da pesquisa mais recente, não é uma previsão eleitoral.</strong>{' '}
-          A IA abaixo só explica esses números já calculados, ela não gera nem inventa probabilidade. O navegador vai pedir usuário
-          e senha na primeira pergunta feita à IA.
+          A IA abaixo só explica esses números já calculados, ela não gera nem inventa probabilidade. O navegador pede usuário e
+          senha ao abrir esta aba.
         </p>
       </div>
 
@@ -586,10 +611,20 @@ export function CenariosIA({ state }: CenariosIAProps) {
               )}
               {entry.status === 'error' && (
                 <p className="cenarios-ia__chat-error" role="alert">
-                  IA local indisponível. Rode <code>ollama serve</code> e confirme que o modelo configurado em{' '}
-                  <code>OLLAMA_MODEL</code> está baixado (<code>ollama pull &lt;modelo&gt;</code>). Os números acima continuam
-                  válidos mesmo sem a IA.
-                  {entry.errorDetail && <span className="cenarios-ia__chat-error-detail"> Detalhe: {entry.errorDetail}</span>}
+                  {entry.errorCode === 'auth' ? (
+                    AUTH_REQUIRED_MESSAGE
+                  ) : entry.errorCode === 'ollama_unreachable' ? (
+                    <>
+                      IA local indisponível. Rode <code>ollama serve</code> e confirme que o modelo configurado em{' '}
+                      <code>OLLAMA_MODEL</code> está baixado (<code>ollama pull &lt;modelo&gt;</code>). Os números acima
+                      continuam válidos mesmo sem a IA.
+                    </>
+                  ) : (
+                    <>IA indisponível no momento. Os números acima continuam válidos mesmo sem a IA.</>
+                  )}
+                  {entry.errorCode !== 'auth' && entry.errorDetail && (
+                    <span className="cenarios-ia__chat-error-detail"> Detalhe: {entry.errorDetail}</span>
+                  )}
                 </p>
               )}
             </div>

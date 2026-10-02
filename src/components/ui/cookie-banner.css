@@ -48,18 +48,54 @@
   border-color: var(--primary);
 }
 
-@media (max-width: 480px) {
+body.has-cookie-banner {
+  padding-bottom: var(--cookie-banner-space, 0px);
+}
+
+.cookie-banner__text--short,
+.cookie-banner__label--short {
+  display: none;
+}
+
+/* Mobile: banner compacto (texto curto em uma linha + botões lado a lado),
+   ~80px em vez de ~200px, pra não tapar os seletores do topo. */
+@media (max-width: 600px) {
   .cookie-banner {
     left: var(--space-sm);
     right: var(--space-sm);
-    bottom: var(--space-sm);
+    bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .cookie-banner__text--full,
+  .cookie-banner__label--full {
+    display: none;
+  }
+
+  .cookie-banner__text--short {
+    display: block;
+  }
+
+  .cookie-banner__label--short {
+    display: inline;
+  }
+
+  .cookie-banner p {
+    font-size: 12px;
+    line-height: 16px;
   }
 
   .cookie-banner__actions {
+    flex-wrap: nowrap;
     justify-content: stretch;
+    gap: 6px;
   }
 
   .cookie-banner__btn {
     flex: 1;
+    min-height: 36px;
+    padding: 6px 10px;
+    font-size: 12px;
   }
 }

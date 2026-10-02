@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react'
+import { states } from './data'
 
 // Router minimalista, sem dependência nova: qualquer componente pode ler a
 // rota atual com `useRoute()` (sem precisar de Context/prop-drilling, já que
@@ -41,9 +42,12 @@ export function ufSegment(uf: string) {
   return uf.toLowerCase()
 }
 
-const UF_RE = /^[a-z]{2}$/i
+// Só as 27 UFs reais (lista de src/data.ts, sem o 'Brasil'): qualquer outro
+// par de letras na URL (ex.: `/apuracao/xx`) não é tratado como estado.
+const VALID_UFS = new Set(states.filter((item) => item !== 'Brasil'))
 
 export function parseUfSegment(segment: string | undefined): string | null {
-  if (!segment || !UF_RE.test(segment)) return null
-  return segment.toUpperCase()
+  if (!segment) return null
+  const uf = segment.toUpperCase()
+  return VALID_UFS.has(uf) ? uf : null
 }

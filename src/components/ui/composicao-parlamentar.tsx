@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Candidate, ResultSnapshot } from '../../types'
 import { officeCodes } from '../../data'
 import './composicao-parlamentar.css'
@@ -11,7 +11,7 @@ export type ComposicaoParlamentarProps = {
 }
 
 // Distribuição real de cadeiras de Deputado Federal por UF (513 ao todo),
-// vigente para as Eleições 2026 — tabela definida pela Resolução do TSE que
+// vigente para as Eleições 2026, tabela definida pela Resolução do TSE que
 // fixa o número de lugares por UF a partir do art. 45 da Constituição e da
 // Lei Complementar nº 78/1993 (mín. 8, máx. 70 por UF), sem alteração de
 // quantitativo total desde o ajuste censitário aplicado em 2022. Conferida
@@ -87,6 +87,16 @@ const UF_CODES_BY_SEATS = [...UF_CODES].sort(
 
 const numberFormat = new Intl.NumberFormat('pt-BR')
 
+const ROSTER_PAGE_SIZE = 25
+
+// "#NE" (não exibível) é o placeholder do TSE quando a situação da
+// candidatura não foi divulgada; não é um status real, então não exibimos.
+function displaySituation(value: string | undefined | null): string | null {
+  const v = value?.trim()
+  if (!v || v.toUpperCase() === '#NE') return null
+  return v
+}
+
 type DeputyTab = 'federal' | 'estadual'
 type SortKey = 'name' | 'party' | 'uf'
 
@@ -97,6 +107,12 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
   const [ufFilter, setUfFilter] = useState('Todos')
   const [search, setSearch] = useState('')
   const [sortKey, setSortKey] = useState<SortKey>('name')
+  const [rosterLimit, setRosterLimit] = useState(ROSTER_PAGE_SIZE)
+
+  // Volta para a primeira página sempre que o recorte muda.
+  useEffect(() => {
+    setRosterLimit(ROSTER_PAGE_SIZE)
+  }, [tab, ufFilter, search, sortKey])
 
   const seats = DEPUTADO_FEDERAL_SEATS_BY_UF[qeUf]
 
@@ -139,7 +155,9 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
     })
   }, [tabCandidates, ufFilter, search, sortKey])
 
-  const visibleRows = filtered.slice(0, 200)
+  const visibleRows = filtered.slice(0, rosterLimit)
+  const showSituation = useMemo(() => filtered.some((c) => displaySituation(c.situation) != null), [filtered])
+  const columnCount = showSituation ? 5 : 4
 
   return (
     <section className="composicao-parlamentar" aria-labelledby="composicao-parlamentar-heading">
@@ -403,28 +421,30 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
                 <th>Candidato(a)</th>
                 <th>Partido</th>
                 <th>UF</th>
-                <th>Situação</th>
+                {showSituation ? <th>Situação</th> : null}
               </tr>
             </thead>
             <tbody>
               {visibleRows.map((c) => (
                 <tr key={c.sqCandidate}>
-                  <td>{c.number}</td>
-                  <td>
+                  <td className="composicao-parlamentar__cell-number" data-label="Número">{c.number}</td>
+                  <td className="composicao-parlamentar__cell-name">
                     <strong>{c.ballotName}</strong>
                     <span className="composicao-parlamentar__full-name">{c.name}</span>
                   </td>
-                  <td>
+                  <td className="composicao-parlamentar__cell-party">
                     <span className="composicao-parlamentar__party">{c.party}</span>
                     <span className="composicao-parlamentar__party-name">{c.partyName}</span>
                   </td>
-                  <td>{c.uf}</td>
-                  <td>{c.situation}</td>
+                  <td className="composicao-parlamentar__cell-uf" data-label="UF">{c.uf}</td>
+                  {showSituation ? (
+                    <td className="composicao-parlamentar__cell-situation">{displaySituation(c.situation) ?? ''}</td>
+                  ) : null}
                 </tr>
               ))}
               {visibleRows.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="empty">
+                  <td colSpan={columnCount} className="empty">
                     Nenhuma candidatura encontrada para este filtro.
                   </td>
                 </tr>
@@ -433,10 +453,15 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
           </table>
         </div>
         {filtered.length > visibleRows.length ? (
-          <p className="source-note">
-            Exibindo os primeiros {numberFormat.format(visibleRows.length)} resultados. Refine a busca ou o filtro
-            de UF para ver outras candidaturas.
-          </p>
+          <div className="composicao-parlamentar__more">
+            <button
+              type="button"
+              className="composicao-parlamentar__more-button"
+              onClick={() => setRosterLimit((n) => n + ROSTER_PAGE_SIZE)}
+            >
+              Carregar mais
+            </button>
+          </div>
         ) : null}
         <p className="source-note">
           Lista de registro de candidaturas (TSE), sem contagem de votos: este cadastro não informa votação nem

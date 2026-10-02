@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 // Fonte primária para Presidente: repositório aberto
@@ -8,13 +8,13 @@ import { join } from 'node:path'
 // `data/tse-metadata*.json`. Estrutura real verificada em 2026-10-01 (ver
 // `data/elections.json`, `data/polls.json`). Hoje essa fonte só cobre a
 // corrida presidencial nacional (sem corte por estado) e, para Governador,
-// só São Paulo e Minas Gerais — por isso Governador usa uma fonte separada
+// só São Paulo e Minas Gerais, por isso Governador usa uma fonte separada
 // abaixo, com cobertura real das 27 UFs.
 //
 // Poder360/Volt Data Lab foi avaliado como fonte secundária, mas não expõe um
 // endpoint público e sem autenticação acessível a partir deste script (a
 // página do PoderData não embute nenhuma API/Flourish/Datawrapper visível sem
-// JS renderizado) — por isso foi descartado por ora.
+// JS renderizado), por isso foi descartado por ora.
 const REPO_BASE = 'https://raw.githubusercontent.com/rafaujo/eleicoes-2026-pesquisas/main'
 const REPO_HOME = 'https://github.com/rafaujo/eleicoes-2026-pesquisas'
 const ELECTIONS_INDEX_URL = `${REPO_BASE}/data/elections.json`
@@ -23,7 +23,7 @@ const ELECTIONS_INDEX_URL = `${REPO_BASE}/data/elections.json`
 // plataforma cívica de transparência eleitoral (Apache-2.0, dados públicos
 // rastreáveis até a divulgação jornalística/TSE original de cada pesquisa).
 // Cobre pesquisas de Governador nas 27 UFs, com cenários por turno já
-// separados — verificado em 2026-10-02 (`scripts/data/pesquisas-governadores-2026.json`).
+// separados, verificado em 2026-10-02 (`scripts/data/pesquisas-governadores-2026.json`).
 const GOV_REPO_BASE = 'https://raw.githubusercontent.com/thiago-salvador/puxa-ficha/main'
 const GOV_REPO_HOME = 'https://github.com/thiago-salvador/puxa-ficha'
 const GOV_DATA_URL = `${GOV_REPO_BASE}/scripts/data/pesquisas-governadores-2026.json`
@@ -65,7 +65,7 @@ function parseIsoDate(value) {
 
 // `poll.published` é a data de divulgação quando a fonte a registrou; quando
 // ausente (comum em levantamentos mais antigos do arquivo), usamos o fim do
-// período de campo (`poll.end`) como melhor data real disponível — nunca uma
+// período de campo (`poll.end`) como melhor data real disponível, nunca uma
 // data inventada.
 function effectivePublishedAt(poll) {
   return poll.published || poll.end || null
@@ -73,17 +73,35 @@ function effectivePublishedAt(poll) {
 
 // A fonte publica, por pesquisa, vários cenários (1º turno com/sem candidato
 // X, e um ou mais confrontos de 2º turno). O sync antigo escolhia só UM
-// cenário "manchete" por pesquisa — quase sempre um de 1º turno — e descartava
+// cenário "manchete" por pesquisa, quase sempre um de 1º turno, e descartava
 // o resto, inclusive os de 2º turno. Isso tornava um filtro real de turno
 // impossível (quase não sobrava dado de 2º turno). Agora escolhemos, para cada
 // pesquisa, até um cenário manchete de 1º turno E um de 2º turno (quando a
-// pesquisa de fato publicou um), gerando até 2 registros por pesquisa — nunca
+// pesquisa de fato publicou um), gerando até 2 registros por pesquisa, nunca
 // inventando um cenário que a pesquisa não publicou.
 function pickHeadlineScenarioId(poll, scenarioById, defaultScenarioId, round) {
   const publishedIds = Object.keys(poll.scenarios || {}).filter((id) => scenarioById[id]?.round === round)
   if (publishedIds.length === 0) return null
   if (round === 1 && defaultScenarioId && publishedIds.includes(defaultScenarioId)) return defaultScenarioId
   return publishedIds[0]
+}
+
+// Rótulos da fonte vêm crus: "Nome (PARTIDO)" ou, em chapas, "Nome (PARTIDO)
+// e Vice (PARTIDO)". Separamos nome e partido e descartamos o vice, mas só
+// quando o rótulo é exatamente uma chapa (um único " e " depois do padrão
+// "(PARTIDO)"). Rótulos agregados ("A (X), B (Y) e C (Z)" ou "A (X) + B (Y)")
+// representam vários candidatos somados e ficam intactos, com partido null.
+// Acento/caixa dos nomes reais não são alterados, só espaços normalizados.
+const NAME_PARTY_PATTERN = /^(.*?)\s+\(([^)]+)\)/
+const TICKET_PATTERN = /^([^,+()]+?)\s+\(([^)]+)\)\s+e\s+[^,+()]+\s+\([^)]+\)$/
+const SINGLE_PATTERN = /^([^,+()]+?)\s+\(([^)]+)\)$/
+
+function splitCandidateLabel(raw) {
+  const label = String(raw ?? '').replace(/\s+/g, ' ').trim()
+  if (!NAME_PARTY_PATTERN.test(label)) return { candidateName: label, party: null }
+  const match = label.match(TICKET_PATTERN) || label.match(SINGLE_PATTERN)
+  if (!match) return { candidateName: label, party: null }
+  return { candidateName: match[1].trim(), party: match[2].trim() || null }
 }
 
 function buildPollEntry(electionEntry, poll, scenarioId, scenarioById, metadataRecords, candidates) {
@@ -93,10 +111,10 @@ function buildPollEntry(electionEntry, poll, scenarioId, scenarioById, metadataR
 
   const results = Object.entries(scenarioData.results)
     .map(([candidateKey, percentage]) => ({
-      candidateName: candidates[candidateKey]?.name || candidateKey,
-      // A fonte não publica partido por candidato nestes arquivos; nunca
-      // inventamos um partido, então o campo fica null.
-      party: null,
+      // A fonte em geral não publica partido por candidato nestes arquivos;
+      // só aproveitamos quando vem no próprio rótulo "Nome (PARTIDO)", nunca
+      // inventamos um partido.
+      ...splitCandidateLabel(candidates[candidateKey]?.name || candidateKey),
       percentage: typeof percentage === 'number' ? percentage : null,
     }))
     .filter((row) => row.percentage !== null)
@@ -180,11 +198,9 @@ function buildGovernadorPollEntry(pesquisa, cenario) {
 
   const results = cenario.resultados
     .map((row) => ({
-      candidateName: row.raw_label,
-      // A fonte não publica partido por candidato neste arquivo; nunca
-      // inventamos um partido, então o campo fica null (mesmo padrão da
-      // fonte de Presidente).
-      party: null,
+      // O partido só existe dentro do rótulo cru "Nome (PARTIDO)"; quando não
+      // vem ali, fica null (nunca inventamos um partido).
+      ...splitCandidateLabel(row.raw_label),
       percentage: typeof row.value_percent === 'number' ? row.value_percent : null,
     }))
     .filter((row) => row.percentage !== null)
@@ -243,7 +259,7 @@ async function syncPresidentePolls() {
     electionsIndex = await fetchJson(ELECTIONS_INDEX_URL)
   } catch (error) {
     console.warn(`Aviso: falha ao buscar o índice de eleições em ${ELECTIONS_INDEX_URL} (${error.message}). Pulando Presidente.`)
-    return []
+    return null
   }
 
   const elections = (electionsIndex.elections || [])
@@ -258,6 +274,7 @@ async function syncPresidentePolls() {
     .filter((entry) => SUPPORTED_OFFICES.has(entry.office) && entry.dataFile)
 
   const polls = []
+  let failed = false
   for (const electionEntry of elections) {
     try {
       const entryPolls = await syncElection(electionEntry)
@@ -265,9 +282,40 @@ async function syncPresidentePolls() {
       console.log(`${electionEntry.id}: ${entryPolls.length} pesquisa(s) nos últimos ${DAYS_WINDOW} dias.`)
     } catch (error) {
       console.warn(`Aviso: não foi possível sincronizar ${electionEntry.id} (${error.message}). Pulando esta eleição.`)
+      failed = true
     }
   }
-  return polls
+  // Falha parcial também conta como falha: gravar só as eleições que vieram
+  // apagaria pesquisas reais já publicadas no arquivo anterior.
+  return failed ? null : polls
+}
+
+// Grava o endpoint só quando a fonte foi de fato sincronizada. Se a busca
+// falhou (`polls === null`), mantém o arquivo anterior intacto em vez de
+// sobrescrevê-lo com uma lista vazia, e avisa no log.
+function writeEndpoint(file, polls, sourceHome, label) {
+  if (polls === null) {
+    if (existsSync(file)) {
+      console.warn(`Aviso: ${label} não sincronizado; mantendo o arquivo anterior ${file}.`)
+    } else {
+      console.warn(`Aviso: ${label} não sincronizado e não há arquivo anterior em ${file}; nada gravado.`)
+    }
+    return false
+  }
+  polls.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0))
+  writeFileSync(
+    file,
+    `${JSON.stringify(
+      {
+        generatedAt: now.toISOString(),
+        source: polls.length > 0 ? sourceHome : null,
+        polls,
+      },
+      null,
+      2,
+    )}\n`,
+  )
+  return true
 }
 
 async function main() {
@@ -275,48 +323,26 @@ async function main() {
     syncPresidentePolls(),
     syncGovernadorPolls().catch((error) => {
       console.warn(`Aviso: falha ao buscar pesquisas de Governador em ${GOV_DATA_URL} (${error.message}). Pulando Governador.`)
-      return []
+      return null
     }),
   ])
 
-  console.log(`governador (puxa-ficha): ${governadorPolls.length} registro(s) nos últimos ${DAYS_WINDOW} dias.`)
+  if (governadorPolls) {
+    console.log(`governador (puxa-ficha): ${governadorPolls.length} registro(s) nos últimos ${DAYS_WINDOW} dias.`)
+  }
 
-  presidentePolls.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0))
-  governadorPolls.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0))
+  const wrotePresidente = writeEndpoint(presidenteOutputFile, presidentePolls, REPO_HOME, 'Presidente')
+  const wroteGovernador = writeEndpoint(governadorOutputFile, governadorPolls, GOV_REPO_HOME, 'Governador')
 
-  writeFileSync(
-    presidenteOutputFile,
-    `${JSON.stringify(
-      {
-        generatedAt: now.toISOString(),
-        source: presidentePolls.length > 0 ? REPO_HOME : null,
-        polls: presidentePolls,
-      },
-      null,
-      2,
-    )}\n`,
-  )
-
-  writeFileSync(
-    governadorOutputFile,
-    `${JSON.stringify(
-      {
-        generatedAt: now.toISOString(),
-        source: governadorPolls.length > 0 ? GOV_REPO_HOME : null,
-        polls: governadorPolls,
-      },
-      null,
-      2,
-    )}\n`,
-  )
-
-  if (presidentePolls.length === 0 && governadorPolls.length === 0) {
-    console.error('Nenhuma das fontes de pesquisa pôde ser sincronizada. Endpoints gravados vazios (sem dados inventados).')
+  if (!wrotePresidente && !wroteGovernador) {
+    console.error('Nenhuma das fontes de pesquisa pôde ser sincronizada. Arquivos anteriores mantidos (sem dados inventados).')
+    process.exitCode = 1
+    return
   }
 
   console.log(
-    `Pesquisas: ${presidentePolls.length} Presidente em public/data/polls-presidente-nacional.json, ` +
-      `${governadorPolls.length} Governador em public/data/polls-governador-estados.json`,
+    `Pesquisas: ${wrotePresidente ? presidentePolls.length : 'mantido'} Presidente em public/data/polls-presidente-nacional.json, ` +
+      `${wroteGovernador ? governadorPolls.length : 'mantido'} Governador em public/data/polls-governador-estados.json`,
   )
 }
 

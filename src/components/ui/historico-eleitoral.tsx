@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { navigate, parseUfSegment, ufSegment, useRoute } from '../../router'
 import { UfMapPicker } from './pesquisas-tracker'
 import './historico-eleitoral.css'
@@ -65,6 +65,24 @@ function EvolutionChart({ state }: { state: HistoricoState }) {
   const xAt = (index: number) => padding.left + (index / 2) * plotW
   const yAt = (value: number) => padding.top + plotH - (value / yMax) * plotH
 
+  // Rótulos de valor ficam 10px acima do ponto; quando duas séries estão
+  // perto no mesmo ano, os textos se sobrepõem. Para cada ano, ordena os
+  // rótulos de cima pra baixo e empurra o de baixo até ficar a pelo menos
+  // LABEL_MIN_GAP px do anterior.
+  const LABEL_MIN_GAP = 12
+  const labelY = new Map<string, number>()
+  for (const index of [0, 1, 2]) {
+    const column = series
+      .map((item) => ({ key: item.key, value: item.points[index]?.percentage }))
+      .filter((entry): entry is { key: string; value: number } => entry.value != null)
+      .map((entry) => ({ key: entry.key, y: yAt(entry.value) - 10 }))
+      .sort((a, b) => a.y - b.y)
+    for (let i = 1; i < column.length; i++) {
+      if (column[i].y - column[i - 1].y < LABEL_MIN_GAP) column[i].y = column[i - 1].y + LABEL_MIN_GAP
+    }
+    for (const entry of column) labelY.set(`${entry.key}-${index}`, entry.y)
+  }
+
   return (
     <div className="historico-eleitoral__chart">
       <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Evolução eleitoral em ${state.state}: 2018, 2022 e pesquisa 2026`}>
@@ -115,7 +133,7 @@ function EvolutionChart({ state }: { state: HistoricoState }) {
                     key={point.year}
                     className="historico-eleitoral__value"
                     x={xAt(index)}
-                    y={yAt(point.percentage) - 10}
+                    y={labelY.get(`${item.key}-${index}`) ?? yAt(point.percentage) - 10}
                     textAnchor={index === 0 ? 'start' : index === 2 ? 'end' : 'middle'}
                     style={{ fill: item.color }}
                   >
@@ -201,7 +219,10 @@ export default function HistoricoEleitoral({ state: globalState }: { state: stri
         <h2>Histórico eleitoral por estado</h2>
         <p className="historico-eleitoral__intro">
           Compara, estado por estado, o resultado real de Haddad/Bolsonaro em 2018, Lula/Bolsonaro em 2022, e a
-          pesquisa de intenção de voto mais recente para Lula x Flávio Bolsonaro em 2026.
+          pesquisa Quaest/TV Globo por estado para Lula x Flávio Bolsonaro em 2026. Na maioria dos estados o
+          número de 2026 vem da rodada completa de agosto/2026; São Paulo, Pernambuco,
+          Pará e Ceará já usam a rodada de setembro, e o Piauí vem da AtlasIntel (a Quaest não pesquisou lá). Veja
+          as fontes no fim da página.
         </p>
       </header>
 
@@ -248,9 +269,20 @@ export default function HistoricoEleitoral({ state: globalState }: { state: stri
               <ul className="historico-eleitoral__sources-list">
                 {file.sources.map((src) => (
                   <li key={src.url}>
-                    <a href={src.url} target="_blank" rel="noreferrer">
-                      {src.publisher}
-                    </a>
+                    {/* o campo url pode trazer várias URLs separadas por ";": um link por URL */}
+                    {src.url
+                      .split(';')
+                      .map((url) => url.trim())
+                      .filter(Boolean)
+                      .map((url, urlIndex) => (
+                        <Fragment key={url}>
+                          {urlIndex > 0 && ' · '}
+                          <a href={url} target="_blank" rel="noreferrer">
+                            {src.publisher}
+                            {urlIndex > 0 ? ` (${urlIndex + 1})` : ''}
+                          </a>
+                        </Fragment>
+                      ))}
                     {' · '}
                     {src.usedFor}
                   </li>
