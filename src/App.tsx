@@ -419,7 +419,7 @@ function App() {
       <section className="hero" id="top">
         <div className="hero-copy">
           <p className="eyebrow">central de apuração · TSE</p>
-          <h1>O país<br /><span>conta junto.</span></h1>
+          <h1>O país<br /><span>conta conosco.</span></h1>
           <div className="hero-actions">
             <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{syncLabel}</span>
             <span className="hero-note">1º turno · 04 out 2026</span>
