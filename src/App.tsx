@@ -5,6 +5,7 @@ import StateCandidatesPanel from '@/components/ui/state-candidates-panel'
 import ComposicaoParlamentar from '@/components/ui/composicao-parlamentar'
 import EstatisticasAbstencao from '@/components/ui/estatisticas-abstencao'
 import PesquisasTracker from '@/components/ui/pesquisas-tracker'
+import CenariosIA from '@/components/ui/cenarios-ia'
 import FavoriteButton from '@/components/ui/favorite-button'
 import { useFavoriteCandidates } from './hooks/use-favorites'
 import { BRAZIL_STATE_BY_UF, type BrazilState } from './data/brazil-states'
@@ -12,8 +13,8 @@ import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, states
 import { fetchTSESnapshot } from './tse-results'
 import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 
-type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'estatisticas'
-const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'estatisticas']
+type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'estatisticas' | 'cenarios'
+const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'estatisticas', 'cenarios']
 
 const format = new Intl.NumberFormat('pt-BR')
 const timeFormat = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
@@ -253,7 +254,7 @@ function App() {
   }
   // Guarda usada pelo seletor de cargo em pílula e pelo seletor de cargo
   // embutido no BrazilMap: na aba "Governador & Senador" só Governador,
-  // Senador e (no DF) Deputado distrital podem ser escolhidos — Deputado
+  // Senador e (no DF) Deputado distrital podem ser escolhidos; Deputado
   // federal/estadual pertencem só à Composição Parlamentar.
   const selectGovernadorSenadorOffice = (nextOffice: string) => {
     if (!governadorSenadorOffices.includes(nextOffice)) return
@@ -415,6 +416,18 @@ function App() {
         >
           Estatísticas & Abstenção
         </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-cenarios"
+          aria-selected={activeTab === 'cenarios'}
+          tabIndex={activeTab === 'cenarios' ? 0 : -1}
+          className={`view-tabs__tab${activeTab === 'cenarios' ? ' is-active' : ''}`}
+          onClick={() => changeTab('cenarios')}
+          onKeyDown={handleTabKeyDown}
+        >
+          Cenários (IA)
+        </button>
       </div>
 
       {(activeTab === 'presidente' || activeTab === 'governadorSenador') && (
@@ -501,6 +514,8 @@ function App() {
       {activeTab === 'estatisticas' && (
         <EstatisticasAbstencao candidates={candidates} snapshot={snapshot} round={activeRound} state={state} />
       )}
+
+      {activeTab === 'cenarios' && <CenariosIA state={state} />}
 
       {(activeTab === 'presidente' || activeTab === 'governadorSenador') && (
         <>

@@ -1,0 +1,461 @@
+.cenarios-ia {
+  padding: 1.5rem 0 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Aviso permanente: estatística simples, não previsão; mesmo tom de alerta
+   (não é erro de tom, é a mesma convenção visual de pesquisas-tracker.css). */
+.cenarios-ia__banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: 1px solid var(--tertiary);
+  border-left-width: 4px;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--tertiary) 10%, var(--surface-container-lowest));
+}
+
+.cenarios-ia__banner-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--tertiary);
+  color: var(--on-tertiary);
+  font: 700 13px/1 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__banner p {
+  margin: 0;
+  color: var(--ink);
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__banner strong {
+  color: var(--deep);
+}
+
+.cenarios-ia__header h2 {
+  margin: 6px 0 0;
+  color: var(--deep);
+  font: 500 28px/36px 'Newsreader', serif;
+}
+
+.cenarios-ia__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.cenarios-ia__pill {
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-full);
+  background: var(--surface-container-lowest);
+  color: var(--ink);
+  padding: 9px 18px;
+  font: 600 12px 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+
+.cenarios-ia__pill.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.cenarios-ia__pill--uf {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.cenarios-ia__state-picker {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-lg);
+}
+
+.cenarios-ia__map-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cenarios-ia__map {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.cenarios-ia__uf-select {
+  display: none;
+}
+
+.cenarios-ia__state-result {
+  min-width: 0;
+}
+
+.cenarios-ia__state-result--national {
+  min-width: 0;
+}
+
+.cenarios-ia__race-title {
+  margin: 0 0 var(--space-md);
+  color: var(--deep);
+  font: 500 18px/26px 'Newsreader', serif;
+}
+
+.cenarios-ia__status {
+  padding: var(--space-lg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+  color: var(--muted);
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__status--empty {
+  color: var(--error);
+}
+
+.cenarios-ia__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-low);
+}
+
+.cenarios-ia__not-simulatable {
+  margin: 0;
+  padding: var(--space-sm);
+  border: 1px dashed var(--error);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--ink);
+  font: 400 13px/19px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__bars,
+.cenarios-ia__raw-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.cenarios-ia__bar-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'label value' 'track track';
+  row-gap: 4px;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.cenarios-ia__bar-label {
+  grid-area: label;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  color: var(--ink);
+  font: 600 13px/16px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__bar-name {
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cenarios-ia__leader-badge {
+  flex: 0 0 auto;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--on-primary);
+  font: 700 10px/15px 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: .02em;
+}
+
+.cenarios-ia__party-chip {
+  flex: 0 0 auto;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface-container-highest);
+  color: var(--muted);
+  font: 600 10px/15px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__bar-value {
+  grid-area: value;
+  color: var(--deep);
+  font: 600 13px/16px 'Plus Jakarta Sans', sans-serif;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.cenarios-ia__bar-subvalue {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.cenarios-ia__bar-track {
+  grid-area: track;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface-container-highest);
+  overflow: hidden;
+}
+
+.cenarios-ia__bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--tertiary);
+}
+
+.cenarios-ia__bar-fill--raw {
+  background: var(--outline);
+}
+
+.cenarios-ia__stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.cenarios-ia__stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-container-lowest);
+}
+
+.cenarios-ia__stat-label {
+  color: var(--muted);
+  font: 600 11px/14px 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.cenarios-ia__stat-value {
+  color: var(--deep);
+  font: 700 22px/28px 'Newsreader', serif;
+}
+
+.cenarios-ia__caveat {
+  margin: 0;
+  padding: var(--space-sm);
+  border: 1px dashed var(--error);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--ink);
+  font: 400 12px/17px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__methodology {
+  margin: 0;
+  color: var(--muted);
+  font: 400 12px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__source-line {
+  margin: 0;
+  color: var(--muted);
+  font: 400 12px/16px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__source-link {
+  align-self: flex-start;
+  color: var(--teal);
+  font: 600 12px 'Plus Jakarta Sans', sans-serif;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.cenarios-ia__chat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.cenarios-ia__chat-title {
+  margin: 0;
+  color: var(--deep);
+  font: 600 20px/26px 'Newsreader', serif;
+}
+
+.cenarios-ia__chat-note {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--muted);
+  font: 400 13px/19px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__chat-log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 360px;
+  overflow-y: auto;
+  padding: var(--space-sm);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+}
+
+.cenarios-ia__chat-empty {
+  margin: 0;
+  color: var(--muted);
+  font: 400 13px/18px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__chat-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.cenarios-ia__chat-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.cenarios-ia__chat-question,
+.cenarios-ia__chat-answer,
+.cenarios-ia__chat-pending {
+  margin: 0;
+  color: var(--ink);
+  font: 400 13px/19px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__chat-pending {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.cenarios-ia__chat-error {
+  margin: 0;
+  padding: var(--space-sm);
+  border: 1px dashed var(--error);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--ink);
+  font: 400 13px/19px 'Plus Jakarta Sans', sans-serif;
+}
+
+.cenarios-ia__chat-error code {
+  font-size: 12px;
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-container-highest);
+}
+
+.cenarios-ia__chat-error-detail {
+  color: var(--muted);
+}
+
+.cenarios-ia__chat-form {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+}
+
+.cenarios-ia__chat-textarea {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface-container-lowest);
+  color: var(--ink);
+  font: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
+  resize: vertical;
+}
+
+.cenarios-ia__chat-submit {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--on-primary);
+  font: 600 13px 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+}
+
+.cenarios-ia__chat-submit:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .cenarios-ia {
+    padding: var(--space-md) 0 var(--space-xl);
+  }
+
+  .cenarios-ia__filters {
+    align-items: stretch;
+  }
+
+  .cenarios-ia__pill {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .cenarios-ia__state-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .cenarios-ia__map {
+    max-width: 320px;
+  }
+
+  .cenarios-ia__uf-select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 var(--space-md);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-md);
+    background: var(--surface-container-lowest);
+    color: var(--ink);
+    font: 600 14px 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .cenarios-ia__stat-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cenarios-ia__chat-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cenarios-ia__chat-submit {
+    width: 100%;
+  }
+}

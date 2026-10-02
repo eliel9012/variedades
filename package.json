@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "sync:tse": "node scripts/sync-tse.mjs",
     "sync:polls": "node scripts/sync-polls.mjs",
-    "check": "tsc -b"
+    "check": "tsc -b",
+    "server": "node server/index.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^6.1.1",
