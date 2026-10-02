@@ -13,6 +13,7 @@ import { useFavoriteCandidates } from './hooks/use-favorites'
 import { BRAZIL_STATE_BY_UF, type BrazilState } from './data/brazil-states'
 import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, statesForOffice } from './data'
 import { fetchTSESnapshot } from './tse-results'
+import { navigate, parseUfSegment, ufSegment, useRoute } from './router'
 import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 
 type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'estatisticas' | 'cenarios'
@@ -25,6 +26,34 @@ const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParl
 const ELECTION_DAY_UTC_MS = Date.parse('2026-10-04T00:00:00-03:00')
 function getDefaultTab(): ViewTab {
   return Date.now() >= ELECTION_DAY_UTC_MS ? 'governadorSenador' : 'pesquisas'
+}
+
+// URL por aba (ver src/router.ts): path é a fonte da verdade pra navegação
+// direta/voltar-avançar; os cliques continuam chamando os handlers de
+// sempre, que agora também empurram a URL correspondente.
+function tabFromPath(pathname: string): ViewTab {
+  const [first, second] = pathname.split('/').filter(Boolean)
+  if (first === 'apuracao') return second === 'presidente' ? 'presidente' : 'governadorSenador'
+  if (first === 'composicao-parlamentar') return 'composicaoParlamentar'
+  if (first === 'pesquisas') return 'pesquisas'
+  if (first === 'estatisticas') return 'estatisticas'
+  if (first === 'cenarios') return 'cenarios'
+  return getDefaultTab()
+}
+
+function ufFromApuracaoPath(pathname: string): string | null {
+  const [first, second] = pathname.split('/').filter(Boolean)
+  if (first !== 'apuracao') return null
+  return parseUfSegment(second)
+}
+
+function pathForTab(tab: ViewTab, uf?: string): string {
+  if (tab === 'presidente') return '/apuracao/presidente'
+  if (tab === 'governadorSenador') return uf && uf !== 'Brasil' ? `/apuracao/${ufSegment(uf)}` : '/apuracao'
+  if (tab === 'composicaoParlamentar') return '/composicao-parlamentar'
+  if (tab === 'pesquisas') return '/pesquisas'
+  if (tab === 'estatisticas') return '/estatisticas'
+  return '/cenarios'
 }
 
 const format = new Intl.NumberFormat('pt-BR')
@@ -125,6 +154,28 @@ function App() {
   const [state, setState] = useState('Brasil')
   const [office, setOffice] = useState('Presidente')
   const [activeTab, setActiveTab] = useState<ViewTab>(getDefaultTab)
+  const pathname = useRoute()
+
+  // "/" não é uma aba de verdade, redireciona pro caminho canônico da aba
+  // padrão (muda sozinha no dia da eleição, ver getDefaultTab).
+  useEffect(() => {
+    if (pathname === '/') navigate(pathForTab(getDefaultTab()), { replace: true })
+  }, [pathname])
+
+  // Entrada via URL direta ou botão voltar/avançar: reconcilia activeTab (e,
+  // na aba de apuração por estado, a UF) com o que a URL diz agora. Os
+  // cliques (changeTab/selectMapState/changeStateViaSwitcher) já fazem o
+  // caminho inverso (estado -> URL) nos próprios handlers, então aqui só
+  // mexe quando o valor realmente mudou, pra não brigar com esses handlers.
+  useEffect(() => {
+    const nextTab = tabFromPath(pathname)
+    setActiveTab(nextTab)
+    if (nextTab === 'governadorSenador') {
+      setState(ufFromApuracaoPath(pathname) ?? 'Brasil')
+    } else if (nextTab === 'presidente') {
+      setState('Brasil')
+    }
+  }, [pathname])
   const [panelState, setPanelState] = useState<BrazilState | null>(null)
   const [snapshot, setSnapshot] = useState<ResultSnapshot>(initialSnapshot)
   const [candidates, setCandidates] = useState<Candidate[]>(candidateSeed)
@@ -278,6 +329,7 @@ function App() {
       setRound(1)
     }
     setPanelState(nextState)
+    navigate(pathForTab('governadorSenador', nextState.uf))
   }
   // Troca de estado pelo dropdown "Trocar Estado" (atalho redundante ao
   // clique no mapa). Mantém a mesma exceção de deputado distrital usada em
@@ -288,6 +340,7 @@ function App() {
       setOffice('Governador')
       setRound(1)
     }
+    navigate(pathForTab('governadorSenador', nextUf))
   }
   const closeStatePanel = () => {
     const uf = panelState?.uf
@@ -304,6 +357,7 @@ function App() {
     if (nextTab === 'presidente') {
       setOffice('Presidente')
       setState('Brasil')
+      navigate(pathForTab('presidente'))
     } else if (nextTab === 'governadorSenador') {
       let nextOffice = office
       if (office === 'Presidente' || office === 'Deputado federal' || office === 'Deputado estadual') {
@@ -314,7 +368,11 @@ function App() {
         if (!canHaveSecondRound(nextOffice)) setRound(1)
       }
       const nextStates = statesForOffice(nextOffice)
-      if (!nextStates.includes(state)) setState(nextStates[0])
+      const nextState = nextStates.includes(state) ? state : nextStates[0]
+      if (nextState !== state) setState(nextState)
+      navigate(pathForTab('governadorSenador', nextState))
+    } else {
+      navigate(pathForTab(nextTab))
     }
   }
   const handleTabKeyDown = (event: KeyboardEvent) => {
