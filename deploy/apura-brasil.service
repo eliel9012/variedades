@@ -1,0 +1,19 @@
+[Unit]
+Description=Apura Brasil (site, servidor de produção servindo dist/)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/variedades
+Environment=NODE_ENV=production
+Environment=HOST=0.0.0.0
+Environment=PORT=8776
+Environment=WEB_WORKERS=4
+ExecStart=/usr/bin/node server/web.mjs
+Restart=always
+RestartSec=2
+User=root
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

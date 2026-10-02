@@ -1,0 +1,19 @@
+[Unit]
+Description=Apura Brasil (ingest: espelho dos arquivos de resultado do TSE)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/variedades
+# Upstreams alternativos (ex.: Worker do Cloudflare, ver deploy/cloudflare-worker-tse.js),
+# separados por vírgula. O primeiro é o TSE direto.
+Environment=TSE_UPSTREAMS=https://resultados.tse.jus.br
+EnvironmentFile=-/etc/apura-ingest.env
+ExecStart=/usr/bin/node scripts/ingest-tse.mjs
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

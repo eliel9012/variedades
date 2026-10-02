@@ -12,3 +12,4 @@ work/tse/**/*.csv
 .env
 .env.*.local
 __pycache__/
+tse-mirror/

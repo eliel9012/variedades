@@ -33,8 +33,8 @@ type TSETracking = {
   }>
 }
 
-let configPromise: Promise<TSEConfig> | null = null
-let configLoadedAt = 0
+// Uma config em cache por origem (espelho local ou TSE direto).
+const configCache = new Map<string, { promise: Promise<TSEConfig>; loadedAt: number }>()
 // A config do TSE muda ao longo do pleito (ex.: publicação do 2º turno), então
 // não pode ficar em memória para sempre: expira depois de alguns minutos.
 const CONFIG_TTL_MS = 5 * 60_000
@@ -72,10 +72,10 @@ function fetchJws<T>(url: string, signal?: AbortSignal): Promise<T> {
   return request(url, signal).then((response) => response.text()).then(decodeJws<T>)
 }
 
-async function fetchOfficial<T>(baseUrl: string, signal?: AbortSignal): Promise<T> {
+async function fetchOfficial<T>(baseUrl: string, signal?: AbortSignal, jsonOnly = false): Promise<T> {
   const stem = baseUrl.replace(/\.(?:jws|json)$/, '')
   let lastError: unknown
-  for (const extension of ['.jws', '.json']) {
+  for (const extension of jsonOnly ? ['.json'] : ['.jws', '.json']) {
     try {
       return extension === '.jws' ? await fetchJws<T>(`${stem}${extension}`, signal) : await fetchJson<T>(`${stem}${extension}`, signal)
     } catch (error) {
@@ -94,20 +94,50 @@ async function fetchOfficial<T>(baseUrl: string, signal?: AbortSignal): Promise<
 // timeout, então a config ainda falha rápido em caso de rede fora do ar. Se a
 // promessa for rejeitada, `configPromise` volta a `null` para que a próxima
 // chamada tente novamente. Mesmo resolvida, expira após CONFIG_TTL_MS.
-function loadConfig(): Promise<TSEConfig> {
-  if (configPromise && Date.now() - configLoadedAt > CONFIG_TTL_MS) configPromise = null
-  if (!configPromise) {
-    configLoadedAt = Date.now()
-    configPromise = fetchOfficial<TSEConfig>(CONFIG_URL).catch((error) => {
-      configPromise = null
-      throw error
-    })
-  }
-  return configPromise
+function loadConfig(source: OfficialSource): Promise<TSEConfig> {
+  const cached = configCache.get(source.root)
+  if (cached && Date.now() - cached.loadedAt <= CONFIG_TTL_MS) return cached.promise
+  const promise = fetchOfficial<TSEConfig>(source.configUrl, undefined, source.jsonOnly).catch((error) => {
+    configCache.delete(source.root)
+    throw error
+  })
+  configCache.set(source.root, { promise, loadedAt: Date.now() })
+  return promise
 }
 
-function invalidateConfig() {
-  configPromise = null
+function invalidateConfig(source: OfficialSource) {
+  configCache.delete(source.root)
+}
+
+// Origens dos arquivos oficiais. O espelho local (/tse/oficial, gravado pelo
+// scripts/ingest-tse.mjs nesta máquina) tem os mesmos caminhos do TSE e vem
+// primeiro: uma consulta ao TSE por arquivo, não importa quantos visitantes.
+// Se o espelho estiver parado (status.json sem sucesso recente) ou falhar,
+// o navegador vai direto ao TSE, como antes.
+type OfficialSource = { root: string; configUrl: string; jsonOnly: boolean; label: string }
+const TSE_SOURCE: OfficialSource = { root: new URL(CONFIG_URL).href.split('/comum/')[0], configUrl: CONFIG_URL, jsonOnly: false, label: 'tse' }
+const MIRROR_ROOT = '/tse/oficial'
+const MIRROR_MAX_STALE_MS = 2 * 60_000
+const MIRROR_CHECK_MS = 30_000
+let mirrorCheck: { at: number; ok: boolean } | null = null
+
+function mirrorSource(): OfficialSource {
+  const root = `${window.location.origin}${MIRROR_ROOT}`
+  return { root, configUrl: `${root}/comum/config/ele-c.json`, jsonOnly: true, label: 'espelho' }
+}
+
+async function mirrorUsable(signal?: AbortSignal) {
+  if (mirrorCheck && Date.now() - mirrorCheck.at < MIRROR_CHECK_MS) return mirrorCheck.ok
+  let ok = false
+  try {
+    const status = await fetchJson<{ lastSuccessAt?: string | null }>('/tse/status.json', signal)
+    const last = status.lastSuccessAt ? Date.parse(status.lastSuccessAt) : NaN
+    ok = Number.isFinite(last) && Date.now() - last < MIRROR_MAX_STALE_MS
+  } catch {
+    if (signal?.aborted) throw new DOMException('Aborted', 'AbortError')
+  }
+  mirrorCheck = { at: Date.now(), ok }
+  return ok
 }
 
 // TSE publica `dg` como "dd/mm/aaaa" e `hg` como "hh:mm:ss", no horário de
@@ -161,9 +191,6 @@ function chooseElection(config: TSEConfig, round: 1 | 2, office: string) {
   throw new Error('TSE election unavailable')
 }
 
-function officialRoot() {
-  return new URL(CONFIG_URL).href.split('/comum/')[0]
-}
 
 function padElection(code: string) {
   return code.padStart(6, '0')
@@ -217,38 +244,53 @@ async function readLocalSnapshot(round: 1 | 2, scope: string, office: string, si
   return { ...local, office, status: local.status === 'official' ? 'official' : 'waiting' } satisfies ResultSnapshot
 }
 
-export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
+async function fetchFromSource(source: OfficialSource, effectiveRound: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
+  const config = await loadConfig(source)
+  let election: ReturnType<typeof chooseElection>
   try {
-    const effectiveRound = canHaveSecondRound(office) ? round : 1
+    election = chooseElection(config, effectiveRound, office)
+  } catch (error) {
+    // Config sem a eleição pedida pode estar desatualizada: força recarga.
+    invalidateConfig(source)
+    throw error
+  }
+  const code = padElection(election.code)
+  const officeCode = String(officeCodes[office as keyof typeof officeCodes] || 3).padStart(4, '0')
+  const territory = scope === 'BR' ? 'br' : scope.toLowerCase()
+  const resultUrl = `${source.root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-c${officeCode}-e${code}-u`
+  const trackingUrl = `${source.root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-e${code}-ab`
+  const [result, tracking] = await Promise.all([
+    fetchOfficial<TSEResult>(resultUrl, signal, source.jsonOnly),
+    fetchOfficial<TSETracking>(trackingUrl, signal, source.jsonOnly).catch(() => null),
+  ])
+  return parseOfficial(result, tracking, scope, effectiveRound, office, resultUrl)
+}
+
+export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
+  const effectiveRound = canHaveSecondRound(office) ? round : 1
+  try {
     if (office !== 'Presidente' && scope === 'BR') throw new Error('TSE UF required')
-    const config = await loadConfig()
-    let election: ReturnType<typeof chooseElection>
-    try {
-      election = chooseElection(config, effectiveRound, office)
-    } catch (error) {
-      // Config sem a eleição pedida pode estar desatualizada: força recarga.
-      invalidateConfig()
-      throw error
+    const sources = (await mirrorUsable(signal)) ? [mirrorSource(), TSE_SOURCE] : [TSE_SOURCE]
+    let lastError: unknown
+    for (const source of sources) {
+      try {
+        return await fetchFromSource(source, effectiveRound, scope, office, signal)
+      } catch (error) {
+        if (signal?.aborted) throw error
+        lastError = error
+        // Espelho falhou para este recorte: marca para reavaliar no próximo
+        // ciclo e tenta o TSE direto agora.
+        if (source.label === 'espelho') mirrorCheck = null
+      }
     }
-    const code = padElection(election.code)
-    const root = officialRoot()
-    const officeCode = String(officeCodes[office as keyof typeof officeCodes] || 3).padStart(4, '0')
-    const territory = scope === 'BR' ? 'br' : scope.toLowerCase()
-    const resultUrl = `${root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-c${officeCode}-e${code}-u`
-    const trackingTerritory = territory === 'br' ? 'br' : territory
-    const trackingUrl = `${root}/${election.cycle}/${election.code}/dados/${trackingTerritory}/${trackingTerritory}-e${code}-ab`
-    const [result, tracking] = await Promise.all([
-      fetchOfficial<TSEResult>(resultUrl, signal),
-      fetchOfficial<TSETracking>(trackingUrl, signal).catch(() => null),
-    ])
-    return parseOfficial(result, tracking, scope, effectiveRound, office, resultUrl)
+    throw lastError instanceof Error ? lastError : new Error('TSE unavailable')
   } catch (error) {
     // Um abort vindo do chamador (ex.: troca de filtro) é um cancelamento
     // normal: não dispara a tentativa de fallback local (que seria abortada
     // de qualquer forma) e não deve virar um erro de sincronização.
     if (signal?.aborted) throw error
     try {
-      const fallback = await readLocalSnapshot(canHaveSecondRound(office) ? round : 1, scope, office, signal)
+      const fallback = await readLocalSnapshot(effectiveRound, scope, office, signal)
       if (fallback.status === 'official') return fallback
     } catch (fallbackError) {
       // O fetch de fallback também é abortável; se foi cancelado, propaga

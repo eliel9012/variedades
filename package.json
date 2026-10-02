@@ -10,7 +10,10 @@
     "sync:tse": "node scripts/sync-tse.mjs",
     "sync:polls": "node scripts/sync-polls.mjs",
     "check": "tsc -b",
-    "server": "node server/index.mjs"
+    "server": "node server/index.mjs",
+    "start": "node server/web.mjs",
+    "ingest": "node scripts/ingest-tse.mjs",
+    "deploy": "npm run build && systemctl restart apura-brasil"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^6.1.1",
