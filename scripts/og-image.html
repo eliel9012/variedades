@@ -18,24 +18,16 @@
         position: relative;
         width: 1200px;
         height: 630px;
-        background:
-          radial-gradient(ellipse 900px 500px at 85% 15%, rgba(163, 208, 190, 0.16), transparent 60%),
-          linear-gradient(160deg, #0d3b2e 0%, #0a2d23 100%);
+        background: linear-gradient(160deg, #0d3b2e 0%, #0a2d23 100%);
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 88px;
+        align-items: center;
         font-family: 'Plus Jakarta Sans', sans-serif;
       }
 
-      .map-accent {
-        position: absolute;
-        right: -60px;
-        top: -80px;
-        width: 560px;
-        height: 560px;
-        opacity: 0.08;
-        background: radial-gradient(circle, #a3d0be 0%, transparent 70%);
+      .text-col {
+        flex: 0 0 auto;
+        padding: 0 0 0 88px;
+        width: 620px;
       }
 
       .mark {
@@ -70,39 +62,93 @@
       h1 {
         font-family: 'Newsreader', serif;
         font-weight: 700;
-        font-size: 128px;
+        font-size: 112px;
         line-height: 1;
         color: #fbf9f3;
         letter-spacing: -0.01em;
       }
 
       .subtitle {
-        margin-top: 28px;
+        margin-top: 26px;
         font-family: 'Newsreader', serif;
         font-style: italic;
         font-weight: 600;
-        font-size: 38px;
+        font-size: 34px;
         color: #d7ebe1;
       }
 
       .footer-line {
-        margin-top: 56px;
-        font-size: 22px;
+        margin-top: 48px;
+        font-size: 20px;
         font-weight: 500;
         color: #8fb8a6;
+      }
+
+      /* Grafico decorativo (sem numero/rotulo: e so um motivo visual nas
+         cores da bandeira, nunca um dado real ou simulado de eleicao). */
+      .chart-col {
+        flex: 1;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 22px;
+        padding: 0 70px 90px 20px;
+      }
+
+      .chart-col::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 620px 620px at 70% 35%, rgba(163, 208, 190, 0.14), transparent 65%);
+      }
+
+      .bar {
+        position: relative;
+        width: 56px;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+      }
+
+      .bar.green { height: 230px; background: linear-gradient(180deg, #2fae66, #16824a); }
+      .bar.yellow { height: 340px; background: linear-gradient(180deg, #ffd54a, #f2b705); }
+      .bar.blue { height: 190px; background: linear-gradient(180deg, #3f7fd1, #2a5ea8); }
+      .bar.white { height: 270px; background: linear-gradient(180deg, #ffffff, #e4e2dd); }
+      .bar.green2 { height: 120px; background: linear-gradient(180deg, #2fae66, #16824a); }
+
+      .trend-line {
+        position: absolute;
+        left: 20px;
+        right: 70px;
+        bottom: 90px;
+        height: 240px;
+        pointer-events: none;
       }
     </style>
   </head>
   <body>
     <div class="canvas">
-      <div class="map-accent"></div>
-      <div class="mark">
-        <div class="mark-badge">AB</div>
-        <div class="mark-label">Eleições Gerais 2026</div>
+      <div class="text-col">
+        <div class="mark">
+          <div class="mark-badge">AB</div>
+          <div class="mark-label">Eleições Gerais 2026</div>
+        </div>
+        <h1>Apura Brasil</h1>
+        <p class="subtitle">Apuração ao vivo, direto do TSE</p>
+        <p class="footer-line">eleicoes.meulab.fun</p>
       </div>
-      <h1>Apura Brasil</h1>
-      <p class="subtitle">Apuração ao vivo, direto do TSE</p>
-      <p class="footer-line">eleicoes.meulab.fun · dados públicos · nunca fabrica placar</p>
+      <div class="chart-col">
+        <svg class="trend-line" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="0,190 70,150 140,165 210,90 280,110 400,40" stroke="#fbf9f3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
+          <circle cx="400" cy="40" r="8" fill="#ffd54a" />
+        </svg>
+        <div class="bar green"></div>
+        <div class="bar yellow"></div>
+        <div class="bar blue"></div>
+        <div class="bar white"></div>
+        <div class="bar green2"></div>
+      </div>
     </div>
   </body>
 </html>
