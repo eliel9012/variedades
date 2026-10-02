@@ -1225,18 +1225,6 @@
         {
           "candidateName": "Marina Silva",
           "party": "Rede",
-          "percentage": 14.0,
-          "notes": "Second SP poll (Quaest)."
-        },
-        {
-          "candidateName": "Guilherme Derrite",
-          "party": "PP",
-          "percentage": 14.0,
-          "notes": "Second SP poll (Quaest)."
-        },
-        {
-          "candidateName": "Marina Silva",
-          "party": "Rede",
           "percentage": 13.0,
           "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
         },
@@ -1245,12 +1233,6 @@
           "party": "PSB",
           "percentage": 13.0,
           "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
-        },
-        {
-          "candidateName": "Simone Tebet",
-          "party": "PSB",
-          "percentage": 12.0,
-          "notes": "Second SP poll (Quaest)."
         },
         {
           "candidateName": "André do Prado",
@@ -1263,15 +1245,9 @@
           "party": "PP",
           "percentage": 10.0,
           "notes": "Second SP poll below (Quaest) shown separately; do not compare across pollsters."
-        },
-        {
-          "candidateName": "André do Prado",
-          "party": "PL",
-          "percentage": 7.0,
-          "notes": "Second SP poll (Quaest)."
         }
       ],
-      "percentageSum": 94.0
+      "percentageSum": 47.0
     },
     {
       "uf": "TO",

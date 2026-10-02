@@ -11,3 +11,4 @@ work/tse/**/*.zip
 work/tse/**/*.csv
 .env
 .env.*.local
+__pycache__/

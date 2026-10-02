@@ -723,8 +723,8 @@ function SenadoCard({ state, ideologyByParty }: { state: SenadoState; ideologyBy
       </p>
 
       <div className="pesquisas-tracker__bars">
-        {state.results.map((result) => (
-          <div className="pesquisas-tracker__bar-row" key={result.candidateName}>
+        {state.results.map((result, index) => (
+          <div className="pesquisas-tracker__bar-row" key={`${result.candidateName}-${index}`}>
             <span className="pesquisas-tracker__bar-label">
               <span className="pesquisas-tracker__bar-name">{result.candidateName}</span>
               {isLeadingResult(result.candidateName, result.percentage, topPercentage, state.results.length) && (
