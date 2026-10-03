@@ -274,7 +274,7 @@ function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: s
     countedSections: toNumber(sections?.st),
     totalSections: toNumber(sections?.ts),
     rows,
-    sectionsShare: sections?.pst ? toNumber(sections.pst) : undefined,
+    sectionsShare: resultSections?.pst ? toNumber(resultSections.pst) : undefined,
     totals: parseTotals((result as { e?: TSEElectorate }).e, votesBlock),
     status: 'official',
     source,
