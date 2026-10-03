@@ -75,8 +75,11 @@ async function writeAtomic(target, data) {
 function pickUpstream() {
   const now = Date.now()
   const available = upstreamState.filter((u) => u.blockedUntil <= now)
-  if (available.length === 0) return null
-  return available.sort((a, b) => a.failures - b.failures)[0]
+  // Sempre o primeiro da lista (o TSE direto) quando não está em espera: os
+  // reservas (Worker) só entram durante o bloqueio. Ordenar por falhas fazia
+  // uma única queda de rede mandar tudo para o Worker para sempre, porque o
+  // TSE nunca mais era usado para zerar o contador (estourou a cota diária).
+  return available[0] ?? null
 }
 
 function penalize(upstream, httpStatus) {
