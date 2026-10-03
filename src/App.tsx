@@ -16,6 +16,7 @@ import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, states
 import { fetchTSESnapshot } from './tse-results'
 import { ElectionDayBanner } from './components/ui/election-day-banner'
 import { MapaApuracao } from './components/ui/mapa-apuracao'
+import { ShareWhatsApp } from './components/ui/share-whatsapp'
 import { navigate, parseUfSegment, ufSegment, useRoute } from './router'
 import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 
@@ -501,8 +502,10 @@ function App() {
         <div className="topbar-meta">
           <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{online ? 'conectado' : 'offline'}</span>
           <span className="edition">Eleições 2026</span>
+          <ShareWhatsApp pathname={pathname} variant="topbar" />
         </div>
       </header>
+      <ShareWhatsApp pathname={pathname} variant="floating" />
 
       <AdSlot slot="header" />
 

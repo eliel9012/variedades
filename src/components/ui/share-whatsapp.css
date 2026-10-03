@@ -1,0 +1,71 @@
+/* Verde escuro da marca WhatsApp (#128C7E): branco sobre ele passa de 4:1. */
+.share-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #128c7e;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.share-whatsapp:hover {
+  background: #075e54;
+}
+
+.share-whatsapp:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.share-whatsapp--topbar {
+  padding: 6px 14px 6px 11px;
+  border-radius: var(--radius-full);
+  font: 600 10px/14px 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.share-whatsapp--topbar svg {
+  width: 15px;
+  height: 15px;
+}
+
+.share-whatsapp--floating {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .share-whatsapp--topbar {
+    display: none;
+  }
+
+  /* Fica acima do aviso de cookies enquanto ele estiver aberto. */
+  .share-whatsapp--floating {
+    display: inline-flex;
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--cookie-banner-space, 0px));
+    z-index: 55;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  }
+
+  .share-whatsapp--floating svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .share-whatsapp--floating:active {
+    transform: scale(0.94);
+  }
+}
+
+@media print {
+  .share-whatsapp {
+    display: none !important;
+  }
+}
