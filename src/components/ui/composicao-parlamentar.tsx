@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Candidate, ResultSnapshot } from '../../types'
 import { officeCodes } from '../../data'
+import { Hemiciclo } from './hemiciclo'
 import './composicao-parlamentar.css'
 
 export type ComposicaoParlamentarProps = {
@@ -165,10 +166,9 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
         <p className="eyebrow">Câmara dos Deputados · Eleições 2026</p>
         <h2 id="composicao-parlamentar-heading">Composição Parlamentar</h2>
         <p className="composicao-parlamentar__lede">
-          Esta página mostra apenas dados que o app realmente possui: o quadro legal de cadeiras por UF, a matemática
-          oficial de conversão de votos em vagas e o cadastro de candidaturas. Ela não exibe quem foi eleito, bancada
-          por partido nem hemiciclo. A apuração de vagas por legenda depende de boletins consolidados que este app
-          não recebe (ver nota abaixo).
+          Hemiciclo da Câmara com a bancada eleita em 2022 e a de 2026, preenchida conforme o TSE declara cada
+          eleito, mais o quadro legal de cadeiras por UF, a matemática oficial de conversão de votos em vagas e o
+          cadastro de candidaturas. Nenhuma cadeira é estimada: sem eleito declarado pelo TSE, ela fica "a definir".
         </p>
         <div className="composicao-parlamentar__stats">
           <div className="composicao-parlamentar__stat">
@@ -185,6 +185,8 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
           </div>
         </div>
       </header>
+
+      <Hemiciclo defaultUf={UF_CODES.includes(state) ? state : undefined} />
 
       <div className="composicao-parlamentar__grid">
         <div className="panel composicao-parlamentar__calc">
@@ -242,19 +244,19 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
           <div className="panel-heading">
             <div>
               <p className="eyebrow">Transparência de dados</p>
-              <h2>Por que não há hemiciclo nem bancada por partido aqui</h2>
+              <h2>De onde vem o hemiciclo</h2>
             </div>
           </div>
           <p>
-            Quem efetivamente ocupa cada cadeira (eleito por quociente partidário ou por média/sobra) é resultado de
-            um cálculo que o TSE só fecha com os votos nominais e de legenda de todos os candidatos de uma UF,
-            UF por UF. Este app recebe um único snapshot de resultado por vez, não um boletim completo por partido e
-            UF, por isso não há como somar cadeiras por legenda sem inventar números.
+            Quem ocupa cada cadeira (eleito por quociente partidário ou por média) é resultado de um cálculo que o TSE
+            fecha UF por UF, com os votos nominais e de legenda de todos os candidatos. O hemiciclo de 2026 não faz
+            esse cálculo por conta própria: ele só conta os candidatos que o próprio TSE já marcou como eleitos nos
+            arquivos oficiais de cada UF. Até lá, a cadeira aparece como "a definir".
           </p>
           <ul className="composicao-parlamentar__limitation-list">
-            <li><span>Bancada por partido/federação</span><strong>dado indisponível</strong></li>
-            <li><span>Diagrama de hemiciclo 2027</span><strong>dado indisponível</strong></li>
-            <li><span>Selos "eleito por quociente" / "eleito por média"</span><strong>dado indisponível</strong></li>
+            <li><span>Bancada eleita em 2022</span><strong>resultado final do TSE</strong></li>
+            <li><span>Bancada 2026</span><strong>eleitos declarados pelo TSE</strong></li>
+            <li><span>Projeção de cadeiras antes do TSE</span><strong>não fazemos</strong></li>
             <li><span>Cadeiras por UF (apportionment legal)</span><strong>dado real, abaixo</strong></li>
           </ul>
         </div>

@@ -23,6 +23,7 @@ import { brotliCompressSync, gzipSync, constants as zlibConstants } from 'node:z
 import { createHash } from 'node:crypto'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { hemiciclo2026 } from './hemiciclo.mjs'
 import { CITY_CACHE, CITY_MISSING_CACHE, isCityPath, requestCityFile, serveCityRequests, validCityPath } from './city-files.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -71,6 +72,8 @@ const CACHE = {
   static: 'public, max-age=3600, s-maxage=3600, stale-if-error=86400',
   // Nome de lugar não muda; troca de desenho sobe ?v= (OG_PLACES_VERSION).
   og: 'public, max-age=86400, s-maxage=2592000, stale-if-error=2592000',
+  // Bancada 2026 agregada do espelho (server/hemiciclo.mjs).
+  hemiciclo: 'public, max-age=15, s-maxage=30, stale-while-revalidate=30, stale-if-error=600',
   // Resultado final de 2022 (dados abertos do TSE): não muda mais.
   history: 'public, max-age=86400, s-maxage=2592000, stale-if-error=2592000',
 }
@@ -237,6 +240,8 @@ function proxyApi(req, res) {
   req.pipe(upstream)
 }
 
+let hemicicloEntry = null
+
 async function startWorker() {
   const dist = await loadDist()
   const indexEntry = dist.get('/index.html')
@@ -269,6 +274,12 @@ async function startWorker() {
       if (urlPath === '/healthz') {
         res.writeHead(200, { 'content-type': 'text/plain', 'cache-control': 'no-store' })
         res.end('ok')
+        return
+      }
+      if (urlPath === '/data/hemiciclo-2026.json') {
+        const body = await hemiciclo2026(MIRROR_DIR)
+        if (hemicicloEntry?.source !== body) hemicicloEntry = { source: body, entry: makeEntry(Buffer.from(body), MIME['.json'], CACHE.hemiciclo) }
+        send(req, res, hemicicloEntry.entry)
         return
       }
       if (urlPath.startsWith('/tse/')) {

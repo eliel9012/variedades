@@ -1,0 +1,159 @@
+.hemiciclo {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.hemiciclo__heading {
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.hemiciclo__years {
+  display: inline-flex;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.hemiciclo__years button {
+  min-width: 76px;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  background: var(--surface-container-lowest);
+  color: var(--ink);
+  font: 600 14px var(--font-sans);
+  cursor: pointer;
+}
+
+.hemiciclo__years button + button {
+  border-left: 1px solid var(--outline-variant);
+}
+
+.hemiciclo__years button.is-active {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.hemiciclo__years button:focus-visible,
+.hemiciclo__scope select:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.hemiciclo__scope {
+  display: grid;
+  gap: 6px;
+  max-width: 320px;
+  color: var(--muted);
+  font: 600 10px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hemiciclo__scope select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+  color: var(--ink);
+  font: 400 15px var(--font-sans);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.hemiciclo__chart {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hemiciclo__chart circle {
+  stroke: var(--surface);
+  stroke-width: 0.004;
+}
+
+.hemiciclo__total {
+  fill: var(--primary);
+  font: 600 0.2px var(--font-serif);
+}
+
+.hemiciclo__total-caption {
+  fill: var(--muted);
+  font: 600 0.055px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.008px;
+}
+
+.hemiciclo__axis {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 720px;
+  margin: -6px auto 0;
+  font: 600 11px/14px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hemiciclo__axis span:first-child { color: #b71c1c; }
+.hemiciclo__axis span:last-child { color: #154396; }
+
+.hemiciclo__status,
+.hemiciclo__note {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font: 400 14px/21px var(--font-sans);
+}
+
+.hemiciclo__legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hemiciclo__legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 400 14px/20px var(--font-sans);
+  color: var(--ink);
+}
+
+.hemiciclo__legend strong {
+  margin-left: auto;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.hemiciclo__swatch {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.hemiciclo__swatch--pending {
+  background: #e3ded4;
+  box-shadow: inset 0 0 0 1px var(--outline-variant);
+}
+
+@media (max-width: 760px) {
+  .hemiciclo {
+    padding: var(--space-md);
+  }
+
+  .hemiciclo__scope {
+    max-width: none;
+  }
+
+  .hemiciclo__years button {
+    min-height: 44px;
+  }
+}
