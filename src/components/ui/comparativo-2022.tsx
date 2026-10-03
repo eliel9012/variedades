@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { ApuracaoHeader, ApuracaoRow, ApuracaoTotals, RoundTabs, placeTitle, statusSentence } from '@/components/ui/apuracao-cards'
 import BrazilMap from '@/components/ui/brazil-map'
-import { leaderColors, type Leader, type Summary } from '@/resumo-mapa'
+import { leaderColors, PARTY_COLORS, type Leader, type Summary } from '@/resumo-mapa'
 import { canHaveSecondRound, states } from '@/data'
 import type { Municipio } from '@/municipios'
 import type { ResultRow, ResultSnapshot } from '@/types'
@@ -192,7 +192,7 @@ export default function Comparativo2022({ uf, ufName, capital, city, cityName, c
   const recorte = useLoad(recorteKey, () => loadRecorte(office, round, uf, cityCd))
   const mapKey = citySlug ? null : `${office}|${round}`
   const mapa = useLoad(mapKey, () => loadMapa(office, round))
-  const leader = useMemo(() => leaderColors(mapa.data, office === 'Presidente' ? 'candidate' : 'party'), [mapa.data, office])
+  const leader = useMemo(() => leaderColors(mapa.data, office === 'Presidente' ? 'candidate' : 'party', PARTY_COLORS), [mapa.data, office])
 
   const rows2022 = useMemo(() => {
     if (!recorte.data) return []

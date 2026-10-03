@@ -55,7 +55,11 @@ export function useResumoMapa(office: string | null) {
 
 /** Presidente agrupa por candidatura; Governador e Senador por partido (cada
  * UF tem candidatos próprios). UF sem voto apurado fica fora de fillByUf. */
-export function leaderColors(summary: Summary | null, groupBy: 'candidate' | 'party') {
+/** Cores fixas por partido, para quem pede (comparativo 2022): PT vermelho,
+ * PL verde militar. A paleta por ranking pula o vermelho para não repetir. */
+export const PARTY_COLORS: Record<string, string> = { PT: '#c0392b', PL: '#4b5320' }
+
+export function leaderColors(summary: Summary | null, groupBy: 'candidate' | 'party', fixed: Record<string, string> = {}) {
   const entries = Object.entries(summary?.states ?? {}).filter(([uf, value]) => uf !== 'BR' && value.leader)
   const keyOf = (leader: Leader) => (groupBy === 'party' ? leader.party : `${leader.name}|${leader.party}`)
   const groups = new Map<string, { leader: Leader; ufs: string[] }>()
@@ -66,7 +70,10 @@ export function leaderColors(summary: Summary | null, groupBy: 'candidate' | 'pa
     groups.set(key, item)
   }
   const ranked = [...groups.entries()].sort((a, b) => b[1].ufs.length - a[1].ufs.length || a[0].localeCompare(b[0]))
-  const colorByKey = new Map(ranked.map(([key], index) => [key, PALETTE[index % PALETTE.length]]))
+  const reserved = new Set(Object.values(fixed))
+  const palette = PALETTE.filter((color) => !reserved.has(color))
+  let next = 0
+  const colorByKey = new Map(ranked.map(([key, item]) => [key, fixed[item.leader.party] ?? palette[next++ % palette.length]]))
   const fillByUf: Record<string, string> = {}
   for (const [uf, value] of entries) fillByUf[uf] = colorByKey.get(keyOf(value.leader!))!
   return {
