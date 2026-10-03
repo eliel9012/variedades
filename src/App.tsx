@@ -766,7 +766,10 @@ function App() {
       </div>
 
       <AdSlot slot="footer" />
-      <footer><span>APURA BRASIL / 2026</span><span>Dados públicos</span></footer>
+      <footer>
+        <span>APURA BRASIL / 2026 · Dados públicos do TSE</span>
+        <a className="footer-credit" href="https://meulab.fun" target="_blank" rel="noopener">© 2026 Eliel Felipe Junior</a>
+      </footer>
       <CookieBanner />
     </main>
   )
