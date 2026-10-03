@@ -11,7 +11,7 @@ import CenariosIA from '@/components/ui/cenarios-ia'
 import CookieBanner from '@/components/ui/cookie-banner'
 import AdSlot from '@/components/ui/ad-slot'
 import FavoriteButton from '@/components/ui/favorite-button'
-import { useFavoriteCandidates } from './hooks/use-favorites'
+import { favoritesFirst, useFavoriteCandidates } from './hooks/use-favorites'
 import { BRAZIL_STATE_BY_UF, type BrazilState } from './data/brazil-states'
 import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, statesForOffice } from './data'
 import { cityScope, fetchTSESnapshot } from './tse-results'
@@ -248,7 +248,7 @@ function presentationStatus(snapshot: ResultSnapshot, phase: SyncPhase): ResultS
 }
 
 function App() {
-  const { isFavorite, toggleFavorite } = useFavoriteCandidates()
+  const { favorites, isFavorite, toggleFavorite } = useFavoriteCandidates()
   const [round, setRound] = useState<1 | 2>(1)
   const [state, setState] = useState('Brasil')
   const [office, setOffice] = useState('Presidente')
@@ -458,12 +458,13 @@ function App() {
 
   const visibleCandidates = useMemo(() => {
     const q = search.trim().toLocaleLowerCase('pt-BR')
-    return candidates
+    const matches = candidates
       .filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes])
       .filter((candidate) => state === 'Brasil' || office === 'Presidente' || candidate.uf === state)
       .filter((candidate) => !q || `${candidate.ballotName} ${candidate.party} ${candidate.number}`.toLocaleLowerCase('pt-BR').includes(q))
-      .slice(0, 8)
-  }, [candidates, office, search, state])
+    // Favoritos antes do corte de 8, pra nunca ficarem de fora.
+    return favoritesFirst(matches, favorites).slice(0, 8)
+  }, [candidates, office, search, state, favorites])
 
   // Ranking da apuração: linhas do próprio arquivo do TSE (nome, partido,
   // votos, % e situação já publicados), só quando o snapshot é deste recorte e
@@ -649,7 +650,7 @@ function App() {
       <section className="hero" id="top">
         <div className="hero-copy">
           <p className="eyebrow">central de apuração · TSE</p>
-          <h1>O país<br /><span>conta conosco.</span></h1>
+          <h1>O país <span>conta conosco.</span></h1>
           <div className="hero-actions">
             <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{syncLabel}</span>
             <span className="hero-note">1º turno · 04 out 2026</span>

@@ -227,13 +227,13 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
           </dl>
           {votosValidos != null ? (
             <p className="composicao-parlamentar__note">
-              Votos válidos lidos do snapshot ativo (escopo {qeUf}, {round}º turno). O snapshot não registra o cargo
+              Votos válidos lidos do resultado carregado agora (escopo {qeUf}, {round}º turno). Esse resultado não registra o cargo
               apurado. Confirme no filtro de cargo da página que o recorte corrente é Deputado Federal antes de usar
               este número.
             </p>
           ) : (
             <p className="composicao-parlamentar__note">
-              O snapshot carregado no momento não cobre votos válidos de Deputado Federal para {qeUf} no {round}º
+              O resultado carregado agora não cobre votos válidos de Deputado Federal para {qeUf} no {round}º
               turno. Nenhum valor é estimado: assim que o TSE publicar o boletim para esta UF, o cálculo passa a
               aparecer automaticamente.
             </p>
@@ -257,7 +257,7 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
             <li><span>Bancada eleita em 2022</span><strong>resultado final do TSE</strong></li>
             <li><span>Bancada 2026</span><strong>eleitos declarados pelo TSE</strong></li>
             <li><span>Projeção de cadeiras antes do TSE</span><strong>não fazemos</strong></li>
-            <li><span>Cadeiras por UF (apportionment legal)</span><strong>dado real, abaixo</strong></li>
+            <li><span>Cadeiras por UF (distribuição legal)</span><strong>dado real, abaixo</strong></li>
           </ul>
         </div>
       </div>
@@ -302,7 +302,7 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
       <div className="panel composicao-parlamentar__table-panel">
         <div className="panel-heading">
           <div>
-            <p className="eyebrow">Apportionment legal · 27 UFs</p>
+            <p className="eyebrow">Distribuição legal de cadeiras · 27 UFs</p>
             <h2>Cadeiras de Deputado Federal por Unidade da Federação</h2>
           </div>
           <span className="result-count">{numberFormat.format(TOTAL_SEATS)} cadeiras no total</span>
@@ -342,7 +342,7 @@ export function ComposicaoParlamentar({ candidates, snapshot, round, state }: Co
         </div>
         <p className="source-note">
           Cadeiras: tabela legal de representação por UF (fixa por lei, soma 513). Votos válidos/QE: calculados ao
-          vivo apenas quando o snapshot ativo cobre a UF selecionada acima; as demais linhas aguardam boletim
+          vivo apenas quando o resultado carregado agora cobre a UF selecionada acima; as demais linhas aguardam boletim
           oficial e nunca são preenchidas com estimativas.
         </p>
       </div>

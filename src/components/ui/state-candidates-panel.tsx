@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { BrazilState } from '../../data/brazil-states'
 import { offices, officeCodes, statesForOffice } from '../../data'
 import type { Candidate } from '../../types'
-import { useFavoriteCandidates } from '../../hooks/use-favorites'
+import { favoritesFirst, useFavoriteCandidates } from '../../hooks/use-favorites'
 import FavoriteButton from './favorite-button'
 
 export type StateCandidatesPanelProps = {
@@ -15,7 +15,7 @@ export type StateCandidatesPanelProps = {
 // uma UF, exceto Presidente, que já tem sua própria aba. Abre a cada clique
 // no mapa, independente do filtro de cargo usado na lista principal.
 export function StateCandidatesPanel({ state, candidates, onClose }: StateCandidatesPanelProps) {
-  const { isFavorite, toggleFavorite } = useFavoriteCandidates()
+  const { favorites, isFavorite, toggleFavorite } = useFavoriteCandidates()
   const [search, setSearch] = useState('')
   const [renderedState, setRenderedState] = useState<BrazilState | null>(state)
   const [selectedOffice, setSelectedOffice] = useState<string>('Todos')
@@ -53,11 +53,14 @@ export function StateCandidatesPanel({ state, candidates, onClose }: StateCandid
       .filter((office) => office !== 'Presidente' && statesForOffice(office).includes(renderedState.uf))
       .map((office) => ({
         office,
-        candidates: candidates
-          .filter((candidate) => candidate.officeCode === officeCodes[office] && candidate.uf === renderedState.uf)
-          .filter((candidate) => !q || `${candidate.ballotName} ${candidate.party} ${candidate.number}`.toLocaleLowerCase('pt-BR').includes(q)),
+        candidates: favoritesFirst(
+          candidates
+            .filter((candidate) => candidate.officeCode === officeCodes[office] && candidate.uf === renderedState.uf)
+            .filter((candidate) => !q || `${candidate.ballotName} ${candidate.party} ${candidate.number}`.toLocaleLowerCase('pt-BR').includes(q)),
+          favorites,
+        ),
       }))
-  }, [candidates, renderedState, search])
+  }, [candidates, renderedState, search, favorites])
 
   const visibleGroups = selectedOffice === 'Todos' ? groups : groups.filter((group) => group.office === selectedOffice)
 
