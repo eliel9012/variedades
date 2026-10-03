@@ -36,7 +36,7 @@ export function badgeFor(status: string | undefined): 'eleito' | 'segundo' | nul
 const who = (row: ResultRow) => (row.party ? `${row.name ?? 'Candidatura'} (${row.party})` : row.name ?? 'Candidatura')
 const joinNames = (names: string[]) => (names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} e ${names[names.length - 1]}`)
 
-function statusSentence(rows: ResultRow[]) {
+export function statusSentence(rows: ResultRow[]) {
   const elected = rows.filter((row) => badgeFor(row.status) === 'eleito')
   if (elected.length > 0) return `Eleito segundo o TSE: ${joinNames(elected.map((row) => `${who(row)}, com ${pctFormat.format(row.share)}% dos votos válidos`))}.`
   const runoff = rows.filter((row) => badgeFor(row.status) === 'segundo')
@@ -124,7 +124,7 @@ function tallyText(value: ResultTally | undefined, showPct: boolean) {
   return showPct && value.pct !== undefined ? `${count} (${pctFormat.format(value.pct)}%)` : count
 }
 
-export function ApuracaoTotals({ snapshot }: { snapshot: ResultSnapshot | null }) {
+export function ApuracaoTotals({ snapshot }: { snapshot: Pick<ResultSnapshot, 'totals'> | null }) {
   const totals = snapshot?.totals
   return (
     <dl className="apc-totals">

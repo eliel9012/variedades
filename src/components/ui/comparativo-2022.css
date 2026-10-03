@@ -1,0 +1,23 @@
+/* Aba Comparativo 2022: cards de 2022 e 2026 lado a lado (desktop) ou um
+   embaixo do outro (celular), com o mesmo visual da apuração (apc-*). */
+.cmp { min-width: 0; }
+.cmp-head .apc-tabs { margin-top: 0; }
+.cmp-map .brazil-map { max-width: 560px; margin: 16px auto 0; }
+.content-grid.cmp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cmp-card { min-width: 0; }
+.cmp-final { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--apc-muted); white-space: normal; text-align: right; }
+.cmp-list { min-height: 0; }
+.cmp-more { display: block; width: 100%; min-height: 44px; margin-top: 12px; border: 1px solid var(--outline-variant); border-radius: var(--radius-full); background: var(--surface-container-lowest); color: var(--ink); font: 600 12px 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
+.cmp-more:hover { border-color: var(--ink); }
+.cmp-more:focus-visible { outline: 2px solid var(--apc-accent); outline-offset: 2px; }
+.cmp-wait { margin: 18px 0 0; padding: 16px; border-radius: 16px; border: 1px dashed color-mix(in srgb, #6b7a2e 40%, transparent); color: var(--apc-text); font: 400 15px/22px 'Plus Jakarta Sans', sans-serif; }
+.cmp-wait p { margin: 0; }
+.cmp-wait__sync { margin-top: 8px !important; color: var(--apc-muted); font-size: 13px; line-height: 18px; }
+.cmp-card .apc-office .state-header__chip { white-space: nowrap; }
+@media (max-width: 900px) {
+  .content-grid.cmp-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .cmp-card .apc-totals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cmp-final { text-align: left; }
+}
