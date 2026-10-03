@@ -307,11 +307,11 @@ async function startWorker() {
         else notFound(res)
         return
       }
-      // /og/{uf}.jpg e /og/{uf}/{cidade}.jpg: lidas do disco a cada pedido (sem
+      // /og/{uf}.jpg e /og/{uf}/{cidade}.jpg (e /og/2022/... do comparativo): lidas do disco a cada pedido (sem
       // cache em memória: são milhares); quem segura é o Cloudflare.
       if (urlPath.startsWith('/og/')) {
         const rel = urlPath.slice('/og/'.length)
-        const body = /^[a-z]{2}(\/[a-z0-9-]+)?\.jpg$/.test(rel) ? await readFile(path.join(OG_DIR, rel)).catch(() => null) : null
+        const body = /^(2022\/)?[a-z]{2}(\/[a-z0-9-]+)?\.jpg$/.test(rel) ? await readFile(path.join(OG_DIR, rel)).catch(() => null) : null
         if (body) send(req, res, makeEntry(body, 'image/jpeg', CACHE.og))
         else notFound(res)
         return

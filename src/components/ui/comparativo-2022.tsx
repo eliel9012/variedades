@@ -5,6 +5,7 @@ import { leaderColors, PARTY_COLORS, type Leader, type Summary } from '@/resumo-
 import { canHaveSecondRound, states } from '@/data'
 import type { Municipio } from '@/municipios'
 import type { ResultRow, ResultSnapshot } from '@/types'
+import { ShareWhatsApp } from '@/components/ui/share-whatsapp'
 import './comparativo-2022.css'
 
 // Seletor de cidade (busca + mapa da UF) só carrega quando alguém abre.
@@ -153,6 +154,8 @@ type Props = {
   onSelectUf: (uf: string) => void
   onOpenCity: (municipio: Municipio) => void
   onBack: () => void
+  /** Texto do botão Compartilhar (mesmo do botão flutuante do App). */
+  shareText?: string
 }
 
 function CandidateList({ rows, deputado, photoById, label }: { rows: ResultRow[]; deputado: boolean; photoById?: Map<string, string | undefined>; label: string }) {
@@ -183,7 +186,7 @@ function CandidateList({ rows, deputado, photoById, label }: { rows: ResultRow[]
   )
 }
 
-export default function Comparativo2022({ uf, ufName, capital, city, cityName, citySlug, cityNotFound, office, offices, round, onRound, live, photoById, municipios, municipiosError, cityPickerOpen, onToggleCityPicker, onCloseCityPicker, onSelectOffice, onSelectUf, onOpenCity, onBack }: Props) {
+export default function Comparativo2022({ uf, ufName, capital, city, cityName, citySlug, cityNotFound, office, offices, round, onRound, live, photoById, municipios, municipiosError, cityPickerOpen, onToggleCityPicker, onCloseCityPicker, onSelectOffice, onSelectUf, onOpenCity, onBack, shareText }: Props) {
   const federal = uf === 'Brasil'
   const deputado = isDeputado(office)
   const cityCd = city?.cd ?? null
@@ -232,11 +235,13 @@ export default function Comparativo2022({ uf, ufName, capital, city, cityName, c
           </div>
           {citySlug ? (
             <div className="state-header__actions">
+              {!cityNotFound && <ShareWhatsApp variant="inline" text={shareText} />}
               <button type="button" className="state-header__back" onClick={onBack}>
                 <span aria-hidden="true">←</span> Voltar para {uf}
               </button>
             </div>
           ) : (
+            <>
             <div className="state-switcher">
               <label htmlFor="cmp-state-select">{federal ? 'Escolher estado' : `Trocar Estado (${uf})`}</label>
               <select id="cmp-state-select" className="state-switcher__select" value={federal ? '' : uf} onChange={(event) => onSelectUf(event.target.value)}>
@@ -244,6 +249,10 @@ export default function Comparativo2022({ uf, ufName, capital, city, cityName, c
                 {UFS.map((item) => <option key={item} value={item}>{item}</option>)}
               </select>
             </div>
+            <div className="state-header__actions">
+              <ShareWhatsApp variant="inline" text={shareText} />
+            </div>
+            </>
           )}
         </div>
         <div className="office-pill-switcher" role="group" aria-label="Cargo do comparativo">

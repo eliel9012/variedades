@@ -920,6 +920,7 @@ function App() {
             cityName={cityName}
             citySlug={citySlug}
             cityNotFound={cityNotFound}
+            shareText={shareText}
             office={office}
             offices={state === 'Brasil' ? ['Presidente'] : activeRound === 2 ? stateOffices(state).filter((item) => canHaveSecondRound(item)) : stateOffices(state)}
             round={activeRound}

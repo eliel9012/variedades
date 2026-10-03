@@ -147,6 +147,24 @@
         background: radial-gradient(ellipse 620px 620px at 70% 35%, rgba(163, 208, 190, 0.14), transparent 65%);
       }
 
+      /* Selo do ano na versão 2022: deixa claro na prévia que não é a apuração ao vivo. */
+      .year-stamp {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 70px;
+        z-index: 2;
+        padding: 10px 26px;
+        border-radius: 999px;
+        background: #f5c518;
+        color: #0d3b2e;
+        font-family: 'Newsreader', serif;
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 1;
+      }
+      .is-2022 .year-stamp { display: block; }
+
       .bar {
         position: relative;
         width: 56px;
@@ -207,6 +225,7 @@
           <polyline points="0,190 70,150 140,165 210,90 280,110 400,40" stroke="#fbf9f3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
           <circle cx="400" cy="40" r="8" fill="#ffd54a" />
         </svg>
+        <div class="year-stamp">2022</div>
         <div class="bar green"></div>
         <div class="bar yellow"></div>
         <div class="bar blue"></div>
@@ -218,14 +237,17 @@
       const host = new URLSearchParams(location.search).get('host')
       if (host) document.getElementById('host').textContent = host
       // ?place=Florianópolis (SC)&prep=em: imagem do recorte (scripts/og-places.mjs).
-      window.setPlace = (place, prep) => {
+      // year=2022: prévia do comparativo (resultado de 2022 ao lado de 2026).
+      window.setPlace = (place, prep, year) => {
         const canvas = document.querySelector('.canvas')
         const title = document.getElementById('title')
         canvas.classList.toggle('is-place', Boolean(place))
         if (!place) return
-        document.querySelector('.mark-label').textContent = 'Apura Brasil · Eleições 2026'
-        document.getElementById('lead').textContent = `Apuração ${prep}`
-        document.getElementById('subtitle').textContent = 'Ao vivo, direto do TSE'
+        const is2022 = year === '2022'
+        canvas.classList.toggle('is-2022', is2022)
+        document.querySelector('.mark-label').textContent = is2022 ? 'Apura Brasil · Eleições 2022' : 'Apura Brasil · Eleições 2026'
+        document.getElementById('lead').textContent = is2022 ? `Eleições 2022 ${prep}` : `Apuração ${prep}`
+        document.getElementById('subtitle').textContent = is2022 ? 'Comparado com 2026, dados do TSE' : 'Ao vivo, direto do TSE'
         // Uma imagem serve os dois domínios: sem endereço no rodapé.
         document.getElementById('host').style.display = 'none'
         document.querySelector('.footer-line .sep').style.display = 'none'
@@ -239,7 +261,7 @@
         }
       }
       const params = new URLSearchParams(location.search)
-      if (params.get('place')) window.setPlace(params.get('place'), params.get('prep') || 'em')
+      if (params.get('place')) window.setPlace(params.get('place'), params.get('prep') || 'em', params.get('year'))
     </script>
   </body>
 </html>

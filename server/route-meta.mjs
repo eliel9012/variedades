@@ -47,7 +47,9 @@ export async function routeMeta(dataDir, urlPath) {
   if (parts[0] !== 'apuracao' && !comparativo) return null
   // Comparativo 2022: mesmos recortes; sem cargo, a UF abre em Governador.
   const build = comparativo ? (office, place, placeIn) => metaComparativo(office ?? 'Governador', place, placeIn) : meta
-  if (comparativo && (parts.length === 1 || (parts[1] === 'presidente' && parts.length === 2))) return metaComparativo('Presidente', 'Brasil', 'no Brasil')
+  // Comparativo usa as prévias de 2022 (og-places/2022/, scripts/og-places.mjs --year 2022).
+  const img = comparativo ? '2022/' : ''
+  if (comparativo && (parts.length === 1 || (parts[1] === 'presidente' && parts.length === 2))) return { ...metaComparativo('Presidente', 'Brasil', 'no Brasil'), image: '2022/br', imageAlt: 'Apura Brasil, eleições 2022 no Brasil' }
   if (parts[1] === 'presidente' && parts.length === 2) return meta('Presidente', 'Brasil', 'no Brasil')
   const uf = (parts[1] || '').toUpperCase()
   if (!UF_NAMES[uf] || parts.length > 4) return null
@@ -64,16 +66,16 @@ export async function routeMeta(dataDir, urlPath) {
     const name = await cityName(dataDir, uf, slug)
     if (!name) return null
     const place = `${name} (${uf})`
-    return { ...build(office, place, `em ${place}`), image: `${uf.toLowerCase()}/${slug}`, imageAlt: `Apura Brasil, ${comparativo ? 'comparativo 2022' : 'apuração'} em ${place}` }
+    return { ...build(office, place, `em ${place}`), image: `${img}${uf.toLowerCase()}/${slug}`, imageAlt: `Apura Brasil, ${comparativo ? 'eleições 2022' : 'apuração'} em ${place}` }
   }
   const placeIn = `${UF_PREPOSITION[uf] ?? 'em'} ${UF_NAMES[uf]}`
-  return { ...build(office, UF_NAMES[uf], placeIn), image: uf.toLowerCase(), imageAlt: `Apura Brasil, ${comparativo ? 'comparativo 2022' : 'apuração'} ${placeIn}` }
+  return { ...build(office, UF_NAMES[uf], placeIn), image: `${img}${uf.toLowerCase()}`, imageAlt: `Apura Brasil, ${comparativo ? 'eleições 2022' : 'apuração'} ${placeIn}` }
 }
 
 function metaComparativo(office, place, placeIn) {
   const label = office === 'Deputado distrital' ? 'Deputado Distrital' : office
   return {
-    title: `Comparativo 2022 · ${label} · ${place} · Apura Brasil`,
+    title: `Eleições 2022 · ${label} · ${place} · Apura Brasil`,
     description: `Resultado de ${label} ${placeIn} em 2022 ao lado da apuração de 2026, com os dados oficiais do TSE.`,
   }
 }

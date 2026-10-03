@@ -32,9 +32,9 @@ try {
 } catch {
   // Sem dados de 2022 nesta máquina: aquece só as imagens.
 }
-for (const item of await readdir(DIR, { withFileTypes: true })) {
-  if (item.isFile()) urls.push(`/og/${item.name}?v=${OG_PLACES_VERSION}`)
-  else for (const name of await readdir(path.join(DIR, item.name))) urls.push(`/og/${item.name}/${name}?v=${OG_PLACES_VERSION}`)
+// og-places/{uf}.jpg, {uf}/{cidade}.jpg e 2022/... (prévias do comparativo).
+for (const name of await readdir(DIR, { recursive: true })) {
+  if (name.endsWith('.jpg')) urls.push(`/og/${name.split(path.sep).join('/')}?v=${OG_PLACES_VERSION}`)
 }
 
 const counts = {}
