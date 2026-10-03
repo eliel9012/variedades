@@ -72,7 +72,19 @@ function pathForCity(uf: string, slug: string) {
 }
 
 // Cargos com arquivo por município na aba de apuração local.
-const CITY_OFFICES = ['Presidente', 'Governador', 'Senador']
+// Cargos da aba de estados (UF e cidade). No DF o deputado da casa local é o
+// distrital; nas outras UFs, o estadual.
+function stateOffices(uf: string) {
+  return ['Presidente', 'Governador', 'Senador', 'Deputado federal', uf === 'DF' ? 'Deputado distrital' : 'Deputado estadual']
+}
+// Ajusta o cargo ao trocar de UF: deputado estadual e distrital se trocam
+// entre si; qualquer outro cargo inválido cai pra Governador.
+function fitOffice(office: string, uf: string) {
+  if (stateOffices(uf).includes(office)) return office
+  if (office === 'Deputado estadual' && uf === 'DF') return 'Deputado distrital'
+  if (office === 'Deputado distrital' && uf !== 'DF') return 'Deputado estadual'
+  return 'Governador'
+}
 
 function pathForTab(tab: ViewTab, uf?: string): string {
   if (tab === 'presidente') return '/apuracao/presidente'
@@ -251,7 +263,7 @@ function App() {
       // pra Governador, senão a aba mostraria o cargo errado. Na cidade vale
       // também Presidente, e o distrital não (não há arquivo por município).
       setOffice((current) => {
-        const valid = inCity ? CITY_OFFICES.includes(current) : current === 'Governador' || current === 'Senador' || (current === 'Presidente' && nextUf !== 'Brasil' && previousUf !== 'Brasil') || (current === 'Deputado distrital' && nextUf === 'DF')
+        const valid = current === 'Presidente' ? nextUf !== 'Brasil' && (inCity || previousUf !== 'Brasil') : nextUf !== 'Brasil' && stateOffices(nextUf).includes(current)
         return valid ? current : 'Governador'
       })
     } else if (nextTab === 'presidente') {
@@ -286,14 +298,11 @@ function App() {
   const availableStates = statesForOffice(activeTab === 'governadorSenador' && office === 'Presidente' ? 'Governador' : office)
   const secondRoundAvailable = canHaveSecondRound(office)
   const activeRound: 1 | 2 = secondRoundAvailable ? round : 1
-  // Cargos reachable na aba "Governador & Senador": só Governador/Senador, e
-  // Deputado distrital quando a UF selecionada é DF (mesma exceção de
-  // selectMapState). Deputado federal/estadual ficam em Composição Parlamentar.
+  // Cargos da aba de estados: os mesmos na UF e na cidade (stateOffices).
   const governadorSenadorOffices = useMemo(() => {
-    // Presidente também por UF (arquivo oficial de cada estado) e por cidade.
-    const base = citySlug ? CITY_OFFICES : state === 'DF' ? ['Presidente', 'Governador', 'Senador', 'Deputado distrital'] : ['Presidente', 'Governador', 'Senador']
+    const base = stateOffices(state)
     return activeRound === 2 ? base.filter((item) => canHaveSecondRound(item)) : base
-  }, [activeRound, state, citySlug])
+  }, [activeRound, state])
   const selectedBrazilState = state === 'Brasil' ? undefined : BRAZIL_STATE_BY_UF[state]
 
   // Lido de forma síncrona dentro do laço de polling para comparar contra a
@@ -494,8 +503,9 @@ function App() {
   const selectMapState = (nextState: BrazilState) => {
     setCityPickerOpen(false)
     setState(nextState.uf)
-    if ((office === 'Presidente' && state === 'Brasil') || (office === 'Deputado distrital' && nextState.uf !== 'DF')) {
-      setOffice('Governador')
+    const nextOffice = office === 'Presidente' && state === 'Brasil' ? 'Governador' : fitOffice(office, nextState.uf)
+    if (nextOffice !== office) {
+      setOffice(nextOffice)
       setRound(1)
     }
     setPanelState(nextState)
@@ -507,8 +517,9 @@ function App() {
   const changeStateViaSwitcher = (nextUf: string) => {
     setCityPickerOpen(false)
     setState(nextUf)
-    if (office === 'Deputado distrital' && nextUf !== 'DF') {
-      setOffice('Governador')
+    const nextOffice = fitOffice(office, nextUf)
+    if (nextOffice !== office) {
+      setOffice(nextOffice)
       setRound(1)
     }
     navigate(pathForTab('governadorSenador', nextUf))
@@ -532,8 +543,10 @@ function App() {
       navigate(pathForTab('presidente'))
     } else if (nextTab === 'governadorSenador') {
       let nextOffice = office
-      if (office === 'Presidente' || office === 'Deputado federal' || office === 'Deputado estadual') {
+      if (office === 'Presidente' || state === 'Brasil') {
         nextOffice = 'Governador'
+      } else {
+        nextOffice = fitOffice(office, state)
       }
       if (nextOffice !== office) {
         setOffice(nextOffice)
@@ -732,7 +745,7 @@ function App() {
               </div>
             </div>
           ) : (
-            <p className="state-header__empty">Selecione um estado no mapa para ver governador e senador.</p>
+            <p className="state-header__empty">Selecione um estado no mapa para ver presidente, governador, senador e deputados.</p>
           )}
           <div className="office-pill-switcher" role="group" aria-label="Cargo em disputa no estado">
             {governadorSenadorOffices.map((item) => (
