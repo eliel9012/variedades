@@ -232,7 +232,7 @@ function collectCandidateRows(carg: unknown): ResultRow[] {
 
 type TSESections = { st?: string; ts?: string }
 
-function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: string, round: 1 | 2, office: string, source: string): ResultSnapshot {
+function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: string, round: 1 | 2, office: string, source: string, snapshotScope = scope): ResultSnapshot {
   const rows = collectCandidateRows(result.carg).sort((left, right) => right.votes - left.votes)
   const territory = scope === 'BR' ? 'br' : scope.toLowerCase()
   // Totais oficiais do próprio arquivo do território (s = seções, v.vv = votos
@@ -247,7 +247,7 @@ function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: s
   return {
     election: 'Eleições Gerais 2026',
     round,
-    scope,
+    scope: snapshotScope,
     office,
     updatedAt,
     totalVotes,
@@ -267,7 +267,17 @@ async function readLocalSnapshot(round: 1 | 2, scope: string, office: string, si
   return { ...local, office, status: local.status === 'official' ? 'official' : 'waiting' } satisfies ResultSnapshot
 }
 
-async function fetchFromSource(source: OfficialSource, effectiveRound: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
+// Município: mesmo diretório da UF, nome do arquivo com `{uf}{cd}` (código
+// TSE de 5 dígitos). O arquivo da cidade já traz `s` (seções), então o -ab
+// não é baixado. O snapshot sai com escopo `{UF}-{cd}` para nunca se misturar
+// com o recorte da UF no cache/deduplicação.
+export type TSECity = { cd: string }
+
+export function cityScope(uf: string, cd: string) {
+  return `${uf.toUpperCase()}-${cd}`
+}
+
+async function fetchFromSource(source: OfficialSource, effectiveRound: 1 | 2, scope: string, office: string, signal?: AbortSignal, city?: TSECity) {
   const config = await loadConfig(source)
   let election: ReturnType<typeof chooseElection>
   try {
@@ -280,7 +290,12 @@ async function fetchFromSource(source: OfficialSource, effectiveRound: 1 | 2, sc
   const code = padElection(election.code)
   const officeCode = String(officeCodes[office as keyof typeof officeCodes] || 3).padStart(4, '0')
   const territory = scope === 'BR' ? 'br' : scope.toLowerCase()
-  const resultUrl = `${source.root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-c${officeCode}-e${code}-u`
+  const fileStem = city ? `${territory}${city.cd}` : territory
+  const resultUrl = `${source.root}/${election.cycle}/${election.code}/dados/${territory}/${fileStem}-c${officeCode}-e${code}-u`
+  if (city) {
+    const result = await fetchOfficial<TSEResult>(resultUrl, signal, source.jsonOnly)
+    return parseOfficial(result, null, scope, effectiveRound, office, resultUrl, cityScope(scope, city.cd))
+  }
   const trackingUrl = `${source.root}/${election.cycle}/${election.code}/dados/${territory}/${territory}-e${code}-ab`
   const [result, tracking] = await Promise.all([
     fetchOfficial<TSEResult>(resultUrl, signal, source.jsonOnly),
@@ -289,15 +304,16 @@ async function fetchFromSource(source: OfficialSource, effectiveRound: 1 | 2, sc
   return parseOfficial(result, tracking, scope, effectiveRound, office, resultUrl)
 }
 
-export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal) {
+export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: string, signal?: AbortSignal, city?: TSECity) {
   const effectiveRound = canHaveSecondRound(office) ? round : 1
   try {
     if (office !== 'Presidente' && scope === 'BR') throw new Error('TSE UF required')
+    if (city && (scope === 'BR' || !/^\d{5}$/.test(city.cd))) throw new Error('TSE city invalid')
     const sources = (await mirrorUsable(signal)) ? [mirrorSource(), TSE_SOURCE] : [TSE_SOURCE]
     let lastError: unknown
     for (const source of sources) {
       try {
-        return await fetchFromSource(source, effectiveRound, scope, office, signal)
+        return await fetchFromSource(source, effectiveRound, scope, office, signal, city)
       } catch (error) {
         if (signal?.aborted) throw error
         lastError = error
@@ -312,6 +328,8 @@ export async function fetchTSESnapshot(round: 1 | 2, scope: string, office: stri
     // normal: não dispara a tentativa de fallback local (que seria abortada
     // de qualquer forma) e não deve virar um erro de sincronização.
     if (signal?.aborted) throw error
+    // latest.json só descreve UF/BR: não serve de fallback para cidade.
+    if (city) throw error instanceof Error ? error : new Error('TSE unavailable')
     try {
       const fallback = await readLocalSnapshot(effectiveRound, scope, office, signal)
       if (fallback.status === 'official') return fallback

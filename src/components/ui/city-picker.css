@@ -1,0 +1,39 @@
+.city-picker {
+  display: grid;
+  grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr);
+  gap: var(--space-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+}
+.city-picker__search { display: flex; flex-direction: column; gap: var(--space-sm); min-width: 0; }
+.city-picker__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
+.city-picker__head label { color: var(--muted); font: 600 11px/14px var(--font-sans); text-transform: uppercase; letter-spacing: .06em; }
+.city-picker__close { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--outline-variant); border-radius: var(--radius-full); background: transparent; color: var(--ink); font: 400 20px/1 var(--font-sans); }
+.city-picker__close:hover { border-color: var(--ink); }
+.city-picker__field { display: flex; align-items: center; gap: 10px; padding: var(--space-sm) 0; border-bottom: 1px solid var(--outline); color: var(--teal); }
+.city-picker__field:focus-within { border-bottom-color: var(--ink); }
+.city-picker__field input { width: 100%; min-height: 32px; border: 0; background: transparent; color: var(--ink); font: 400 16px var(--font-sans); }
+.city-picker__field input:focus-visible { outline: none; }
+.city-picker__field input::placeholder { color: var(--outline); }
+.city-picker__list { margin: 0; padding: 0; list-style: none; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--surface-container-low); overflow: hidden; }
+.city-picker__list[hidden] { display: none; }
+.city-picker__option { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); min-height: 44px; padding: 8px 12px; border-bottom: 1px solid var(--border-subtle); color: var(--ink); font: 600 14px var(--font-sans); cursor: pointer; }
+.city-picker__option:last-child { border-bottom: 0; }
+.city-picker__option small { color: var(--teal); font: 600 10px/14px var(--font-sans); text-transform: uppercase; letter-spacing: .08em; }
+.city-picker__option.is-highlighted { background: var(--deep); color: var(--on-primary); }
+.city-picker__option.is-highlighted small { color: var(--inverse-primary); }
+.city-picker__hint { margin: 0; color: var(--muted); font: 400 13px/18px var(--font-sans); }
+.city-picker__map { position: relative; min-width: 0; margin: 0; }
+.city-picker__svg { display: block; width: 100%; height: auto; max-height: 520px; touch-action: manipulation; }
+.city-picker__shape { fill: var(--surface-container-high); stroke: var(--surface-container-lowest); stroke-width: .6; stroke-linejoin: round; cursor: pointer; transition: fill 120ms ease; }
+.city-picker__shape:hover { fill: color-mix(in srgb, var(--teal) 45%, var(--surface-container-high)); }
+.city-picker__shape.is-hover { fill: color-mix(in srgb, var(--teal) 55%, var(--surface-container-high)); stroke: var(--deep); stroke-width: 1.4; pointer-events: none; }
+.city-picker__shape.is-active { fill: var(--deep); stroke: var(--deep); stroke-width: 1.4; pointer-events: none; }
+.city-picker__map-empty { display: grid; place-items: center; min-height: 240px; color: var(--muted); font: 400 13px/18px var(--font-sans); border: 1px dashed var(--outline-variant); border-radius: var(--radius-md); }
+.city-picker__tooltip { position: absolute; z-index: 2; transform: translate(-50%, calc(-100% - 12px)); max-width: 220px; padding: 6px 10px; border-radius: var(--radius-default); background: var(--inverse-surface); color: var(--inverse-on-surface); font: 600 12px/16px var(--font-sans); white-space: nowrap; pointer-events: none; }
+@media (max-width: 600px) {
+  .city-picker { grid-template-columns: 1fr; gap: var(--space-md); padding: var(--space-sm); }
+  .city-picker__close { width: 44px; height: 44px; }
+}

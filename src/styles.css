@@ -299,3 +299,14 @@ footer a, .source-note a, .text-button { display: inline-flex; align-items: cent
 .result-votes { color: var(--muted); font: 400 12px 'Plus Jakarta Sans', sans-serif; font-variant-numeric: tabular-nums; }
 .result-status { font: 600 11px 'Plus Jakarta Sans', sans-serif; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .result-status--highlight { color: var(--teal); }
+.state-header__title-row h2:focus { outline: none; }
+.state-header__title-row h2:focus-visible { outline: 2px solid var(--tertiary); outline-offset: 3px; }
+.state-header__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.state-header__back { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; border: 1px solid var(--outline-variant); border-radius: var(--radius-full); background: var(--surface-container-lowest); color: var(--ink); padding: 9px 16px; font: 600 13px var(--font-sans); }
+.state-header__back:hover { border-color: var(--ink); }
+.office-pill--city { border-style: dashed; }
+.office-pill--city.is-open { border-style: solid; border-color: var(--ink); background: var(--surface-container-high); }
+@media (max-width: 760px) {
+  .state-header__actions { margin-left: 0; width: 100%; }
+  .state-header__back { min-height: 44px; }
+}

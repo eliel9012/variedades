@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import StatsBento from '@/components/ui/stats-bento'
 import BrazilMap from '@/components/ui/brazil-map'
 import StateCandidatesPanel from '@/components/ui/state-candidates-panel'
@@ -13,12 +13,16 @@ import FavoriteButton from '@/components/ui/favorite-button'
 import { useFavoriteCandidates } from './hooks/use-favorites'
 import { BRAZIL_STATE_BY_UF, type BrazilState } from './data/brazil-states'
 import { candidateSeed, canHaveSecondRound, initialSnapshot, officeCodes, statesForOffice } from './data'
-import { fetchTSESnapshot } from './tse-results'
+import { cityScope, fetchTSESnapshot } from './tse-results'
+import { formatCityName, useMunicipios, type Municipio } from './municipios'
 import { ElectionDayBanner } from './components/ui/election-day-banner'
 import { MapaApuracao } from './components/ui/mapa-apuracao'
 import { ShareWhatsApp } from './components/ui/share-whatsapp'
 import { navigate, parseUfSegment, ufSegment, useRoute } from './router'
 import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
+
+// Seletor de cidade (busca + mapa da UF) só carrega quando alguém abre.
+const CityPicker = lazy(() => import('./components/ui/city-picker'))
 
 type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'historico' | 'estatisticas' | 'cenarios'
 // Cenários (IA) fica fora do menu: só abre direto pelo endereço /ia.
@@ -53,6 +57,21 @@ function ufFromApuracaoPath(pathname: string): string | null {
   if (first !== 'apuracao') return null
   return parseUfSegment(second)
 }
+
+// /apuracao/{uf}/{slug}: apuração de um município (slug único por UF, ver
+// /data/municipios/{uf}.json).
+function citySlugFromPath(pathname: string): string | null {
+  const [first, second, third] = pathname.split('/').filter(Boolean)
+  if (first !== 'apuracao' || !parseUfSegment(second) || !third) return null
+  return /^[a-z0-9-]+$/.test(third) ? third : null
+}
+
+function pathForCity(uf: string, slug: string) {
+  return `/apuracao/${ufSegment(uf)}/${slug}`
+}
+
+// Cargos com arquivo por município na aba de apuração local.
+const CITY_OFFICES = ['Presidente', 'Governador', 'Senador']
 
 function pathForTab(tab: ViewTab, uf?: string): string {
   if (tab === 'presidente') return '/apuracao/presidente'
@@ -218,14 +237,17 @@ function App() {
   useEffect(() => {
     const nextTab = tabFromPath(pathname)
     setActiveTab(nextTab)
+    setCityPickerOpen(false)
     if (nextTab === 'governadorSenador') {
       const nextUf = ufFromApuracaoPath(pathname) ?? 'Brasil'
+      const inCity = citySlugFromPath(pathname) != null
       setState(nextUf)
       // Mesma lista de cargos válidos de changeTab/selectMapState: fora dela
       // (Presidente, Deputado federal/estadual, ou distrital fora do DF) cai
-      // pra Governador, senão a aba mostraria o cargo errado.
+      // pra Governador, senão a aba mostraria o cargo errado. Na cidade vale
+      // também Presidente, e o distrital não (não há arquivo por município).
       setOffice((current) => {
-        const valid = current === 'Governador' || current === 'Senador' || (current === 'Deputado distrital' && nextUf === 'DF')
+        const valid = inCity ? CITY_OFFICES.includes(current) : current === 'Governador' || current === 'Senador' || (current === 'Deputado distrital' && nextUf === 'DF')
         return valid ? current : 'Governador'
       })
     } else if (nextTab === 'presidente') {
@@ -235,7 +257,23 @@ function App() {
   }, [pathname])
   const [panelState, setPanelState] = useState<BrazilState | null>(null)
   const [snapshot, setSnapshot] = useState<ResultSnapshot>(initialSnapshot)
-  const scope = state === 'Brasil' ? 'BR' : state
+  // Município aberto: só na aba Governador & Senador, com UF válida na URL.
+  // O slug vem da URL; código/nome saem da lista estática da UF.
+  const [cityPickerOpen, setCityPickerOpen] = useState(false)
+  const citySlug = activeTab === 'governadorSenador' && state !== 'Brasil' ? citySlugFromPath(pathname) : null
+  const municipiosUf = activeTab === 'governadorSenador' && state !== 'Brasil' && (citySlug != null || cityPickerOpen) ? state : null
+  const { list: municipios, error: municipiosError } = useMunicipios(municipiosUf)
+  const city: Municipio | null = citySlug && municipios ? (municipios.find((item) => item.slug === citySlug) ?? null) : null
+  const cityNotFound = citySlug != null && (municipiosError || (municipios != null && city == null))
+  // Enquanto a lista da UF carrega (ou o slug não existe), não consulta nada:
+  // nunca mostrar números da UF sob o nome da cidade.
+  const pollPaused = citySlug != null && city == null
+  const cityName = city ? formatCityName(city.nm) : null
+  const baseScope = state === 'Brasil' ? 'BR' : state
+  const cityCd = city?.cd ?? null
+  const scope = cityCd ? cityScope(baseScope, cityCd) : baseScope
+  const cityTitleRef = useRef<HTMLHeadingElement>(null)
+  const cityButtonRef = useRef<HTMLButtonElement>(null)
   const [candidates, setCandidates] = useState<Candidate[]>(candidateSeed)
   const [online, setOnline] = useState(navigator.onLine)
   const [search, setSearch] = useState('')
@@ -247,9 +285,9 @@ function App() {
   // Deputado distrital quando a UF selecionada é DF (mesma exceção de
   // selectMapState). Deputado federal/estadual ficam em Composição Parlamentar.
   const governadorSenadorOffices = useMemo(() => {
-    const base = state === 'DF' ? ['Governador', 'Senador', 'Deputado distrital'] : ['Governador', 'Senador']
+    const base = citySlug ? CITY_OFFICES : state === 'DF' ? ['Governador', 'Senador', 'Deputado distrital'] : ['Governador', 'Senador']
     return activeRound === 2 ? base.filter((item) => canHaveSecondRound(item)) : base
-  }, [activeRound, state])
+  }, [activeRound, state, citySlug])
   const selectedBrazilState = state === 'Brasil' ? undefined : BRAZIL_STATE_BY_UF[state]
 
   // Lido de forma síncrona dentro do laço de polling para comparar contra a
@@ -283,6 +321,10 @@ function App() {
     let attempt = 0
     const recorte: Recorte = { round: activeRound, scope, office }
     recorteRef.current = recorte
+    if (pollPaused) {
+      setSyncMeta((current) => ({ ...current, phase: 'idle', nextPollAt: null, error: null }))
+      return
+    }
 
     // Troca de recorte: antes de qualquer fetch, troca o snapshot exibido pelo
     // salvo deste recorte (ou um vazio em espera), pra uma falha de rede nunca
@@ -303,7 +345,7 @@ function App() {
       controller = new AbortController()
       setSyncMeta((current) => ({ ...current, phase: 'syncing', lastCheckedAt: checkedAt, error: null, attempt }))
       try {
-        const next = await fetchTSESnapshot(activeRound, scope, office, controller.signal)
+        const next = await fetchTSESnapshot(activeRound, baseScope, office, controller.signal, cityCd ? { cd: cityCd } : undefined)
         if (!alive) return
         if (!isValidSnapshot(next)) throw new Error('TSE resposta inválida')
         if (!matchesRecorte(next, recorte)) throw new Error('TSE resposta de outro recorte')
@@ -341,7 +383,7 @@ function App() {
       if (timer) window.clearTimeout(timer)
       controller?.abort()
     }
-  }, [activeRound, office, online, scope])
+  }, [activeRound, office, online, scope, baseScope, cityCd, pollPaused])
 
   useEffect(() => {
     fetch('/data/candidates.json')
@@ -380,7 +422,7 @@ function App() {
     const q = search.trim().toLocaleLowerCase('pt-BR')
     return candidates
       .filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes])
-      .filter((candidate) => state === 'Brasil' || candidate.uf === state)
+      .filter((candidate) => state === 'Brasil' || office === 'Presidente' || candidate.uf === state)
       .filter((candidate) => !q || `${candidate.ballotName} ${candidate.party} ${candidate.number}`.toLocaleLowerCase('pt-BR').includes(q))
       .slice(0, 8)
   }, [candidates, office, search, state])
@@ -388,12 +430,13 @@ function App() {
   // Ranking da apuração: linhas do próprio arquivo do TSE (nome, partido,
   // votos, % e situação já publicados), só quando o snapshot é deste recorte e
   // já tem voto apurado. Antes disso a lista mostra as candidaturas cadastradas.
-  const snapshotScope = state === 'Brasil' ? 'BR' : state
+  const snapshotScope = scope
   const resultRows = useMemo(() => {
+    if (pollPaused) return []
     if (snapshot.status !== 'official' || snapshot.scope !== snapshotScope || (snapshot.office != null && snapshot.office !== office)) return []
     if (!snapshot.rows.some((row) => row.votes > 0)) return []
     return snapshot.rows
-  }, [snapshot, snapshotScope, office])
+  }, [snapshot, snapshotScope, office, pollPaused])
   const visibleResultRows = useMemo(() => {
     const q = search.trim().toLocaleLowerCase('pt-BR')
     return resultRows
@@ -402,7 +445,7 @@ function App() {
   }, [resultRows, search, office])
   const photoById = useMemo(() => new Map(candidates.map((candidate) => [candidate.sqCandidate, candidate.photo])), [candidates])
 
-  const selectedCandidateCount = useMemo(() => candidates.filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes]).filter((candidate) => state === 'Brasil' || candidate.uf === state).length, [candidates, office, state])
+  const selectedCandidateCount = useMemo(() => candidates.filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes]).filter((candidate) => state === 'Brasil' || office === 'Presidente' || candidate.uf === state).length, [candidates, office, state])
 
   const changeOffice = (nextOffice: string) => {
     setOffice(nextOffice)
@@ -416,9 +459,30 @@ function App() {
   // federal/estadual pertencem só à Composição Parlamentar.
   const selectGovernadorSenadorOffice = (nextOffice: string) => {
     if (!governadorSenadorOffices.includes(nextOffice)) return
+    // Na cidade a UF fica fixa (Presidente também é por município).
+    if (citySlug) {
+      setOffice(nextOffice)
+      if (!canHaveSecondRound(nextOffice)) setRound(1)
+      return
+    }
     changeOffice(nextOffice)
   }
+  const openCity = (municipio: Municipio) => {
+    setCityPickerOpen(false)
+    setPanelState(null)
+    navigate(pathForCity(state, municipio.slug))
+    window.requestAnimationFrame(() => cityTitleRef.current?.focus())
+  }
+  const closeCityPicker = () => {
+    setCityPickerOpen(false)
+    window.requestAnimationFrame(() => cityButtonRef.current?.focus())
+  }
+  const backToState = () => {
+    setCityPickerOpen(false)
+    navigate(pathForTab('governadorSenador', state))
+  }
   const selectMapState = (nextState: BrazilState) => {
+    setCityPickerOpen(false)
     setState(nextState.uf)
     if (office === 'Presidente' || (office === 'Deputado distrital' && nextState.uf !== 'DF')) {
       setOffice('Governador')
@@ -431,6 +495,7 @@ function App() {
   // clique no mapa). Mantém a mesma exceção de deputado distrital usada em
   // selectMapState: fora do DF esse cargo não existe.
   const changeStateViaSwitcher = (nextUf: string) => {
+    setCityPickerOpen(false)
     setState(nextUf)
     if (office === 'Deputado distrital' && nextUf !== 'DF') {
       setOffice('Governador')
@@ -450,6 +515,7 @@ function App() {
   const changeTab = (nextTab: ViewTab) => {
     setActiveTab(nextTab)
     setPanelState(null)
+    setCityPickerOpen(false)
     if (nextTab === 'presidente') {
       setOffice('Presidente')
       setState('Brasil')
@@ -626,7 +692,25 @@ function App() {
 
       {activeTab === 'governadorSenador' && (
         <section className="state-header-block" aria-label="Estado selecionado">
-          {selectedBrazilState ? (
+          {selectedBrazilState && citySlug ? (
+            <div className="state-header state-header--city">
+              <span className="state-header__badge">{selectedBrazilState.uf}</span>
+              <div className="state-header__info">
+                <div className="state-header__title-row">
+                  <h2 id="city-title" ref={cityTitleRef} tabIndex={-1}>{cityName ?? (cityNotFound ? 'Cidade não encontrada' : 'Carregando cidade…')}</h2>
+                  {city && <span className={`state-header__chip is-${scoreboardStatus}`}>{scoreboardStatusWord}</span>}
+                </div>
+                <p className="state-header__meta">
+                  {cityNotFound ? `Não achamos esse município na lista de ${selectedBrazilState.name}. Volte e escolha pela busca.` : `Município · ${selectedBrazilState.name}${city?.capital ? ' · capital' : ''} · apuração por cidade`}
+                </p>
+              </div>
+              <div className="state-header__actions">
+                <button type="button" className="state-header__back" onClick={backToState}>
+                  <span aria-hidden="true">←</span> Voltar para {selectedBrazilState.uf}
+                </button>
+              </div>
+            </div>
+          ) : selectedBrazilState ? (
             <div className="state-header">
               <span className="state-header__badge">{selectedBrazilState.uf}</span>
               <div className="state-header__info">
@@ -658,10 +742,31 @@ function App() {
                 {item === 'Deputado distrital' ? 'Deputado Distrital' : item}
               </button>
             ))}
-            <button type="button" className="office-pill is-disabled" aria-disabled="true" disabled title="Dado regional ainda não disponível">
-              Mesorregiões
-            </button>
+            {selectedBrazilState && (
+              <button
+                ref={cityButtonRef}
+                type="button"
+                className={`office-pill office-pill--city${cityPickerOpen ? ' is-open' : ''}`}
+                aria-expanded={cityPickerOpen}
+                aria-controls="city-picker-panel"
+                onClick={() => setCityPickerOpen((current) => !current)}
+              >
+                {citySlug ? 'Trocar cidade' : 'Cidade'}
+              </button>
+            )}
+            {!citySlug && (
+              <button type="button" className="office-pill is-disabled" aria-disabled="true" disabled title="Dado regional ainda não disponível">
+                Mesorregiões
+              </button>
+            )}
           </div>
+          {selectedBrazilState && cityPickerOpen && (
+            <div id="city-picker-panel">
+              <Suspense fallback={<p className="state-header__empty">Carregando seletor de cidades…</p>}>
+                <CityPicker uf={selectedBrazilState.uf} ufName={selectedBrazilState.name} municipios={municipios} loadError={municipiosError} activeCd={city?.cd} onSelect={openCity} onClose={closeCityPicker} />
+              </Suspense>
+            </div>
+          )}
         </section>
       )}
 
@@ -671,7 +776,7 @@ function App() {
         </section>
       )}
 
-      {activeTab === 'governadorSenador' && (
+      {activeTab === 'governadorSenador' && !citySlug && (
         <section className="map-section" aria-labelledby="map-title">
           <div className="map-section__heading"><div><p className="eyebrow">território eleitoral</p><h2 id="map-title">Escolha uma UF. Veja a disputa local.</h2></div><p>Mapa, menu e candidatos trabalham juntos. No DF, o cargo local é deputado distrital.</p></div>
           <BrazilMap activeUf={state === 'Brasil' ? undefined : state} selectedOffice={office} candidateCount={selectedCandidateCount} onSelect={selectMapState} onSelectOffice={selectGovernadorSenadorOffice} />
@@ -711,7 +816,7 @@ function App() {
 
       {(activeTab === 'presidente' || activeTab === 'governadorSenador') && (
         <>
-          <StatsBento office={office} scope={state} round={activeRound} coverage={coverage} countedSections={snapshot.countedSections} totalSections={snapshot.totalSections} totalVotes={snapshot.totalVotes} candidateCount={resultRows.length || selectedCandidateCount} syncLabel={syncLabel} lastChecked={lastChecked} syncDetail={syncDetail} />
+          <StatsBento office={office} scope={cityName ? `${cityName} (${state})` : state} round={activeRound} coverage={coverage} countedSections={snapshot.countedSections} totalSections={snapshot.totalSections} totalVotes={snapshot.totalVotes} candidateCount={resultRows.length || selectedCandidateCount} syncLabel={syncLabel} lastChecked={lastChecked} syncDetail={syncDetail} />
 
           <section className="content-grid">
             <article className="panel leaderboard-panel">
