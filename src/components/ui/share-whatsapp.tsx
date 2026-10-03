@@ -21,7 +21,8 @@ function WhatsAppIcon() {
 
 /** Compartilhar no WhatsApp: botão no topo no desktop e botão flutuante no
  * celular (o topo some ao rolar, e no celular é onde mais se compartilha). */
-export function ShareWhatsApp({ variant, text }: { variant: 'topbar' | 'floating'; text?: string }) {
+// inline: dentro do card da UF/cidade, visível em qualquer tela.
+export function ShareWhatsApp({ variant, text }: { variant: 'topbar' | 'floating' | 'inline'; text?: string }) {
   return (
     <a
       className={`share-whatsapp share-whatsapp--${variant}`}
@@ -31,10 +32,10 @@ export function ShareWhatsApp({ variant, text }: { variant: 'topbar' | 'floating
       aria-label="Compartilhar no WhatsApp (abre em nova aba)"
       // Umami conta o clique como evento (Eventos > compartilhar-whatsapp).
       data-umami-event="compartilhar-whatsapp"
-      data-umami-event-local={variant === 'topbar' ? 'topo' : 'flutuante'}
+      data-umami-event-local={variant === 'topbar' ? 'topo' : variant === 'inline' ? 'card' : 'flutuante'}
     >
       <WhatsAppIcon />
-      {variant === 'topbar' && <span>Compartilhar</span>}
+      {variant !== 'floating' && <span>Compartilhar</span>}
     </a>
   )
 }

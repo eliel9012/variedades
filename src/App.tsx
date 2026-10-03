@@ -765,6 +765,7 @@ function App() {
                 </p>
               </div>
               <div className="state-header__actions">
+                {!cityNotFound && <ShareWhatsApp variant="inline" text={shareText} />}
                 <button type="button" className="state-header__back" onClick={backToState}>
                   <span aria-hidden="true">←</span> Voltar para {selectedBrazilState.uf}
                 </button>
@@ -785,6 +786,9 @@ function App() {
                 <select id="state-switcher-select" className="state-switcher__select" value={state} onChange={(event) => changeStateViaSwitcher(event.target.value)}>
                   {availableStates.map((item) => <option key={item} value={item}>{item}</option>)}
                 </select>
+              </div>
+              <div className="state-header__actions">
+                <ShareWhatsApp variant="inline" text={shareText} />
               </div>
             </div>
           ) : (

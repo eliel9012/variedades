@@ -36,6 +36,20 @@
   display: none;
 }
 
+/* Mesmo tamanho do botão "Voltar para UF" ao lado. */
+.share-whatsapp--inline {
+  min-height: 40px;
+  padding: 9px 16px 9px 13px;
+  border-radius: var(--radius-full);
+  font: 600 13px var(--font-sans);
+}
+
+@media (max-width: 760px) {
+  .share-whatsapp--inline {
+    min-height: 44px;
+  }
+}
+
 @media (max-width: 760px) {
   .share-whatsapp--topbar {
     display: none;
