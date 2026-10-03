@@ -943,12 +943,22 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
   // Senador) ou um estado específico na lista "ver todos os estados" de
   // Governador, caso a pessoa queira reduzir o que está na tela além do que o
   // carregamento aos poucos (useIncrementalReveal) já faz sozinho.
+  // Na visão "Todos" só Presidente vem aberto; Governador e Senador começam
+  // recolhidos (a página ficava enorme no celular). Filtrar um cargo abre a
+  // seção dele. Na lista "todos os estados" de Governador, cada UF começa
+  // recolhida; com uma UF escolhida, ela vem aberta.
   const [presidenteSectionOpen, setPresidenteSectionOpen] = useState(true)
-  const [governadorSectionOpen, setGovernadorSectionOpen] = useState(true)
-  const [senadoSectionOpen, setSenadoSectionOpen] = useState(true)
-  const [collapsedGovernadorUfs, setCollapsedGovernadorUfs] = useState<Set<string>>(() => new Set())
+  const [governadorSectionOpen, setGovernadorSectionOpen] = useState(() => officeFilter !== 'Todos')
+  const [senadoSectionOpen, setSenadoSectionOpen] = useState(() => officeFilter !== 'Todos')
+  useEffect(() => {
+    setGovernadorSectionOpen(officeFilter !== 'Todos')
+    setSenadoSectionOpen(officeFilter !== 'Todos')
+  }, [officeFilter])
+  // UFs que a pessoa abriu/fechou à mão (inverte o padrão da lista).
+  const [toggledGovernadorUfs, setToggledGovernadorUfs] = useState<Set<string>>(() => new Set())
+  useEffect(() => setToggledGovernadorUfs(new Set()), [ufFilter])
   const toggleGovernadorUfCollapsed = (uf: string) => {
-    setCollapsedGovernadorUfs((current) => {
+    setToggledGovernadorUfs((current) => {
       const next = new Set(current)
       if (next.has(uf)) next.delete(uf)
       else next.add(uf)
@@ -1523,7 +1533,7 @@ export function PesquisasTracker({ candidates: _candidates, snapshot: _snapshot,
                 ) : (
                   <>
                     {governadorGroups.slice(0, governadorVisibleCount).map((group, index) => {
-                      const isCollapsed = collapsedGovernadorUfs.has(group.uf)
+                      const isCollapsed = (ufFilter === 'all') !== toggledGovernadorUfs.has(group.uf)
                       const label = raceLabel(group.office, group.uf)
                       const isLast = index === governadorGroups.length - 1
                       return (
