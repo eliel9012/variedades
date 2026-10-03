@@ -38,3 +38,10 @@
     display: none;
   }
 }
+
+/* Sem anunciante para a posição (AdSense marca data-ad-status="unfilled"),
+ * a unidade ainda reserva altura e deixa um buraco branco na página: some.
+ * !important porque o AdSense escreve display:block inline. */
+.ad-slot ins.adsbygoogle[data-ad-status='unfilled'] {
+  display: none !important;
+}
