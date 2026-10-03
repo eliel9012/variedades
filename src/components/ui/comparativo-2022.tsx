@@ -28,7 +28,6 @@ type Candidato2022 = { sq: string; numero: number; nome: string; partido: string
 type Recorte2022 = { ano: number; turno: number; cargo: string; uf: string; cd_municipio?: string; nm_municipio?: string; totais: Totais2022; candidatos: Candidato2022[] }
 // Deputados por município vêm compactos: [[sq, votos]], nomes no arquivo da UF.
 type MunicipioCompacto = { cd_municipio: string; nm_municipio: string; totais: Totais2022; candidatos: Array<[string, number]> }
-type Municipios2022 = { municipios: Array<Recorte2022 | MunicipioCompacto> }
 type ResumoBr2022 = { ufs: Record<string, { lider: Candidato2022 | null; segundo: Candidato2022 | null; validos: number }> }
 
 const jsonCache = new Map<string, Promise<unknown>>()
@@ -81,8 +80,8 @@ async function loadRecorte(office: string, round: 1 | 2, uf: string, cityCd: str
   if (uf === 'Brasil') return load2022<Recorte2022>(`${dir}/t${round}/br.json`)
   const ufFile = `${dir}/t${round}/${uf.toLowerCase()}.json`
   if (!cityCd) return load2022<Recorte2022>(ufFile)
-  const [lista, ufRecorte] = await Promise.all([load2022<Municipios2022>(`${dir}/t${round}/municipios/${uf.toLowerCase()}.json`), isDeputado(office) ? load2022<Recorte2022>(ufFile) : Promise.resolve(null)])
-  const item = lista?.municipios.find((municipio) => municipio.cd_municipio === cityCd)
+  // Um arquivo por município (scripts/split-2022.py), não o da UF inteira.
+  const [item, ufRecorte] = await Promise.all([load2022<Recorte2022 | MunicipioCompacto>(`${dir}/t${round}/municipios/${uf.toLowerCase()}/${cityCd}.json`), isDeputado(office) ? load2022<Recorte2022>(ufFile) : Promise.resolve(null)])
   if (!item) return null
   const compact = item.candidatos.length > 0 && Array.isArray(item.candidatos[0])
   if (!compact) return item as Recorte2022
@@ -104,17 +103,10 @@ const leaderOf = (candidato: Candidato2022 | null | undefined): Leader | null =>
 /** Quem teve mais votos em cada UF em 2022, no formato do resumo do mapa da
  * apuração (para reaproveitar leaderColors). Deputados: sem mapa colorido. */
 async function loadMapa(office: string, round: 1 | 2): Promise<Summary | null> {
-  if (office === 'Presidente') {
-    const lista = await Promise.all(UFS.map((uf) => load2022<Recorte2022>(`presidente/t${round}/${uf.toLowerCase()}.json`).catch(() => null)))
-    const statesSummary: Summary['states'] = {}
-    lista.forEach((recorte, index) => {
-      const sorted = recorte ? [...recorte.candidatos].sort((a, b) => b.votos - a.votos) : []
-      if (sorted[0]) statesSummary[UFS[index]] = { sectionsPct: null, updatedAt: null, leader: leaderOf(sorted[0]), second: leaderOf(sorted[1]) }
-    })
-    return Object.keys(statesSummary).length ? { generatedAt: '2022', states: statesSummary } : null
-  }
-  if (office !== 'Governador' && office !== 'Senador') return null
-  const resumo = await load2022<ResumoBr2022>(`${CARGO_DIR[office]}/t${round}/br.json`)
+  if (office !== 'Presidente' && office !== 'Governador' && office !== 'Senador') return null
+  // Presidente: mapa.json (scripts/split-2022.py), mesmo formato do br.json de
+  // Governador/Senador, 1 pedido em vez de 27.
+  const resumo = await load2022<ResumoBr2022>(`${CARGO_DIR[office]}/t${round}/${office === 'Presidente' ? 'mapa' : 'br'}.json`)
   if (!resumo?.ufs) return null
   const statesSummary: Summary['states'] = {}
   for (const [uf, value] of Object.entries(resumo.ufs)) {
