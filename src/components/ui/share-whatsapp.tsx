@@ -1,10 +1,11 @@
 import './share-whatsapp.css'
 
-// Sempre compartilha a home: ela abre na seção certa do momento (Pesquisas
-// antes da eleição, apuração a partir das 16h40 do dia 4, ver getDefaultTab).
-function whatsappHref(): string {
-  const text = `Eleições 2026: apuração ao vivo com os dados oficiais do TSE: ${window.location.origin}/`
-  return `https://wa.me/?text=${encodeURIComponent(text)}`
+// Sem texto da tela (abas fora da apuração), compartilha a home: ela abre na
+// seção certa do momento (ver getDefaultTab). Na apuração, o App manda o
+// resumo do recorte aberto com o link dele.
+function whatsappHref(text?: string): string {
+  const message = text ?? `Eleições 2026: apuração ao vivo com os dados oficiais do TSE: ${window.location.origin}/`
+  return `https://wa.me/?text=${encodeURIComponent(message)}`
 }
 
 function WhatsAppIcon() {
@@ -20,11 +21,11 @@ function WhatsAppIcon() {
 
 /** Compartilhar no WhatsApp: botão no topo no desktop e botão flutuante no
  * celular (o topo some ao rolar, e no celular é onde mais se compartilha). */
-export function ShareWhatsApp({ variant }: { variant: 'topbar' | 'floating' }) {
+export function ShareWhatsApp({ variant, text }: { variant: 'topbar' | 'floating'; text?: string }) {
   return (
     <a
       className={`share-whatsapp share-whatsapp--${variant}`}
-      href={whatsappHref()}
+      href={whatsappHref(text)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Compartilhar no WhatsApp (abre em nova aba)"

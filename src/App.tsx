@@ -63,12 +63,31 @@ function ufFromApuracaoPath(pathname: string): string | null {
 // /data/municipios/{uf}.json).
 function citySlugFromPath(pathname: string): string | null {
   const [first, second, third] = pathname.split('/').filter(Boolean)
-  if (first !== 'apuracao' || !parseUfSegment(second) || !third) return null
+  if (first !== 'apuracao' || !parseUfSegment(second) || !third || third in OFFICE_BY_SLUG) return null
   return /^[a-z0-9-]+$/.test(third) ? third : null
 }
 
-function pathForCity(uf: string, slug: string) {
-  return `/apuracao/${ufSegment(uf)}/${slug}`
+// Cargo na URL: /apuracao/{uf}/{cargo} e /apuracao/{uf}/{cidade}/{cargo}.
+// Nenhum município tem slug igual a estes (conferido nas listas de todas as UFs).
+const OFFICE_SLUG: Record<string, string> = {
+  Presidente: 'presidente',
+  Governador: 'governador',
+  Senador: 'senador',
+  'Deputado federal': 'deputadofederal',
+  'Deputado estadual': 'deputadoestadual',
+  'Deputado distrital': 'deputadodistrital',
+}
+const OFFICE_BY_SLUG: Record<string, string> = Object.fromEntries(Object.entries(OFFICE_SLUG).map(([office, slug]) => [slug, office]))
+
+function officeFromPath(pathname: string): string | null {
+  const [first, second, third, fourth] = pathname.split('/').filter(Boolean)
+  if (first !== 'apuracao' || !parseUfSegment(second)) return null
+  return OFFICE_BY_SLUG[fourth ?? ''] ?? OFFICE_BY_SLUG[third ?? ''] ?? null
+}
+
+function pathForPlace(uf: string, citySlug: string | null, office?: string) {
+  const officePart = office && OFFICE_SLUG[office] ? `/${OFFICE_SLUG[office]}` : ''
+  return `/apuracao/${ufSegment(uf)}${citySlug ? `/${citySlug}` : ''}${officePart}`
 }
 
 // Cargos com arquivo por município na aba de apuração local.
@@ -262,7 +281,9 @@ function App() {
       // (Presidente, Deputado federal/estadual, ou distrital fora do DF) cai
       // pra Governador, senão a aba mostraria o cargo errado. Na cidade vale
       // também Presidente, e o distrital não (não há arquivo por município).
+      const urlOffice = officeFromPath(pathname)
       setOffice((current) => {
+        if (urlOffice && nextUf !== 'Brasil' && stateOffices(nextUf).includes(urlOffice)) return urlOffice
         const valid = current === 'Presidente' ? nextUf !== 'Brasil' && (inCity || previousUf !== 'Brasil') : nextUf !== 'Brasil' && stateOffices(nextUf).includes(current)
         return valid ? current : 'Governador'
       })
@@ -463,6 +484,28 @@ function App() {
       .filter((row) => !q || `${row.name ?? ''} ${row.party ?? ''} ${row.number ?? ''}`.toLocaleLowerCase('pt-BR').includes(q))
       .slice(0, office.startsWith('Deputado') ? 20 : 12)
   }, [resultRows, search, office])
+  // Nome do recorte aberto ("Franca (SP)", "São Paulo", "Brasil") para o
+  // título da aba e o texto de compartilhar.
+  const placeName = cityName ? `${cityName} (${state})` : state === 'Brasil' ? 'Brasil' : selectedBrazilState?.name ?? state
+  const placeIn = cityName ? `em ${placeName}` : placeTitle(state, selectedBrazilState?.name, null).replace(/^Eleições /, '')
+  const onResults = activeTab === 'presidente' || activeTab === 'governadorSenador'
+  const officeLabel = office === 'Deputado distrital' ? 'Deputado Distrital' : office
+  useEffect(() => {
+    document.title = onResults && !cityNotFound ? `Apuração ${officeLabel} · ${placeName} · Eleições 2026 · Apura Brasil` : 'Apura Brasil · Eleições 2026'
+  }, [onResults, officeLabel, placeName, cityNotFound])
+  // Compartilhar na apuração: só números publicados pelo TSE (top 3 do recorte
+  // aberto); sem voto ainda, só o convite com o link do recorte.
+  const shareText = useMemo(() => {
+    if (!onResults || cityNotFound) return undefined
+    // Link do que está na tela, com o cargo (mesmo se a URL aberta não tinha).
+    const url = `${window.location.origin}${activeTab === 'governadorSenador' && state !== 'Brasil' ? pathForPlace(state, citySlug, office) : pathname}`
+    const pct = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    const valid = resultRows.filter((row) => !row.voteDestination || row.voteDestination === 'Válido').slice(0, 3)
+    if (valid.length === 0 || !scopedSnapshot) return `Apuração de ${officeLabel} ${placeIn}, ao vivo com os dados oficiais do TSE: ${url}`
+    const share = scopedSnapshot.sectionsShare ?? (scopedSnapshot.totalSections ? (scopedSnapshot.countedSections / scopedSnapshot.totalSections) * 100 : undefined)
+    const ranking = valid.map((row, index) => `${index + 1}º ${row.name ?? 'Candidatura'}${row.party ? ` (${row.party})` : ''} ${pct.format(row.share)}%`).join('\n')
+    return `Apuração de ${officeLabel} ${placeIn}${share !== undefined ? `, ${pct.format(share)}% das seções apuradas` : ''} (TSE):\n${ranking}\nAcompanhe ao vivo: ${url}`
+  }, [onResults, cityNotFound, resultRows, scopedSnapshot, officeLabel, placeIn, pathname, activeTab, state, citySlug, office])
   const photoById = useMemo(() => new Map(candidates.map((candidate) => [candidate.sqCandidate, candidate.photo])), [candidates])
 
   const selectedCandidateCount = useMemo(() => candidates.filter((candidate) => candidate.officeCode === officeCodes[office as keyof typeof officeCodes]).filter((candidate) => state === 'Brasil' || office === 'Presidente' || candidate.uf === state).length, [candidates, office, state])
@@ -484,13 +527,15 @@ function App() {
     if (citySlug || (state !== 'Brasil' && (nextOffice === 'Presidente' || office === 'Presidente'))) {
       setOffice(nextOffice)
       if (!canHaveSecondRound(nextOffice)) setRound(1)
+      navigate(pathForPlace(state, citySlug, nextOffice))
       return
     }
     changeOffice(nextOffice)
+    if (state !== 'Brasil') navigate(pathForPlace(state, null, nextOffice))
   }
   const openCity = (municipio: Municipio) => {
     setCityPickerOpen(false)
-    navigate(pathForCity(state, municipio.slug))
+    navigate(pathForPlace(state, municipio.slug, office))
     window.requestAnimationFrame(() => cityTitleRef.current?.focus())
   }
   const closeCityPicker = () => {
@@ -499,7 +544,7 @@ function App() {
   }
   const backToState = () => {
     setCityPickerOpen(false)
-    navigate(pathForTab('governadorSenador', state))
+    navigate(pathForPlace(state, null, office))
   }
   const selectMapState = (nextState: BrazilState) => {
     setCityPickerOpen(false)
@@ -514,7 +559,7 @@ function App() {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       document.querySelector('.content-grid')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
     })
-    navigate(pathForTab('governadorSenador', nextState.uf))
+    navigate(pathForPlace(nextState.uf, null, nextOffice))
   }
   // Troca de estado pelo dropdown "Trocar Estado" (atalho redundante ao
   // clique no mapa). Mantém a mesma exceção de deputado distrital usada em
@@ -527,7 +572,7 @@ function App() {
       setOffice(nextOffice)
       setRound(1)
     }
-    navigate(pathForTab('governadorSenador', nextUf))
+    navigate(pathForPlace(nextUf, null, nextOffice))
   }
   const changeTab = (nextTab: ViewTab) => {
     setActiveTab(nextTab)
@@ -550,7 +595,7 @@ function App() {
       const nextStates = statesForOffice(nextOffice)
       const nextState = nextStates.includes(state) ? state : nextStates[0]
       if (nextState !== state) setState(nextState)
-      navigate(pathForTab('governadorSenador', nextState))
+      navigate(nextState === 'Brasil' ? pathForTab('governadorSenador') : pathForPlace(nextState, null, nextOffice))
     } else {
       navigate(pathForTab(nextTab))
     }
@@ -591,10 +636,10 @@ function App() {
         <div className="topbar-meta">
           <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{online ? 'conectado' : 'offline'}</span>
           <span className="edition">Eleições 2026</span>
-          <ShareWhatsApp variant="topbar" />
+          <ShareWhatsApp variant="topbar" text={shareText} />
         </div>
       </header>
-      <ShareWhatsApp variant="floating" />
+      <ShareWhatsApp variant="floating" text={shareText} />
 
       <AdSlot slot="header" />
 

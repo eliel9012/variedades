@@ -7,7 +7,7 @@ const UF_PREPOSITION: Record<string, 'no' | 'na' | 'em'> = {
 }
 
 export function placeTitle(uf: string, ufName: string | undefined, cityName: string | null) {
-  if (cityName) return `Eleições em ${cityName}`
+  if (cityName) return `Eleições em ${cityName} (${uf})`
   if (uf === 'Brasil' || !ufName) return 'Eleições no Brasil'
   return `Eleições ${UF_PREPOSITION[uf] ?? 'em'} ${ufName}`
 }
