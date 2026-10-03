@@ -16,6 +16,7 @@
 
 import cluster from 'node:cluster'
 import http from 'node:http'
+import { applyRouteMeta, routeMeta } from './route-meta.mjs'
 import { availableParallelism } from 'node:os'
 import { readFile, stat, readdir } from 'node:fs/promises'
 import { brotliCompressSync, gzipSync, constants as zlibConstants } from 'node:zlib'
@@ -151,7 +152,23 @@ function indexForHosts(entry) {
     if (host.endsWith('eleicoesphvox.com.br')) body = body.replaceAll('/og-image.png?', '/og-image-phvox.png?')
     byHost.set(host, body === html ? entry : makeEntry(Buffer.from(body), entry.type, entry.cacheControl))
   }
-  return (req) => byHost.get(String(req.headers.host || '').toLowerCase().split(':')[0]) ?? entry
+  // Rotas de apuração ganham título/descrição/og:url próprios (route-meta.mjs).
+  // Cache limitado: são no máximo UFs x municípios x cargos, gerados sob demanda.
+  const byRoute = new Map()
+  return async (req, urlPath) => {
+    const knownHost = PUBLIC_HOSTS.find((item) => item === String(req.headers.host || '').toLowerCase().split(':')[0]) ?? PUBLIC_HOSTS[0]
+    const base = byHost.get(knownHost) ?? entry
+    if (!urlPath) return base
+    const key = `${knownHost}${urlPath}`
+    const hit = byRoute.get(key)
+    if (hit) return hit
+    const info = await routeMeta(DATA_DIR, urlPath)
+    if (!info) return base
+    const routed = makeEntry(Buffer.from(applyRouteMeta(base.body.toString('utf8'), knownHost, urlPath, info)), entry.type, entry.cacheControl)
+    byRoute.set(key, routed)
+    if (byRoute.size > 3000) byRoute.delete(byRoute.keys().next().value)
+    return routed
+  }
 }
 
 const SECURITY_HEADERS = {
@@ -276,7 +293,7 @@ async function startWorker() {
         return
       }
       if (urlPath === '/' || urlPath === '/index.html') {
-        send(req, res, indexFor(req))
+        send(req, res, await indexFor(req))
         return
       }
       const entry = dist.get(urlPath)
@@ -285,7 +302,7 @@ async function startWorker() {
         return
       }
       // Rota da SPA (sem extensão) -> index.html; arquivo inexistente -> 404.
-      if (!path.extname(urlPath)) send(req, res, indexFor(req))
+      if (!path.extname(urlPath)) send(req, res, await indexFor(req, urlPath))
       else notFound(res)
     } catch (error) {
       console.error(error)
