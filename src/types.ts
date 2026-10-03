@@ -27,6 +27,18 @@ export type ResultRow = {
   voteDestination?: string
 }
 
+/** Contagem publicada pelo TSE com o % que o próprio arquivo traz (nunca calculado aqui). */
+export type ResultTally = { count: number; pct?: number }
+
+/** Totais do território, lidos dos blocos `e` (eleitorado) e `v` (votos) do arquivo do TSE. */
+export type ResultTotals = {
+  turnout?: ResultTally
+  valid?: ResultTally
+  blank?: ResultTally
+  nulls?: ResultTally
+  abstention?: ResultTally
+}
+
 export type ResultSnapshot = {
   election: string
   round: 1 | 2
@@ -38,6 +50,9 @@ export type ResultSnapshot = {
   countedSections: number
   totalSections: number
   rows: ResultRow[]
+  /** % de seções apuradas publicado pelo TSE (s.pst); ausente em snapshots antigos. */
+  sectionsShare?: number
+  totals?: ResultTotals
   /**
    * `offline` is a read-only presentation condition (see
    * docs/sync-protocol.md "Comportamento offline"): it is derived from

@@ -1,4 +1,4 @@
-import type { ResultRow, ResultSnapshot } from './types'
+import type { ResultRow, ResultSnapshot, ResultTally, ResultTotals } from './types'
 import { canHaveSecondRound, officeCodes } from './data'
 
 const CONFIG_URL = import.meta.env.VITE_TSE_RESULTS_CONFIG_URL || 'https://resultados.tse.jus.br/oficial/comum/config/ele-c.jws'
@@ -230,7 +230,26 @@ function collectCandidateRows(carg: unknown): ResultRow[] {
   return rows
 }
 
-type TSESections = { st?: string; ts?: string }
+type TSESections = { st?: string; ts?: string; pst?: string }
+type TSEElectorate = { c?: string; pc?: string; a?: string; pa?: string }
+type TSEVotes = { vv?: string; pvv?: string; vb?: string; pvb?: string; tvn?: string; ptvn?: string }
+
+// Só entra no total o que o arquivo publica; campo ausente fica undefined (N/D na tela).
+function tally(count: string | undefined, pct: string | undefined): ResultTally | undefined {
+  if (count === undefined || count === '') return undefined
+  return { count: toNumber(count), pct: pct === undefined || pct === '' ? undefined : toNumber(pct) }
+}
+
+function parseTotals(electorate: TSEElectorate | undefined, votes: TSEVotes | undefined): ResultTotals | undefined {
+  if (!electorate && !votes) return undefined
+  return {
+    turnout: tally(electorate?.c, electorate?.pc),
+    valid: tally(votes?.vv, votes?.pvv),
+    blank: tally(votes?.vb, votes?.pvb),
+    nulls: tally(votes?.tvn, votes?.ptvn),
+    abstention: tally(electorate?.a, electorate?.pa),
+  }
+}
 
 function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: string, round: 1 | 2, office: string, source: string, snapshotScope = scope): ResultSnapshot {
   const rows = collectCandidateRows(result.carg).sort((left, right) => right.votes - left.votes)
@@ -241,7 +260,8 @@ function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: s
   const resultSections = (result as { s?: TSESections }).s
   const trackingRow = tracking?.abr?.find((row) => row.cdabr === territory)
   const sections = resultSections ?? trackingRow?.s
-  const validVotes = (result as { v?: { vv?: string } }).v?.vv
+  const votesBlock = (result as { v?: TSEVotes }).v
+  const validVotes = votesBlock?.vv
   const totalVotes = validVotes !== undefined ? toNumber(validVotes) : rows.filter((row) => row.voteDestination !== 'Anulado').reduce((sum, row) => sum + row.votes, 0)
   const updatedAt = tseDateTimeToIso(result.dg, result.hg) ?? tseDateTimeToIso(tracking?.dg, tracking?.hg)
   return {
@@ -254,6 +274,8 @@ function parseOfficial(result: TSEResult, tracking: TSETracking | null, scope: s
     countedSections: toNumber(sections?.st),
     totalSections: toNumber(sections?.ts),
     rows,
+    sectionsShare: sections?.pst ? toNumber(sections.pst) : undefined,
+    totals: parseTotals((result as { e?: TSEElectorate }).e, votesBlock),
     status: 'official',
     source,
   }
