@@ -78,10 +78,36 @@
       }
 
       .footer-line {
-        margin-top: 48px;
+        margin-top: 22px;
         font-size: 20px;
         font-weight: 500;
         color: #8fb8a6;
+      }
+
+      /* Logos parceiras em branco sobre o verde; a bandeira do IK fica colorida. */
+      .partners {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+
+      .partners .phvox {
+        height: 40px;
+        width: auto;
+        filter: brightness(0) invert(1);
+        opacity: 0.94;
+      }
+
+      .partners .divider {
+        width: 2px;
+        height: 44px;
+        background: rgba(163, 208, 190, 0.45);
+      }
+
+      .partners .ik {
+        height: 50px;
+        width: auto;
       }
 
       /* Grafico decorativo (sem numero/rotulo: e so um motivo visual nas
@@ -136,7 +162,27 @@
         </div>
         <h1>Apura Brasil</h1>
         <p class="subtitle">Apuração ao vivo, direto do TSE</p>
-        <p class="footer-line">eleicoes.meulab.fun</p>
+        <div class="partners">
+          <img class="phvox" src="../public/phvox-logo.png" alt="PHVox" />
+          <span class="divider"></span>
+          <svg class="ik" viewBox="13 18 267 247" xmlns="http://www.w3.org/2000/svg" aria-label="IK">
+            <defs><clipPath id="flagClip"><rect x="15" y="20" width="45" height="30"/></clipPath></defs>
+            <g clip-path="url(#flagClip)">
+              <rect x="15" y="20" width="45" height="30" fill="#012169"/>
+              <path d="M15 20 L20.2 20 L60 46.5 L60 50 L54.8 50 L15 23.5 Z" fill="#FFFFFF"/>
+              <path d="M60 20 L54.8 20 L15 46.5 L15 50 L20.2 50 L60 23.5 Z" fill="#FFFFFF"/>
+              <path d="M15 20 L17.9 20 L60 48.0 L60 50 L57.1 50 L15 22.0 Z" fill="#C8102E"/>
+              <path d="M60 20 L57.1 20 L15 48.0 L15 50 L17.9 50 L60 22.0 Z" fill="#C8102E"/>
+              <rect x="32" y="20" width="11" height="30" fill="#FFFFFF"/>
+              <rect x="15" y="29.5" width="45" height="11" fill="#FFFFFF"/>
+              <rect x="35" y="20" width="5" height="30" fill="#C8102E"/>
+              <rect x="15" y="32.5" width="45" height="5" fill="#C8102E"/>
+            </g>
+            <path d="M18 59 L61 60 L61 263 L17 263 L17 60 Z" fill="#fbf9f3"/>
+            <path d="M95 60 L95 263 L138 263 L140 176 L217 263 L278 263 L184 157 L264 60 L211 61 L142 143 L138 141 L138 59 Z" fill="#fbf9f3"/>
+          </svg>
+        </div>
+        <p class="footer-line" id="host">eleicoes.meulab.fun</p>
       </div>
       <div class="chart-col">
         <svg class="trend-line" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,5 +196,9 @@
         <div class="bar green2"></div>
       </div>
     </div>
+    <script>
+      const host = new URLSearchParams(location.search).get('host')
+      if (host) document.getElementById('host').textContent = host
+    </script>
   </body>
 </html>

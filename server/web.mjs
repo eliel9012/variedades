@@ -140,10 +140,12 @@ function indexForHosts(entry) {
   const html = entry.body.toString('utf8')
   const byHost = new Map()
   for (const host of PUBLIC_HOSTS) {
-    const body = html.replace(
+    let body = html.replace(
       /(<meta (?:property="og:(?:url|image)"|name="twitter:image") content=")https:\/\/eleicoes\.meulab\.fun/g,
       `$1https://${host}`,
     )
+    // A imagem traz o endereço no rodapé: o domínio PHVox usa a versão dele.
+    if (host.endsWith('eleicoesphvox.com.br')) body = body.replaceAll('/og-image.png?', '/og-image-phvox.png?')
     byHost.set(host, body === html ? entry : makeEntry(Buffer.from(body), entry.type, entry.cacheControl))
   }
   return (req) => byHost.get(String(req.headers.host || '').toLowerCase().split(':')[0]) ?? entry
