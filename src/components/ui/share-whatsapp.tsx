@@ -28,6 +28,9 @@ export function ShareWhatsApp({ variant }: { variant: 'topbar' | 'floating' }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Compartilhar no WhatsApp (abre em nova aba)"
+      // Umami conta o clique como evento (Eventos > compartilhar-whatsapp).
+      data-umami-event="compartilhar-whatsapp"
+      data-umami-event-local={variant === 'topbar' ? 'topo' : 'flutuante'}
     >
       <WhatsAppIcon />
       {variant === 'topbar' && <span>Compartilhar</span>}

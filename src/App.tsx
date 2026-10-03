@@ -21,7 +21,8 @@ import { navigate, parseUfSegment, ufSegment, useRoute } from './router'
 import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 
 type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'historico' | 'estatisticas' | 'cenarios'
-const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'historico', 'estatisticas', 'cenarios']
+// Cenários (IA) fica fora do menu: só abre direto pelo endereço /ia.
+const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'historico', 'estatisticas']
 
 // Até pouco antes de fecharem as urnas do 1º turno (4 out 2026, 17h), a home
 // abre em Pesquisas, que é o que tem dado novo pra mostrar. A partir das 16h40
@@ -43,7 +44,7 @@ function tabFromPath(pathname: string): ViewTab {
   if (first === 'pesquisas') return 'pesquisas'
   if (first === 'historico') return 'historico'
   if (first === 'estatisticas') return 'estatisticas'
-  if (first === 'cenarios') return 'cenarios'
+  if (first === 'ia' || first === 'cenarios') return 'cenarios' // /cenarios: links antigos
   return getDefaultTab()
 }
 
@@ -60,7 +61,7 @@ function pathForTab(tab: ViewTab, uf?: string): string {
   if (tab === 'pesquisas') return '/pesquisas'
   if (tab === 'historico') return '/historico'
   if (tab === 'estatisticas') return '/estatisticas'
-  return '/cenarios'
+  return '/ia'
 }
 
 const format = new Intl.NumberFormat('pt-BR')
@@ -609,18 +610,6 @@ function App() {
           onKeyDown={handleTabKeyDown}
         >
           Estatísticas & Abstenção
-        </button>
-        <button
-          type="button"
-          role="tab"
-          id="tab-cenarios"
-          aria-selected={activeTab === 'cenarios'}
-          tabIndex={activeTab === 'cenarios' ? 0 : -1}
-          className={`view-tabs__tab${activeTab === 'cenarios' ? ' is-active' : ''}`}
-          onClick={() => changeTab('cenarios')}
-          onKeyDown={handleTabKeyDown}
-        >
-          Cenários (IA)
         </button>
       </div>
 

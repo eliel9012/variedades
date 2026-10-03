@@ -14,8 +14,8 @@ export type CenariosIAProps = {
 type Office = 'Presidente' | 'Governador'
 type PresidenteView = 'Nacional' | 'PorEstado'
 
-// URL de Cenários (ver src/router.ts): /cenarios/presidente[/uf],
-// /cenarios/governador/uf.
+// URL de Cenários (ver src/router.ts): /ia/presidente[/uf], /ia/governador/uf
+// (/cenarios/... de links antigos também abre).
 type CenariosRoute = { office: Office; presidenteView: PresidenteView; uf: string | null }
 
 function parseCenariosPath(pathname: string): CenariosRoute {
@@ -28,8 +28,8 @@ function parseCenariosPath(pathname: string): CenariosRoute {
 }
 
 function cenariosPath(office: Office, presidenteView: PresidenteView, uf: string | null): string {
-  if (office === 'Governador') return uf ? `/cenarios/governador/${ufSegment(uf)}` : '/cenarios/governador'
-  return presidenteView === 'PorEstado' && uf ? `/cenarios/presidente/${ufSegment(uf)}` : '/cenarios/presidente'
+  if (office === 'Governador') return uf ? `/ia/governador/${ufSegment(uf)}` : '/ia/governador'
+  return presidenteView === 'PorEstado' && uf ? `/ia/presidente/${ufSegment(uf)}` : '/ia/presidente'
 }
 
 type MarginSource = 'reported' | 'estimated_from_sample_size'
@@ -339,7 +339,7 @@ export function CenariosIA({ state }: CenariosIAProps) {
   // Voltar/avançar do navegador (ou link direto) enquanto a aba Cenários já
   // está montada. Cliques nos filtros abaixo já fazem o caminho inverso.
   useEffect(() => {
-    if (!pathname.startsWith('/cenarios')) return
+    if (!/^\/(ia|cenarios)(\/|$)/.test(pathname)) return
     const route = parseCenariosPath(pathname)
     setOffice(route.office)
     setPresidenteView(route.presidenteView)
