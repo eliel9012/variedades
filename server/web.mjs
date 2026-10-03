@@ -9,6 +9,8 @@
 //   o Cloudflare segurar o pico: s-maxage=10 + stale-if-error;
 // - /data/* lido direto de public/data (os scripts de sync regravam ali sem
 //   precisar de novo build);
+// - /tse/oficial/.../{uf}{cd}-c...-u.json (município) buscado no TSE sob
+//   demanda pelo processo principal (server/city-files.mjs);
 // - /api/* repassado para o backend de Cenários IA (127.0.0.1:8790);
 // - qualquer outra rota sem extensão devolve index.html (SPA).
 
@@ -20,6 +22,7 @@ import { brotliCompressSync, gzipSync, constants as zlibConstants } from 'node:z
 import { createHash } from 'node:crypto'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { CITY_CACHE, CITY_MISSING_CACHE, isCityPath, requestCityFile, serveCityRequests, validCityPath } from './city-files.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DIST_DIR = path.join(ROOT, 'dist')
@@ -243,6 +246,24 @@ async function startWorker() {
       }
       if (urlPath.startsWith('/tse/')) {
         const rel = urlPath.slice('/tse/'.length)
+        // Arquivo de município: buscado no TSE sob demanda (ver city-files.mjs).
+        if (isCityPath(rel)) {
+          if (!(await validCityPath(DATA_DIR, rel))) {
+            notFound(res)
+            return
+          }
+          const result = await requestCityFile(cluster, MIRROR_DIR, rel)
+          const entry = result === 'ok' ? await loadLive(MIRROR_DIR, rel, CITY_CACHE) : null
+          if (entry) send(req, res, entry, { 'access-control-allow-origin': '*' })
+          else if (result === 'missing') {
+            res.writeHead(404, { ...SECURITY_HEADERS, 'content-type': 'text/plain; charset=utf-8', 'cache-control': CITY_MISSING_CACHE })
+            res.end('Não encontrado')
+          } else {
+            res.writeHead(503, { ...SECURITY_HEADERS, 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store', 'retry-after': '10' })
+            res.end('TSE indisponível')
+          }
+          return
+        }
         const entry = await loadLive(MIRROR_DIR, rel, rel === 'status.json' ? CACHE.tseStatus : CACHE.tse)
         if (entry) send(req, res, entry, { 'access-control-allow-origin': '*' })
         else notFound(res)
@@ -280,6 +301,7 @@ async function startWorker() {
 
 if (cluster.isPrimary && WORKERS > 1) {
   console.log(`web: ${WORKERS} workers em http://${HOST}:${PORT} (dist=${DIST_DIR}, espelho=${MIRROR_DIR})`)
+  serveCityRequests(cluster, MIRROR_DIR)
   for (let i = 0; i < WORKERS; i += 1) cluster.fork()
   cluster.on('exit', (worker, code) => {
     console.error(`worker ${worker.process.pid} saiu (${code}); subindo outro`)
