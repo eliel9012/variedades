@@ -30,7 +30,7 @@ const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParl
 // adiantado por causa do UTC.
 const ELECTION_DAY_UTC_MS = Date.parse('2026-10-04T16:40:00-03:00')
 function getDefaultTab(): ViewTab {
-  return Date.now() >= ELECTION_DAY_UTC_MS ? 'governadorSenador' : 'pesquisas'
+  return Date.now() >= ELECTION_DAY_UTC_MS ? 'presidente' : 'pesquisas'
 }
 
 // URL por aba (ver src/router.ts): path é a fonte da verdade pra navegação
