@@ -499,6 +499,9 @@ function App() {
           <a className="brand-credit" href="https://phvox.com.br" target="_blank" rel="noreferrer" aria-label="Um projeto PHVox, abre em nova aba">
             <img src="/phvox-logo.png" alt="PHVox" width={263} height={60} />
           </a>
+          <a className="brand-credit brand-credit--ik" href="https://www.youtube.com/@Ivankleberfonseca" target="_blank" rel="noreferrer" aria-label="Canal IK no YouTube, abre em nova aba">
+            <img src="/ik-logo.svg" alt="IK" width={267} height={247} />
+          </a>
         </div>
         <div className="topbar-meta">
           <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{online ? 'conectado' : 'offline'}</span>
