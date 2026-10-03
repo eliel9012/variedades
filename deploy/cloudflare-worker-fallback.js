@@ -1,4 +1,4 @@
-// Worker na frente de eleicoes.meulab.fun (só HTML e /data; /tse, /assets e
+// Worker na frente de eleicoes.meulab.fun e eleicoesphvox.com.br (só HTML e /data; /tse, /assets e
 // /api ficam fora por rota): se a origem (esta máquina, via túnel) cair, entrega
 // a última cópia boa do site. O front, sem espelho do TSE atualizado, passa a
 // buscar a apuração direto no TSE, então o site segue funcionando.
@@ -11,9 +11,10 @@
 const FALLBACK_TTL = 7 * 24 * 3600
 
 function fallbackKey(url) {
-  // Rotas da SPA (sem extensão) compartilham a cópia do index.html.
+  // Rotas da SPA (sem extensão) compartilham a cópia do index.html. Uma cópia
+  // por domínio: o HTML traz og:url/og:image do domínio acessado.
   const isSpaRoute = !/\.[a-z0-9]+$/i.test(url.pathname)
-  return new Request(`https://apura-fallback.internal${isSpaRoute ? '/__spa__' : url.pathname}`)
+  return new Request(`https://apura-fallback.internal/${url.hostname}${isSpaRoute ? '/__spa__' : url.pathname}`)
 }
 
 export default {

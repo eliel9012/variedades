@@ -131,6 +131,24 @@ async function loadLive(baseDir, relPath, cacheControl) {
   return entry
 }
 
+// Domínios públicos do site: o index.html sai com og:url/og:image do domínio
+// acessado (WhatsApp e redes não rodam JS, leem o HTML como veio). O canonical
+// fica no domínio principal. Host desconhecido recebe o HTML do principal.
+const PUBLIC_HOSTS = ['eleicoes.meulab.fun', 'eleicoesphvox.com.br', 'www.eleicoesphvox.com.br']
+
+function indexForHosts(entry) {
+  const html = entry.body.toString('utf8')
+  const byHost = new Map()
+  for (const host of PUBLIC_HOSTS) {
+    const body = html.replace(
+      /(<meta (?:property="og:(?:url|image)"|name="twitter:image") content=")https:\/\/eleicoes\.meulab\.fun/g,
+      `$1https://${host}`,
+    )
+    byHost.set(host, body === html ? entry : makeEntry(Buffer.from(body), entry.type, entry.cacheControl))
+  }
+  return (req) => byHost.get(String(req.headers.host || '').toLowerCase().split(':')[0]) ?? entry
+}
+
 const SECURITY_HEADERS = {
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
@@ -191,6 +209,7 @@ async function startWorker() {
   const dist = await loadDist()
   const indexEntry = dist.get('/index.html')
   if (!indexEntry) throw new Error('dist/index.html não existe: rode npm run build')
+  const indexFor = indexForHosts(indexEntry)
 
   const server = http.createServer(async (req, res) => {
     try {
@@ -233,13 +252,17 @@ async function startWorker() {
         else notFound(res)
         return
       }
-      const entry = dist.get(urlPath === '/' ? '/index.html' : urlPath)
+      if (urlPath === '/' || urlPath === '/index.html') {
+        send(req, res, indexFor(req))
+        return
+      }
+      const entry = dist.get(urlPath)
       if (entry) {
         send(req, res, entry)
         return
       }
       // Rota da SPA (sem extensão) -> index.html; arquivo inexistente -> 404.
-      if (!path.extname(urlPath)) send(req, res, indexEntry)
+      if (!path.extname(urlPath)) send(req, res, indexFor(req))
       else notFound(res)
     } catch (error) {
       console.error(error)
