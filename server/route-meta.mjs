@@ -17,8 +17,6 @@ const OFFICE_BY_SLUG = {
   presidente: 'Presidente', governador: 'Governador', senador: 'Senador',
   deputadofederal: 'Deputado federal', deputadoestadual: 'Deputado estadual', deputadodistrital: 'Deputado distrital',
 }
-const DEFAULT_OFFICE = 'Governador'
-
 // Igual a formatCityName (src/municipios.ts).
 const LOWERCASE_WORDS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'em', 'na', 'no', 'nas', 'nos', 'a', 'o', 'à'])
 const capitalize = (word) => (word ? word.charAt(0).toLocaleUpperCase('pt-BR') + word.slice(1) : word)
@@ -49,7 +47,8 @@ export async function routeMeta(dataDir, urlPath) {
   if (parts[1] === 'presidente' && parts.length === 2) return meta('Presidente', 'Brasil', 'no Brasil')
   const uf = (parts[1] || '').toUpperCase()
   if (!UF_NAMES[uf] || parts.length > 4) return null
-  let office = DEFAULT_OFFICE
+  // Sem cargo na URL: título só com o lugar (a página mostra todos os cargos).
+  let office = null
   let slug = null
   const last = parts[parts.length - 1]
   if (parts.length >= 3 && OFFICE_BY_SLUG[last]) office = OFFICE_BY_SLUG[last]
@@ -67,6 +66,12 @@ export async function routeMeta(dataDir, urlPath) {
 }
 
 function meta(office, place, placeIn) {
+  if (!office) {
+    return {
+      title: `Apuração ${placeIn} · Eleições 2026 · Apura Brasil`,
+      description: `Acompanhe ao vivo a apuração de Presidente, Governador, Senador e Deputados ${placeIn} com os dados oficiais do TSE.`,
+    }
+  }
   const label = office === 'Deputado distrital' ? 'Deputado Distrital' : office
   return {
     title: `Apuração ${label} · ${place} · Eleições 2026 · Apura Brasil`,

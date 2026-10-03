@@ -491,8 +491,11 @@ function App() {
   const onResults = activeTab === 'presidente' || activeTab === 'governadorSenador'
   const officeLabel = office === 'Deputado distrital' ? 'Deputado Distrital' : office
   useEffect(() => {
-    document.title = onResults && !cityNotFound ? `Apuração ${officeLabel} · ${placeName} · Eleições 2026 · Apura Brasil` : 'Apura Brasil · Eleições 2026'
-  }, [onResults, officeLabel, placeName, cityNotFound])
+    // Sem cargo na URL (ex.: /apuracao/sc/florianopolis): título só com o lugar.
+    const officeInUrl = activeTab === 'presidente' || officeFromPath(pathname) !== null
+    const label = officeInUrl ? `Apuração ${officeLabel} · ${placeName}` : `Apuração ${placeIn}`
+    document.title = onResults && !cityNotFound ? `${label} · Eleições 2026 · Apura Brasil` : 'Apura Brasil · Eleições 2026'
+  }, [onResults, officeLabel, placeName, placeIn, cityNotFound, activeTab, pathname])
   // Compartilhar na apuração: só números publicados pelo TSE (top 3 do recorte
   // aberto); sem voto ainda, só o convite com o link do recorte.
   const shareText = useMemo(() => {
