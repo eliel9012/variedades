@@ -47,7 +47,7 @@ const SITE_OFFICES = new Set(['1', '3', '5', '6', '7', '8'])
 
 /** Estado por arquivo: ETag/Last-Modified, hash do último corpo e agenda. */
 const files = new Map()
-const upstreamState = UPSTREAMS.map((base) => ({ base, failures: 0, blockedUntil: 0 }))
+const upstreamState = UPSTREAMS.map((base) => ({ base, failures: 0, blockedUntil: 0, lastFailure: null }))
 const status = {
   startedAt: new Date().toISOString(),
   lastCycleAt: null,
@@ -82,13 +82,18 @@ function pickUpstream() {
   return available[0] ?? null
 }
 
-function penalize(upstream, httpStatus) {
+function penalize(upstream, httpStatus, error) {
+  // Vários pedidos em paralelo caem juntos na mesma piscada de rede: enquanto o
+  // upstream já está em espera, a falha conta uma vez só (não infla o contador
+  // nem a espera, nem dispara alerta de "falhas seguidas" à toa).
+  if (upstream.blockedUntil > Date.now()) return
   upstream.failures += 1
+  upstream.lastFailure = httpStatus ? `HTTP ${httpStatus}` : `rede (${error?.name === 'AbortError' ? 'timeout' : error?.cause?.code || error?.cause?.message || error?.message || 'erro'})`
   // 403/429 = provável bloqueio/limite: espera bem mais que num 5xx comum.
   const base = httpStatus === 403 || httpStatus === 429 ? 60_000 : 5_000
   const wait = Math.min(base * 2 ** Math.min(upstream.failures - 1, 5), 15 * 60_000)
   upstream.blockedUntil = Date.now() + jitter(wait)
-  log(`upstream ${upstream.base} em espera por ${Math.round(wait / 1000)}s (HTTP ${httpStatus ?? 'rede'})`)
+  log(`upstream ${upstream.base} em espera por ${Math.round(wait / 1000)}s (${upstream.lastFailure})`)
 }
 
 /** Busca um arquivo /oficial/... e grava no espelho se mudou. Se um
@@ -121,7 +126,7 @@ async function fetchFileFrom(upstream, relPath) {
   try {
     response = await fetch(`${upstream.base}/oficial/${relPath}`, { headers, signal: controller.signal })
   } catch (error) {
-    penalize(upstream, null)
+    penalize(upstream, null, error)
     throw error
   } finally {
     clearTimeout(timer)

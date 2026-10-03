@@ -121,7 +121,9 @@ async function check() {
   await setProblem(
     'tse-blocked',
     primaryBlocked,
-    `TSE direto em espera (${primary?.failures ?? '?'} falhas seguidas, provável limite/bloqueio). Ingest usando o upstream reserva.`,
+    `TSE direto em espera (${primary?.failures ?? '?'} falha(s) seguida(s), ${
+      /^HTTP (403|429)/.test(primary?.lastFailure ?? '') ? `${primary.lastFailure}: provável limite/bloqueio` : primary?.lastFailure ?? 'motivo n/d'
+    }). Ingest usando o upstream reserva.`,
     'TSE direto respondendo de novo',
   )
 
