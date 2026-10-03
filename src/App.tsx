@@ -592,12 +592,6 @@ function App() {
             <span className="hero-note">1º turno · 04 out 2026</span>
           </div>
         </div>
-        <div className="hero-orbit" aria-hidden="true">
-          <div className="orbit-ring ring-one" />
-          <div className="orbit-ring ring-two" />
-          <div className="orbit-center"><span>BR</span><small>2026</small></div>
-          <div className="orbit-dot dot-a" /><div className="orbit-dot dot-b" /><div className="orbit-dot dot-c" />
-        </div>
       </section>
 
       <div className="page-layout">
