@@ -713,7 +713,7 @@ function App() {
           onClick={() => changeTab('governadorSenador')}
           onKeyDown={handleTabKeyDown}
         >
-          Governador & Senador
+          Resultados estaduais
         </button>
         <button
           type="button"
