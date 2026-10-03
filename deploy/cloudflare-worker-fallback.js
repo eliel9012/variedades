@@ -1,5 +1,8 @@
-// Worker na frente de eleicoes.meulab.fun e eleicoesphvox.com.br (só HTML e /data; /tse, /assets e
-// /api ficam fora por rota): se a origem (esta máquina, via túnel) cair, entrega
+// Worker na frente de eleicoes.meulab.fun e eleicoesphvox.com.br, só nas páginas (HTML).
+// Ficam fora por rota /api, /tse, /sw.js, /healthz e os estáticos (/assets, /data,
+// /icons, logos, og-image*, manifest, favicon, robots/ads/sitemap, /.well-known): esses
+// já ficam no cache do Cloudflare com stale-if-error, e cada execução conta na cota
+// de 100 mil/dia do plano Free. Se a origem (esta máquina, via túnel) cair, entrega
 // a última cópia boa do site. O front, sem espelho do TSE atualizado, passa a
 // buscar a apuração direto no TSE, então o site segue funcionando.
 //
