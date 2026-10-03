@@ -45,7 +45,7 @@ const INTERVAL = {
 // o status.json fresco, então o site continua no espelho e não manda os
 // visitantes direto ao TSE); os arquivos de resultado vão a cada 10 min. No
 // horário marcado tudo volta ao ritmo normal sozinho.
-const CALM_UNTIL = Date.parse(process.env.TSE_CALM_UNTIL || '2026-10-04T15:00:00-03:00')
+const CALM_UNTIL = Date.parse(process.env.TSE_CALM_UNTIL || '2026-10-04T16:45:00-03:00')
 const CALM_INTERVAL = 10 * 60_000
 
 const UFS = ['ac', 'al', 'ap', 'am', 'ba', 'ce', 'df', 'es', 'go', 'ma', 'mt', 'ms', 'mg', 'pa', 'pb', 'pr', 'pe', 'pi', 'rj', 'rn', 'rs', 'ro', 'rr', 'sc', 'sp', 'se', 'to']
