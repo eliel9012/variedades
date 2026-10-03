@@ -381,3 +381,7 @@ footer a, .source-note a, .text-button { display: inline-flex; align-items: cent
   .apc-totals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .apc-tab { flex: 1; padding: 0 10px; }
 }
+
+.map-leader-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 16px 0 0; padding: 0; color: var(--on-surface); font: 400 14px/20px 'Plus Jakarta Sans', sans-serif; }
+.map-leader-legend li { display: flex; align-items: flex-start; gap: 8px; max-width: 100%; }
+.map-leader-legend i { flex: 0 0 auto; width: 14px; height: 14px; margin-top: 3px; border-radius: 4px; }

@@ -272,17 +272,25 @@ async function runDue() {
   }
 }
 
-/** Resumo "quem lidera em cada UF" na corrida de Presidente, tirado dos
- * arquivos oficiais já espelhados (só escolhe o mais votado; não calcula
- * percentual, usa o pvap do próprio TSE). Usado pelo mapa ao vivo do site. */
-async function writePresidenteSummary() {
-  const plan = status.elections.find((election) => election.offices.includes('1') && election.t === '1' && !election.speculative)
+/** Resumo "quem lidera em cada UF" de um cargo majoritário (Presidente,
+ * Governador, Senador), tirado dos arquivos oficiais já espelhados (só escolhe
+ * o mais votado; não calcula percentual, usa o pvap do próprio TSE). Usado
+ * pelos mapas ao vivo do site. Só lê disco: nenhum pedido extra ao TSE. */
+const SUMMARIES = [
+  { office: '1', file: 'resumo-presidente.json', territories: ['br', ...UFS] },
+  { office: '3', file: 'resumo-governador.json', territories: UFS },
+  { office: '5', file: 'resumo-senador.json', territories: UFS },
+]
+
+async function writeSummary({ office, file, territories }) {
+  const plan = status.elections.find((election) => election.offices.includes(office) && election.t === '1' && !election.speculative)
   if (!plan) return
   const code6 = plan.code.padStart(6, '0')
+  const cargo = office.padStart(4, '0')
   const states = {}
-  for (const uf of ['br', ...UFS]) {
+  for (const uf of territories) {
     try {
-      const data = JSON.parse(await readFile(path.join(MIRROR_DIR, 'oficial', 'ele2026', plan.code, 'dados', uf, `${uf}-c0001-e${code6}-u.json`), 'utf8'))
+      const data = JSON.parse(await readFile(path.join(MIRROR_DIR, 'oficial', 'ele2026', plan.code, 'dados', uf, `${uf}-c${cargo}-e${code6}-u.json`), 'utf8'))
       const rows = []
       for (const agr of data.carg?.[0]?.agr ?? []) for (const par of agr.par ?? []) for (const cand of par.cand ?? []) {
         if (cand.dvt && cand.dvt !== 'Válido') continue
@@ -295,7 +303,7 @@ async function writePresidenteSummary() {
       // UF ainda sem arquivo no espelho: fica de fora do resumo.
     }
   }
-  await writeAtomic(path.join(MIRROR_DIR, 'resumo-presidente.json'), JSON.stringify({ generatedAt: new Date().toISOString(), source: 'resultados.tse.jus.br (arquivos oficiais espelhados)', states }))
+  await writeAtomic(path.join(MIRROR_DIR, file), JSON.stringify({ generatedAt: new Date().toISOString(), source: 'resultados.tse.jus.br (arquivos oficiais espelhados)', states }))
 }
 
 async function main() {
@@ -315,7 +323,7 @@ async function main() {
       configNextAt = Date.now() + 15_000
     }
     await writeStatus().catch((error) => log('status:', error.message))
-    await writePresidenteSummary().catch((error) => log('resumo:', error.message))
+    for (const summary of SUMMARIES) await writeSummary(summary).catch((error) => log(`${summary.file}:`, error.message))
     await sleep(1_000)
   }
 }

@@ -1,8 +1,8 @@
+import { hasSummary, useResumoMapa } from '@/resumo-mapa'
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import StatsBento from '@/components/ui/stats-bento'
 import { ApuracaoHeader, ApuracaoRow, ApuracaoTotals, RoundTabs, placeTitle } from '@/components/ui/apuracao-cards'
 import BrazilMap from '@/components/ui/brazil-map'
-import StateCandidatesPanel from '@/components/ui/state-candidates-panel'
 import ComposicaoParlamentar from '@/components/ui/composicao-parlamentar'
 import EstatisticasAbstencao from '@/components/ui/estatisticas-abstencao'
 import PesquisasTracker from '@/components/ui/pesquisas-tracker'
@@ -271,7 +271,6 @@ function App() {
       setOffice('Presidente')
     }
   }, [pathname])
-  const [panelState, setPanelState] = useState<BrazilState | null>(null)
   const [snapshot, setSnapshot] = useState<ResultSnapshot>(initialSnapshot)
   // Município aberto: só na aba Governador & Senador, com UF válida na URL.
   // O slug vem da URL; código/nome saem da lista estática da UF.
@@ -304,6 +303,9 @@ function App() {
     return activeRound === 2 ? base.filter((item) => canHaveSecondRound(item)) : base
   }, [activeRound, state])
   const selectedBrazilState = state === 'Brasil' ? undefined : BRAZIL_STATE_BY_UF[state]
+  // Mapa da aba de estados: cinza até a apuração; cada UF ganha a cor de quem
+  // lidera nela (resumo do ingest). Deputados não têm resumo: mapa fica cinza.
+  const leaderMap = useResumoMapa(activeTab === 'governadorSenador' && !citySlug && hasSummary(office) ? office : null)
 
   // Lido de forma síncrona dentro do laço de polling para comparar contra a
   // resposta recebida sem depender de uma closure desatualizada do state.
@@ -488,7 +490,6 @@ function App() {
   }
   const openCity = (municipio: Municipio) => {
     setCityPickerOpen(false)
-    setPanelState(null)
     navigate(pathForCity(state, municipio.slug))
     window.requestAnimationFrame(() => cityTitleRef.current?.focus())
   }
@@ -508,7 +509,11 @@ function App() {
       setOffice(nextOffice)
       setRound(1)
     }
-    setPanelState(nextState)
+    // Sem gaveta lateral (cobria o mapa): leva direto aos cards da UF.
+    window.requestAnimationFrame(() => {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      document.querySelector('.content-grid')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+    })
     navigate(pathForTab('governadorSenador', nextState.uf))
   }
   // Troca de estado pelo dropdown "Trocar Estado" (atalho redundante ao
@@ -524,18 +529,8 @@ function App() {
     }
     navigate(pathForTab('governadorSenador', nextUf))
   }
-  const closeStatePanel = () => {
-    const uf = panelState?.uf
-    setPanelState(null)
-    if (uf) {
-      window.requestAnimationFrame(() => {
-        document.querySelector<HTMLElement>(`.brazil-map [data-uf="${uf}"]`)?.focus()
-      })
-    }
-  }
   const changeTab = (nextTab: ViewTab) => {
     setActiveTab(nextTab)
-    setPanelState(null)
     setCityPickerOpen(false)
     if (nextTab === 'presidente') {
       setOffice('Presidente')
@@ -796,11 +791,17 @@ function App() {
       {activeTab === 'governadorSenador' && !citySlug && (
         <section className="map-section" aria-labelledby="map-title">
           <div className="map-section__heading"><div><p className="eyebrow">território eleitoral</p><h2 id="map-title">Escolha uma UF. Veja a disputa local.</h2></div><p>Mapa, menu e candidatos trabalham juntos. No DF, o cargo local é deputado distrital.</p></div>
-          <BrazilMap activeUf={state === 'Brasil' ? undefined : state} selectedOffice={office} candidateCount={selectedCandidateCount} onSelect={selectMapState} onSelectOffice={selectGovernadorSenadorOffice} />
+          <BrazilMap activeUf={state === 'Brasil' ? undefined : state} selectedOffice={office} candidateCount={selectedCandidateCount} onSelect={selectMapState} onSelectOffice={selectGovernadorSenadorOffice} fillByUf={leaderMap.fillByUf} grayscale />
+          {leaderMap.legend.length > 0 && (
+            <ul className="map-leader-legend" aria-label={`Quem lidera a apuração de ${office} em cada UF`}>
+              {leaderMap.legend.map((item) => (
+                <li key={item.key}><i style={{ background: item.color }} aria-hidden="true" /><span><strong>{office === 'Presidente' ? `${item.leader.name} (${item.leader.party})` : item.leader.party}</strong> lidera em {item.ufs.length} {item.ufs.length === 1 ? 'UF' : 'UFs'}: {item.ufs.join(', ')}</span></li>
+              ))}
+            </ul>
+          )}
         </section>
       )}
 
-      <StateCandidatesPanel state={activeTab === 'governadorSenador' ? panelState : null} candidates={candidates} onClose={closeStatePanel} />
 
       {/* Região viva de acessibilidade (docs/sync-qa.md A11Y-01/A11Y-02): anuncia
           status/erro de sincronização sem depender de cor/posição. Visualmente

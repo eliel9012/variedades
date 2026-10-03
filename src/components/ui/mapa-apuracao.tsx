@@ -1,56 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
 import { BrazilMap } from './brazil-map'
+import { useResumoMapa } from '@/resumo-mapa'
 import './mapa-apuracao.css'
-
-type Leader = { name: string; party: string; number: string; votes: number; share: string; status: string | null }
-type StateSummary = { sectionsPct: string | null; updatedAt: string | null; leader: Leader | null; second: Leader | null }
-type Summary = { generatedAt: string; states: Record<string, StateSummary> }
-
-// Cores fixas por posição no ranking nacional de líderes (quem lidera em mais
-// UFs ganha a primeira cor), para a legenda não trocar de cor a cada minuto.
-const PALETTE = ['#1f6f8b', '#c0392b', '#d68910', '#6c3483', '#117a65', '#5d6d7e']
-const REFRESH_MS = 30_000
 
 /** Mapa ao vivo: quem é o mais votado para Presidente em cada UF, a partir do
  * resumo que o ingest monta com os arquivos oficiais do TSE. Some enquanto não
  * houver voto apurado. */
 export function MapaApuracao() {
-  const [summary, setSummary] = useState<Summary | null>(null)
-
-  useEffect(() => {
-    let alive = true
-    const load = () =>
-      fetch('/tse/resumo-presidente.json', { cache: 'no-store' })
-        .then((response) => (response.ok ? response.json() : null))
-        .then((data: Summary | null) => alive && data && setSummary(data))
-        .catch(() => undefined)
-    load()
-    const timer = window.setInterval(load, REFRESH_MS)
-    return () => {
-      alive = false
-      window.clearInterval(timer)
-    }
-  }, [])
-
-  const { fillByUf, legend, ufsWithLeader } = useMemo(() => {
-    const entries = Object.entries(summary?.states ?? {}).filter(([uf, value]) => uf !== 'BR' && value.leader)
-    const counts = new Map<string, { leader: Leader; ufs: string[] }>()
-    for (const [uf, value] of entries) {
-      const key = `${value.leader!.name}|${value.leader!.party}`
-      const item = counts.get(key) ?? { leader: value.leader!, ufs: [] }
-      item.ufs.push(uf)
-      counts.set(key, item)
-    }
-    const ranked = [...counts.entries()].sort((a, b) => b[1].ufs.length - a[1].ufs.length)
-    const colorByKey = new Map(ranked.map(([key], index) => [key, PALETTE[index % PALETTE.length]]))
-    const fill: Record<string, string> = {}
-    for (const [uf, value] of entries) fill[uf] = colorByKey.get(`${value.leader!.name}|${value.leader!.party}`)!
-    return {
-      fillByUf: fill,
-      legend: ranked.map(([key, item]) => ({ key, color: colorByKey.get(key)!, ...item })),
-      ufsWithLeader: entries.length,
-    }
-  }, [summary])
+  const { summary, fillByUf, legend, ufsWithLeader } = useResumoMapa('Presidente')
 
   if (ufsWithLeader === 0) return null
   const br = summary?.states.BR
@@ -72,7 +28,7 @@ export function MapaApuracao() {
               <span className="mapa-apuracao__dot" style={{ background: item.color }} aria-hidden="true" />
               <span>
                 <strong>{item.leader.name}</strong> ({item.leader.party}) lidera em {item.ufs.length} {item.ufs.length === 1 ? 'estado' : 'estados'}
-                <small>{item.ufs.sort().join(', ')}</small>
+                <small>{item.ufs.join(', ')}</small>
               </span>
             </li>
           ))}

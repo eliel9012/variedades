@@ -18,9 +18,12 @@ export type BrazilMapProps = {
   hideDetailsPanel?: boolean
   /** Cor por UF (ex.: candidato que lidera a apuração no estado). Sem entrada, usa a cor padrão. */
   fillByUf?: Record<string, string>
+  /** UF sem entrada em fillByUf fica em tons de cinza (mapa preto e branco
+   * até a apuração começar; cada UF ganha cor ao ter voto apurado). */
+  grayscale?: boolean
 }
 
-export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selectedOffice, candidateCount = 0, className = '', ariaLabel = 'Mapa do Brasil por estado', hideDetailsPanel = false, fillByUf }: BrazilMapProps) {
+export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selectedOffice, candidateCount = 0, className = '', ariaLabel = 'Mapa do Brasil por estado', hideDetailsPanel = false, fillByUf, grayscale = false }: BrazilMapProps) {
   const reactId = useId()
   const titleId = `brazil-map-title-${reactId}`
   const descriptionId = `brazil-map-description-${reactId}`
@@ -54,11 +57,12 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
           <desc id={descriptionId}>Selecione um estado para ver candidatos e cargos disponíveis.</desc>
           {BRAZIL_STATES.map((state) => {
             const isActive = selectedUf === state.uf
+            const leaderFill = fillByUf?.[state.uf]
             return (
               <g
                 key={state.uf}
                 data-uf={state.uf}
-                className={`brazil-map__state${isActive ? ' brazil-map__state--active' : ''}`}
+                className={`brazil-map__state${isActive ? ' brazil-map__state--active' : ''}${leaderFill ? ' brazil-map__state--filled' : grayscale ? ' brazil-map__state--mono' : ''}`}
                 role="radio"
                 tabIndex={0}
                 aria-label={`${state.name}, ${state.uf}. Capital: ${state.capital}.`}
@@ -77,7 +81,7 @@ export function BrazilMap({ activeUf, onSelect, onHover, onSelectOffice, selecte
                   if (event.key === 'Escape') hideTooltip()
                 }}
               >
-                <path d={state.path} style={{ fill: isActive ? 'var(--brazil-map-active)' : fillByUf?.[state.uf] ?? state.color }} />
+                <path d={state.path} style={{ fill: leaderFill ?? (isActive ? 'var(--brazil-map-active)' : state.color) }} />
                 <text
                   className="brazil-map__label"
                   x={state.label[0]}

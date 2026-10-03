@@ -28,7 +28,12 @@
 }
 .brazil-map__state:hover,
 .brazil-map__state:focus-visible { filter: brightness(.92) saturate(1.18); stroke: var(--brazil-map-deep); stroke-width: 3; }
-.brazil-map__state--active { fill: var(--brazil-map-active) !important; stroke: var(--brazil-map-deep); stroke-width: 3; }
+.brazil-map__state--active { stroke: var(--brazil-map-deep); stroke-width: 3; }
+.brazil-map__state--active:not(.brazil-map__state--filled) path { fill: var(--brazil-map-active) !important; }
+/* Antes da apuração (ou UF sem voto): cinza; a UF ativa continua destacada. */
+.brazil-map__state--mono:not(.brazil-map__state--active) path { filter: grayscale(1); }
+.brazil-map__state--filled path { transition: fill 600ms ease; }
+.brazil-map__state--filled.brazil-map__state--active { stroke-width: 4; }
 .brazil-map__label {
   --label-scale: 1;
   fill: var(--brazil-map-ink);
