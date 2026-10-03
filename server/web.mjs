@@ -29,6 +29,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DIST_DIR = path.join(ROOT, 'dist')
 const DATA_DIR = path.join(ROOT, 'public', 'data')
 // Imagens de preview por lugar, geradas offline (scripts/og-places.mjs).
+// Resultado final de 2022 (scripts/tse2022-*.py), fora de public/ para o build
+// não copiar centenas de MB; servido em /data/2022/.
+const HISTORY_DIR = process.env.HISTORY_2022_DIR || path.join(ROOT, 'work', 'tse2022', 'out')
 const OG_DIR = process.env.OG_DIR || path.join(ROOT, 'og-places')
 const MIRROR_DIR = process.env.TSE_MIRROR_DIR || path.join(ROOT, 'tse-mirror')
 const PORT = Number(process.env.PORT || 8776)
@@ -68,6 +71,8 @@ const CACHE = {
   static: 'public, max-age=3600, s-maxage=3600, stale-if-error=86400',
   // Nome de lugar não muda; troca de desenho sobe ?v= (OG_PLACES_VERSION).
   og: 'public, max-age=86400, s-maxage=2592000, stale-if-error=2592000',
+  // Resultado final de 2022 (dados abertos do TSE): não muda mais.
+  history: 'public, max-age=86400, s-maxage=2592000, stale-if-error=2592000',
 }
 
 function cacheFor(urlPath) {
@@ -301,7 +306,8 @@ async function startWorker() {
         return
       }
       if (urlPath.startsWith('/data/')) {
-        const entry = await loadLive(DATA_DIR, urlPath.slice('/data/'.length), CACHE.data)
+        const rel = urlPath.slice('/data/'.length)
+        const entry = rel.startsWith('2022/') ? await loadLive(HISTORY_DIR, rel.slice('2022/'.length), CACHE.history) : await loadLive(DATA_DIR, rel, CACHE.data)
         if (entry) send(req, res, entry)
         else notFound(res)
         return
