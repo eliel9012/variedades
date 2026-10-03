@@ -24,10 +24,12 @@ import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 
 // Seletor de cidade (busca + mapa da UF) só carrega quando alguém abre.
 const CityPicker = lazy(() => import('./components/ui/city-picker'))
+// Comparativo 2022 x 2026: carrega só quando a aba abre.
+const Comparativo2022 = lazy(() => import('./components/ui/comparativo-2022'))
 
-type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'historico' | 'estatisticas' | 'cenarios'
+type ViewTab = 'presidente' | 'governadorSenador' | 'comparativo' | 'composicaoParlamentar' | 'pesquisas' | 'historico' | 'estatisticas' | 'cenarios'
 // Cenários (IA) fica fora do menu: só abre direto pelo endereço /ia.
-const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'historico', 'estatisticas']
+const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'comparativo', 'composicaoParlamentar', 'pesquisas', 'historico', 'estatisticas']
 
 // Até pouco antes de fecharem as urnas do 1º turno (4 out 2026, 17h), a home
 // abre em Pesquisas, que é o que tem dado novo pra mostrar. A partir das 16h40
@@ -45,6 +47,7 @@ function getDefaultTab(): ViewTab {
 function tabFromPath(pathname: string): ViewTab {
   const [first, second] = pathname.split('/').filter(Boolean)
   if (first === 'apuracao') return second === 'presidente' ? 'presidente' : 'governadorSenador'
+  if (first === 'comparativo') return 'comparativo'
   if (first === 'composicao-parlamentar') return 'composicaoParlamentar'
   if (first === 'pesquisas') return 'pesquisas'
   if (first === 'historico') return 'historico'
@@ -53,17 +56,20 @@ function tabFromPath(pathname: string): ViewTab {
   return getDefaultTab()
 }
 
+// Rotas com UF/cidade/cargo: /apuracao/... e /comparativo/... (mesmo formato).
+const PLACE_ROOTS = new Set(['apuracao', 'comparativo'])
+
 function ufFromApuracaoPath(pathname: string): string | null {
   const [first, second] = pathname.split('/').filter(Boolean)
-  if (first !== 'apuracao') return null
+  if (!PLACE_ROOTS.has(first)) return null
   return parseUfSegment(second)
 }
 
 // /apuracao/{uf}/{slug}: apuração de um município (slug único por UF, ver
-// /data/municipios/{uf}.json).
+// /data/municipios/{uf}.json). Vale igual para /comparativo/{uf}/{slug}.
 function citySlugFromPath(pathname: string): string | null {
   const [first, second, third] = pathname.split('/').filter(Boolean)
-  if (first !== 'apuracao' || !parseUfSegment(second) || !third || third in OFFICE_BY_SLUG) return null
+  if (!PLACE_ROOTS.has(first) || !parseUfSegment(second) || !third || third in OFFICE_BY_SLUG) return null
   return /^[a-z0-9-]+$/.test(third) ? third : null
 }
 
@@ -81,13 +87,20 @@ const OFFICE_BY_SLUG: Record<string, string> = Object.fromEntries(Object.entries
 
 function officeFromPath(pathname: string): string | null {
   const [first, second, third, fourth] = pathname.split('/').filter(Boolean)
-  if (first !== 'apuracao' || !parseUfSegment(second)) return null
+  if (!PLACE_ROOTS.has(first) || !parseUfSegment(second)) return null
   return OFFICE_BY_SLUG[fourth ?? ''] ?? OFFICE_BY_SLUG[third ?? ''] ?? null
 }
 
 function pathForPlace(uf: string, citySlug: string | null, office?: string) {
   const officePart = office && OFFICE_SLUG[office] ? `/${OFFICE_SLUG[office]}` : ''
   return `/apuracao/${ufSegment(uf)}${citySlug ? `/${citySlug}` : ''}${officePart}`
+}
+
+// Comparativo 2022: /comparativo/presidente (Brasil) e
+// /comparativo/{uf}[/{cidade}][/{cargo}]; sem cargo, a UF abre em Governador.
+function pathForComparativo(uf: string, citySlug: string | null, office: string) {
+  if (uf === 'Brasil') return '/comparativo/presidente'
+  return `/comparativo/${ufSegment(uf)}${citySlug ? `/${citySlug}` : ''}/${OFFICE_SLUG[office] ?? 'governador'}`
 }
 
 // Cargos com arquivo por município na aba de apuração local.
@@ -108,6 +121,7 @@ function fitOffice(office: string, uf: string) {
 function pathForTab(tab: ViewTab, uf?: string): string {
   if (tab === 'presidente') return '/apuracao/presidente'
   if (tab === 'governadorSenador') return uf && uf !== 'Brasil' ? `/apuracao/${ufSegment(uf)}` : '/apuracao'
+  if (tab === 'comparativo') return '/comparativo/presidente'
   if (tab === 'composicaoParlamentar') return '/composicao-parlamentar'
   if (tab === 'pesquisas') return '/pesquisas'
   if (tab === 'historico') return '/historico'
@@ -290,14 +304,22 @@ function App() {
     } else if (nextTab === 'presidente') {
       setState('Brasil')
       setOffice('Presidente')
+    } else if (nextTab === 'comparativo') {
+      // O recorte do comparativo vem só da URL; o polling da apuração segue
+      // este mesmo recorte (state/office/cidade), sem consulta extra.
+      const nextUf = ufFromApuracaoPath(pathname) ?? 'Brasil'
+      const urlOffice = officeFromPath(pathname)
+      setState(nextUf)
+      setOffice(nextUf === 'Brasil' ? 'Presidente' : urlOffice ? fitOffice(urlOffice, nextUf) : 'Governador')
     }
   }, [pathname])
   const [snapshot, setSnapshot] = useState<ResultSnapshot>(initialSnapshot)
   // Município aberto: só na aba Governador & Senador, com UF válida na URL.
   // O slug vem da URL; código/nome saem da lista estática da UF.
   const [cityPickerOpen, setCityPickerOpen] = useState(false)
-  const citySlug = activeTab === 'governadorSenador' && state !== 'Brasil' ? citySlugFromPath(pathname) : null
-  const municipiosUf = activeTab === 'governadorSenador' && state !== 'Brasil' && (citySlug != null || cityPickerOpen) ? state : null
+  const placeTab = activeTab === 'governadorSenador' || activeTab === 'comparativo'
+  const citySlug = placeTab && state !== 'Brasil' ? citySlugFromPath(pathname) : null
+  const municipiosUf = placeTab && state !== 'Brasil' && (citySlug != null || cityPickerOpen) ? state : null
   const { list: municipios, error: municipiosError } = useMunicipios(municipiosUf)
   const city: Municipio | null = citySlug && municipios ? (municipios.find((item) => item.slug === citySlug) ?? null) : null
   const cityNotFound = citySlug != null && (municipiosError || (municipios != null && city == null))
@@ -495,11 +517,14 @@ function App() {
     // Sem cargo na URL (ex.: /apuracao/sc/florianopolis): título só com o lugar.
     const officeInUrl = activeTab === 'presidente' || officeFromPath(pathname) !== null
     const label = officeInUrl ? `Apuração ${officeLabel} · ${placeName}` : `Apuração ${placeIn}`
-    document.title = onResults && !cityNotFound ? `${label} · Eleições 2026 · Apura Brasil` : 'Apura Brasil · Eleições 2026'
+    if (activeTab === 'comparativo') document.title = cityNotFound ? 'Comparativo 2022 · Apura Brasil' : `Comparativo 2022 · ${officeLabel} · ${placeName} · Apura Brasil`
+    else document.title = onResults && !cityNotFound ? `${label} · Eleições 2026 · Apura Brasil` : 'Apura Brasil · Eleições 2026'
   }, [onResults, officeLabel, placeName, placeIn, cityNotFound, activeTab, pathname])
   // Compartilhar na apuração: só números publicados pelo TSE (top 3 do recorte
   // aberto); sem voto ainda, só o convite com o link do recorte.
   const shareText = useMemo(() => {
+    // Comparativo: link da view aberta (com o cargo), sem números no texto.
+    if (activeTab === 'comparativo' && !cityNotFound) return `Comparativo de ${officeLabel} ${placeIn}: resultado de 2022 ao lado da apuração de 2026 (TSE): ${window.location.origin}${pathForComparativo(state, citySlug, office)}`
     if (!onResults || cityNotFound) return undefined
     // Link do que está na tela, com o cargo (mesmo se a URL aberta não tinha).
     const url = `${window.location.origin}${activeTab === 'governadorSenador' && state !== 'Brasil' ? pathForPlace(state, citySlug, office) : pathname}`
@@ -693,6 +718,18 @@ function App() {
         <button
           type="button"
           role="tab"
+          id="tab-comparativo"
+          aria-selected={activeTab === 'comparativo'}
+          tabIndex={activeTab === 'comparativo' ? 0 : -1}
+          className={`view-tabs__tab${activeTab === 'comparativo' ? ' is-active' : ''}`}
+          onClick={() => changeTab('comparativo')}
+          onKeyDown={handleTabKeyDown}
+        >
+          Comparativo 2022
+        </button>
+        <button
+          type="button"
+          role="tab"
           id="tab-composicao-parlamentar"
           aria-selected={activeTab === 'composicaoParlamentar'}
           tabIndex={activeTab === 'composicaoParlamentar' ? 0 : -1}
@@ -868,6 +905,49 @@ function App() {
       </p>
 
       {activeTab === 'presidente' && <MapaApuracao />}
+
+      {activeTab === 'comparativo' && (
+        <Suspense fallback={<p className="state-header__empty">Carregando comparativo…</p>}>
+          <Comparativo2022
+            uf={state}
+            ufName={selectedBrazilState?.name}
+            capital={selectedBrazilState?.capital}
+            city={city}
+            cityName={cityName}
+            citySlug={citySlug}
+            cityNotFound={cityNotFound}
+            office={office}
+            offices={state === 'Brasil' ? ['Presidente'] : activeRound === 2 ? stateOffices(state).filter((item) => canHaveSecondRound(item)) : stateOffices(state)}
+            round={activeRound}
+            onRound={setRound}
+            live={{ snapshot: scopedSnapshot, rows: resultRows, status: scoreboardStatus, statusWord: scoreboardStatusWord, syncLabel, syncDetail }}
+            photoById={photoById}
+            municipios={municipios}
+            municipiosError={municipiosError}
+            cityPickerOpen={cityPickerOpen}
+            onToggleCityPicker={() => setCityPickerOpen((current) => !current)}
+            onCloseCityPicker={() => setCityPickerOpen(false)}
+            onSelectOffice={(nextOffice) => {
+              if (!canHaveSecondRound(nextOffice)) setRound(1)
+              navigate(pathForComparativo(state, citySlug, nextOffice))
+            }}
+            onSelectUf={(nextUf) => {
+              setCityPickerOpen(false)
+              const target = nextUf && nextUf !== 'Brasil' ? nextUf : 'Brasil'
+              navigate(pathForComparativo(target, null, target === 'Brasil' ? 'Presidente' : state === 'Brasil' ? office : fitOffice(office, target)))
+            }}
+            onOpenCity={(municipio) => {
+              setCityPickerOpen(false)
+              navigate(pathForComparativo(state, municipio.slug, office))
+              window.requestAnimationFrame(() => document.getElementById('cmp-title')?.focus())
+            }}
+            onBack={() => {
+              setCityPickerOpen(false)
+              navigate(pathForComparativo(state, null, office))
+            }}
+          />
+        </Suspense>
+      )}
 
       {activeTab === 'composicaoParlamentar' && (
         <ComposicaoParlamentar candidates={candidates} snapshot={snapshot} round={activeRound} state={state} />
