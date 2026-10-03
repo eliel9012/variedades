@@ -647,6 +647,8 @@ function App() {
   const scoreboardStatusWord = scoreboardStatus === 'official' ? 'oficial' : scoreboardStatus === 'offline' ? 'offline, dados salvos localmente' : 'aguardando publicação do TSE'
   const syncAnnouncement = `${syncLabel}. ${syncDetail} Status: ${scoreboardStatusWord}.`
 
+  const roundSelect = <select id="round" value={activeRound} onChange={(event) => { const nextRound = Number(event.target.value) as 1 | 2; setRound(nextRound === 2 && !secondRoundAvailable ? 1 : nextRound) }}><option value="1">1º turno</option>{secondRoundAvailable && <option value="2">2º turno</option>}</select>
+
   return (
     <main className="shell">
       <header className="topbar">
@@ -782,9 +784,9 @@ function App() {
           abaixo, nunca os dois ao mesmo tempo. */}
       <AdSlot slot="in-content" />
 
-      {(activeTab === 'presidente' || activeTab === 'governadorSenador') && (
+      {activeTab === 'presidente' && (
         <section className="control-strip" aria-label="Filtros de apuração">
-          <div className="control-block"><label htmlFor="round">turno</label><select id="round" value={activeRound} onChange={(event) => { const nextRound = Number(event.target.value) as 1 | 2; setRound(nextRound === 2 && !secondRoundAvailable ? 1 : nextRound) }}><option value="1">1º turno</option>{secondRoundAvailable && <option value="2">2º turno</option>}</select></div>
+          <div className="control-block"><label htmlFor="round">turno</label>{roundSelect}</div>
         </section>
       )}
 
@@ -861,6 +863,8 @@ function App() {
                 Mesorregiões
               </button>
             )}
+            {/* Turno dentro do card do estado/cidade (na aba Presidente fica na faixa de filtros). */}
+            <div className="office-pill-round"><label htmlFor="round">Turno</label>{roundSelect}</div>
           </div>
           {selectedBrazilState && cityPickerOpen && (
             <div id="city-picker-panel">
