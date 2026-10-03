@@ -41,6 +41,13 @@ const INTERVAL = {
   missing: 10 * 60_000, // arquivo que deu 404: tenta de novo só depois disso
 }
 
+// Modo calmo até a véspera da apuração: só o config segue a cada minuto (mantém
+// o status.json fresco, então o site continua no espelho e não manda os
+// visitantes direto ao TSE); os arquivos de resultado vão a cada 10 min. No
+// horário marcado tudo volta ao ritmo normal sozinho.
+const CALM_UNTIL = Date.parse(process.env.TSE_CALM_UNTIL || '2026-10-04T15:00:00-03:00')
+const CALM_INTERVAL = 10 * 60_000
+
 const UFS = ['ac', 'al', 'ap', 'am', 'ba', 'ce', 'df', 'es', 'go', 'ma', 'mt', 'ms', 'mg', 'pa', 'pb', 'pr', 'pe', 'pi', 'rj', 'rn', 'rs', 'ro', 'rr', 'sc', 'sp', 'se', 'to']
 const FAST_OFFICES = new Set(['1', '3', '5'])
 const SITE_OFFICES = new Set(['1', '3', '5', '6', '7', '8'])
@@ -56,6 +63,7 @@ const status = {
   lastError: null,
   lastErrorAt: null,
   consecutiveErrors: 0,
+  calmUntil: new Date(CALM_UNTIL).toISOString(),
   upstreams: upstreamState,
   files: { tracked: 0, ok: 0, missing: 0, failing: 0 },
   elections: [],
@@ -63,6 +71,14 @@ const status = {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const jitter = (ms) => Math.round(ms * (0.85 + Math.random() * 0.3))
+
+/** Próxima consulta de um arquivo de resultado: no modo calmo, no mínimo a cada
+ * 10 min, mas nunca depois do fim do modo calmo (espalhado em até 30 s). */
+function nextAt(interval) {
+  const now = Date.now()
+  if (now >= CALM_UNTIL) return now + jitter(interval)
+  return Math.min(now + jitter(Math.max(interval, CALM_INTERVAL)), CALM_UNTIL + Math.round(Math.random() * 30_000))
+}
 const log = (...args) => console.log(new Date().toISOString(), ...args)
 
 async function writeAtomic(target, data) {
@@ -204,6 +220,7 @@ async function refreshConfig() {
   const result = await fetchFile(rel)
   files.get(rel).nextAt = Date.now() + jitter(INTERVAL.config)
   if (result === 'missing') throw new Error('config 404')
+  status.lastSuccessAt = new Date().toISOString()
   const config = JSON.parse(await readFile(path.join(MIRROR_DIR, 'oficial', rel), 'utf8'))
   planFromConfig(config)
 }
@@ -233,7 +250,7 @@ async function runDue() {
       try {
         const result = await fetchFile(rel)
         entry.state = result === 'missing' ? 'missing' : 'ok'
-        entry.nextAt = Date.now() + jitter(result === 'missing' ? INTERVAL.missing : entry.interval)
+        entry.nextAt = nextAt(result === 'missing' ? INTERVAL.missing : entry.interval)
         if (result === 'changed') changed += 1
         if (result !== 'missing') {
           status.lastSuccessAt = new Date().toISOString()
@@ -241,7 +258,7 @@ async function runDue() {
         }
       } catch (error) {
         entry.state = 'error'
-        entry.nextAt = Date.now() + jitter(Math.min(entry.interval, 20_000))
+        entry.nextAt = nextAt(Math.min(entry.interval, 20_000))
         status.consecutiveErrors += 1
         status.lastError = error instanceof Error ? error.message : String(error)
         status.lastErrorAt = new Date().toISOString()
