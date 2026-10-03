@@ -39,9 +39,13 @@
   }
 }
 
-/* Sem anunciante para a posição (AdSense marca data-ad-status="unfilled"),
- * a unidade ainda reserva altura e deixa um buraco branco na página: some.
- * !important porque o AdSense escreve display:block inline. */
-.ad-slot ins.adsbygoogle[data-ad-status='unfilled'] {
-  display: none !important;
+/* Enquanto o AdSense não confirma anúncio (carregando, ~1 s, ou sem
+ * anunciante: data-ad-status="unfilled"), a unidade reserva altura e deixa
+ * um buraco branco. Fica com altura zero até data-ad-status="filled".
+ * Altura zero, não display:none: a largura continua medível para o AdSense
+ * escolher o tamanho. !important porque ele escreve height inline. */
+.ad-slot ins.adsbygoogle:not([data-ad-status='filled']) {
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden;
 }
