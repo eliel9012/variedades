@@ -247,7 +247,7 @@ function App() {
       // pra Governador, senão a aba mostraria o cargo errado. Na cidade vale
       // também Presidente, e o distrital não (não há arquivo por município).
       setOffice((current) => {
-        const valid = inCity ? CITY_OFFICES.includes(current) : current === 'Governador' || current === 'Senador' || (current === 'Deputado distrital' && nextUf === 'DF')
+        const valid = inCity ? CITY_OFFICES.includes(current) : current === 'Governador' || current === 'Senador' || (current === 'Presidente' && nextUf !== 'Brasil') || (current === 'Deputado distrital' && nextUf === 'DF')
         return valid ? current : 'Governador'
       })
     } else if (nextTab === 'presidente') {
@@ -278,14 +278,16 @@ function App() {
   const [online, setOnline] = useState(navigator.onLine)
   const [search, setSearch] = useState('')
   const [syncMeta, setSyncMeta] = useState<SyncMeta>({ phase: 'idle', lastCheckedAt: null, lastOfficialAt: null, nextPollAt: null, error: null, attempt: 0 })
-  const availableStates = statesForOffice(office)
+  // Presidente na aba de estados: o seletor continua listando as UFs.
+  const availableStates = statesForOffice(activeTab === 'governadorSenador' && office === 'Presidente' ? 'Governador' : office)
   const secondRoundAvailable = canHaveSecondRound(office)
   const activeRound: 1 | 2 = secondRoundAvailable ? round : 1
   // Cargos reachable na aba "Governador & Senador": só Governador/Senador, e
   // Deputado distrital quando a UF selecionada é DF (mesma exceção de
   // selectMapState). Deputado federal/estadual ficam em Composição Parlamentar.
   const governadorSenadorOffices = useMemo(() => {
-    const base = citySlug ? CITY_OFFICES : state === 'DF' ? ['Governador', 'Senador', 'Deputado distrital'] : ['Governador', 'Senador']
+    // Presidente também por UF (arquivo oficial de cada estado) e por cidade.
+    const base = citySlug ? CITY_OFFICES : state === 'DF' ? ['Presidente', 'Governador', 'Senador', 'Deputado distrital'] : ['Presidente', 'Governador', 'Senador']
     return activeRound === 2 ? base.filter((item) => canHaveSecondRound(item)) : base
   }, [activeRound, state, citySlug])
   const selectedBrazilState = state === 'Brasil' ? undefined : BRAZIL_STATE_BY_UF[state]
@@ -459,8 +461,9 @@ function App() {
   // federal/estadual pertencem só à Composição Parlamentar.
   const selectGovernadorSenadorOffice = (nextOffice: string) => {
     if (!governadorSenadorOffices.includes(nextOffice)) return
-    // Na cidade a UF fica fixa (Presidente também é por município).
-    if (citySlug) {
+    // Na cidade a UF fica fixa (Presidente também é por município); com UF
+    // escolhida, Presidente mostra o resultado daquela UF.
+    if (citySlug || (state !== 'Brasil' && (nextOffice === 'Presidente' || office === 'Presidente'))) {
       setOffice(nextOffice)
       if (!canHaveSecondRound(nextOffice)) setRound(1)
       return
@@ -484,7 +487,7 @@ function App() {
   const selectMapState = (nextState: BrazilState) => {
     setCityPickerOpen(false)
     setState(nextState.uf)
-    if (office === 'Presidente' || (office === 'Deputado distrital' && nextState.uf !== 'DF')) {
+    if ((office === 'Presidente' && state === 'Brasil') || (office === 'Deputado distrital' && nextState.uf !== 'DF')) {
       setOffice('Governador')
       setRound(1)
     }
