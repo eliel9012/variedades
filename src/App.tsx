@@ -241,13 +241,16 @@ function App() {
     if (nextTab === 'governadorSenador') {
       const nextUf = ufFromApuracaoPath(pathname) ?? 'Brasil'
       const inCity = citySlugFromPath(pathname) != null
+      // Presidente só segue valendo se já vinha de uma UF (pill Presidente da
+      // UF); vindo do Brasil ou na primeira carga, abre em Governador.
+      const previousUf = state
       setState(nextUf)
       // Mesma lista de cargos válidos de changeTab/selectMapState: fora dela
       // (Presidente, Deputado federal/estadual, ou distrital fora do DF) cai
       // pra Governador, senão a aba mostraria o cargo errado. Na cidade vale
       // também Presidente, e o distrital não (não há arquivo por município).
       setOffice((current) => {
-        const valid = inCity ? CITY_OFFICES.includes(current) : current === 'Governador' || current === 'Senador' || (current === 'Presidente' && nextUf !== 'Brasil') || (current === 'Deputado distrital' && nextUf === 'DF')
+        const valid = inCity ? CITY_OFFICES.includes(current) : current === 'Governador' || current === 'Senador' || (current === 'Presidente' && nextUf !== 'Brasil' && previousUf !== 'Brasil') || (current === 'Deputado distrital' && nextUf === 'DF')
         return valid ? current : 'Governador'
       })
     } else if (nextTab === 'presidente') {
