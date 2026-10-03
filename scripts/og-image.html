@@ -77,6 +77,21 @@
         color: #d7ebe1;
       }
 
+      /* Versão por lugar (?place=...): o nome da cidade/UF vira o destaque. */
+      .lead {
+        display: none;
+        font-family: 'Newsreader', serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 34px;
+        color: #d7ebe1;
+        margin-bottom: 10px;
+      }
+      .is-place .lead { display: block; }
+      .is-place h1 { font-size: 96px; line-height: 1.02; letter-spacing: -0.015em; }
+      .is-place .subtitle { font-size: 28px; margin-top: 22px; }
+      .is-place .partners { margin-top: 30px; }
+
       .footer-line {
         margin-top: 22px;
         font-size: 20px;
@@ -162,8 +177,9 @@
           <div class="mark-badge">AB</div>
           <div class="mark-label">Eleições Gerais 2026</div>
         </div>
-        <h1>Apura Brasil</h1>
-        <p class="subtitle">Apuração ao vivo, direto do TSE</p>
+        <p class="lead" id="lead"></p>
+        <h1 id="title">Apura Brasil</h1>
+        <p class="subtitle" id="subtitle">Apuração ao vivo, direto do TSE</p>
         <div class="partners">
           <img class="phvox" src="../public/phvox-logo.png" alt="PHVox" />
           <span class="divider"></span>
@@ -201,6 +217,29 @@
     <script>
       const host = new URLSearchParams(location.search).get('host')
       if (host) document.getElementById('host').textContent = host
+      // ?place=Florianópolis (SC)&prep=em: imagem do recorte (scripts/og-places.mjs).
+      window.setPlace = (place, prep) => {
+        const canvas = document.querySelector('.canvas')
+        const title = document.getElementById('title')
+        canvas.classList.toggle('is-place', Boolean(place))
+        if (!place) return
+        document.querySelector('.mark-label').textContent = 'Apura Brasil · Eleições 2026'
+        document.getElementById('lead').textContent = `Apuração ${prep}`
+        document.getElementById('subtitle').textContent = 'Ao vivo, direto do TSE'
+        // Uma imagem serve os dois domínios: sem endereço no rodapé.
+        document.getElementById('host').style.display = 'none'
+        document.querySelector('.footer-line .sep').style.display = 'none'
+        title.textContent = place
+        // Cabe em até 2 linhas na coluna de texto: reduz a fonte até caber.
+        let size = 96
+        title.style.fontSize = `${size}px`
+        while (size > 44 && (title.scrollWidth > title.clientWidth || title.getBoundingClientRect().height > size * 1.02 * 2 + 2)) {
+          size -= 4
+          title.style.fontSize = `${size}px`
+        }
+      }
+      const params = new URLSearchParams(location.search)
+      if (params.get('place')) window.setPlace(params.get('place'), params.get('prep') || 'em')
     </script>
   </body>
 </html>

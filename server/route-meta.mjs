@@ -4,14 +4,14 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
-const UF_NAMES = {
+export const UF_NAMES = {
   AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas', BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal', ES: 'Espírito Santo',
   GO: 'Goiás', MA: 'Maranhão', MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais', PA: 'Pará', PB: 'Paraíba',
   PR: 'Paraná', PE: 'Pernambuco', PI: 'Piauí', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte', RS: 'Rio Grande do Sul',
   RO: 'Rondônia', RR: 'Roraima', SC: 'Santa Catarina', SP: 'São Paulo', SE: 'Sergipe', TO: 'Tocantins',
 }
 // Mesma preposição do card (src/components/ui/apuracao-cards.tsx).
-const UF_PREPOSITION = { AC: 'no', AP: 'no', AM: 'no', CE: 'no', DF: 'no', ES: 'no', MA: 'no', PA: 'no', PR: 'no', PI: 'no', RJ: 'no', RN: 'no', RS: 'no', TO: 'no', BA: 'na', PB: 'na' }
+export const UF_PREPOSITION = { AC: 'no', AP: 'no', AM: 'no', CE: 'no', DF: 'no', ES: 'no', MA: 'no', PA: 'no', PR: 'no', PI: 'no', RJ: 'no', RN: 'no', RS: 'no', TO: 'no', BA: 'na', PB: 'na' }
 // Mesmos slugs de cargo da SPA (src/App.tsx, OFFICE_SLUG).
 const OFFICE_BY_SLUG = {
   presidente: 'Presidente', governador: 'Governador', senador: 'Senador',
@@ -20,7 +20,7 @@ const OFFICE_BY_SLUG = {
 // Igual a formatCityName (src/municipios.ts).
 const LOWERCASE_WORDS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'em', 'na', 'no', 'nas', 'nos', 'a', 'o', 'à'])
 const capitalize = (word) => (word ? word.charAt(0).toLocaleUpperCase('pt-BR') + word.slice(1) : word)
-function formatCityName(nm) {
+export function formatCityName(nm) {
   return nm.toLocaleLowerCase('pt-BR').split(/\s+/).filter(Boolean).map((word, index) => {
     if (index > 0 && LOWERCASE_WORDS.has(word)) return word
     const apostrophe = /^(d|n)['’](.+)$/.exec(word)
@@ -60,9 +60,10 @@ export async function routeMeta(dataDir, urlPath) {
     const name = await cityName(dataDir, uf, slug)
     if (!name) return null
     const place = `${name} (${uf})`
-    return meta(office, place, `em ${place}`)
+    return { ...meta(office, place, `em ${place}`), image: `${uf.toLowerCase()}/${slug}`, imageAlt: `Apura Brasil, apuração em ${place}` }
   }
-  return meta(office, UF_NAMES[uf], `${UF_PREPOSITION[uf] ?? 'em'} ${UF_NAMES[uf]}`)
+  const placeIn = `${UF_PREPOSITION[uf] ?? 'em'} ${UF_NAMES[uf]}`
+  return { ...meta(office, UF_NAMES[uf], placeIn), image: uf.toLowerCase(), imageAlt: `Apura Brasil, apuração ${placeIn}` }
 }
 
 function meta(office, place, placeIn) {
@@ -81,15 +82,24 @@ function meta(office, place, placeIn) {
 
 const escapeHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-/** Aplica a meta no HTML já ajustado para o domínio. */
-export function applyRouteMeta(html, host, urlPath, info) {
+// Sobe quando o desenho das imagens por lugar mudar (o Cloudflare guarda 30 dias).
+export const OG_PLACES_VERSION = 1
+
+/** Aplica a meta no HTML já ajustado para o domínio. withImage: a imagem do
+ * lugar existe em disco (senão fica a imagem padrão do domínio). */
+export function applyRouteMeta(html, host, urlPath, info, withImage) {
   const title = escapeHtml(info.title)
   const description = escapeHtml(info.description)
   const pagePath = urlPath.split('/').map((part) => encodeURIComponent(part)).join('/')
-  return html
+  const out = html
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*/g, `$1${title}`)
     .replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*/g, `$1${description}`)
     .replace(/(<meta property="og:url" content=")[^"]*/, `$1https://${host}${pagePath}`)
     .replace(/(<link rel="canonical" href=")[^"]*/, `$1https://eleicoes.meulab.fun${pagePath}`)
+  if (!withImage || !info.image) return out
+  return out
+    .replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*/g, `$1https://${host}/og/${info.image}.jpg?v=${OG_PLACES_VERSION}`)
+    .replace(/<meta property="og:image:type" content="image\/png"/, '<meta property="og:image:type" content="image/jpeg"')
+    .replace(/(<meta property="og:image:alt" content=")[^"]*/, `$1${escapeHtml(info.imageAlt)}`)
 }

@@ -28,6 +28,8 @@ import { CITY_CACHE, CITY_MISSING_CACHE, isCityPath, requestCityFile, serveCityR
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DIST_DIR = path.join(ROOT, 'dist')
 const DATA_DIR = path.join(ROOT, 'public', 'data')
+// Imagens de preview por lugar, geradas offline (scripts/og-places.mjs).
+const OG_DIR = process.env.OG_DIR || path.join(ROOT, 'og-places')
 const MIRROR_DIR = process.env.TSE_MIRROR_DIR || path.join(ROOT, 'tse-mirror')
 const PORT = Number(process.env.PORT || 8776)
 const HOST = process.env.HOST || '127.0.0.1'
@@ -64,6 +66,8 @@ const CACHE = {
   tse: 'public, max-age=5, s-maxage=10, stale-while-revalidate=20, stale-if-error=600',
   tseStatus: 'public, max-age=5, s-maxage=5, stale-if-error=86400',
   static: 'public, max-age=3600, s-maxage=3600, stale-if-error=86400',
+  // Nome de lugar não muda; troca de desenho sobe ?v= (OG_PLACES_VERSION).
+  og: 'public, max-age=86400, s-maxage=2592000, stale-if-error=2592000',
 }
 
 function cacheFor(urlPath) {
@@ -164,7 +168,8 @@ function indexForHosts(entry) {
     if (hit) return hit
     const info = await routeMeta(DATA_DIR, urlPath)
     if (!info) return base
-    const routed = makeEntry(Buffer.from(applyRouteMeta(base.body.toString('utf8'), knownHost, urlPath, info)), entry.type, entry.cacheControl)
+    const withImage = Boolean(info.image) && (await stat(path.join(OG_DIR, `${info.image}.jpg`)).then(() => true, () => false))
+    const routed = makeEntry(Buffer.from(applyRouteMeta(base.body.toString('utf8'), knownHost, urlPath, info, withImage)), entry.type, entry.cacheControl)
     byRoute.set(key, routed)
     if (byRoute.size > 3000) byRoute.delete(byRoute.keys().next().value)
     return routed
@@ -283,6 +288,15 @@ async function startWorker() {
         }
         const entry = await loadLive(MIRROR_DIR, rel, rel === 'status.json' ? CACHE.tseStatus : CACHE.tse)
         if (entry) send(req, res, entry, { 'access-control-allow-origin': '*' })
+        else notFound(res)
+        return
+      }
+      // /og/{uf}.jpg e /og/{uf}/{cidade}.jpg: lidas do disco a cada pedido (sem
+      // cache em memória: são milhares); quem segura é o Cloudflare.
+      if (urlPath.startsWith('/og/')) {
+        const rel = urlPath.slice('/og/'.length)
+        const body = /^[a-z]{2}(\/[a-z0-9-]+)?\.jpg$/.test(rel) ? await readFile(path.join(OG_DIR, rel)).catch(() => null) : null
+        if (body) send(req, res, makeEntry(body, 'image/jpeg', CACHE.og))
         else notFound(res)
         return
       }

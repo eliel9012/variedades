@@ -13,3 +13,4 @@ work/tse/**/*.csv
 .env.*.local
 __pycache__/
 tse-mirror/
+og-places/
