@@ -1,21 +1,10 @@
 import './share-whatsapp.css'
 
-// Texto da mensagem por seção do site; o link vai para a página que a pessoa
-// está vendo (sem query string, para não espalhar ?simular=...).
-function shareText(pathname: string): string {
-  const [first, second] = pathname.split('/').filter(Boolean)
-  if (first === 'apuracao') {
-    return second === 'presidente'
-      ? 'Apuração de Presidente ao vivo, com os dados oficiais do TSE:'
-      : 'Apuração de Governador e Senador ao vivo, com os dados oficiais do TSE:'
-  }
-  if (first === 'pesquisas') return 'Pesquisas eleitorais de 2026 reunidas num lugar só:'
-  return 'Eleições 2026: apuração ao vivo com os dados oficiais do TSE:'
-}
-
-function whatsappHref(pathname: string): string {
-  const url = `${window.location.origin}${pathname}`
-  return `https://wa.me/?text=${encodeURIComponent(`${shareText(pathname)} ${url}`)}`
+// Sempre compartilha a home: ela abre na seção certa do momento (Pesquisas
+// antes da eleição, apuração a partir das 16h40 do dia 4, ver getDefaultTab).
+function whatsappHref(): string {
+  const text = `Eleições 2026: apuração ao vivo com os dados oficiais do TSE: ${window.location.origin}/`
+  return `https://wa.me/?text=${encodeURIComponent(text)}`
 }
 
 function WhatsAppIcon() {
@@ -31,11 +20,11 @@ function WhatsAppIcon() {
 
 /** Compartilhar no WhatsApp: botão no topo no desktop e botão flutuante no
  * celular (o topo some ao rolar, e no celular é onde mais se compartilha). */
-export function ShareWhatsApp({ pathname, variant }: { pathname: string; variant: 'topbar' | 'floating' }) {
+export function ShareWhatsApp({ variant }: { variant: 'topbar' | 'floating' }) {
   return (
     <a
       className={`share-whatsapp share-whatsapp--${variant}`}
-      href={whatsappHref(pathname)}
+      href={whatsappHref()}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Compartilhar no WhatsApp (abre em nova aba)"

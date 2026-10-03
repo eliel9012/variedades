@@ -23,11 +23,12 @@ import type { Candidate, ResultSnapshot, SyncMeta, SyncPhase } from './types'
 type ViewTab = 'presidente' | 'governadorSenador' | 'composicaoParlamentar' | 'pesquisas' | 'historico' | 'estatisticas' | 'cenarios'
 const TAB_ORDER: ViewTab[] = ['presidente', 'governadorSenador', 'composicaoParlamentar', 'pesquisas', 'historico', 'estatisticas', 'cenarios']
 
-// Antes do 1º turno (4 out 2026), a home abre em Pesquisas, que é o que tem
-// dado novo pra mostrar. No dia da eleição em diante (1º e 2º turno), abre
-// direto na apuração, que passa a ser o conteúdo relevante. Horário de
-// Brasília (-03:00) pra não trocar ~3h adiantado por causa do UTC.
-const ELECTION_DAY_UTC_MS = Date.parse('2026-10-04T00:00:00-03:00')
+// Até pouco antes de fecharem as urnas do 1º turno (4 out 2026, 17h), a home
+// abre em Pesquisas, que é o que tem dado novo pra mostrar. A partir das 16h40
+// desse dia (e no 2º turno), abre direto na apuração, que passa a ser o
+// conteúdo relevante. Horário de Brasília (-03:00) pra não trocar ~3h
+// adiantado por causa do UTC.
+const ELECTION_DAY_UTC_MS = Date.parse('2026-10-04T16:40:00-03:00')
 function getDefaultTab(): ViewTab {
   return Date.now() >= ELECTION_DAY_UTC_MS ? 'governadorSenador' : 'pesquisas'
 }
@@ -502,10 +503,10 @@ function App() {
         <div className="topbar-meta">
           <span className={`connection ${online ? 'is-online' : 'is-offline'}`}><i />{online ? 'conectado' : 'offline'}</span>
           <span className="edition">Eleições 2026</span>
-          <ShareWhatsApp pathname={pathname} variant="topbar" />
+          <ShareWhatsApp variant="topbar" />
         </div>
       </header>
-      <ShareWhatsApp pathname={pathname} variant="floating" />
+      <ShareWhatsApp variant="floating" />
 
       <AdSlot slot="header" />
 
