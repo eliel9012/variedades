@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import StatsBento from '@/components/ui/stats-bento'
+import { ApuracaoHeader, ApuracaoRow, ApuracaoTotals, RoundTabs, placeTitle } from '@/components/ui/apuracao-cards'
 import BrazilMap from '@/components/ui/brazil-map'
 import StateCandidatesPanel from '@/components/ui/state-candidates-panel'
 import ComposicaoParlamentar from '@/components/ui/composicao-parlamentar'
@@ -442,6 +443,9 @@ function App() {
     if (!snapshot.rows.some((row) => row.votes > 0)) return []
     return snapshot.rows
   }, [snapshot, snapshotScope, office, pollPaused])
+  // Snapshot oficial deste recorte/cargo, mesmo sem voto ainda (cabeçalho e
+  // totais mostram o que o TSE publicou; fora disso, N/D).
+  const scopedSnapshot = !pollPaused && snapshot.status === 'official' && snapshot.scope === snapshotScope && (snapshot.office == null || snapshot.office === office) && snapshot.round === activeRound ? snapshot : null
   const visibleResultRows = useMemo(() => {
     const q = search.trim().toLocaleLowerCase('pt-BR')
     return resultRows
@@ -819,33 +823,21 @@ function App() {
           <StatsBento office={office} scope={cityName ? `${cityName} (${state})` : state} round={activeRound} coverage={coverage} countedSections={snapshot.countedSections} totalSections={snapshot.totalSections} totalVotes={snapshot.totalVotes} candidateCount={resultRows.length || selectedCandidateCount} syncLabel={syncLabel} lastChecked={lastChecked} syncDetail={syncDetail} />
 
           <section className="content-grid">
-            <article className="panel leaderboard-panel">
-              {resultRows.length > 0 ? <div className="panel-heading"><div><p className="eyebrow">resultado oficial · TSE</p><h2>Apuração</h2></div><span className="result-count">{format.format(resultRows.length)} candidaturas · {coverage}% das seções</span></div> : <div className="panel-heading"><div><p className="eyebrow">candidaturas</p><h2>Quem está na disputa</h2></div><span className="result-count">{format.format(selectedCandidateCount)} no recorte · {format.format(candidates.length)} no snapshot</span></div>}
+            <article className="panel leaderboard-panel apc-card">
+              <ApuracaoHeader title={placeTitle(state, selectedBrazilState?.name, cityName)} snapshot={scopedSnapshot} rows={resultRows} />
+              {secondRoundAvailable && <RoundTabs round={activeRound} onChange={setRound} />}
+              <div className="apc-office">
+                <h3>{office}</h3>
+                <span className="result-count">{resultRows.length > 0 ? `${format.format(resultRows.length)} candidaturas · resultado oficial TSE` : `${format.format(selectedCandidateCount)} candidaturas no recorte`}</span>
+              </div>
               <div className="search-wrap"><span aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar nome, partido ou número" aria-label="Buscar candidato" /></div>
               {resultRows.length > 0 ? (
-                <ol className="result-list">
-                  {visibleResultRows.map((row, index) => {
-                    const destaque = row.status && /eleit|2º turno/i.test(row.status) && !/não eleit/i.test(row.status)
-                    const anulado = row.voteDestination && row.voteDestination !== 'Válido'
-                    return (
-                      <li className="result-row" key={`${row.candidateId}-${index}`}>
-                        <div className="avatar">{photoById.get(row.candidateId) ? <img src={photoById.get(row.candidateId)} alt="" /> : <span>{(row.name ?? '?').slice(0, 1)}</span>}</div>
-                        <div className="result-info">
-                          <strong>{row.name ?? 'Candidatura'}</strong>
-                          <span>{[row.party, row.number ? `nº ${row.number}` : null].filter(Boolean).join(' · ')}</span>
-                          {!anulado && <div className="result-bar" aria-hidden="true"><i style={{ width: `${Math.min(100, row.share)}%` }} /></div>}
-                        </div>
-                        <div className="result-numbers">
-                          {anulado ? <span className="result-share result-share--muted">{row.voteDestination}</span> : <span className="result-share">{row.share.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%</span>}
-                          <span className="result-votes">{format.format(row.votes)} votos</span>
-                          {row.status && <span className={`result-status${destaque ? ' result-status--highlight' : ''}`}>{row.status}</span>}
-                        </div>
-                      </li>
-                    )
-                  })}
+                <ol className="apc-list">
+                  {visibleResultRows.map((row, index) => <ApuracaoRow key={`${row.candidateId}-${index}`} row={row} photo={photoById.get(row.candidateId)} leader={index === 0 && !search.trim()} />)}
                   {visibleResultRows.length === 0 && <p className="empty">Nenhuma candidatura encontrada neste recorte.</p>}
                 </ol>
               ) : (<div className="candidate-list">{visibleCandidates.map((candidate) => <div className="candidate-row" key={candidate.sqCandidate}><div className="avatar">{candidate.photo ? <img src={candidate.photo} alt="" /> : <span>{candidate.ballotName.slice(0, 1)}</span>}</div><div className="candidate-info"><strong>{candidate.ballotName}</strong><span>{candidate.party} · nº {candidate.number}</span></div><span className="candidate-state">{candidate.uf}</span><span className="candidate-status">{candidate.situation && candidate.situation !== '#NE' ? candidate.situation : 'cadastro TSE'}</span><FavoriteButton active={isFavorite(candidate.sqCandidate)} onToggle={() => toggleFavorite(candidate.sqCandidate)} label={candidate.ballotName} /></div>)}{visibleCandidates.length === 0 && <p className="empty">Nenhuma candidatura encontrada neste recorte.</p>}</div>)}
+              <ApuracaoTotals snapshot={scopedSnapshot} />
               <p className="source-note">Candidaturas e fotos: TSE · snapshot local. 2º turno só existe para presidente/governador; senador e deputados ficam no 1º.</p>
             </article>
             <aside className="panel explain-panel"><p className="eyebrow">leia antes</p><h2>Apuração sem ruído.</h2><p>Os números só aparecem quando o TSE publica boletim oficial. Enquanto isso, este painel mostra a base de candidatos e mantém o último snapshot íntegro no aparelho.</p><div className="legend"><div><span className="legend-dot official" />oficial</div><div><span className="legend-dot cached" />salvo no aparelho</div><div><span className="legend-dot waiting" />aguardando publicação</div></div><a className="text-button" style={{ textDecoration: 'none' }} href="https://resultados.tse.jus.br" target="_blank" rel="noopener noreferrer" aria-label="Ver origem dos dados: resultados.tse.jus.br, abre em nova aba">Ver origem dos dados <span aria-hidden="true">↗</span></a></aside>
